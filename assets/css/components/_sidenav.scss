@@ -1,0 +1,133 @@
+
+$link-active-weight: 600;
+.Sidenav._sidebar {
+
+  padding-left: 0;
+
+  overflow-y: inherit;
+  overflow-x: inherit;
+  min-width: auto;
+  height: auto !important;
+
+  @include screen-xs {
+    // padding-top: $size-base;
+  }
+
+  & a { // "& a" helps reinforce the cascade, don't remove
+    text-decoration: none;
+    font-size: usetheme(size-sidenav);
+    color: usetheme(sidenav-links);
+
+    display: inline-block;
+    padding-top: $size--4;
+    padding-bottom: $size--4;
+    font-weight: normal;
+
+    &:hover {
+      color: usetheme(sidenav-links-active);
+    }
+
+    &.nuxt-link-active {
+      // this applies to the top-most item, which is usually the header for the entire section
+      // font-weight: $link-active-weight; //$font-bold;
+    }
+
+    &.nuxt-link-exact-active {
+      color: usetheme(sidenav-links-active);
+      font-weight: $link-active-weight; //$font-bold;
+    }
+  }
+  ._sidebar-content {
+    // @extend ._shadow-light;
+    background: usetheme(sidenav-bg);
+    // padding: $size;
+    // position: sticky;
+    // top: $size-2;
+    // top: $size-base;
+    // background-color: $color-ui-light;
+    // padding-top: 0;
+    // padding-bottom: $size-base;
+    // padding-left: $size-base;
+    @include screen-sm {
+      // text-align: right;
+    }
+  }
+
+  ._sidebar-content-group {
+    // background-color: $color-ui;
+    border-left: $border-thin solid usetheme(sidenav-border);
+    // padding: 2px $size;
+    // margin-bottom: $size/2;
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.--active {
+      border-left-color: usetheme(sidenav-border-active);
+    }
+  }
+
+  ._sidebar-submenu {
+    margin-left: $size;
+  }
+
+  ._sidebar-item {
+    padding-left: $size;
+    padding-right: $size;
+  }
+  ._sidebar-label {
+    padding: 0;
+    // all padding controlled by the label itsled
+  }
+}
+
+
+
+
+
+
+// .SideNav._sidebar {
+//   padding-top: $size-2;
+//   padding-left: 0;
+
+//   overflow-y: inherit;
+//   overflow-x: inherit;
+//   min-width: auto;
+//   height: auto !important;
+
+//   background: usetheme(sidebar-bg);
+  
+//   @include screen-xs {
+//     padding-top: $size-base;
+//   }
+
+//   a {
+//     display: block;
+//     // padding-left: $size-2;
+//     // padding-right: $size-2;
+//     // padding-right: 0;
+//     margin-right: 0;
+//     margin-bottom: $size-base;
+//     font-size: $font-large;
+//     text-decoration: none;
+
+//     &.nuxt-link-exact-active {
+//       font-weight: $font-bold;
+//     }
+//     &:last-child {
+//       margin-bottom: 0;
+//     }
+//   }
+//   ._sidebar-content {
+//     position: sticky;
+//     // top: $size-2;
+//     top: $size-base;
+//     // background-color: $color-ui-light;
+//     padding-top: 0;
+//     // padding-bottom: $size-base;
+//     padding-left: $size-base;
+//     // @include screen-sm {
+//     //   text-align: right;
+//     // }
+//   }
+// }

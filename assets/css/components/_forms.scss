@@ -1,0 +1,76 @@
+
+
+
+// dynamic form
+.Form {
+  .Form-btn {
+    background-color: usetheme(btn-bg);
+
+    &:hover {
+      background-color: usetheme(btn-active); //$color-links;
+      color: usetheme(white); //$color-bg;
+      border-color: usetheme(btn-active); //$color-links;
+    }
+    &:active, &:focus {
+      background-color: usetheme(active); //$color-links;
+      color: usetheme(white); //$color-bg;
+      border-color: usetheme(active); //$color-gray;
+    }
+
+    &.--loading {
+      background-color: usetheme(btn-bg-loading);
+    }
+  }
+
+  // broken in coeur
+  ._form-checkbox {
+    input:focus {
+      & + span {
+        // border-color: $color-links;
+        border-bottom: $border-thin solid usetheme(links);
+      }
+    }
+  }
+}
+
+
+
+// cards in forms, as quick questions (e.g. contact page)
+.FormCard {
+	@extend ._card;
+	padding: $size $size-2;
+  color: usetheme(copy);
+
+  @include screen-xs {
+    padding: $size;
+  }
+}
+
+
+// standardized form template
+.Formlet {
+  h1, h2, h3, h4, h5, h6 {
+    padding-bottom: 0;
+  }
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  ._form-control {
+    margin-bottom: $size-2;
+  }
+  ._form-label {
+    &, p {
+      font-size: $font-large;
+    }
+  }
+  ._form-desc {
+    &, p {
+      font-size: $font-small;
+    }
+  }
+}
+
+

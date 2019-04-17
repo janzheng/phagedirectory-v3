@@ -1,0 +1,289 @@
+
+/* 
+
+  This needs to be overhauled...
+
+
+  // looks better on large screens / high DPI:
+  // $size: 18px;
+  // $font-lineheight: 28px;
+
+  // $width-content-max: 95ch;
+  // $width-content-paragraph: 85ch;
+  // $width-content-paragraph-narrow: 62ch !default; // deprecated in favor of content-article
+  // $width-content-article: 68ch !default;
+
+ */
+
+
+
+/* 
+
+    COEUR PRESETS / OVERRIDES
+
+ */
+
+
+
+$use-cssvars: false;
+$use-colorate: false;
+
+
+
+/* 
+
+  IMPORT COEUR HERE
+  - don't use nuxt, it messes w/ default variables & cascading
+
+ */
+
+
+// @import '../../node_modules/coeur/styles/index.scss';
+
+// selective import for space saving
+@import '../../node_modules/coeur/styles/_utils.scss';
+@import '../../node_modules/coeur/styles/_heart.scss';
+
+
+
+
+
+
+
+/* 
+
+  Default variable overrides
+  - for buttons, etc.
+
+ */
+
+
+
+$sizes: (
+  size-diff: 0,
+  lineheight: 24px,
+  font-small: 13px,
+  size: 16px,
+  nav-size: 14px,
+  size-search: 14px,
+  size-title: 16px,
+  lineheight-title: 16px*1.2,
+  font-large: 19px,
+
+  size-sidenav: 16px,
+
+  z-top: 90,
+  z-popup: 100,
+ 
+) !default;
+
+@include addtheme($sizes)
+
+
+$size: usetheme(size); // 16px;
+$font-lineheight: usetheme(lineheight); // 24px;
+// $font-size-base: 18px;
+$font-small: usetheme(font-small); // $size - 2px;
+$font-large: usetheme(font-large); // $size + 2px;
+// $offset: 5px;
+$z-popup: 100; // 
+$z-top: 90;
+
+$size-diff: usetheme(size-diff) !default;      // default: 0; in case we’re not using base16, used for some edge cases / alignment
+$size: usetheme(size) - $size-diff !default;   // 16px default; // based on 4*4
+$sizeline: usetheme(lineheight); // $size * 1.5 !default;               // baseline; base lineheight; line-heights follow 1.5 rule
+$baseline: $sizeline;
+
+
+
+
+/* 
+
+  COLOR MANAGEMENT
+
+ */
+
+
+$colors: (
+  phdir: #71EFF5,
+  teal: #71EFF5,
+  teal_dull: #90D9DD,
+  yellow: #FCCB4C,
+  pink: #FA5486,
+  blue-dark: #374F6A,
+  blue-silver: #F5FDFF,
+  purple: #980b7e,
+
+  brand: #71EFF5,
+  brand-active: color(#71EFF5, 142),
+  brand-dark: #374F6A, //color(#71EFF5, 150), —> //this color appears too greenish!?
+  brand-light: #b0c3d8,
+  brand-lighter: color(#71EFF5, 80),
+);
+
+._color-brand { color: usetheme(brand, $colors); }
+._color-brand-active { color: usetheme(brand-active, $colors); }
+._color-brand-dark { color: usetheme(brand-dark, $colors); }
+._color-brand-light { color: usetheme(brand-light, $colors); }
+
+
+@include addtheme($colors_); // merge settings colors into working theme 
+@include addtheme($colors);
+$colorMap: colorTintMap($colors);
+
+$context: (
+  main: usetheme(brand, $colors),
+  secondary: usetheme(gray),
+  tertiary: usetheme(brand, $colors),
+
+  active: usetheme(brand-active, $colors),
+  links: usetheme(brand-dark, $colors),
+  hover: usetheme(pink, $colors),
+  links-decoration: usetheme(pink, $colors),
+  highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
+  
+
+  sidenav-links: usetheme(gray), // usetheme(gray),
+  sidenav-links-active: usetheme(brand-active),
+  sidenav-bg: usetheme(silver-light, $colors_),
+  sidenav-border: transparent, // usetheme(coeur-active),
+  sidenav-border-active: usetheme(brand),
+  // highlight-light: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
+  // advert: map-get($colorMap, pink-300), //usetheme(phdir, $colors),
+  
+  // updates: usetheme(silver-lighter, $colors_),
+  // jobs: map-get($colorMap, teal-300),
+  // community: map-get($colorMap, pink-300),
+
+  body: usetheme(blue-dark, $colors),
+  body-bg: usetheme(blue-dark),
+  copy: usetheme(blue-dark, $colors),
+  copy-gray: usetheme(gray, $colors),
+
+  title-color: usetheme(brand, $colors), // used for logotype in nav
+  header-bg-top: rgba(usetheme(gray), 0.02),
+  header-bg-scroll: rgba(usetheme(silver-lighter, $colors_), 0.86),
+  header-search-bg: rgba(usetheme(silver-lighter, $colors_), 0.26),
+  header-links: usetheme(gray),
+  header-active: usetheme(brand-active),
+
+  footer-bg: usetheme(blue-dark),
+  footer-copy: usetheme(white),
+  footer-links: usetheme(white),
+  footer-active: usetheme(brand),
+
+  sidebar-bg: usetheme(silver-light),
+
+
+  bg: usetheme(white, $colors_),
+  bg-white: usetheme(white, $colors_),
+  bg-purewhite: usetheme(purewhite, $color-presets_),
+  bg-silver: usetheme(silver-light, $colors_),
+  bg-lighter: usetheme(silver-lighter, $colors_),
+
+  bg-nav: usetheme(silver-light, $colors_),
+  bg-nav-secondary: usetheme(silver-lighter, $colors_),
+
+  btn-bg: usetheme(brand-active, $colors),
+  btn-active: usetheme(brand-dark, $colors),
+  btn-bg-loading: usetheme(white, $colors_),
+  // bg-blue: usetheme(blue-dark, $colors_),
+  // bg-blue-silver: usetheme(blue-silver, $colors),
+  // tbd refactor later
+  // blue: usetheme(blue, $colors_), // useful for alert-signup, when a blue color needed (prb needs fix later)
+  // white: usetheme(white, $colors_), // contextually useful for text on dark backgrounds
+
+  card: usetheme(silver-light, $colors_),
+
+  capsid-color: usetheme(brand-light, $colors),
+  alert-color: map-get($colorMap, pink-300),
+  // alert-color-cta: usetheme(teal_dull, $colors),
+
+  success: usetheme(green, $colors_),
+  warning: usetheme(yellow, $colors_),
+  info: usetheme(_brown, $colors_),
+  danger: usetheme(red, $colors_),
+  disabled: usetheme(silver, $colors_),
+  transparent: usetheme(transparent, $colors_),
+);
+
+@include addtheme($context)
+// @include colorate($context_);
+
+// color overrides / legacy
+$color-active: usetheme(active);
+$color-hover: usetheme(active);
+
+// button defaults
+$button-color-disabled: usetheme(disabled);
+$button-color-disabled-text: usetheme(gray-light, $colors_);
+
+
+%gradient-brand {
+  background: rgb(88,135,189);
+  background: linear-gradient(163deg, rgba(88,135,189,1) 0%, rgba(58,100,147,1) 54%);
+}
+
+@import '../../node_modules/coeur/styles/_head.scss';
+
+// @import '../../node_modules/coeur/styles/_neck.scss';
+@import '../../node_modules/coeur/styles/_neck-buttons.scss';
+@import '../../node_modules/coeur/styles/_neck-layout.scss';
+@import '../../node_modules/coeur/styles/_neck-design.scss';
+@import '../../node_modules/coeur/styles/_neck-links.scss';
+@import '../../node_modules/coeur/styles/_neck-code.scss';
+
+// @import '../../node_modules/coeur/styles/_body.scss';
+@import '../../node_modules/coeur/styles/_body-card.scss';
+@import '../../node_modules/coeur/styles/_body-forms';  
+@import '../../node_modules/coeur/styles/_body-tag';  
+@import '../../node_modules/coeur/styles/_body-table';  
+@import '../../node_modules/coeur/styles/_body-buttonGroups';  
+
+// re-cascade
+@import '../../node_modules/coeur/styles/_head-helpers.scss';
+
+
+
+
+
+/* latin-ext */
+// @font-face {
+//   font-family: Baruta;
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url(/fonts/rns-baruta-black/RNS-B.ttf) format("truetype");
+//   // src: local('Baruta') local('RNS Baruta Black'), url('/fonts/rns-baruta-black/RNS-B.ttf') format('truetype');
+// }
+
+
+
+%font-mono,
+._font-mono {
+  font-family: Courier, Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', monospace;
+} ._font-mono, ._font-code { @extend %font-mono; }
+
+
+// $font-sans: 'Work Sans', 'Roboto', "-apple-system", "BlinkMacSystemFont", "system-ui", "Segoe UI", "Encode Sans", "Open Sans", "Oxygen-Sans", "Helvetica", "arial", "sans-serif";
+// $font-display: 'Work Sans', 'Roboto', sans-serif;
+// $font-coffee: 'Baruta', 'Work Sans', 'Roboto', sans-serif;
+
+%font-sans, ._font-sans,
+%font-basic, ._font-basic {
+  font-family: $font-sans;
+  @extend %font-sans;
+}
+
+%font-display,
+._font-display {
+  // font-family: 'Baruta', 'Work Sans', 'Roboto', sans-serif;
+  font-family: $font-display;
+}
+
+// ._font-coffee { 
+//   font-family: $font-coffee;
+//   letter-spacing: 2px;
+// }
+
+
+

@@ -1,0 +1,28 @@
+
+// Homepage
+.Home {
+  .Home-button-tall {
+    line-height: $font-lineheight;
+
+    &:not(.--disabled) {
+      background: usetheme(silver-light, $colors_);
+      color: usetheme(copy) !important;
+
+      &:hover {
+        background-color: usetheme(silver-light, $colors_) !important;
+        color: usetheme(active) !important;
+      }
+    }
+  }
+  
+  .Home-hero {
+    color: usetheme(white);
+    @extend %gradient-brand;
+    
+    .Home-hero-text {
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+  }
+  
+}

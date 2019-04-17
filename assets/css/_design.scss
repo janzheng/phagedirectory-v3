@@ -1,0 +1,141 @@
+
+
+/* 
+
+	Typography
+  - note that Capsid has its own typography styles
+
+ */
+
+
+%md-sans_serif, .MD {
+  // fixing markdown
+  &, *, p {
+    @extend %font-sans;
+    // font-size: 15px;
+    // line-height: 22px;
+  }
+}
+
+body {
+  background-color: usetheme(body-bg); //$color-gray;
+  color: usetheme(copy);
+}
+
+h1 {
+  line-height: $font-h1 * 1.0;
+  padding-bottom: $size-2;
+}
+
+h2 {
+  // font-size: $size-2;
+  line-height: $font-h2 * 1.2;
+  // padding-top:0;
+  // padding-bottom: 0;
+}
+
+h3 {
+  font-size: $size-2;
+  line-height: $size-3;
+  // padding-top:0;
+  // padding-bottom: 0;
+}
+
+blockquote {
+  &, p {
+    border-color: usetheme(tertiary); //$color-tertiary;
+    font-size: $font-large;
+    line-height: $font-large-lineheight;
+    @extend %font-serif;
+    font-style: italic;
+    @extend .--antialias;
+  }
+  .source {
+    @extend %font-serif;
+    color: usetheme(copy-light); //$color-gray;
+    font-size: $font-small;
+  }
+}
+
+
+p, ul, li, {
+  // font-size: $font-size-base;
+  // line-height: $font-lineheight;
+  @extend %md-sans_serif;
+
+  padding-left: 0;
+  // @extend %font-serif;
+
+  a { // in-paragraph links
+    // font-weight: 700;
+    &+a {
+    }
+  }
+}
+
+// body links
+a, ._link {
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: usetheme(links-decoration); //$color-links;
+  color: usetheme(links); //$color-links;
+  border: 0;
+  position: relative;
+  // color: $color-green;
+  // @extend ._pointer-no_events;
+  // @extend %ease-fast;
+
+  &:visited {
+    color: usetheme(links);
+  };
+
+  &:hover, &:active {
+    color: usetheme(hover); //$color-links;
+    text-decoration-color: usetheme(hover); //$color-links;
+  }
+
+  &._button {
+    text-decoration: none;
+  }
+
+  &.--disabled {
+    color: usetheme(disabled);
+  }
+}
+  .ContentFrame-body a {
+    font-weight: bold;
+  }
+
+
+
+
+// adds a bg effect to links
+// %links-bg,
+// ._links-bg {
+//   position: relative;
+//   &:after {
+//     content: ' ';
+//     position: absolute;
+//     left: $offset; bottom: -2px;
+//     height: $offset/2;
+//     background: $color-main;
+//     padding: $offset;
+
+//     width: 100%;
+//     z-index: -1;
+
+//     // clip-path: polygon(0% 20%, 80% 0%, 100% 0, 100% 100%, 0 100%);
+//   }
+// }
+
+
+// some pages have an intro section / overview w/ larger text 
+.Intro {
+  @extend ._font-larger;
+
+}
+
+
+
+
+

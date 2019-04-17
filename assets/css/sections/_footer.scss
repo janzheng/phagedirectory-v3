@@ -1,0 +1,41 @@
+
+
+.Footer {
+  background-color: usetheme(footer-bg);
+  color: usetheme(footer-copy);
+  
+  // span {
+  //   white-space: nowrap;
+  // }
+
+  .Footer-right div a {
+    line-height: $size-3;
+  }
+  
+  a {
+    text-decoration: none;
+    color: usetheme(footer-links); //$color-bg;
+    border: 0;
+    // font-weight: bold;
+    &:hover {
+      color: usetheme(footer-active); //$color-phdir;
+      text-decoration: none;
+    }
+  }
+  .nuxt-link-exact-active, 
+  .nuxt-link-active {
+    // @extend %links-bg;
+    @extend %font-bold;
+  }
+  .Footer-right,
+  .Footer-top {
+    // margin-right: $size-8;
+  }
+
+}
+
+  .Footer-logo {
+    max-width: 180px; 
+  }
+
+

@@ -1,0 +1,92 @@
+
+
+@import 'settings.scss';
+@import 'design.scss';
+@import 'layout'; // typography, basic design & whitespace
+
+// for code highlighting
+@import 'highlightjs';
+
+
+// modular
+@import 'components';
+@import 'sections';
+
+
+.Header-title {
+  
+}
+
+// $splash: 450px;
+._splash-container {
+  position: relative;
+  // top: -175px;
+  left: 0;
+  width: 100%;
+  // height: $splash;
+}
+  ._splash-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    // background-position: top;
+    width: 100%;
+    // height: $splash;
+  }
+
+
+
+/* 
+
+  Experiments
+
+ */
+
+
+
+
+
+
+
+// used for medium-like full-width images
+._image-stretch-bg {
+  margin-top: $size*2;
+  margin-bottom: $size*2;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+.Feed-item {
+  h6 {
+    padding: 0;
+    font-weight: normal;
+  }
+  h5 {
+    padding-top: 2px;
+    padding-bottom: 4px;
+  }
+}
+
+
+
+
+/* 
+
+  Already added to Coeur but haven't updated yet
+
+ */
+
+._justify-end {
+  justify-self: end;
+}
+._justify-start {
+  justify-self: start;
+}
+
+
+
+
+
+

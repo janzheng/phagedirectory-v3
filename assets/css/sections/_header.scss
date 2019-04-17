@@ -1,0 +1,117 @@
+
+
+$header-item-height: $size-4;
+
+.Header {
+
+  // give a lot more space to links
+  max-width: $width-lg-min;
+  // padding-left: $size-2;
+  // padding-right: $size-2;
+
+  .Header-logo {
+    // background-color: usetheme(bg-nav-secondary);
+  }
+
+  .Header-inset {
+    background-color: usetheme(bg-nav); //$color-silver-light;
+    border-radius: 0; //$radius;
+
+    ._button {
+      // height: unset;
+      // line-height: $header-item-height;
+      // padding-top: 0;
+      max-height: $header-item-height;
+      white-space: nowrap;
+      font-weight: bold;
+      font-size: usetheme(nav-size);
+      &:hover {
+        color: usetheme(brand-active);
+      }
+    }
+  }
+  .Header-container {
+    // background-color: usetheme(bg-nav-secondary);
+  }
+  .Header-links {
+    padding-top: $size-half;
+    padding-bottom: $size-half;
+    background-color: usetheme(bg-nav-secondary);
+    // padding-left: $size;
+
+    a {
+      margin: 0;
+      font-size: usetheme(nav-size);
+      font-weight: normal;
+      
+      &.nuxt-link-exact-active {
+        // @extend %links-bg;
+        @extend %font-bold;
+      }
+      &:hover {
+        color: usetheme(brand-active) !important;
+      }
+    }
+  }
+
+  .Header-content {
+    @include screen-sm {
+      // @include gridAutoCols(2);
+    }
+  }
+
+  .Header-join.--outline {
+    background: transparent;
+    // padding:;
+    &:hover {
+      background: usetheme(brand-active) !important;
+      color: usetheme(white);
+    }
+  }
+
+  a {
+    @include screen-sm {
+      // font-size: usetheme(font-large), // $font-large;
+      font-size: usetheme(size), // $font-large;
+    }
+    // font-size: $size-larger;
+    text-decoration: none;
+  }
+    a.nuxt-link-exact-active {
+      @extend %font-bold;
+    }
+    .Header-orgs a.nuxt-link-active {
+      // @extend %links-bg;
+      @extend %font-bold;
+    }
+  .Header-search {
+    border: $border-thin solid usetheme(bg-lighter); //;$color-ui-light;
+    border-radius: $radius;
+    // max-width: 110px; // gives the links to the right more space
+    min-width: 115px;
+    // max-width: 400px;
+    flex-basis: auto; /* default value */
+    flex-grow: 1;
+
+    font-size: usetheme(size-search);
+
+    @extend %ease;
+    &:hover {
+      border-color: usetheme(active); //$color-tertiary;
+    }
+    &:focus {
+      border: $border-thin solid usetheme(active); //$color-tertiary;
+      padding: $size-half $size-base;
+      @extend %ease;
+    }
+  }
+
+  // header link
+  .Header-logo-link {
+    &:after {
+      content: none !important;
+    }
+  }
+
+}
+

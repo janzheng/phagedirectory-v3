@@ -1,0 +1,14 @@
+
+# tmp files for myself
+# coeur_middleman
+nuxttmp
+oldgit
+
+# sass stuff
+.sass_cache
+
+# v2
+node_modules
+npm-debug.log
+.nuxt
+dist

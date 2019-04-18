@@ -43,10 +43,10 @@ export default {
         JSON: this.src.fields['Data:JSON'],
         isPublished: this.src.fields['isPublished'],
     
-        handler: this.src.fields['Data:String'] || this.$store.state.ext_handler,
+        handler: this.src.fields['Data:URL'] || this.$store.state.ext_handler,
         error: this.$cytosis.findOne('form-default:error', this.$store.state['Content'] ).fields['Markdown'],
         thanks: this.$cytosis.findOne('form-default:thanks', this.$store.state['Content'] ).fields['Markdown'],
-        cta: this.$cytosis.findOne('form-default:cta', this.$store.state['Content'] ).fields['Markdown'],
+        cta: this.src.fields['Data:String'] || this.$cytosis.findOne('form-default:cta', this.$store.state['Content'] ).fields['Markdown'],
         privacy: this.$cytosis.findOne('form-default:privacy', this.$store.state['Content'] ).fields['Markdown'],
       }
     }

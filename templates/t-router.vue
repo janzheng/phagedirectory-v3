@@ -8,12 +8,12 @@
     </div> -->
 
     <!-- template selection -->
-    <TemplateArticle :node="node" :route="route" v-if="node.fields['Render:Template'] == 'Article'" />
+    <TemplateArticle v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
 
-    <TemplateBasic :node="node" :route="route" v-if="node.fields['Render:Template'] == 'Basic'" />
+    <TemplateBasic v-if="node.fields['Render:Template'] == 'Basic'" :node="node" :route="route" />
 
     <!-- <TemplateDocs :node="node" :route="route" /> -->
-    <TemplateDocs :node="node" :route="route" v-if="node.fields['Render:Template'] == 'Documentation'" />
+    <TemplateDocs v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
 
   </div>
 </template>

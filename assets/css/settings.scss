@@ -70,7 +70,10 @@ $sizes: (
   lineheight-title: 16px*1.2,
   font-large: 19px,
 
-  size-sidenav: 16px,
+  size-sidenav: 16px, // sidenav is a shorter sidebar just for nav
+  sidebar-min-width: 240px, // for larger sidebars w/ info and content
+
+  opacity-expired: 0.5,
 
   z-top: 90,
   z-popup: 100,
@@ -140,7 +143,8 @@ $context: (
   links: usetheme(brand-dark, $colors),
   hover: usetheme(pink, $colors),
   links-decoration: usetheme(pink, $colors),
-  highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
+  // highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
+  highlight: usetheme(brand-lighter, $colors),
   
 
   sidenav-links: usetheme(gray), // usetheme(gray),

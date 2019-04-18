@@ -4,10 +4,10 @@
   // @extend ._card;
   padding: $size;
   // background-color: $color-silver-lighter;    background-color: #fff;
-  background-color: usetheme(warning); //$color-purewhite;
+  background-color: usetheme(highlight); //$color-purewhite;
   box-shadow: none;
   border-radius: 4px;
-  border: 2px solid usetheme(warning); // $color-phdir;
+  border: 2px solid usetheme(highlight); // $color-phdir;
   p {
     margin: 0;
   }

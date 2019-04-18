@@ -1,14 +1,13 @@
 <template>
-  <div class="Alerts Template-1-2 _section-page">
+  <div class="Jobs Template-1-2 _section-page">
 
     <div class="_section-content _margin-center" v-html="$md.render(intro || '')" />
     <div class="_section-content _margin-center _grid-1-3 _grid-gap-large">
       <div class="Template-sidebar">
         <div class="_margin-bottom" v-html="$md.render(content || '')" />
-        <div class="Alerts-form FormCard --simple" v-html="$md.render(alerts || '')" />
       </div>
       <div>
-        <Alert v-for="item of Atoms" :key="item.id" :atom="item" />
+        <Job v-for="item of Atoms" :key="item.id" :atom="item" />
       </div>
 
     </div>
@@ -24,19 +23,19 @@
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
 import Form from '~/templates/t-form.vue'
-import Alert from '~/components/Alert.vue'
+import Job from '~/components/Job.vue'
 
 export default {
 
   components: {
     Form,
-    Alert,
+    Job,
   },
 
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-alerts"]
+    tableQueries: ["_content", "atoms-jobs"]
   },
 
   // runs on generation and page route (but not on first page load)
@@ -49,9 +48,9 @@ export default {
 
   data () {
     return {
-      intro: this.$cytosis.find('Content.alerts-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      content: this.$cytosis.find('Content.alerts-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      alerts: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      intro: this.$cytosis.find('Content.jobs-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      content: this.$cytosis.find('Content.jobs-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
   },
   

@@ -44,8 +44,8 @@ export default {
 
   data () {
     return {
-      intro: this.$cytosis.findOne('contact-page-intro', this.$store.state['Content'] ).fields['Markdown'],
-      content: this.$cytosis.findOne('contact-page', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findOne('contact-intro', this.$store.state['Content'] ).fields['Markdown'],
+      content: this.$cytosis.findOne('contact-content', this.$store.state['Content'] ).fields['Markdown'],
       form: this.$cytosis.findOne('form-contact', this.$store.state['Content'] ),
 
       // content: this.$cytosis.find('Content.contact-page', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],

@@ -1,13 +1,13 @@
 
 
 
-import Vue from 'vue'
+// import Vue from 'vue'
 
 // export default ({ app, env, store, route }, inject) => {
-export default ({ env, store }, inject) => {
+export default ({ store }, inject) => {
 
   const drift = {
-  	init: () => {
+    init: () => {
       // drift for drift@phage.directory
       if(store.state.policy == store.state.latestPolicy && !store.state.drift && !process.server) {
         console.log('[Starting drift...]')
@@ -36,12 +36,11 @@ export default ({ env, store }, inject) => {
         }()
       }
       return undefined
-  	}
+    }
   }
   
   // window.onNuxtReady(() => {
   inject('drift', drift)
 }
-
 
 

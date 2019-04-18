@@ -8,9 +8,9 @@
       <!-- Side bar / Side menu -->
       <div>
         <nav v-if="class_sidebar" 
-          ref="sidebar"
-          :style="class_sidenav"
-          class="Sidenav _sidebar --sticky --top-1 " 
+             ref="sidebar"
+             :style="class_sidenav"
+             class="Sidenav _sidebar --sticky --top-1 " 
         >
           <div class="_sidebar-content --max-height-90 
             _padding-bottom _padding-top">
@@ -22,11 +22,11 @@
                  class="_sidebar-content-group"
             >
               <router-link
-                :to="`${source.fields['Node:AbsolutePath']}#top`" 
                 v-scroll-to="{
                   el: '#top',
                   onDone: (element) => { doneScrolling(element) }
                 }"
+                :to="`${source.fields['Node:AbsolutePath']}#top`" 
                 class="_sidebar-item" >
                 {{ source.fields['Node:Name'] }}
               </router-link>
@@ -35,11 +35,11 @@
                      :key="item" >
                   <!-- <router-link :to="`${source.fields['Node:AbsolutePath'] + source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" >{{ item }}</router-link> -->
                   <router-link 
-                    :to="`${source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" 
                     v-scroll-to="{
                       el: source.fields['Node:Nav-Links'][index],
                       onDone: (element) => { doneScrolling(element) }
                     }"
+                    :to="`${source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" 
                   >
                     {{ item }}
                   </router-link>
@@ -221,7 +221,7 @@ export default {
   beforeCreate () {
   },
   mounted () {
-    this.isMounted = true;
+    this.isMounted = true
   },
   beforeDestroy() {
   },

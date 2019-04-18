@@ -1,0 +1,11 @@
+
+
+.CommunityPost {
+	.CommunityPost-date {
+		line-height: $size-2;
+	}
+
+	&.Expired {
+		opacity: usetheme(opacity-expired);
+	}
+}

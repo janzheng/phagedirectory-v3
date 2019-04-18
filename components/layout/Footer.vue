@@ -12,7 +12,7 @@
           <div class="_padding-top _padding-bottom _font-small">
             <div class="_padding-bottom"> 
               <span class="phagedirectory"><span>Phage</span> Directory, </span>
-              <span class="">2017-{{thisYear}}</span>
+              <span class="">2017-{{ thisYear }}</span>
             </div>
             <div class="">
               <a target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a>
@@ -84,9 +84,6 @@
               </div>
               <div>
                 <a target="_blank" href="mailto:hello@phage.directory">Email</a> / <a target="_blank" href="https://twitter.com/phagedirectory">Twitter</a>
-              </div>
-              <div>
-                
               </div>
 
             </div>

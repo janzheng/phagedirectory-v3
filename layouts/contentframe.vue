@@ -10,8 +10,8 @@
       </no-ssr>
       
       <FooterSignups/>
-      <Footer/>
     </div>
+    <Footer/>
 
 
   </div>

@@ -22,7 +22,7 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/templates/t-form.vue'
+import Form from '~/pages/templates/t-form.vue'
 import Job from '~/components/Job.vue'
 
 export default {

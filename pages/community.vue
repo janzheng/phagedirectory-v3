@@ -2,7 +2,7 @@
   <div class="Community Template-1-2 _section-page">
 
     <div class="_section-content _margin-center" v-html="$md.render(intro || '')" />
-    <div class="_section-content _margin-center _grid-1-3 _grid-gap-large">
+    <div class="_section-content _margin-center _grid-1-2 _grid-gap-large">
       <div class="Template-sidebar">
         <div class="_margin-bottom" v-html="$md.render(content || '')" />
         <!-- <div class="Alerts-form FormCard --simple" v-html="$md.render(form || '')" /> -->
@@ -24,8 +24,8 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/templates/t-form.vue'
-import CommunityPost from '~/components/communitypost.vue'
+import Form from '~/pages/templates/t-form.vue'
+import CommunityPost from '~/components/CommunityPost.vue'
 
 export default {
 

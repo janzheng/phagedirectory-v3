@@ -325,9 +325,17 @@ module.exports = (async function() {
             // Dynamic Template Router
             // catches all routes and attempts to find a template
             // throws error if it can't
+            name: 'capsid & tail router',
+            path: '/capsid/:slug*',
+            component: resolve(__dirname, 'pages/routers/r-capsid.vue')
+          },
+          {
+            // Dynamic Template Router
+            // catches all routes and attempts to find a template
+            // throws error if it can't
             name: 'template router',
             path: '/:slug*',
-            component: resolve(__dirname, 'templates/t-router.vue')
+            component: resolve(__dirname, 'pages/routers/r-node.vue')
           },
         )
       },
@@ -343,17 +351,17 @@ module.exports = (async function() {
         const airBase = airtable_base
 
         // generate template routes
-        console.log('[generator]: fetch templates cytosis')
+        console.log('[generator]: fetch pages/templates cytosis')
         let template_routes = await new Cytosis({
           airKey, 
           airBase, 
-          tableQuery: '_templates',
+          tableQuery: '_pages/templates',
           caller: 'generator',
         })
 
         let routeList = []
 
-        // // build templates
+        // // build pages/templates
         for (let route of template_routes.tables['Content']) {
           if(route.fields['Slug'])
             routeList.push(`/${route.fields['Slug']}`

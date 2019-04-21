@@ -1,19 +1,17 @@
+
+<!--  
+
+  Router for Capsid & Tail issues
+  // basis for other manuscript routers
+
+-->
+
 <template>
-  <div class="Template-Documentation">
-    <!-- 
-    <div class="_section-page">
-      <h6>[ t-router ] </h6>
-      <div class="_card _padding">Node: {{ node }}</div>
-      <div class="_card _padding">Source: {{ source }}</div>
-    </div> -->
+  <div class="Router-Capsid">
 
-    <!-- template selection -->
-    <TemplateArticle v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
+    <!-- the route should match against a slug and only the first matched slug should be relevant -->
+    <CapsidTemplate :issue="Manuscripts[0]" :atoms="atoms" :route="route" />
 
-    <TemplateBasic v-if="node.fields['Render:Template'] == 'Basic'" :node="node" :route="route" />
-
-    <!-- <TemplateDocs :node="node" :route="route" /> -->
-    <TemplateDocs v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
 
   </div>
 </template>
@@ -26,17 +24,13 @@
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 
-import TemplateArticle from '~/templates/t-article'
-import TemplateBasic from '~/templates/t-basic'
-import TemplateDocs from '~/templates/t-documentation'
+import CapsidTemplate from '~/pages/templates/t-capsid'
 
 
 export default {
 
   components: {
-    TemplateArticle,
-    TemplateBasic,
-    TemplateDocs,
+    CapsidTemplate,
   },
 
   layout: 'contentframe',
@@ -47,14 +41,22 @@ export default {
 
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
-    const slug = '/' + unescape(route.params.slug)
-    const node = await loadQuery(env, store, 'template:documentation', 'Node-AbsolutePath', slug)
-    console.log('matched node: ', node, ' @ ', slug)
+    const slug = unescape(route.params.slug)
+    // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
+    // console.log('matched node: ', node, ' @ ', slug)
+
+    const manuscript = await loadQuery(env, store, '{capsid router}', 'capsid-single', slug)
+    // console.log('matched manuscript: ', manuscript, ' @ ', slug)
+
+    // fetches the relevant atoms into the store
+    const atoms = await loadQuery(env, store, '{capsid router}', 'capsid-atoms', manuscript.tables.Manuscripts[0].fields['Name'])
+    // console.log('matched atoms: ', atoms, ' @ ', manuscript.tables.Manuscripts[0].fields['Name'])
 
     return {
       slug,
       route,
-      node: node.tables['Content'][0],
+      manuscript: manuscript.tables.Manuscripts[0],
+      atoms: atoms.tables.Atoms,
     }
   },
 
@@ -66,7 +68,8 @@ export default {
   
   computed: {
     ...mapState([
-      'Content'
+      'Content',
+      'Manuscripts',
       ]),
 
     contents() {

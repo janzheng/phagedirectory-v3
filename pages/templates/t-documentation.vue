@@ -126,7 +126,7 @@
 <script>
   
 import { mapState } from 'vuex'
-import Form from '~/templates/t-form.vue'
+import Form from '~/pages/templates/t-form.vue'
 // import { loadQuery } from '~/other/loaders'
 
 export default {

@@ -1,0 +1,260 @@
+
+.Capsid {
+	.Capsid-masthead {
+
+	}
+
+	.Capsid-masthead-title {
+		font-weight: normal;
+		font-style: italic;
+	}
+}
+
+
+.Capsid-Signup {
+  // used to sign up for Capsid all over the site 
+  // two versions: one wide (over articles) and one narrow (in footer);
+  
+  // box-shadow: 0px 4px 8px rgba(70, 70, 70, 0.1);
+  @extend ._card;
+  background-color: usetheme(capsid-color); //$color-teal-50;
+  border-color: usetheme(capsid-color); //$color-teal-50;
+
+  border-radius: $radius;
+  padding: $size;
+  // margin-bottom: $size;
+
+  input[type='email'] {
+    &:focus, &:hover {
+      background-color: usetheme(bg); //$color-bg;
+    }
+  }
+}
+
+
+
+// used to display short headlines on Capsid & Tail
+.Capsid-Stub {
+  
+  .Capsid-Stub-latest {
+    padding-bottom: $size-half;
+  }
+  
+  // don't highlight / underline some parts
+  a.Capsid-Stub-item {
+
+    &,* {
+      text-decoration: none;
+    }
+
+    .Capsid-header, .Capsid-lede {
+      font-weight: normal;
+    }
+
+    h1, h2, h3 {
+      text-decoration: underline;
+      text-decoration-color: usetheme(tertiary); //$color-links;
+      padding-bottom: $size;
+    }
+    h5 {
+      // font-size: 34px;
+      // line-height: 42px;
+      // font-weight: normal;
+      padding-bottom: $size-quart;
+    }
+    &.--featured {
+      border-color: usetheme(tertiary); //$color-tertiary;
+    }
+    // emulate a link, but handled in js
+    // since might contain nested links
+    border: $border-thin solid usetheme(bg); //$color-bg;
+    @extend %ease;
+    cursor: pointer;
+    &:hover {
+      @extend %ease;
+      border: $border-thin solid usetheme(tertiary); //$color-tertiary;
+      h2 {
+        color: usetheme(capsid-color); // $color-tertiary;
+        @extend %ease;
+      }
+    }
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+  Capsid & Tail Article Styling
+
+ */
+
+
+.Capsid-toc {
+
+  .Capsid-toc-featured {
+    background: usetheme(capsid-toc-bg);
+  }
+  .Capsid-toc-new {
+    background: usetheme(pink);
+  }
+  .Capsid-toc-jobs {
+    background: usetheme(blue);
+  }
+
+
+  .Capsid-toc-section {
+    @extend %width-content-paragraph;
+    margin-left: auto;
+    margin-right: auto;
+    padding: $size 0;
+  }
+}
+
+.Capsid-article {
+  .Capsid-lede {
+    font-weight: normal;
+    font-size: usetheme(font-large);
+    line-height: usetheme(font-large) * 1.6;
+    padding-bottom: $size;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 
+
+  Other Article Stylings
+
+ */
+
+
+
+.Capsid-card {
+  // .Periodical-card is legacy to the BiomX C&T
+
+  padding: $size;
+  background-color: usetheme(card); //$color-ui-lighter;
+  border-radius: $radius;
+  margin-bottom: $size-2;
+  @extend ._card;
+
+  &.--callout {
+    background-color: usetheme(copy-light); //$color-teal-50;
+  }
+
+  &.--light {
+    background-color: setheme(highlight); //$color-teal-10;
+    font-weight: inherit;
+  }
+
+  &.--img {
+    img {
+      width: 100%;
+    }
+  }
+}
+
+
+
+
+.Capsid-author,
+.Capsid-authorCard img {
+  // margin-right: $size;
+  // vertical-align: bottom;
+  // display: inline;
+  // margin-top: $size/2;
+  // max-width: 80px;
+}
+
+.Capsid-author {
+  // margin-top: $size;
+  margin-bottom: 0;
+}
+  .Capsid-author-card {
+    @extend .Capsid-card;
+    padding: $size;
+    background-color: usetheme(bg-lighter); // $color-ui-lighter;
+    border-radius: $radius;
+  }
+
+.Capsid-share {
+  // @extend .Capsid-card;
+  // margin-top: $size-2;
+  // margin-bottom: $size-2;
+  img {
+    width: auto;
+  }
+}
+
+  .Capsid-twitter {
+    img {
+      vertical-align: middle;
+      margin-right: $size/4;
+    }
+    margin-bottom: $size;
+  }
+
+
+
+
+// guest writer prompt + signup
+.Capsid-footer {
+  background-color: usetheme(bg-silver);
+  padding-top: $size;
+  padding-bottom: $size;
+  
+  @include screen-xs {
+    padding-left: $size/2;
+    padding-right: $size/2;
+  }
+}
+
+
+.Capsid-disqus {
+  padding: $size-2 $size;
+  background-color: usetheme(bg-silver);
+
+  @include screen-xs {
+    padding-left: $size/2;
+    padding-right: $size/2;
+  }
+}
+  #disqus_thread {
+    margin: 0 auto;
+    @extend %width-content-paragraph;
+  }
+

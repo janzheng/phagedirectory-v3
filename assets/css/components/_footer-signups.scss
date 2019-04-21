@@ -2,7 +2,7 @@
 // for alerts and mailchimp
 // custom breakpoint
 .FooterSignups {
-  background-color: usetheme(bg-silver); // $color-silver-light;
+  // background-color: usetheme(bg-silver); // $color-silver-light;
   // padding-top: $size-2;
   // padding-bottom: $size-2;
 
@@ -24,7 +24,18 @@
 
 
 .FooterSignups-capsid {
-  background: usetheme(capsid-color);
+  // background: usetheme(capsid-color);
+  @extend ._card;
+
+  // overrides
+  &._card {
+    background-color: none;
+    margin-bottom: 0;
+    border: 0;
+  }
+
+  @extend %gradient-brand-bright;
+
   border-color: usetheme(capsid-color);
   // ._button {
   //   &:hover {
@@ -35,7 +46,19 @@
 }
 
 .FooterSignups-alerts {
-  background: usetheme(alert-color);
+  // background: usetheme(alert-color);
+  @extend ._card;
+
+  // overrides
+  &._card {
+    background-color: none;
+    margin-bottom: 0;
+    border: 0;
+  }
+
+
+  @extend %gradient-tertiary;
+
   border-color: usetheme(alert-color);
   ._button {
     &:hover {

@@ -137,7 +137,8 @@ $colorMap: colorTintMap($colors);
 $context: (
   main: usetheme(brand, $colors),
   secondary: usetheme(gray),
-  tertiary: usetheme(brand, $colors),
+  tertiary: usetheme(pink, $colors),
+  tertiary-dark: color(usetheme(pink, $colors), 122),
 
   active: usetheme(brand-active, $colors),
   links: usetheme(brand-dark, $colors),
@@ -214,6 +215,14 @@ $context: (
 @include addtheme($context)
 // @include colorate($context_);
 
+
+$capsid_: (
+  capsid-toc-bg: usetheme(silver-light, $colors_),
+);
+@include addtheme($capsid_)
+
+
+
 // color overrides / legacy
 $color-active: usetheme(active);
 $color-hover: usetheme(active);
@@ -226,6 +235,17 @@ $button-color-disabled-text: usetheme(gray-light, $colors_);
 %gradient-brand {
   background: rgb(88,135,189);
   background: linear-gradient(163deg, rgba(88,135,189,1) 0%, rgba(58,100,147,1) 54%);
+}
+
+%gradient-brand-bright {
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(99,55,255,1) 0%, rgba(39,170,255,1) 90% );
+}
+
+%gradient-tertiary {
+  // background: rgb(244,115,153);
+  // background: linear-gradient(163deg, rgba(244,115,153,1) 0%, rgba(226,88,130,1) 29%, rgba(236,62,115,1) 45%);
+background: rgb(251,211,222);
+background: linear-gradient(163deg, rgba(251,211,222,1) 0%, rgba(254,212,225,1) 34%, rgba(255,142,176,1) 89%);
 }
 
 @import '../../node_modules/coeur/styles/_head.scss';

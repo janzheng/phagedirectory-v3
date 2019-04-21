@@ -32,7 +32,7 @@
 
 <script>
   
-import Form from '~/templates/t-form.vue'
+import Form from '~/pages/templates/t-form.vue'
 import { mapState } from 'vuex'
 
 export default {

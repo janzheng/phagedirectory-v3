@@ -7,9 +7,9 @@
     background-color: usetheme(btn-bg);
 
     &:hover {
-      background-color: usetheme(btn-active); //$color-links;
+      background-color: usetheme(hover); // (btn-active); //$color-links;
       color: usetheme(white); //$color-bg;
-      border-color: usetheme(btn-active); //$color-links;
+      border-color: usetheme(hover); // (btn-active); //$color-links;
     }
     &:active, &:focus {
       background-color: usetheme(active); //$color-links;

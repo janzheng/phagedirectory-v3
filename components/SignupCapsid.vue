@@ -6,9 +6,7 @@
  -->
 <template>
 
-  <!-- <div class="Mailchimp Capsid CapsidBanner _grid-2-1 _width-content-paragraph _align-top"> -->
   <div class="Signup Signup-Capsid _card --shadow _width-content-paragraph ">
-
 
     <!-- Begin Mailchimp Signup Form -->
     <div id="mc_embed_signup" class="_height-100">

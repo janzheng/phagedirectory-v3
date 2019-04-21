@@ -20,7 +20,7 @@
 <script>
 
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/templates/t-form.vue'
+import Form from '~/pages/templates/t-form.vue'
 
 export default {
 

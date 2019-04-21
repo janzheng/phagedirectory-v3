@@ -3,7 +3,7 @@
 
     <!-- <div class="_section-page _padding-left _padding-right _padding-top _padding-bottom-2 _margin-center"> -->
     <div>
-      <div class=" _grid-2 _grid-gap-none ">
+      <div class=" _grid-2 _grid-gap-small ">
         <div class="FooterSignups-capsid _grid">
           <div class=" _padding-2 _section-footer _justify-end _align-bottom">
             <div class="" v-html="$md.render(capsid || '')" />

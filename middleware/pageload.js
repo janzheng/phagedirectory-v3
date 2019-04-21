@@ -62,7 +62,7 @@ export default async function ({route, env, store}) {
     store.commit('update', {ext_handler: env.ext_handler})
   }
 
-  // specific data requests can be set through meta: in page templates, to reduce server load
+  // specific data requests can be set through meta: in page pages/templates, to reduce server load
   let tableQuery, tableQueries, keyword, refreshOnLoad
   route.meta.map((meta) => {
     tableQuery = meta.tableQuery

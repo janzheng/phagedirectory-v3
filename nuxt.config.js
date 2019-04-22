@@ -194,6 +194,7 @@ module.exports = (async function() {
       { src: '~/plugins/markdownit.js' },
       { src: '~/plugins/cytosis.js' },
       { src: '~/plugins/date.js' },
+      { src: '~/plugins/headmatter.js' },
       { src: '~/plugins/slugify.js' },
       '~plugins/vue-highlightjs.js',
       '~plugins/vue-scrollto.js',
@@ -345,38 +346,38 @@ module.exports = (async function() {
       interval: 100, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
       // fallback: true, // true if you want to use '404.html' — for surge, use false if you want to use 200 spa fallback
       // concurrency: 1, // reduce server strain
-      routes: async function (callback) {
+      // routes: async function (callback) {
 
-        const airKey = airtable_api
-        const airBase = airtable_base
+      //   const airKey = airtable_api
+      //   const airBase = airtable_base
 
-        // generate template routes
-        console.log('[generator]: fetch pages/templates cytosis')
-        let template_routes = await new Cytosis({
-          airKey, 
-          airBase, 
-          tableQuery: '_pages/templates',
-          caller: 'generator',
-        })
+      //   // generate template routes
+      //   console.log('[generator]: fetch pages/templates cytosis')
+      //   let template_routes = await new Cytosis({
+      //     airKey, 
+      //     airBase, 
+      //     tableQuery: '_pages/templates',
+      //     caller: 'generator',
+      //   })
 
-        let routeList = []
+      //   let routeList = []
 
-        // // build pages/templates
-        for (let route of template_routes.tables['Content']) {
-          if(route.fields['Slug'])
-            routeList.push(`/${route.fields['Slug']}`
-          )
-        }
+      //   // // build pages/templates
+      //   for (let route of template_routes.tables['Content']) {
+      //     if(route.fields['Slug'])
+      //       routeList.push(`/${route.fields['Slug']}`
+      //     )
+      //   }
 
-        // // build Cafe pages
-        // for (let jobs of site_routes.tables['Jobs']) {
-        //   if(jobs.fields['Slug'])
-        //     routeList.push(`/jobs/${jobs.fields['Slug']}`)
-        // }
+      //   // // build Cafe pages
+      //   // for (let jobs of site_routes.tables['Jobs']) {
+      //   //   if(jobs.fields['Slug'])
+      //   //     routeList.push(`/jobs/${jobs.fields['Slug']}`)
+      //   // }
 
-        // console.log('[generator] routes: ', routeList)
-        callback(null, routeList)
-      }
+      //   // console.log('[generator] routes: ', routeList)
+      //   callback(null, routeList)
+      // }
     }
 
   }

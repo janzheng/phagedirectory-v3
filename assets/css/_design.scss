@@ -23,7 +23,8 @@ body {
 }
 
 h1 {
-  line-height: $font-h1 * 1.0;
+  font-size: $font-h1;
+  line-height: $font-h1 * 1.2;
   padding-bottom: $size-2;
 }
 
@@ -42,18 +43,26 @@ h3 {
 }
 
 blockquote {
+  // border-left: $border-medium solid;
+  border-color: usetheme(border-color); //$color-tertiary;
+  padding-left: $size-2;
+
   &, p {
-    border-color: usetheme(tertiary); //$color-tertiary;
-    font-size: $font-large;
-    line-height: $font-large-lineheight;
+    font-size: $font-larger;
+    line-height: $font-larger-lineheight * 1;
     @extend %font-serif;
+    -webkit-font-smoothing: auto;
+    -moz-osx-font-smoothing: unset;
     font-style: italic;
-    @extend .--antialias;
+    color: usetheme(brand-copy);
+    // @extend .--antialias;
   }
-  .source {
-    @extend %font-serif;
-    color: usetheme(copy-light); //$color-gray;
-    font-size: $font-small;
+  cite, .source {
+    @extend %font-sans;
+    color: usetheme(copy); //$color-gray;
+    font-size: $size;
+    font-style: normal;
+    color: usetheme(copy);
   }
 }
 

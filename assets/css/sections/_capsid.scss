@@ -89,9 +89,17 @@
 
 
 
+/* 
 
+  Capsid Author
+  - some of these actually come from airtable... :\
 
-
+ */
+.Capsid-author {
+  h5 {
+    padding-bottom: $size-half;
+  }
+}
 
 
 /* 
@@ -104,13 +112,16 @@
 .Capsid-toc {
 
   .Capsid-toc-featured {
-    background: usetheme(capsid-toc-bg);
+    background: usetheme(capsid-toc-featured);
   }
   .Capsid-toc-new {
-    background: usetheme(pink);
+    background: usetheme(capsid-toc-new);
   }
   .Capsid-toc-jobs {
-    background: usetheme(blue);
+    background: usetheme(capsid-toc-jobs);
+  }
+  .Capsid-toc-community {
+    background: usetheme(capsid-toc-community);
   }
 
 
@@ -118,7 +129,19 @@
     @extend %width-content-paragraph;
     margin-left: auto;
     margin-right: auto;
-    padding: $size 0;
+    padding: $size-2 0;
+
+    h5 {
+      padding: 0;
+      padding-bottom: $size-half;
+    }
+  }
+}
+
+// capsid card sections are encapsulated in this
+.Capsid-item {
+  img {
+    max-width: 100%;
   }
 }
 
@@ -169,8 +192,9 @@
   padding: $size;
   background-color: usetheme(card); //$color-ui-lighter;
   border-radius: $radius;
-  margin-bottom: $size-2;
+  margin-bottom: $size;
   @extend ._card;
+  box-shadow: none;
 
   &.--callout {
     background-color: usetheme(copy-light); //$color-teal-50;
@@ -188,6 +212,17 @@
   }
 }
 
+// specifically for the classroom episode,
+// ti
+.Classroom-card {
+  padding: $size;
+  background-color: usetheme(classroom-color); //$color-ui-lighter;
+  border-color: usetheme(classroom-color);
+  border-radius: $radius;
+  margin-bottom: $size;
+  @extend ._card;
+  box-shadow: none;
+}
 
 
 
@@ -232,10 +267,11 @@
 
 
 // guest writer prompt + signup
-.Capsid-footer {
+.Capsid-footer._section-content {
   background-color: usetheme(bg-silver);
   padding-top: $size;
   padding-bottom: $size;
+  margin-bottom: 0;
   
   @include screen-xs {
     padding-left: $size/2;

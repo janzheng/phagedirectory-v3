@@ -8,8 +8,6 @@
 <template>
 
   <div class="Capsid-article Capsid ">
-    {{ setHeader(issue) }}
-
 
     <div class="Capsid-masthead _section-page _margin-center">
       <div class=" _section-content _margin-center _padding-bottom">
@@ -28,11 +26,22 @@
         </div>
 
         <router-link :to="`/capsid/${issue.fields['Slug']}`">
-          <h1 class="Capsid-title _padding-top-half _padding-bottom" v-html="issue.fields['Data:Title']" />
+          <h1 class="Capsid-title _padding-top-half _padding-bottom" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
         </router-link>
         <div class="_section-article">
-          <div class="Capsid-lede" v-html="issue.fields['Data:Lede']" />
+          <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
+          
+          <div class="_padding-bottom">
+            <div v-if="issue.fields['Data:Abstract']" 
+                 class=" _margin-bottom _md-p_fix" 
+                 v-html="$md.render(issue.fields['Data:Abstract'] || '')" />
+            <div class="Capsid-skipahead _padding-bottom">
+              Scroll down to <a class="_font-bold" href="#article">read this week's Featured Article</a>
+            </div> 
+            <div v-if="issue.fields['Data:Author']" class="Capsid-author " v-html="$md.render(issue.fields['Data:Author'] || '')" />
+          </div>
         </div>
+
 
         <!-- leave Sponsors ABOVE the whats new area to call it out -->
         <div v-if="getSponsors(issue).length>0" class="Capsid-sponsor" >
@@ -50,26 +59,33 @@
     </div>
 
 
-    <div class="Capsid-toc _section-page _margin-center">
-      <div class="Capsid-toc-featured _margin-bottom">
+    <div class="Capsid-toc _margin-center">
+
+      <!--<div class="Capsid-toc-featured">
         <div class="Capsid-toc-section">
-          <h6 class="">Featured Article</h6>
-          <div class="">
-            <a href="#article"><h4 class="Capsid-title _padding-top-none _padding-bottom-half" v-html="issue.fields['Data:Title']" /></a>
+          <!~~ <div class="_padding-bottom">
+            <h5 class="">Featured Article</h5>
+          </div> ~~>
+          <div class="_card _padding">
+            <!~~ <a href="#article"><h4 class="Capsid-title _padding-top-none _padding-bottom-half" v-html="issue.fields['Data:Title']" /></a> ~~>
             <div v-if="issue.fields['Data:Abstract']" 
                  class=" _margin-bottom _md-p_fix" 
                  v-html="$md.render(issue.fields['Data:Abstract'] || '')" />
+            <div v-if="issue.fields['Data:Author']" class="Capsid-author " v-html="$md.render(issue.fields['Data:Author'] || '')" />
           </div>
           <div class="Capsid-skipahead">
             Scroll down to <a class="_font-bold" href="#article">read this week's Featured Article</a>
           </div> 
         </div>
-      </div>
+      </div>-->
 
       <!-- What's New -->
       <div class="Capsid-toc-new">
         <div class="Capsid-toc-section">
-          <h6 class="">What’s New</h6>
+          <div class="_grid-2-xs _padding-bottom">
+            <h5 class="_font-bold">What’s New</h5>
+            <a href="mailto:capsid@phage.directory" class="_right-sm ">Send us a tip</a>
+          </div>
           <div v-if="updates.length > 0" >
             <div v-for="item of updates" :key="item.id" class="_margin-bottom" >
               <CapsidNew :atom="item" />
@@ -84,34 +100,44 @@
       <!-- Jobs -->
       <div class="Capsid-toc-jobs" >
         <div class="Capsid-toc-section">
-          <h6 class="">Latest Jobs</h6>
+          <div class="_grid-2-xs _padding-bottom">
+            <h5 class="_font-bold">Latest Jobs</h5>
+            <div class="_right-sm ">
+              <router-link to="/jobs" class=" _margin-right">View all jobs</router-link>
+              <router-link to="/services#jobs" class="">Post a job</router-link>
+            </div>
+          </div>
           <div v-if="jobs.length > 0" >
-            <div v-for="item of jobs" :key="item.id" >
+            <div v-for="item of jobs" :key="item.id" class="_margin-bottom">
               <CapsidJob :atom="item" />
             </div>
           </div>
-          <div v-else v-html="$md.render(emptyJobs || '')" />
+          <div v-else class="_card _padding _md-pfix" v-html="$md.render(emptyJobs || '')" />
         </div>
       </div>
 
       <!-- Community -->
       <div class="Capsid-toc-community" >
         <div class="Capsid-toc-section">
-          <h6 class="">Community Board</h6>
+          <div class="_grid-2-xs _padding-bottom">
+            <h5 class="_font-bold">Community Board</h5>
+            <div class="_right-sm ">
+              <router-link to="/community" class=" _margin-right">View all posts</router-link>
+              <a href="mailto:board@phage.directory?subject=Phage%20Directory%20Community%20Board&body=Hi%20Phage%20Directory,%20I'd%20like%20to%20post%20a%20message%20to%20your%20community%20board%20..." class="">Post a message</a>
+            </div>
+          </div>
           <div v-html="$md.render(communityDesc || '')" />
           <div v-if="community.length > 0" >
-            <div v-for="item of community" :key="item.id" >
+            <div v-for="item of community" :key="item.id" class="_margin-bottom">
               <CapsidCommunity :atom="item" />
             </div>
           </div>
-          <div v-else v-html="$md.render(emptyCommunity || '')" />
+          <div v-else class="_card _padding _md-pfix" v-html="$md.render(emptyCommunity || '')" />
         </div>
       </div>
 
       <!-- Publications -->
-
       <!-- Alerts -->
-
       <!-- Events -->
 
     </div>
@@ -123,9 +149,10 @@
         <div class="Capsid-body _section-content _margin-center">
 
           <div class="_section-article">
-            <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" />
+            <!-- <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" /> -->
+            <h1 class="Capsid-title _padding-top-half _padding-bottom" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
             <!-- short description / name -->
-            <div v-if="issue.fields['Data:Author']" class="Capsid-author _padding-top _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
+            <div v-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom-3" v-html="$md.render(issue.fields['Data:Author'] || '')" />
             <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
           </div>
 
@@ -167,36 +194,10 @@ export default {
   // isFeatured: means it shows up first on the News list
 
 
-  head () {
-
-    // NOTE: might or might not work SSR no idea
-
-
-    let title = this.headTitle
-    let meta = [
-      { hid: 'og-title', property: 'og:title', content: `${this.headTitle}` },
-      { hid: 'twitter-title', property: 'twitter:title', content: `${this.headTitle}` },
-
-      { hid: 'og-image', property: 'og:image', content: `${this.headImage}` },
-      { hid: 'twitter-image', property: 'twitter:image', content: `${this.headImage}` },
-
-      { hid: 'twitter-description', property: 'twitter:description', content: `${this.headDescription}` },
-      { hid: 'og-description', property: 'og:description', content: `${this.headDescription}` },
-      { hid: 'description', name: 'description', content: `${this.headDescription}` },
-    ]
-
-    return {
-      title,
-      meta,
-    }
-  },
 
   data: function () {
 
     return {
-      headTitle: undefined,
-      headImage: undefined,
-      headDescription: undefined,
 
       communityDesc: this.$cytosis.findOne('capsid-community-desc', this.$store.state['Content'] ).fields['Markdown'],
       emptyCommunity: this.$cytosis.findOne('capsid-community-empty', this.$store.state['Content'] ).fields['Markdown'],
@@ -218,46 +219,26 @@ export default {
       ]),
 
     jobs() {
-      return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Job')
+      return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Jobs'], this.atoms, true).reverse()
+      // return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Job')
     },
 
     updates() {
-      return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Update')
+      // console.log(this.issue.fields['Atoms:Updates'])
+      // reverse() is called b/c airtable returns them in reverse order w/r to how they're sorted
+      // in a cell
+      return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Updates'], this.atoms, true).reverse()
+      // these end up being unsorted
+      // return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Update')
     },
 
     community() {
-      return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Community')
+      return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Community'], this.atoms, true).reverse()
+      // return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Community')
     },
   },
 
-
   methods: {
-    getTags(issue) {
-      return issue.fields['Tags'] // currently these are just a multi select list (array of strings)
-      // console.log('tags:', issue.fields['Tags'])
-      // return this.$cytosis.getLinkedRecords(issue.fields['Tags'], this['Tags'], true)
-    },
-
-    setHeader(issue) {
-      if(issue.fields['BannerImage'])
-      console.log('setHeader Banner:', issue.fields['BannerImage'])
-
-      this.headImage = issue.fields['BannerImage'] || 'https://phage.directory/cnt_twitter_card.png'
-      this.headDescription = issue.fields['Lede'] || "Capsid & Tail is a micro-publication about all things phages"
-      this.headTitle = issue.fields['Name']
-
-      if(this.isFeatured) {
-        this.headDescription = "Capsid & Tail is a micro-publication about all things phages"
-        this.headTitle = "Capsid & Tail"
-      }
-    },
-
-    getAttachment(job) {
-      // currently only works for the first attachment
-      // console.log('attachment', job.fields['Attachment'][0]['url'])
-      if(job.fields['Attachments'])
-        return job.fields['Attachments'][0]['url']
-    },
 
     getSponsors(issue) {
       const sponsors = this.$cytosis.getLinkedRecords(issue.fields['Sponsors'], this['Updates'], true)
@@ -269,44 +250,6 @@ export default {
       const updates = this.$cytosis.getLinkedRecords(issue.fields['Updates'], this['Updates'], true)
       // console.log('Updates:', updates)
       return updates || undefined
-    },
-
-
-    getJobLink(job) {
-      if (job.fields['URL'])
-        return job.fields['URL']
-
-      return false
-    },
-    showJob(job) {
-      if (!job.fields['isPublished'])
-        return undefined 
-      if (Date(job.fields['ExpirationDate']) < Date.now())
-        return undefined 
-      return true
-    },
-    getJobStatus(job) {
-      return job.fields['Status'] || undefined
-    },
-
-    showPost(post) {
-      if (!post.fields['isPublished'])
-        return undefined 
-
-      if (Date(post.fields['ExpirationDate']) < Date.now())
-        return undefined 
-
-      return true
-    },
-
-    getPostStatus(post) {
-      return post.fields['Status'] || undefined
-    },
-
-    hasNew(issue) {
-      // true if Community Requests, Updates, or Jobs exist
-      // update: don't use this; always display empty state w/ CTA
-      return this.getCommunity(issue).length > 0 || this.getUpdates(issue).length > 0 || this.getJobs(issue).length > 0
     },
 
     getTwitterLink(issue) {

@@ -19,8 +19,8 @@
           <div class="Capsid-title">{{ issue.fields['Name'] }}</div>
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
         </div>
-        <h3 class="Capsid-title" v-html="issue.fields['Data:Title']" />
-        <div class="Capsid-lede" v-html="issue.fields['Data:Lede']" />
+        <h3 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
+        <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
       </router-link>
     </div>
     <div v-else class="_height-100 " >
@@ -33,8 +33,8 @@
           <div class="Capsid-title">{{ issue.fields['Name'] }}</div>
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
         </div>
-        <h5 class="Capsid-title" v-html="issue.fields['Data:Title']" />
-        <div class="Capsid-lede" v-html="issue.fields['Data:Lede']" />
+        <h5 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
+        <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
       </router-link>
     </div>
   </div>

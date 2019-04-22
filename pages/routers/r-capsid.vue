@@ -50,7 +50,7 @@ export default {
 
     // fetches the relevant atoms into the store
     const atoms = await loadQuery(env, store, '{capsid router}', 'capsid-atoms', manuscript.tables.Manuscripts[0].fields['Name'])
-    // console.log('matched atoms: ', atoms, ' @ ', manuscript.tables.Manuscripts[0].fields['Name'])
+    console.log('matched atoms: ', atoms, ' @ ', manuscript.tables.Manuscripts[0].fields['Name'])
 
     return {
       slug,

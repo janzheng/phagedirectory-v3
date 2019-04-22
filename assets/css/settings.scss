@@ -118,11 +118,38 @@ $colors: (
   purple: #980b7e,
 
   brand: #71EFF5,
-  brand-active: color(#71EFF5, 142),
+  brand-active: #FA5486, //color(#71EFF5, 142),
+  // brand-active: color(#71EFF5, 142),
   brand-dark: #374F6A, //color(#71EFF5, 150), —> //this color appears too greenish!?
   brand-light: #b0c3d8,
   brand-lighter: color(#71EFF5, 80),
+); 
+@include addtheme($colors);
+
+
+// generated w/ https://www.colorbox.io/
+$colors-brand: (
+  brand-0: #c3fbff,
+  brand-5: #99f5fa,
+  brand-10: #71eff5,
+  brand-20: #40d2ea,
+  brand-30: #229ed5,
+  brand-40: #135cb2,
+  brand-50: #0c2787,
+  brand-copy: #ff0055,
 );
+@include addtheme($colors-brand);
+
+$colors-pink: (
+  pink-0: #ffc3e8,
+  pink-5: #ffa6d4,
+  pink-10: #ff89b9,
+  pink-20: #fa5486,
+  pink-30: #df2d7d,
+  pink-40: #b81778,
+  pink-50: #870c6a
+);
+@include addtheme($colors-pink);
 
 ._color-brand { color: usetheme(brand, $colors); }
 ._color-brand-active { color: usetheme(brand-active, $colors); }
@@ -131,7 +158,6 @@ $colors: (
 
 
 @include addtheme($colors_); // merge settings colors into working theme 
-@include addtheme($colors);
 $colorMap: colorTintMap($colors);
 
 $context: (
@@ -166,9 +192,9 @@ $context: (
   copy-gray: usetheme(gray, $colors),
 
   title-color: usetheme(brand, $colors), // used for logotype in nav
-  header-bg-top: rgba(usetheme(gray), 0.02),
-  header-bg-scroll: rgba(usetheme(silver-lighter, $colors_), 0.86),
-  header-search-bg: rgba(usetheme(silver-lighter, $colors_), 0.26),
+  // header-bg-top: rgba(usetheme(gray), 0.02),
+  // header-bg-scroll: rgba(usetheme(silver-lighter, $colors_), 0.86),
+  // header-search-bg: rgba(usetheme(silver-lighter, $colors_), 0.26),
   header-links: usetheme(gray),
   header-active: usetheme(brand-active),
 
@@ -179,6 +205,9 @@ $context: (
 
   sidebar-bg: usetheme(silver-light),
 
+  border-color: usetheme(pink),
+
+  classroom-color: usetheme(pink-5),
 
   bg: usetheme(white, $colors_),
   bg-white: usetheme(white, $colors_),
@@ -217,8 +246,12 @@ $context: (
 
 
 $capsid_: (
-  capsid-toc-bg: usetheme(silver-light, $colors_),
+  capsid-toc-featured: usetheme(silver-lighter), // usetheme(silver-lighter),
+  capsid-toc-new: usetheme(silver-light),
+  capsid-toc-jobs: usetheme(brand-0),
+  capsid-toc-community: usetheme(pink-0),
 );
+
 @include addtheme($capsid_)
 
 
@@ -296,6 +329,19 @@ background: linear-gradient(163deg, rgba(251,211,222,1) 0%, rgba(254,212,225,1) 
 %font-basic, ._font-basic {
   font-family: $font-sans;
   @extend %font-sans;
+}
+
+%font-serif,
+._font-serif {
+  // font-family: "Georgia", serif;
+  font-family: usetheme(font-serif, $settings); // not dynamic
+  // font-family: usetheme(font-serif, $theme-typography);
+
+  // looks bad over white bg, so need to turn on manually
+  // &.--antialias {
+  //   -webkit-font-smoothing: auto;
+  //   -moz-osx-font-smoothing: unset;
+  // }
 }
 
 %font-display,

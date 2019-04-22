@@ -49,21 +49,32 @@
 
 // import { mapState } from 'vuex'
 import CapsidFour from '~/components/publications/CapsidFour.vue'
+import TemplateDocs from '~/pages/templates/t-documentation'
 
 export default {
 
   components: {
     CapsidFour,
+    TemplateDocs,
   },
 
   props: {
     'issue': Object,
     'atoms': Array,
-    'isFeatured': Boolean,
+  },
+
+  head () {
+
+    this.$head.setTitle(this.issue.fields['Data:Title'] || "Capsid & Tail")
+    this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
+
+    if(this.issue.fields['Cover'])
+      this.$head.setImage(this.issue.fields['Cover'][0]['url'] || 'https://phage.directory/cnt_twitter_card.png')
+    
+    return this.$head.get()
   },
 
   data() {
-
     return {
       path: this.$route.path, 
       intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],

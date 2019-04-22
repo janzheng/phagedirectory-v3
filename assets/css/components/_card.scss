@@ -17,6 +17,10 @@
     }
   }
 
+  &.--silver {
+    background-color: usetheme(silver-light); // $color-teal-50;
+    border-color: usetheme(silver-light);
+  }
   &.--highlight {
     background-color: usetheme(highlight); // $color-teal-50;
     border-color: usetheme(highlight); // $color-teal-50;

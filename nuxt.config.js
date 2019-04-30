@@ -180,7 +180,6 @@ module.exports = (async function() {
 
     plugins: [
       // '~plugins/filters.js',nuxtjs/google-tag-manager
-      // '~plugins/vue-highlightjs.js',
       // { src: '~/plugins/plugintest.js', ssr: false }
       // { src: '~/plugins/hotjar.js', ssr: false }, // need to link this to policy
       // { src: '~/plugins/mixpanel.js', ssr: false },
@@ -196,8 +195,8 @@ module.exports = (async function() {
       { src: '~/plugins/date.js' },
       { src: '~/plugins/headmatter.js' },
       { src: '~/plugins/slugify.js' },
-      '~plugins/vue-highlightjs.js',
       '~plugins/vue-scrollto.js',
+      // https://github.com/Developmint/nuxt-purgecss
       // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
       // this runs other plugins
@@ -280,7 +279,7 @@ module.exports = (async function() {
         presets: [
           ['@babel/preset-env', {
             // debug: true,
-            useBuiltIns: 'usage',
+            // useBuiltIns: 'usage',
             targets: {
               "browsers": ["> 1%", "ie >= 11", "not ie <= 8"]
               // "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"]
@@ -329,6 +328,11 @@ module.exports = (async function() {
             name: 'capsid & tail router',
             path: '/capsid/:slug*',
             component: resolve(__dirname, 'pages/routers/r-capsid.vue')
+          },
+          {
+            name: 'capsid & tail email generator',
+            path: '/capsidemail/:slug*',
+            component: resolve(__dirname, 'pages/routers/r-capsid-email.vue')
           },
           {
             // Dynamic Template Router

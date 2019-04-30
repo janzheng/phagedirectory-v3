@@ -45,6 +45,7 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword) {
 }
 
 export default async function ({route, env, store}) {
+
   const routeName = route.name || route.path
 
   // if(routeName != 'phages' && routeName != 'labs') {

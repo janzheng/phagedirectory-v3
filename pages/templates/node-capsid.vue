@@ -49,7 +49,7 @@
 
 // import { mapState } from 'vuex'
 import CapsidFour from '~/components/publications/CapsidFour.vue'
-import TemplateDocs from '~/pages/templates/t-documentation'
+import TemplateDocs from '~/pages/templates/node-documentation'
 
 export default {
 

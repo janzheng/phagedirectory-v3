@@ -6,8 +6,8 @@ $header-item-height: $size-4;
 
   // give a lot more space to links
   max-width: $width-lg-min;
-  // padding-left: $size-2;
-  // padding-right: $size-2;
+  // padding-left: $size-2x;
+  // padding-right: $size-2x;
 
   .Header-logo {
     // background-color: usetheme(bg-nav-secondary);
@@ -21,10 +21,12 @@ $header-item-height: $size-4;
       // height: unset;
       // line-height: $header-item-height;
       // padding-top: 0;
-      max-height: $header-item-height;
+      // max-height: $header-item-height;
       white-space: nowrap;
       font-weight: bold;
       font-size: usetheme(nav-size);
+      color: usetheme(nav-color);
+
       &:hover {
         color: usetheme(brand-active);
       }
@@ -43,6 +45,7 @@ $header-item-height: $size-4;
       margin: 0;
       font-size: usetheme(nav-size);
       font-weight: normal;
+      color: usetheme(nav-color);
       
       &.nuxt-link-exact-active {
         // @extend %links-bg;
@@ -61,11 +64,21 @@ $header-item-height: $size-4;
   }
 
   .Header-join.--outline {
+    margin: 0;
+    margin-left: $size;
     background: transparent;
+    // border-color: usetheme(brand-100);
+    border-color: usetheme(pink-40);
+    background-color: usetheme(pink-0);
+    color: usetheme(pink-60);
     // padding:;
     &:hover {
-      background: usetheme(brand-active) !important;
-      color: usetheme(white);
+    border-color: usetheme(brand-active);
+    background-color: usetheme(brand-active); //usetheme(pink-0);
+    color: usetheme(pink-0);
+      // background-color: usetheme(brand-60);
+      // border-color: usetheme(brand-60);
+      // color: usetheme(brand-20);
     }
   }
 
@@ -84,16 +97,41 @@ $header-item-height: $size-4;
       // @extend %links-bg;
       @extend %font-bold;
     }
-  .Header-search {
-    border: $border-thin solid usetheme(bg-lighter); //;$color-ui-light;
-    border-radius: $radius;
-    // max-width: 110px; // gives the links to the right more space
-    min-width: 115px;
-    // max-width: 400px;
+
+  .Header-search-container {
+    position: relative;
+    padding-left: $size;
+    padding-right: $size;
+    width: 100%;
     flex-basis: auto; /* default value */
     flex-grow: 1;
 
+    ._form-label-icon {
+      left: $size;
+      top: 0; // reset native styling
+      svg {
+        fill: usetheme(nav-color);
+      }
+    }
+  }
+  .Header-search { // input
+    border: $border-thin solid usetheme(bg-lighter); //;$color-ui-light;
+    border-radius: $radius;
+    margin-right: 0;
+    // max-width: 110px; // gives the links to the right more space
+    min-width: 115px;
+    width: 100%;
+    // max-width: 400px;
+
+    height: 100%;
+    padding-left: $size-5;
+    // height: initial; // resets the input's height limit of 32px
+
     font-size: usetheme(size-search);
+
+    @include input-placeholder {
+      color: usetheme(mono-50);
+    }
 
     @extend %ease;
     &:hover {
@@ -101,7 +139,7 @@ $header-item-height: $size-4;
     }
     &:focus {
       border: $border-thin solid usetheme(active); //$color-tertiary;
-      padding: $size-half $size-base;
+      // padding: $size-half $size-base;
       @extend %ease;
     }
   }

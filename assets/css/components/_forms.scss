@@ -38,7 +38,7 @@
 // cards in forms, as quick questions (e.g. contact page)
 .FormCard {
 	@extend ._card;
-	// padding: $size $size-2;
+	// padding: $size $size-2x;
   padding: $size;
   color: usetheme(copy);
 
@@ -60,7 +60,7 @@
   }
 
   ._form-control {
-    margin-bottom: $size-2;
+    margin-bottom: $size-2x;
   }
   ._form-label {
     &, p {

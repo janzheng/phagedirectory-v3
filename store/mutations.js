@@ -91,9 +91,9 @@ export default {
       // state[name] = undefined
       delete state[name]
     }
-    else
+    // else
       // console.log('Store clear failed; object doesn’t exist for', name)
-      console.error('Store.clear', 'Store clear failed; object doesn’t exist for', name)
+      // console.error('Store.clear', 'Store clear failed; object doesn’t exist for', name)
   },
 
 

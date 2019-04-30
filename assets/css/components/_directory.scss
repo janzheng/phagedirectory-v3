@@ -51,16 +51,16 @@ $dir-gray: usetheme(copy-gray); // $color-gray-lighter;
     @extend ._grid-1-3;
     margin-bottom: $size-base;
     @include screen-sm {
-      grid-gap: $size-2;
+      grid-gap: $size-2x;
     }
     @include screen-xs {
-      margin-top: $size-2;
+      margin-top: $size-2x;
     }
   }
 
   .DirectoryView-view {
     padding-top: 0;
-    margin-bottom: $size-2;
+    margin-bottom: $size-2x;
     @extend ._grid-3-1;
     h3 { 
       text-transform: capitalize;
@@ -103,7 +103,7 @@ $dir-gray: usetheme(copy-gray); // $color-gray-lighter;
   .DirectoryView-body {
   }
     .DirectoryView-subitem {
-      // padding: $size-base $size-2;
+      // padding: $size-base $size-2x;
       padding: $size-base;
       background-color: $color-ui-light;
       border-radius: $radius;

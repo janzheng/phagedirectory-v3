@@ -2,7 +2,7 @@
 ._tag {
   margin-bottom: $size-half;
   // white-space: nowrap;
-  line-height: $size-2;
+  line-height: $size-2x;
   
   &.--sponsor, &.--highlight {
     background-color: usetheme(highlight); //$color-teal-50;
@@ -13,7 +13,7 @@
 // ._tag {
 //   margin-bottom: $size-half;
 //   // white-space: nowrap;
-//   // line-height: $size-2;
+//   // line-height: $size-2x;
   
 //   &.--sponsor, &.--highlight  {
 //     background-color: usetheme(highlight); //$color-teal-50;

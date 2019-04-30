@@ -12,7 +12,7 @@
   left: $size-base;
   z-index: $z-popup;
   bottom: $size-half;
-  width: calc(100% - #{$size-2});
+  width: calc(100% - #{$size-2x});
 
   .PolicyBanner-btn {
     &:hover {

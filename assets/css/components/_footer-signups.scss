@@ -1,158 +1,96 @@
 
+$footer: (
+  capsid-border-color: usetheme(brand-90),
+  capsid-bg-color: usetheme(brand-5),
+  capsid-cta-color: usetheme(brand-10),
+  capsid-cta-bg-color: usetheme(brand-90),
+  capsid-cta-active-color: usetheme(brand-0),
+  capsid-cta-bg-active-color: usetheme(brand-70),
+  capsid-input-border-color: usetheme(brand-90),
+  capsid-input-bg-color: usetheme(whiter),
+  capsid-input-bg-active-color: usetheme(whiter),
+
+  alert-border-color: usetheme(pink-5),
+  alert-bg-color: usetheme(pink-0),
+  alert-cta-color: usetheme(pink-60),
+  alert-cta-active-color: usetheme(brand-active),
+  alert-input-border-color: usetheme(pink-30),
+  alert-input-bg-color: usetheme(whiter),
+  alert-input-bg-active-color: usetheme(whiter),
+);
+
 // for alerts and mailchimp
 // custom breakpoint
 .FooterSignups {
-  // background-color: usetheme(bg-silver); // $color-silver-light;
-  // padding-top: $size-2;
-  // padding-bottom: $size-2;
-
-  // .Signup-content {
-  //   $width-signup: 996px;
-  //   // margin-left: auto;
-  //   margin-right: auto;
-
-    // @media (max-width: $width-signup) {
-    //   display: block;
-
-    //   .Mailchimp {
-    //     max-width: 100% !important;
-    //     margin-bottom: $size;
-    //   }
-    // }
-  // }
 }
 
 
 .FooterSignups-capsid {
-  // background: usetheme(capsid-color);
-  @extend ._card;
+  background: usetheme(capsid-bg-color, $footer);
+  border-left: solid $border-thick;
+  // border-color: usetheme(capsid-border-color, $footer);
 
-  // overrides
-  &._card {
-    background-color: none;
-    margin-bottom: 0;
-    border: 0;
+  ._form-input {
+    background-color: usetheme(capsid-input-bg-color, $footer);
+
+    border-style: solid;
+    border-width: $border-thin;
+    border-color: usetheme(capsid-input-border-color, $footer);
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+
+    &:hover, &:active, &:focus {
+      border-style: solid;
+      border-width: $border-thin;
+      border-color: usetheme(capsid-input-border-color, $footer);
+      background-color: usetheme(capsid-input-bg-active-color, $footer) !important;
+    };
   }
-
-  @extend %gradient-brand-bright;
-
-  border-color: usetheme(capsid-color);
-  // ._button {
-  //   &:hover {
-  //     border-color: usetheme(blue) !important;
-  //     color: usetheme(blue) !important;
-  //   }
-  // }
+  ._button {
+    font-weight: 700;
+    margin: 0;
+    background: usetheme(capsid-cta-bg-color, $footer);
+    color: usetheme(capsid-cta-color, $footer);
+    &:hover {
+      background: usetheme(capsid-cta-bg-active-color, $footer);
+      border-color: usetheme(capsid-cta-bg-active-color, $footer);
+      color: usetheme(capsid-cta-active-color, $footer);
+    };
+  }
 }
 
 .FooterSignups-alerts {
-  // background: usetheme(alert-color);
-  @extend ._card;
+  background: usetheme(alert-bg-color, $footer);
+  border-left: solid $border-thick;
+  border-color: usetheme(alert-border-color, $footer);
 
-  // overrides
-  &._card {
-    background-color: none;
-    margin-bottom: 0;
-    border: 0;
+  ._form-input {
+    background-color: usetheme(alert-input-bg-color, $footer);
+
+    border-style: solid;
+    border-width: $border-thin;
+    border-color: usetheme(alert-input-border-color, $footer);
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+
+    &:hover, &:active, &:focus {
+      border-style: solid;
+      border-width: $border-thin;
+      border-color: usetheme(alert-input-border-color, $footer);
+      background-color: usetheme(alert-input-bg-active-color, $footer) !important;
+    };
   }
-
-
-  @extend %gradient-tertiary;
-
-  border-color: usetheme(alert-color);
   ._button {
+    font-weight: 700;
+    margin: 0;
+    color: usetheme(alert-cta-color, $footer);
+    border-color: usetheme(alert-cta-color, $footer);
     &:hover {
-      // border-color: usetheme(alert-color-cta) !important;
-      // color: usetheme(alert-color-cta) !important;
-    }
+      border-color: usetheme(alert-cta-active-color, $footer) !important;
+      color: usetheme(alert-cta-active-color, $footer) !important;
+    };
   }
 }
-
-
-// // SignupAlert component can be found in a few places
-// // will have a class specifying where itis
-// .Signup {
-
-//   // margin-top: $size-base;
-//   // margin-bottom: $size-base;
-//   .Subscribe {
-//     font-weight: bold;
-//   }
-
-//   .Signup-form {
-//     padding: $size-base $size-base;
-//     // border: $color-main $border-thin solid;
-//     // background: $color-tertiary;
-//     border-radius: $radius;
-//     color: usetheme(copy); // $color-black;
-//     a {
-//       color: usetheme(copy); // $color-black;
-//       font-weight: bold;
-//       &:hover {
-//         color: usetheme(active); // $color-blue;
-//       }
-//     }
-
-//     input {
-//       // border-color: $color-tertiary;
-//       color: usetheme(copy); //$color-black;
-//       &.Subscribe {
-//         color: usetheme(copy); //$color-black;
-//       }
-
-//       border-color: usetheme(copy); //$color-black;
-//       border-radius: $radius;
-//       &:hover, &:active, &:focus {
-//         // background-color: rgba($color-white, 0.8)
-//         background-color: usetheme(bg-white);
-//       }
-//     }
-//   }
-//     .Signup-content {
-//       @include screen-xs {
-//         width: 100%;
-//         max-width: 100%;
-//       }
-//     }
-//     // .Signup-sub {
-//       // font-weight: bold;
-//     // }
-//     .Signup-input {
-//       @include screen-xs {
-//         margin-right: 0;
-//         width: 100%;
-//       }
-//       // @include screen-sm {
-//       //   border-top-right-radius: 0 !important;
-//       //   border-bottom-right-radius: 0 !important;
-//       // }
-//     }
-//     .Signup-cta {
-//       margin-bottom: 0;
-//       // margin-top: $size-half;
-//       @include screen-xs {
-//         width: 100%;
-//         display: block;
-//         margin-top: $size-half;
-//         margin-right: 0;
-//       }
-//       // @include screen-sm {
-//       //   border-top-left-radius: 0 !important;
-//       //   border-bottom-left-radius: 0 !important;
-//       // }
-//     }
-
-//     // &.footer {
-//     //   margin: 0;
-//     //   text-align: center;
-//     //   // margin-left: $size-2;
-//     //   // margin-right: $size-2;
-
-//     //   @include screen-xs {
-//     //     // margin-left: $size-base;
-//     //     // margin-right: $size-base;
-//     //   }
-//     // }
-// }
-
 

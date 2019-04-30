@@ -24,8 +24,9 @@ CapsidEmail.vue
 proptester.vue
 community.vue
 twitter.js
-t-documentation-old.vue
 
+# for internal use anyway
+components/coeur/
 
 
 # from .gitignore

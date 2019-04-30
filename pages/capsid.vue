@@ -51,7 +51,7 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/pages/templates/t-form.vue'
+import Form from '~/pages/templates/node-form.vue'
 import CommunityPost from '~/components/CommunityPost.vue'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 

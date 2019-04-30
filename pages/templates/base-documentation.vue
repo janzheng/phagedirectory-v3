@@ -2,22 +2,22 @@
   <div class="Template-Documentation _margin-top-3 _margin-bottom-2 ">
 
     <div 
-      :class="class_sidebar ? '_grid-1-4 _grid-gap-large': '' "
-      class="_center-margin _container _padding" >
+      class="_grid-1-4 _grid-gap-large _center-margin _container _padding" >
 
       <!-- Side bar / Side menu -->
       <div>
-        <nav v-if="class_sidebar" 
+        <nav class="Sidenav _sidebar --sticky --top-1 ">
+          <div class="--max-height-90">
+            <slot name="sidebar" />
+          </div>
+        </nav>
+        <!--<nav v-if="class_sidebar" 
              ref="sidebar"
              :style="class_sidenav"
              class="Sidenav _sidebar --sticky --top-1 " 
         >
           <div class="_sidebar-content --max-height-90 
             _padding-bottom _padding-top">
-            <!-- <a href="#top"> -->
-            <!-- <h6 v-if="source">{{ source.fields['Node:Name'] }}</h6> -->
-            <!-- </a> -->
-
             <div :class="pathMatch(source.fields['Node:AbsolutePath']) ? '--active' : ''" 
                  class="_sidebar-content-group"
             >
@@ -33,7 +33,7 @@
               <div v-if="pathMatch(source.fields['Node:AbsolutePath'])" class="_sidebar-submenu" >
                 <div v-for="(item, index) of source.fields['Node:Nav']" 
                      :key="item" >
-                  <!-- <router-link :to="`${source.fields['Node:AbsolutePath'] + source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" >{{ item }}</router-link> -->
+                  <!~~ <router-link :to="`${source.fields['Node:AbsolutePath'] + source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" >{{ item }}</router-link> ~~>
                   <router-link 
                     v-scroll-to="{
                       el: source.fields['Node:Nav-Links'][index],
@@ -48,14 +48,13 @@
 
             </div>
 
-            <!-- if node has a source, use the source for nav -->
             <div 
-              v-for="(item) of sourceChildren" 
+              v-for="(item) of navSource" 
               :class="pathMatch(item.fields['Node:AbsolutePath']) ? '--active' : ''" 
               :key="item.id"
               class="_sidebar-content-group"  
             >
-              <!-- label -->
+              <!~~ label ~~>
               <div 
                 v-if="item.fields['Type'] == 'Node:Label'"
                 class="_sidebar-item _sidebar-label"
@@ -63,7 +62,7 @@
                 <div class="_md-pfix" v-html="$md.render(item.fields['Markdown'] || '')" />
               </div>
 
-              <!-- link -->
+              <!~~ link ~~>
               <router-link 
                 v-if="item.fields['Type'] == 'Node'"
                 :to="`${item.fields['Node:AbsolutePath']}`"
@@ -89,8 +88,8 @@
               </div>
 
             </div>
-          </div>
-        </nav>
+          </dfiv>
+        </nav>-->
       </div>
 
 
@@ -98,18 +97,7 @@
 
         <slot name="intro" />
 
-        <!-- Native Contents -->
-        <div v-html="$md.render(node.fields['Markdown'] || '')" />
-
         <slot />
-
-        <!-- Linked Contents  -->
-        <div v-for="item of contents" :key="item.id">
-          <div v-if="item.fields['Render:Template'] == 'Form'" >
-            <Form :src="item"/>
-          </div>
-          <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
-        </div>
 
         <slot name="footer" />
 
@@ -126,7 +114,7 @@
 <script>
   
 import { mapState } from 'vuex'
-import Form from '~/pages/templates/t-form.vue'
+import Form from '~/pages/templates/node-form.vue'
 // import { loadQuery } from '~/other/loaders'
 
 export default {
@@ -136,8 +124,7 @@ export default {
   },
 
   props: {
-    'node': Object,
-    'route': Object,
+    'sidebar': Object,
   },
 
   layout: 'contentframe',
@@ -151,9 +138,6 @@ export default {
   // },
 
   data () {
-    this.$store.dispatch("updateCreate", {
-      pageName: this.node.fields['Node:Name']
-    })
 
     return {
       isMounted: false,
@@ -200,7 +184,7 @@ export default {
 
     class_sidebar() {
       // check linked content if sidebar is warranted
-      if(this.source)
+      if(this.sidebar)
         return true
     },
 
@@ -236,7 +220,6 @@ export default {
     },
 
     doneScrolling(el) {
-      console.log('done scrolling', el.id)
       this.$router.push({
         path: this.route.path + '#' + el.id
       })

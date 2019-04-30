@@ -1,30 +1,34 @@
 
 <template>
 
-  <div :class="atom.fields['Data:Status'][0]" class="CommunityPost _card --shadow _padding " >
+  <div :class="atom.fields['Data:Status'][0]" class="Job _card --shadow _padding " >
 
-    <div class="CommunityPost-header ">
+    <div class="Job-header ">
+
+      <div v-if="getCover" class="Job-logo" >
+        <img :src="getCover" alt="Job logo">
+      </div>
 
       <div class="_grid-1-auto _align-vertically _margin-bottom-half _grid-gap-small">
         <div>
-          <span v-if="atom.fields['Data:Categories']" class="CommunityPost-type _tag --highlight">
+          <span v-if="atom.fields['Data:Categories']" class="Job-type _tag --highlight">
             {{ atom.fields['Data:Categories'][0] }}
           </span>
         </div>
-        <div class="CommunityPost-date _right-sm _font-small">
+        <div class="Job-date _right-sm _font-small">
           <span>Posted {{ atom.fields['Data:Date'] | dateTo }}</span>
         </div>
       </div>
 
-      <div class="CommunityPost-title _font-bold _margin-top-half ">
+      <div class="Job-title _font-bold _margin-top-half ">
         <h5 v-if="atom.fields['Data:Title']" class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
       </div>
 
-      <div class="CommunityPost-tags _margin-bottom-half">
-        <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="CommunityPost-tag _tag">{{ item }}</span>
+      <div class="Job-tags _margin-bottom-half">
+        <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="Job-tag _tag">{{ item }}</span>
       </div>
 
-      <div class="CommunityPost-info _margin-bottom _margin-top">
+      <div class="Job-info _margin-bottom _margin-top">
         <div v-if="atom.fields['Data:Source']">
           <strong>{{ atom.fields['Data:Source'] }}</strong>
         </div>
@@ -32,14 +36,14 @@
       </div>
     </div>
 
-    <div class="CommunityPost-content">
+    <div class="Job-content">
       <div v-html="$md.render(atom.fields['Markdown'] || '')" />
     </div>
 
     <div v-if="!isExpired && atom.fields['URL']" class="Job-action ">
       <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply _button --short --outline _margin-bottom-none _margin-right-half" target="_blank">More Details</a>
-      <span v-if="atom.fields['ExpirationDate']" class="Job-expiry _font-small --nowrap">
-        Last day to apply: <span class="_font-bold">{{ atom.fields['ExpirationDate'] | niceDate }} </span>
+      <span v-if="atom.fields['Data:DateEnd']" class="Job-expiry _font-small --nowrap">
+        Last day to apply: <span class="_font-bold">{{ atom.fields['Data:DateEnd'] | niceDate }} </span>
       </span>
     </div>
     <div v-else>
@@ -70,6 +74,12 @@ export default {
       return undefined
     },
 
+    getCover() {
+      // currently only works for the first attachment
+      // console.log('attachment', job.fields['Attachment'][0]['url'])
+      if(this.atom.fields['Cover'])
+        return this.atom.fields['Cover'][0]['url']
+    },
   },
 
   mounted: async function () {

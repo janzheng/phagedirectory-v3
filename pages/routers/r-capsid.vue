@@ -24,7 +24,7 @@
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 
-import CapsidTemplate from '~/pages/templates/t-capsid'
+import CapsidTemplate from '~/pages/templates/node-capsid'
 
 
 export default {

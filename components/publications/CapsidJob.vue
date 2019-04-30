@@ -7,8 +7,8 @@
 
 <template>
   <div class="Capsid-item Capsid-job _card _flex-col _height-100 _padding" >
-    <div v-if="getAttachment" class="Capsid-logo" >
-      <img :src="getAttachment" alt="Job logo">
+    <div v-if="getCover" class="Capsid-logo" >
+      <img :src="getCover" alt="Job logo">
     </div>
 
     <div class="_flex-1">
@@ -42,11 +42,11 @@ export default {
     'atom': Object
   },
   computed: {
-    getAttachment() {
+    getCover() {
       // currently only works for the first attachment
       // console.log('attachment', job.fields['Attachment'][0]['url'])
-      if(this.atom.fields['Attachments'])
-        return this.atom.fields['Attachments'][0]['url']
+      if(this.atom.fields['Cover'])
+        return this.atom.fields['Cover'][0]['url']
     },
   },
   methods: {

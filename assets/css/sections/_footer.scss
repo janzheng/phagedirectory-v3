@@ -9,7 +9,7 @@
   // }
 
   .Footer-right div a {
-    line-height: $size-2;
+    line-height: $size-2x;
   }
   
   a {
@@ -17,9 +17,21 @@
     color: usetheme(footer-links); //$color-bg;
     border: 0;
     // font-weight: bold;
+
+    svg {
+      @extend %ease;
+
+      fill: usetheme(brand-10);
+    }
+
     &:hover {
-      color: usetheme(footer-active); //$color-phdir;
+      color: usetheme(brand-10); //$color-phdir;
       text-decoration: none;
+
+      svg {
+        @extend %ease;
+        fill: usetheme(brand-50) !important;
+      }
     }
   }
   .nuxt-link-exact-active, 
@@ -30,6 +42,18 @@
   .Footer-right,
   .Footer-top {
     // margin-right: $size-8;
+  }
+
+
+  @include screen-xs {
+    text-align: center;
+
+    .Footer-textlogo {
+      margin-top: $size-2;
+    }
+    .Footer-left {
+      margin-bottom: $size-2;
+    }
   }
 
 }

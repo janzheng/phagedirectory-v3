@@ -24,7 +24,7 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/pages/templates/t-form.vue'
+import Form from '~/pages/templates/node-form.vue'
 import CommunityPost from '~/components/CommunityPost.vue'
 
 export default {
@@ -37,7 +37,8 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-community"]
+    tableQueries: ["_content", "atoms-community"],
+    refreshOnLoad: true,
   },
 
   // runs on generation and page route (but not on first page load)

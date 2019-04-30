@@ -1,4 +1,18 @@
 
+$sidenav: (
+  sidenav-links: usetheme(gray), // usetheme(gray),
+  sidenav-links-active: usetheme(brand-active),
+  sidenav-bg: usetheme(silver-light, $colors_),
+
+  sidenav-border: transparent, // usetheme(coeur-active),
+  sidenav-border-active: usetheme(brand-80),
+  sidenav-color-active: usetheme(brand-100),
+  sidenav-background-active: usetheme(brand-10),
+  // sidenav-background-active: usetheme(mono-5),
+);
+@include addtheme($sidenav)
+
+
 $link-active-weight: 600;
 .Sidenav._sidebar {
 
@@ -18,7 +32,7 @@ $link-active-weight: 600;
     font-size: usetheme(size-sidenav);
     color: usetheme(sidenav-links);
 
-    display: inline-block;
+    display: block; // inline-block;
     padding-top: $size--4;
     padding-bottom: $size--4;
     font-weight: normal;
@@ -42,7 +56,7 @@ $link-active-weight: 600;
     background: usetheme(sidenav-bg);
     // padding: $size;
     // position: sticky;
-    // top: $size-2;
+    // top: $size-2x;
     // top: $size-base;
     // background-color: $color-ui-light;
     // padding-top: 0;
@@ -55,7 +69,7 @@ $link-active-weight: 600;
 
   ._sidebar-content-group {
     // background-color: $color-ui;
-    border-left: $border-thin solid usetheme(sidenav-border);
+    border-left: $border-medium solid usetheme(sidenav-border);
     // padding: 2px $size;
     // margin-bottom: $size/2;
     &:last-child {
@@ -63,7 +77,9 @@ $link-active-weight: 600;
     }
 
     &.--active {
+      color: usetheme(sidenav-color-active);
       border-left-color: usetheme(sidenav-border-active);
+      background-color: usetheme(sidenav-background-active);
     }
   }
 
@@ -74,20 +90,35 @@ $link-active-weight: 600;
   ._sidebar-item {
     padding-left: $size;
     padding-right: $size;
+    
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
   ._sidebar-label {
-    padding: 0;
-    // all padding controlled by the label itsled
+    padding-left: 0;
+    padding-bottom: $size-quart;
+    // all padding controlled by the label itself
+  }
+  ._sidebar-heading {
+    @extend h6;
+    // font-size: 100px !important;
   }
 }
 
 
 
+// for manually created docs, you can combine sidebar and content w/ nuxt-active (used in coeur docs)
+._sidebar-content-group.nuxt-link-active {
+  color: usetheme(sidenav-color-active) !important;
+  border-left-color: usetheme(sidenav-border-active) !important;
+  background-color: usetheme(sidenav-background-active);
+}
+
 
 
 
 // .SideNav._sidebar {
-//   padding-top: $size-2;
+//   padding-top: $size-2x;
 //   padding-left: 0;
 
 //   overflow-y: inherit;
@@ -103,8 +134,8 @@ $link-active-weight: 600;
 
 //   a {
 //     display: block;
-//     // padding-left: $size-2;
-//     // padding-right: $size-2;
+//     // padding-left: $size-2x;
+//     // padding-right: $size-2x;
 //     // padding-right: 0;
 //     margin-right: 0;
 //     margin-bottom: $size-base;
@@ -120,7 +151,7 @@ $link-active-weight: 600;
 //   }
 //   ._sidebar-content {
 //     position: sticky;
-//     // top: $size-2;
+//     // top: $size-2x;
 //     top: $size-base;
 //     // background-color: $color-ui-light;
 //     padding-top: 0;

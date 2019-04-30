@@ -42,7 +42,7 @@ $phagefutures-post-maxwidth: 479.05px;
 
 
 // .PhageFutures-agenda {
-//   margin-bottom: $size-2;
+//   margin-bottom: $size-2x;
 
 //   h6 {
 //     padding-bottom: $size-half;
@@ -211,10 +211,10 @@ a.PhageFutures-post-author {
   &.--upcoming {
     @extend ._card;
     padding: $size;
-    margin-bottom: $size-2;
+    margin-bottom: $size-2x;
   }
   @include screen-xs {
-    margin-top: $size-2;
+    margin-top: $size-2x;
   }
 }
 
@@ -290,8 +290,8 @@ a.PhageFutures-post-author {
     // color: usetheme(highlight);
     padding: $size;
     padding-left: 0;
-    margin-top: $size-2;
-    margin-bottom: $size-2;
+    margin-top: $size-2x;
+    margin-bottom: $size-2x;
     .AgendaEvent-item-title {
       @extend h6;
       padding: 0;

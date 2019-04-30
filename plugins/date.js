@@ -32,8 +32,17 @@ Vue.filter('dateDiffMinutes', function(value) {
   }
 })
 
+Vue.filter('isBefore', function(value) {
+  if (value) {
+    return dayjs().isBefore(dayjs(String(value))) // is today before the value?
+  }
+})
+
+
+
 // export default ({ app }, inject) => {
 export default ({ }, inject) => {
   inject('dayjs', dayjs)
 }
+
 

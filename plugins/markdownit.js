@@ -10,7 +10,10 @@ import MarkdownItFootnote from 'markdown-it-footnote'
 // import LinkifyIt from 'linkify-it'
 import MarkdownItDeflist from 'markdown-it-deflist'
 import MarkdownItMark from 'markdown-it-mark'
-import markdownItTocAndAnchor from "markdown-it-toc-and-anchor"
+
+// this one's great but MASSIVE
+// import markdownItTocAndAnchor from "markdown-it-toc-and-anchor"
+
 // let MarkdownIt = require('markdown-it')
 // let MarkdownItAttrs = require.resolve('markdown-it-attrs') // loaded thru webpack
 // let MarkdownItAttrs = require('markdown-it-attrs') // loaded thru webpack
@@ -32,9 +35,9 @@ export default ({ }, inject) => {
   md.use(MarkdownItDeflist) // http://johnmacfarlane.net/pandoc/README.html#definition-lists
   md.use(MarkdownItMark) // == this text is marked == this text is not
 
-  md.use(markdownItTocAndAnchor, {
-    anchorLink: false,
-  })
+  // md.use(markdownItTocAndAnchor, {
+  //   anchorLink: false,
+  // })
 
   md['strip'] = function (md) {
     // add functionality to strip the annoying <p></p> from a rendered markdown

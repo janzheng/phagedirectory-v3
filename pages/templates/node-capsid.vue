@@ -15,7 +15,7 @@
       <div class="_section-content _margin-center">
 
         <div class="_section-content _margin-center">
-          <div v-if="!issue || issue === 'undefined'" >
+          <div v-if="!issue || issue === 'undefined'">
             <h4>Sorry, no Capsid & Tail issue was found at this URL</h4>
             <div>
               If you think this is a bug, please email us at <a href="mailto:support@phage.directory">support@phage.directory</a>
@@ -29,7 +29,7 @@
         </div>
         
         <no-ssr>
-          <div id="comment" class="Capsid-disqus" >
+          <div id="comment" class="Capsid-disqus">
             <vue-disqus :identifier="path" shortname="capsid-tail" url="https://phage.directory" />
           </div>
         </no-ssr>
@@ -49,13 +49,13 @@
 
 // import { mapState } from 'vuex'
 import CapsidFour from '~/components/publications/CapsidFour.vue'
-import TemplateDocs from '~/pages/templates/node-documentation'
+// import TemplateDocs from '~/pages/templates/node-documentation'
 
 export default {
 
   components: {
     CapsidFour,
-    TemplateDocs,
+    // TemplateDocs,
   },
 
   props: {

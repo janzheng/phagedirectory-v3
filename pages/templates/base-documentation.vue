@@ -2,7 +2,8 @@
   <div class="Template-Documentation _margin-top-3 _margin-bottom-2 ">
 
     <div 
-      class="_grid-1-4 _grid-gap-large _center-margin _container _padding" >
+      class="_grid-1-4 _grid-gap-large _center-margin _container _padding" 
+    >
 
       <!-- Side bar / Side menu -->
       <div>
@@ -21,7 +22,7 @@
             <div :class="pathMatch(source.fields['Node:AbsolutePath']) ? '--active' : ''" 
                  class="_sidebar-content-group"
             >
-              <router-link
+              <nuxt-link
                 v-scroll-to="{
                   el: '#top',
                   onDone: (element) => { doneScrolling(element) }
@@ -29,12 +30,12 @@
                 :to="`${source.fields['Node:AbsolutePath']}#top`" 
                 class="_sidebar-item" >
                 {{ source.fields['Node:Name'] }}
-              </router-link>
+              </nuxt-link>
               <div v-if="pathMatch(source.fields['Node:AbsolutePath'])" class="_sidebar-submenu" >
                 <div v-for="(item, index) of source.fields['Node:Nav']" 
                      :key="item" >
-                  <!~~ <router-link :to="`${source.fields['Node:AbsolutePath'] + source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" >{{ item }}</router-link> ~~>
-                  <router-link 
+                  <!~~ <nuxt-link :to="`${source.fields['Node:AbsolutePath'] + source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" >{{ item }}</nuxt-link> ~~>
+                  <nuxt-link 
                     v-scroll-to="{
                       el: source.fields['Node:Nav-Links'][index],
                       onDone: (element) => { doneScrolling(element) }
@@ -42,7 +43,7 @@
                     :to="`${source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" 
                   >
                     {{ item }}
-                  </router-link>
+                  </nuxt-link>
                 </div>
               </div>
 
@@ -63,13 +64,13 @@
               </div>
 
               <!~~ link ~~>
-              <router-link 
+              <nuxt-link 
                 v-if="item.fields['Type'] == 'Node'"
                 :to="`${item.fields['Node:AbsolutePath']}`"
                 class="_sidebar-item"
               >
                 {{ item.fields['Node:Name'] }}
-              </router-link>
+              </nuxt-link>
 
               <div v-if="pathMatch(item.fields['Node:AbsolutePath'])">
                 <div v-if="pathMatch(item.fields['Node:AbsolutePath'])" class="_sidebar-submenu" >
@@ -77,12 +78,12 @@
                     v-for="(item2, index) of item.fields['Node:Nav']" 
                     :key="item2" 
                   >
-                    <router-link 
+                    <nuxt-link 
                       :to="`${item.fields['Node:AbsolutePath'] + item.fields['Node:Nav-Links'][index]}`"
                       class="_sidebar-item _sidebar-subitem"
                     >
                       {{ item2 }}
-                    </router-link>
+                    </nuxt-link>
                   </div>
                 </div>
               </div>
@@ -114,13 +115,13 @@
 <script>
   
 import { mapState } from 'vuex'
-import Form from '~/pages/templates/node-form.vue'
+// import Form from '~/pages/templates/node-form.vue'
 // import { loadQuery } from '~/other/loaders'
 
 export default {
 
   components: {
-    Form
+    // Form
   },
 
   props: {
@@ -153,53 +154,6 @@ export default {
       let contents = this.$cytosis.getLinkedRecords(this.node.fields['Node:Contents'], this.Content , true )
       return contents.reverse()
     },
-
-    nodeSource() {
-      if(this.node && this.node.fields['Node:Source']) {
-        let source = this.$cytosis.getLinkedRecords(this.node.fields['Node:Source'], this.Content , true )
-        return source.reverse()[0]
-      }
-    },
-
-    source() {
-      // source is either the node's source, or itself!
-      return this.nodeSource || this.node
-    },
-
-    children() {
-      if(this.node.fields['Node:Children']) {
-        let children = this.$cytosis.getLinkedRecords(this.node.fields['Node:Children'], this.Content , true )
-        // airtable always returns lists in reverse order
-        return children.reverse()
-      }
-    },
-
-    sourceChildren() {
-      if(this.source) {
-        let children = this.$cytosis.getLinkedRecords(this.source.fields['Node:Children'], this.Content , true )
-        // airtable always returns lists in reverse order
-        return children.reverse()
-      }
-    },
-
-    class_sidebar() {
-      // check linked content if sidebar is warranted
-      if(this.sidebar)
-        return true
-    },
-
-    class_sidenav() {
-      if (!this.isMounted) return
-
-      const windowHeight = window.innerHeight
-      const sidebarHeight = this.$refs.sidebar.clientHeight
-      if(windowHeight < sidebarHeight) {
-        console.log('Sidenav too short:', windowHeight, sidebarHeight)
-        return {
-          position: 'unset !important',
-        }
-      }
-    }
   },
 
   beforeCreate () {

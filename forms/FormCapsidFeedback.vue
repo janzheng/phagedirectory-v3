@@ -8,9 +8,9 @@
           :thanks="thanks"
 
           :privacy="privacy"
-          :errorMsg="error"
-          :postUrl="postUrl"
-          :isAlert="true"
+          :error-msg="error"
+          :post-url="postUrl"
+          :is-alert="true"
           notes="Capsid Form Feedback"
           
           class=""

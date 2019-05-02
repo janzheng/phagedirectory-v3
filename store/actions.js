@@ -10,8 +10,9 @@ export default {
     const airKey = _key || env.airtable_api
     const airBase = _base || env.airtable_base
 
-    console.log(`[actions/loadCytosis loading from:${caller}]: query/options:`, tableQuery, options)
-    // console.log(`[actions/loadCytosis loading from:${caller}]: isServer:`, process.server)
+    // if(!process.server)
+      console.log(`[actions/loadCytosis loading from:${caller}]: query/options:`, tableQuery, options)
+      // console.log(`[actions/loadCytosis loading from:${caller}]: isServer:`, process.server)
     
     // if generated, not server, and static is true
     // we DON'T want to pull data to the client
@@ -26,7 +27,10 @@ export default {
       settings,
     })
     commit('setCytosis', cytosis)
+
+    // if(!process.server)
     console.log(`[actions/loadCytosis from:${caller}]: done.`)
+
     return Promise.resolve(cytosis)
   
   },
@@ -55,7 +59,7 @@ export default {
   },
   clear ({ commit }, object) {
     // generic mutator action to clear something
-    console.log('trying to clear', object)
+    // console.log('trying to clear', object)
     commit('clear', object)
   },
 

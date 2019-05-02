@@ -9,7 +9,7 @@
         <Form :src="form"/>
       </div>
       <div class="Template-main">
-        <CommunityPost v-for="item of Atoms" :key="item.id" :atom="item" />
+        <CommunityPost v-for="item of community" :key="item.id" :atom="item" />
       </div>
 
     </div>
@@ -61,6 +61,9 @@ export default {
     ...mapState([
       'Atoms',
       ]),
+    community() {
+      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Community')
+    }
   },
 
   mounted () {

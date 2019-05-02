@@ -1,6 +1,6 @@
 <template>
-  <div id="top" class="ContentFrame Layout" >
-    <Header :scrollY="scrollY" />
+  <div id="top" class="ContentFrame Layout" :class="navOpen ? '--open' : ''" >
+    <Header :scroll-y="scrollY" />
     
     <div class="ContentFrame-body" >
       <nuxt @click="onClick($event)" />
@@ -69,7 +69,8 @@ export default {
 
   computed: {
     ...mapState([
-      'searchString'
+      'searchString',
+      'navOpen',
       ]),
   },
 

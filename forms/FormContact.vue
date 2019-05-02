@@ -2,7 +2,7 @@
   <div class="FormContact FormCard">
 
     <Form :payload="payload"
-          :sendEmail="true"
+          :send-email="true"
           :validate="false"
           class=""
           target="_dynamic"

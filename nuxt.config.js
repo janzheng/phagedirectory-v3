@@ -1,3 +1,4 @@
+process.env.DEBUG = 'nuxt:*'
 
 
 /*
@@ -6,10 +7,9 @@
 
 */
 
-
 import Cytosis from 'cytosis'
 
-const pkg = require('./package')
+// const pkg = require('./package')
 
 // note: nuxt requires Node 8+ to run properly 
 // these are the default social sharing items
@@ -52,319 +52,323 @@ const site_static = true; // if set to true, the client will never pull data
 
 let site_routes; // used for the generate process to save on airtable pulls
 
-module.exports = (async function() {
-
-
-  let site_data
+// export default (async function() {
+export default {
+  // let site_data
   // if (mode == 'universal') 
   //   site_data = await initData()
 
   // console.log('site_data:', site_data)
 
-  let obj = {
-    // export default {
-    // mode: 'universal', // use this for deployment; need to rebuild the site every time airtable content changes
-    mode: mode, // for development, or for real-time airtable changes
-    env: {
-      mode: mode,
-      site_fb: site_fb,
-      airtable_api: airtable_api,  
-      airtable_base: airtable_base,
-      site_policy: site_policy,
-      ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/phdir-input',
-      site_data: site_data,
-      site_static: site_static,
-    },
+  // let obj = {
+  // export default {
+  // mode: 'universal', // use this for deployment; need to rebuild the site every time airtable content changes
+  mode: mode, // for development, or for real-time airtable changes
+  env: {
+    mode: mode,
+    site_fb: site_fb,
+    airtable_api: airtable_api,  
+    airtable_base: airtable_base,
+    site_policy: site_policy,
+    ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/phdir-input',
+    // site_data: site_data,
+    site_static: site_static,
+  },
 
-    server: {
-      port: 1919, // default: 3000
-      // host: '0.0.0.0', // default: localhost
-    },
+  server: {
+    port: 1919, // default: 3000
+    // host: '0.0.0.0', // default: localhost
+  },
 
-    render: {
-      // https://nuxtjs.org/api/configuration-render#resourcehints
-      // disable prefetch of all the pages; saves bg download data
-      // resourceHints: false,
+  render: {
+    // https://nuxtjs.org/api/configuration-render#resourcehints
+    // disable prefetch of all the pages; saves bg download data
+    // resourceHints: false,
 
-      // Content-Security-Policy
-      // https://nuxtjs.org/api/configuration-render#csp
-      // csp: {
-      //   hashAlgorithm: 'sha256',
-      //   allowedSources: undefined,
-      //   policies: undefined
-      // }
-    },
+    // Content-Security-Policy
+    // https://nuxtjs.org/api/configuration-render#csp
+    // csp: {
+    //   hashAlgorithm: 'sha256',
+    //   allowedSources: undefined,
+    //   policies: undefined
+    // }
+  },
 
 
-    /*
-        Headers of the page
-        'hid' is a 'head identifier' and used as a unique key
-    */
-    head: {
-      title: site_title,
-      meta: [
+  /*
+      Headers of the page
+      'hid' is a 'head identifier' and used as a unique key
+  */
+  head: {
+    title: site_title,
+    meta: [
 
-        { charset: 'utf-8' },
-        // { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' }, // max-scale prevents auto-zoom on mobile, may prevent zoom
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { charset: 'utf-8' },
+      // { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' }, // max-scale prevents auto-zoom on mobile, may prevent zoom
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
 
-        { hid: 'description', name: 'description', content: site_description },
-        { hid: 'theme-color', name: 'theme-color', content: site_color },
+      { hid: 'description', name: 'description', content: site_description },
+      { hid: 'theme-color', name: 'theme-color', content: site_color },
 
-        { hid: 'search-google', name: 'robots', content: site_search },
-        { hid: 'search-robots', name: 'googlebot', content: site_search },
-        // { hid: 'nositelinkssearchbox', name: 'google', content: 'nositelinkssearchbox' },
-        // { hid: 'notranslate', name: 'google', content: 'notranslate' },
+      { hid: 'search-google', name: 'robots', content: site_search },
+      { hid: 'search-robots', name: 'googlebot', content: site_search },
+      // { hid: 'nositelinkssearchbox', name: 'google', content: 'nositelinkssearchbox' },
+      // { hid: 'notranslate', name: 'google', content: 'notranslate' },
 
-        // Page-Specific
+      // Page-Specific
 
-        // Facebook
-        // <meta property="fb:app_id" content="123456789">
-        { hid: 'fb-app_id', property: 'fb:app_id', content: site_fb },
-        // <meta property="og:url" content="http://example.com/page.html">
-        { hid: 'og-url', property: 'og:url', content: site_url + '/' + page_name },
-        // <meta property="og:type" content="website">
-        { hid: 'og-type', property: 'og:type', content: 'website' },
-        // <meta property="og:title" content="Content Title">
-        { hid: 'og-title', property: 'og:title', content: site_title },
-        // <meta property="og:image" content="http://example.com/image.jpg"> 
-        // FB & Twitter work best with: 1200 X 675 
-        { hid: 'og-image', property: 'og:image', content: site_url + site_image },
-        // <meta property="og:description" content="Description Here">
-        { hid: 'og-description', property: 'og:description', content: site_description },
-        // <meta property="og:site_name" content="Site Name">
-        { hid: 'og-site_name', property: 'og:site_name', content: site_name },
-        // <meta property="og:locale" content="en_US">
-        { hid: 'og-locale', property: 'og:locale', content: 'en_US' },
-        // <meta property="article:author" content="">
-        { hid: 'article-author', property: 'article:author', content: site_author },
+      // Facebook
+      // <meta property="fb:app_id" content="123456789">
+      { hid: 'fb-app_id', property: 'fb:app_id', content: site_fb },
+      // <meta property="og:url" content="http://example.com/page.html">
+      { hid: 'og-url', property: 'og:url', content: site_url + '/' + page_name },
+      // <meta property="og:type" content="website">
+      { hid: 'og-type', property: 'og:type', content: 'website' },
+      // <meta property="og:title" content="Content Title">
+      { hid: 'og-title', property: 'og:title', content: site_title },
+      // <meta property="og:image" content="http://example.com/image.jpg"> 
+      // FB & Twitter work best with: 1200 X 675 
+      { hid: 'og-image', property: 'og:image', content: site_url + site_image },
+      // <meta property="og:description" content="Description Here">
+      { hid: 'og-description', property: 'og:description', content: site_description },
+      // <meta property="og:site_name" content="Site Name">
+      { hid: 'og-site_name', property: 'og:site_name', content: site_name },
+      // <meta property="og:locale" content="en_US">
+      { hid: 'og-locale', property: 'og:locale', content: 'en_US' },
+      // <meta property="article:author" content="">
+      { hid: 'article-author', property: 'article:author', content: site_author },
 
-        // Twitter Card
-        // <meta name="twitter:card" content="summary"> > summary or summary_large_image
-        { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
-        // <meta name="twitter:site" content="@site_account">
-        { hid: 'twitter-site', property: 'twitter:site', content: site_twitter },
-        // <meta name="twitter:creator" content="@individual_account">
-        { hid: 'twitter-creator', property: 'twitter:creator', content: site_twitter_creator },
-        // <meta name="twitter:url" content="http://example.com/page.html">
-        { hid: 'twitter-url', property: 'twitter:url', content: site_url + '/' + page_name },
-        // <meta name="twitter:title" content="Content Title">
-        { hid: 'twitter-title', property: 'twitter:title', content: site_title },
-        // <meta name="twitter:description" content="Content description less than 200 characters">
-        { hid: 'twitter-description', property: 'twitter:description', content: site_description },
-        // <meta name="twitter:image" content="http://example.com/image.jpg">
-        { hid: 'twitter-image', property: 'twitter:image', content: site_url + site_image },
+      // Twitter Card
+      // <meta name="twitter:card" content="summary"> > summary or summary_large_image
+      { hid: 'twitter-card', property: 'twitter:card', content: 'summary' },
+      // <meta name="twitter:site" content="@site_account">
+      { hid: 'twitter-site', property: 'twitter:site', content: site_twitter },
+      // <meta name="twitter:creator" content="@individual_account">
+      { hid: 'twitter-creator', property: 'twitter:creator', content: site_twitter_creator },
+      // <meta name="twitter:url" content="http://example.com/page.html">
+      { hid: 'twitter-url', property: 'twitter:url', content: site_url + '/' + page_name },
+      // <meta name="twitter:title" content="Content Title">
+      { hid: 'twitter-title', property: 'twitter:title', content: site_title },
+      // <meta name="twitter:description" content="Content description less than 200 characters">
+      { hid: 'twitter-description', property: 'twitter:description', content: site_description },
+      // <meta name="twitter:image" content="http://example.com/image.jpg">
+      { hid: 'twitter-image', property: 'twitter:image', content: site_url + site_image },
 
-      ],
-      link: [
-
-        // <!-- Helps prevent duplicate content issues -->
-        // <link rel="canonical" href="http://example.com/">
-        { hid: 'canonical', rel: 'canonical', href: site_url+'/' },
-
-        { rel: 'icon', type: 'image/png', href: site_ico }, // <link rel="icon" sizes="192x192" href="/path/to/icon.png">
-        { rel: 'apple-touch-icon', href: site_ico }, // default resolution is 192x192 <link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png">
-        { rel: 'mask-icon',  href: site_ico, color: site_color}, // <link rel="mask-icon" href="/path/to/icon.svg" color="blue"> <!-- Safari Pinned Tab Icon -->
-        // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Work+Sans:400,600,700' }
-      ],
-    },
-
-    /*
-    ** Customize the progress bar color
-    */
-    loading: { color: site_color },
-
-    /*
-    ** Build configuration
-    */
-
-    plugins: [
-      // '~plugins/filters.js',nuxtjs/google-tag-manager
-      // { src: '~/plugins/plugintest.js', ssr: false }
-      // { src: '~/plugins/hotjar.js', ssr: false }, // need to link this to policy
-      // { src: '~/plugins/mixpanel.js', ssr: false },
-      // { src: '~/plugins/lazyload.js', ssr: false },
-      // { src: '~/plugins/pictureswipe.js', ssr: false },
-      // { src: '~/plugins/paypal.js', ssr: false },
-      { src: '~/plugins/twitter.js', ssr: false },
-      { src: '~/plugins/disqus.js', ssr: false },
-      { src: '~/plugins/twitter.js', ssr: false },
-      { src: '~/plugins/drift.js', ssr: false },
-      { src: '~/plugins/markdownit.js' },
-      { src: '~/plugins/cytosis.js' },
-      { src: '~/plugins/date.js' },
-      { src: '~/plugins/headmatter.js' },
-      { src: '~/plugins/slugify.js' },
-      '~plugins/vue-scrollto.js',
-      // https://github.com/Developmint/nuxt-purgecss
-      // { src: '~/plugins/dynamicData.js' } // done as middleware instead
-
-      // this runs other plugins
-      { src: '~/plugins/policy.js', ssr: false },
     ],
+    link: [
 
-    modules: [
-      // '@nuxtjs/font-awesome',
-      ['@nuxtjs/google-analytics', {
-        id: site_ga,
-        // disabled: true // gdpr, policy.js enables it: https://medium.com/dailyjs/google-analytics-gdpr-and-vuejs-e1bd6affd2b4
-      }],
-      ['@nuxtjs/google-tag-manager', { 
-        id: 'GTM-WCR3X43' 
-      }],
-      '@nuxtjs/pwa',
+      // <!-- Helps prevent duplicate content issues -->
+      // <link rel="canonical" href="http://example.com/">
+      { hid: 'canonical', rel: 'canonical', href: site_url+'/' },
+
+      { rel: 'icon', type: 'image/png', href: site_ico }, // <link rel="icon" sizes="192x192" href="/path/to/icon.png">
+      { rel: 'apple-touch-icon', href: site_ico }, // default resolution is 192x192 <link rel="apple-touch-icon" href="/path/to/apple-touch-icon.png">
+      { rel: 'mask-icon',  href: site_ico, color: site_color}, // <link rel="mask-icon" href="/path/to/icon.svg" color="blue"> <!-- Safari Pinned Tab Icon -->
+      // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Work+Sans:400,600,700' }
     ],
+  },
 
-    manifest: {
-      name: 'Phage Directory',
-      short_name: 'phagedirectory',
-      display: 'standalone',
-      start_url: 'https://phage.directory/',
-      theme_color: site_color,
-      background_color: '#FFFFFF',
-      lang: 'en',
-      // icons: PWAIcons
-    },
+  /*
+  ** Customize the progress bar color
+  */
+  loading: { color: site_color },
 
-    workbox: {
-      globPatterns: ['**/*.{js,css}', '**/img/*'],
-      offlinePage: '/404.html',
-      generate: {
-        fallback: true
-      },
-      // this breaks SPA mode, and is super aggressive, but makes offline mode work really well
-      // runtimeCaching: [
-      //   {
-      //     urlPattern: 'https://api.airtable.com/v0/appSCAap8SWbFRtu0/.*',
-      //     handler: 'cacheFirst',
-      //     method: 'GET',
-      //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
-      //   },
-      //   // {
-      //   //     urlPattern: 'https://fonts.googleapis.com/.*',
-      //   //     handler: 'cacheFirst',
-      //   //     method: 'GET',
-      //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
-      //   // },
-      //   // {
-      //   //     urlPattern: 'https://fonts.gstatic.com/.*',
-      //   //     handler: 'cacheFirst',
-      //   //     method: 'GET',
-      //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
-      //   // },
-      // ]
-    },
+  /*
+  ** Build configuration
+  */
 
-    build: {
-      // helps cache busting
-      filenames: {
-        app: ({ isDev }) => isDev ? '[name].js' : '[chunkhash].js',
-        // chunk: ({ isDev }) => isDev ? '[name].js' : '[chunkhash].js',
-        css: ({ isDev }) => isDev ? '[name].css' : '[contenthash].css'
-      },
+  plugins: [
+    // '~plugins/filters.js',nuxtjs/google-tag-manager
+    // { src: '~/plugins/plugintest.js', ssr: false }
+    // { src: '~/plugins/hotjar.js', ssr: false }, // need to link this to policy
+    // { src: '~/plugins/mixpanel.js', ssr: false },
+    // { src: '~/plugins/lazyload.js', ssr: false },
+    // { src: '~/plugins/pictureswipe.js', ssr: false },
+    // { src: '~/plugins/paypal.js', ssr: false },
+    { src: '~/plugins/disqus.js', ssr: false },
+    // { src: '~/plugins/twitter.js', ssr: false }, // very heavy
+    { src: '~/plugins/drift.js', ssr: false },
+    { src: '~/plugins/markdownit.js' },
+    { src: '~/plugins/cytosis.js' },
+    { src: '~/plugins/date.js' },
+    { src: '~/plugins/headmatter.js' },
+    // { src: '~/plugins/slugify.js' },
+    { src: '~plugins/vue-scrollto.js' },
+    // https://github.com/Developmint/nuxt-purgecss
+    // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
-      // https://willbrowning.me/reducing-the-vendor-bundle-size-in-nuxt-js/
-      // analyze: analyze, use --analyze instead for visualizer
-      minimize: true,
-      // cache: true,
-      extractCSS: true, // moves css out to its own file in gen
-      optimizeCSS: true,
+    // this runs other plugins
+    { src: '~/plugins/policy.js', ssr: false },
+  ],
 
-      // splitChunks: {
-      //   layouts: true
-      // },
+  modules: [
+    // '@nuxtjs/font-awesome',
+    ['@nuxtjs/google-analytics', {
+      id: site_ga,
+      // disabled: true // gdpr, policy.js enables it: https://medium.com/dailyjs/google-analytics-gdpr-and-vuejs-e1bd6affd2b4
+    }],
+    ['@nuxtjs/google-tag-manager', { 
+      id: 'GTM-WCR3X43' 
+    }],
+    ['@nuxtjs/pwa'],
+    'nuxt-purgecss',
+  ],
 
-      babel: {
-        sourceType: "unambiguous",
-        presets: [
-          ['@babel/preset-env', {
-            // debug: true,
-            // useBuiltIns: 'usage',
-            targets: {
-              "browsers": ["> 1%", "ie >= 11", "not ie <= 8"]
-              // "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"]
-            }
-          }]
-        ],
-        plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-syntax-dynamic-import', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
-      },
-      // explicitly transpile these
-      transpile: ['cytosis', 'vuex-cache', 'markdownit', 'markdown-it-attrs'],
-      // transpile: ['cytosis', 'vuex-cache', 'markdownit'],
+  manifest: {
+    name: 'Phage Directory',
+    short_name: 'phagedirectory',
+    display: 'standalone',
+    start_url: 'https://phage.directory/',
+    theme_color: site_color,
+    background_color: '#FFFFFF',
+    lang: 'en',
+    // icons: PWAIcons
+  },
 
-      // extend(config, ctx) {
-      //   // Run ESLint on save
-      //   if (ctx.isDev && ctx.isClient) {
-      //     config.module.rules.push({
-      //       enforce: "pre",
-      //       test: /\.(js|vue)$/,
-      //       loader: "eslint-loader",
-      //       exclude: /(node_modules)/
-      //     })
-      //   }
-      // }
-    },
-
-
-    css: [
-      // coeur style guide
-      // '@/assets/css/settings.scss',
-      // '@/node_modules/coeur/styles/index.scss', // this imports EVERYTHING; is going to be huge; overrides 'settings'
-
-      // main project styles
-      '@/assets/css/main.scss'
-    ],
-
-    router: {
-      // middleware: 'pageload', // middleware added on the template
-      extendRoutes (routes, resolve) {
-        // capsid should resolve anything from phages
-        // to people and orgs; easier w/ a uniform id resolver
-        routes.push(
-          {
-            // Dynamic Template Router
-            // catches all routes and attempts to find a template
-            // throws error if it can't
-            name: 'capsid & tail router',
-            path: '/capsid/:slug*',
-            component: resolve(__dirname, 'pages/routers/r-capsid.vue')
-          },
-          {
-            name: 'capsid & tail email generator',
-            path: '/capsidemail/:slug*',
-            component: resolve(__dirname, 'pages/routers/r-capsid-email.vue')
-          },
-          {
-            // Dynamic Template Router
-            // catches all routes and attempts to find a template
-            // throws error if it can't
-            name: 'template router',
-            path: '/:slug*',
-            component: resolve(__dirname, 'pages/routers/r-node.vue')
-          },
-        )
-      },
-
-    },
+  workbox: {
+    globPatterns: ['**/*.{js,css}', '**/img/*'],
+    offlinePage: '/404.html',
     generate: {
-      interval: 100, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
-      // fallback: true, // true if you want to use '404.html' — for surge, use false if you want to use 200 spa fallback
-      // concurrency: 1, // reduce server strain
-      // routes: async function (callback) {
+      fallback: true
+    },
+    // this breaks SPA mode, and is super aggressive, but makes offline mode work really well
+    // runtimeCaching: [
+    //   {
+    //     urlPattern: 'https://api.airtable.com/v0/appSCAap8SWbFRtu0/.*',
+    //     handler: 'cacheFirst',
+    //     method: 'GET',
+    //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+    //   },
+    //   // {
+    //   //     urlPattern: 'https://fonts.googleapis.com/.*',
+    //   //     handler: 'cacheFirst',
+    //   //     method: 'GET',
+    //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+    //   // },
+    //   // {
+    //   //     urlPattern: 'https://fonts.gstatic.com/.*',
+    //   //     handler: 'cacheFirst',
+    //   //     method: 'GET',
+    //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+    //   // },
+    // ]
+  },
 
-      //   const airKey = airtable_api
-      //   const airBase = airtable_base
+  build: {
+    // helps cache busting
+    // filenames: {
+    //   app: ({ isDev }) => isDev ? '[name].js' : '[chunkhash].js',
+    //   // chunk: ({ isDev }) => isDev ? '[name].js' : '[chunkhash].js',
+    //   css: ({ isDev }) => isDev ? '[name].css' : '[contenthash].css'
+    // },
 
-      //   // generate template routes
-      //   console.log('[generator]: fetch pages/templates cytosis')
-      //   let template_routes = await new Cytosis({
-      //     airKey, 
-      //     airBase, 
-      //     tableQuery: '_pages/templates',
-      //     caller: 'generator',
-      //   })
+    // https://willbrowning.me/reducing-the-vendor-bundle-size-in-nuxt-js/
+    analyze: analyze, // use --analyze instead for visualizer
+    minimize: true,
+    // cache: true,
+    extractCSS: true, // moves css out to its own file in gen
+    optimizeCSS: true,
 
-      //   let routeList = []
+    // splitChunks: {
+    //   layouts: true
+    // },
+
+    babel: {
+      sourceType: "unambiguous",
+      presets: [
+        ['@babel/preset-env', {
+          // debug: true,
+          // useBuiltIns: 'usage',
+          targets: {
+            "browsers": ["> 1%", "ie >= 11", "not ie <= 8"]
+            // "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"]
+          }
+        }]
+      ],
+      plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-syntax-dynamic-import', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
+    },
+    // explicitly transpile these
+    transpile: ['cytosis', 'vuex-cache', 'markdownit', 'markdown-it-attrs'],
+    // transpile: ['cytosis', 'vuex-cache', 'markdownit'],
+
+    // extend(config, ctx) {
+    //   // Run ESLint on save
+    //   if (ctx.isDev && ctx.isClient) {
+    //     config.module.rules.push({
+    //       enforce: "pre",
+    //       test: /\.(js|vue)$/,
+    //       loader: "eslint-loader",
+    //       exclude: /(node_modules)/
+    //     })
+    //   }
+    // }
+  },
+
+
+  css: [
+    // coeur style guide
+    // '@/assets/css/settings.scss',
+    // '@/node_modules/coeur/styles/index.scss', // this imports EVERYTHING; is going to be huge; overrides 'settings'
+
+    // main project styles
+    '@/assets/css/main.scss'
+  ],
+
+  router: {
+    // middleware: 'pageload', // middleware added on the template
+    extendRoutes (routes, resolve) {
+      // capsid should resolve anything from phages
+      // to people and orgs; easier w/ a uniform id resolver
+      routes.push(
+        {
+          // Dynamic Template Router
+          // catches all routes and attempts to find a template
+          // throws error if it can't
+          name: 'capsid & tail router',
+          path: '/capsid/:slug',
+          component: resolve(__dirname, 'pages/routers/r-capsid.vue')
+        },
+        {
+          name: 'capsid & tail tester',
+          path: '/capsidtest/:slug',
+          component: resolve(__dirname, 'pages/routers/r-capsid-test.vue')
+        },
+        {
+          name: 'capsid & tail email generator',
+          path: '/capsidemail/:slug*',
+          component: resolve(__dirname, 'pages/routers/r-capsid-email.vue')
+        },
+        {
+          // Dynamic Template Router
+          // catches all routes and attempts to find a template
+          // throws error if it can't
+          name: 'template router',
+          path: '/:slug*',
+          component: resolve(__dirname, 'pages/routers/r-node.vue')
+        },
+      )
+    },
+
+  },
+  generate: {
+    interval: 500, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
+    // fallback: true, // true if you want to use '404.html' — for surge, use false if you want to use 200 spa fallback
+    // concurrency: 1, // reduce server strain
+    routes: async function (callback) {
+
+      const airKey = airtable_api
+      const airBase = airtable_base
+
+    //   // generate template routes
+      console.log('[generator]: fetch pages/templates cytosis')
+      let _cytosis = await new Cytosis({
+        airKey, 
+        airBase, 
+        tableQuery: 'everything-published',
+        caller: 'Generator',
+      })
+
+      let routeList = []
 
       //   // // build pages/templates
       //   for (let route of template_routes.tables['Content']) {
@@ -373,21 +377,28 @@ module.exports = (async function() {
       //     )
       //   }
 
-      //   // // build Cafe pages
-      //   // for (let jobs of site_routes.tables['Jobs']) {
-      //   //   if(jobs.fields['Slug'])
-      //   //     routeList.push(`/jobs/${jobs.fields['Slug']}`)
-      //   // }
+      // routes for C&T article pages
+      for (let item of _cytosis.tables['Manuscripts']) {
+        if(item.fields['Slug'])
+          // routeList.push(`/capsidtest/${item.fields['Slug']}`)
+          routeList.push(`/capsid/${item.fields['Slug']}`)
+      }
 
-      //   // console.log('[generator] routes: ', routeList)
-      //   callback(null, routeList)
+      // build Jobs detail pages
+      // for (let jobs of site_routes.tables['Jobs']) {
+      //   if(jobs.fields['Slug'])
+      //     routeList.push(`/jobs/${jobs.fields['Slug']}`)
       // }
-    }
 
+      console.log('[generator] routes: ', routeList)
+      callback(null, routeList)
+    }
   }
 
-  return obj
-})()
+}
+
+//   return obj
+// })()
 
 
 

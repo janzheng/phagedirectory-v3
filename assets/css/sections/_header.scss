@@ -1,4 +1,17 @@
 
+$header: (
+  // bg-nav: usetheme(silver-light, $colors_),
+  // bg-nav-secondary: usetheme(silver-lighter, $colors_),
+  bg-nav: usetheme(mono-30),
+  bg-nav-secondary: usetheme(mono-5),
+
+  nav-color-home: usetheme(brand-100),
+  nav-color-active: usetheme(brand-100),
+  nav-color-notactive: usetheme(brand-90),
+  nav-color-border-active: usetheme(brand-60),
+  nav-size: 15px,
+  size-search: 15px,
+);
 
 $header-item-height: $size-4;
 
@@ -14,7 +27,7 @@ $header-item-height: $size-4;
   }
 
   .Header-inset {
-    background-color: usetheme(bg-nav); //$color-silver-light;
+    background-color: usetheme(bg-nav, $header); //$color-silver-light;
     border-radius: 0; //$radius;
 
     ._button {
@@ -24,11 +37,12 @@ $header-item-height: $size-4;
       // max-height: $header-item-height;
       white-space: nowrap;
       font-weight: bold;
-      font-size: usetheme(nav-size);
-      color: usetheme(nav-color);
+      font-size: usetheme(nav-size, $header);
+      color: usetheme(nav-color-home, $header);
 
       &:hover {
-        color: usetheme(brand-active);
+        // color: usetheme(brand-active);
+        color: usetheme(brand-80);
       }
     }
   }
@@ -36,24 +50,41 @@ $header-item-height: $size-4;
     // background-color: usetheme(bg-nav-secondary);
   }
   .Header-links {
-    padding-top: $size-half;
-    padding-bottom: $size-half;
-    background-color: usetheme(bg-nav-secondary);
+    background-color: usetheme(bg-nav-secondary, $header);
     // padding-left: $size;
 
     a {
+      padding-top: $size;
+      padding-bottom: $size;
+      padding-left: 0;
+      padding-right: 0;
+
+      border-radius: 0;
+
       margin: 0;
-      font-size: usetheme(nav-size);
+      margin-left: $size-half;
+      margin-right: $size-half;
+
+      font-size: usetheme(nav-size, $header);
       font-weight: normal;
-      color: usetheme(nav-color);
+      color: usetheme(nav-color-notactive, $header);
       
       &.nuxt-link-exact-active {
         // @extend %links-bg;
         @extend %font-bold;
+        color: usetheme(nav-color-active);
+        border-bottom: solid $border-medium usetheme(nav-color-border-active, $header) !important;
       }
       &:hover {
-        color: usetheme(brand-active) !important;
+        color: usetheme(brand-70) !important;
       }
+    }
+    &.--home {
+      // specifically for the home page 
+      a {
+        color: usetheme(nav-color-home, $header);
+      }
+
     }
   }
 
@@ -68,14 +99,18 @@ $header-item-height: $size-4;
     margin-left: $size;
     background: transparent;
     // border-color: usetheme(brand-100);
-    border-color: usetheme(pink-40);
-    background-color: usetheme(pink-0);
-    color: usetheme(pink-60);
+    // border-color: usetheme(pink-40);
+    // background-color: usetheme(pink-0);
+    // color: usetheme(pink-60);
+    border-color: usetheme(brand-5);
+    background-color: usetheme(brand-5);
+    color: usetheme(brand-80);
+
     // padding:;
     &:hover {
-    border-color: usetheme(brand-active);
-    background-color: usetheme(brand-active); //usetheme(pink-0);
-    color: usetheme(pink-0);
+    border-color: usetheme(brand-80);
+    background-color: usetheme(brand-80); //usetheme(pink-0);
+    color: usetheme(brand-0);
       // background-color: usetheme(brand-60);
       // border-color: usetheme(brand-60);
       // color: usetheme(brand-20);
@@ -92,6 +127,7 @@ $header-item-height: $size-4;
   }
     a.nuxt-link-exact-active {
       @extend %font-bold;
+      color: usetheme(nav-color-active, $header);
     }
     .Header-orgs a.nuxt-link-active {
       // @extend %links-bg;
@@ -113,6 +149,7 @@ $header-item-height: $size-4;
         fill: usetheme(nav-color);
       }
     }
+
   }
   .Header-search { // input
     border: $border-thin solid usetheme(bg-lighter); //;$color-ui-light;
@@ -135,13 +172,16 @@ $header-item-height: $size-4;
 
     @extend %ease;
     &:hover {
-      border-color: usetheme(active); //$color-tertiary;
+      border-color: usetheme(brand-80); //$color-tertiary;
+      background-color: usetheme(brand-5);
     }
     &:focus {
-      border: $border-thin solid usetheme(active); //$color-tertiary;
+      border: $border-thin solid usetheme(brand-80); //$color-tertiary;
+      background-color: usetheme(brand-5);
       // padding: $size-half $size-base;
       @extend %ease;
     }
+
   }
 
   // header link
@@ -153,3 +193,98 @@ $header-item-height: $size-4;
 
 }
 
+
+
+
+
+
+
+/* 
+
+  Mobile Nav
+
+ */
+
+
+.Header-mobile {
+  position: relative;
+  &.--open {
+    position: absolute;
+    top: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+
+    background: usetheme(mono-30);
+  }
+
+  .Header-search-container {
+    height: $size-9;
+    padding: 0;
+
+    ._form-label-icon {
+      left: 0;
+    }
+  }
+  .Header-search { // mobile input
+    // plays nicer with mobile default styles
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: usetheme(size-mobile-input);
+    // @include input-placeholder {
+    //   font-size: usetheme(size-mobile-input);
+    // }
+  }
+}
+.Header {
+  .Header-mobile-item {
+
+    a._button {
+      font-size: usetheme(size-mobile);
+      line-height: usetheme(line-height-mobile);
+    }
+    a.nuxt-link-exact-active {
+      border: 0 !important;
+      color: usetheme(brand-70);
+    }
+  }
+}
+
+
+// mobile menu button
+// https://w3bits.com/animated-menu-icon-css/
+.Header-mobile-cta {
+  cursor: pointer;
+}
+.nav-icon {
+  margin: $size-half;
+  width: $size-3;
+
+  $bar-height: 3px;
+  $margin: 5px;
+
+  &:after, &:before, div {
+    background-color: usetheme(brand-100);
+    border-radius: $border-medium;
+    content: '';
+    display: block;
+    height: $bar-height;
+    margin: $margin 0;
+    transition: all .2s ease-in-out;
+  }
+
+  &.--open, {
+    &:before {
+      transform: translateY($bar-height + $margin) rotate(135deg);
+    }
+    &:after {
+      transform: translateY(-($bar-height + $margin)) rotate(-135deg);
+    }
+    div {
+      transform: scale(0);
+    }
+  }
+}

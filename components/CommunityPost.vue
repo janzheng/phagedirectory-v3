@@ -1,7 +1,7 @@
 
 <template>
 
-  <div :class="atom.fields['Data:Status'][0]" class="CommunityPost _card --shadow _padding " >
+  <div :class="atom.fields['Data:Status'][0]" class="CommunityPost _card _padding " >
 
     <div class="CommunityPost-header ">
 

@@ -27,6 +27,7 @@ twitter.js
 
 # for internal use anyway
 components/coeur/
+components/experiments
 
 
 # from .gitignore
@@ -100,6 +101,7 @@ typings/
 
 # nuxt.js build output
 .nuxt
+.nuxtignore
 
 # Nuxt generate
 dist

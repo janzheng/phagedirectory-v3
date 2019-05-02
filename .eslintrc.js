@@ -30,7 +30,7 @@ module.exports = {
   parserOptions: {
     // parser: 'babel-eslint'
     // parser: 'eslint'
-    "ecmaVersion": 2017,
+    "ecmaVersion": 2018,
   },
   extends: [
     "eslint:recommended",
@@ -46,12 +46,18 @@ module.exports = {
   // add your custom rules here
   rules: {
     "no-unused-vars": "warn",
+    "vue/no-v-html": "off", 
+    "vue/html-closing-bracket-spacing": "off",
+    "vue/html-closing-bracket-newline": "off",
+    "vue/singleline-html-element-content-newline": "off",
+
     "semi": [2, "never"],
     "no-console": "off",
     "vue/max-attributes-per-line": "off",
     "no-empty-pattern": "off", // nuxt plugins require empty objects 
     // "prettier/prettier": ["error", { "semi": false }]
     "vue/require-default-prop": "off",
+    "vue/multiline-html-element-content-newline": "off",
     "vue/html-indent": ["error", 2, {
         "ignores": ['style']
       }],

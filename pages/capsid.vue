@@ -12,10 +12,12 @@
     <div class="_section-page _margin-center">
       <div class="_section-content _margin-center">
         <div class="Capsid-masthead _section-article _margin-center _padding-bottom-3">
-          <router-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
-            <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail" >
-            <div class="Capsid-masthead-title _left _font-serif">A weekly phage periodical</div>
-          </router-link>
+          <nuxt-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
+            <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail">
+            <div class="Capsid-masthead-title _left _font-serif">
+              A weekly phage periodical
+            </div>
+          </nuxt-link>
         </div>
 
         <div class="_margin-center _section-article">
@@ -51,15 +53,15 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/pages/templates/node-form.vue'
-import CommunityPost from '~/components/CommunityPost.vue'
+// import Form from '~/pages/templates/node-form.vue'
+// import CommunityPost from '~/components/CommunityPost.vue'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 
 export default {
 
   components: {
-    Form,
-    CommunityPost,
+    // Form,
+    // CommunityPost,
     CapsidStub,
   },
 
@@ -67,14 +69,6 @@ export default {
   middleware: 'pageload',
   meta: {
     tableQueries: ["_content", "capsid-previews"]
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
   },
 
   data () {
@@ -100,6 +94,14 @@ export default {
 
     issues() {
       return this['Manuscripts']
+    }
+  },
+
+  // runs on generation and page route (but not on first page load)
+  async asyncData({env}) {
+
+    return {
+      postUrl: env.ext_handler,
     }
   },
 

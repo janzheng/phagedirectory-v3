@@ -3,7 +3,8 @@
 
     <div 
       :class="class_sidebar ? '_grid-1-4 _grid-gap-large': '' "
-      class="_center-margin _container _padding" >
+      class="_center-margin _container _padding" 
+    >
 
       <!-- Side bar / Side menu -->
       <div>
@@ -12,29 +13,35 @@
              :style="class_sidenav"
              class="Sidenav _sidebar --sticky --top-1 " 
         >
-          <div class="_sidebar-content --max-height-90 
-            _padding-bottom _padding-top">
-            <!-- <a href="#top"> -->
-            <!-- <h6 v-if="source">{{ source.fields['Node:Name'] }}</h6> -->
-            <!-- </a> -->
+          <div class="_sidebar-content --max-height-90 ">
+            <div v-if="source && source.fields['Node:AbsolutePath']" class="_sidebar-item _sidebar-heading _sidebar-label">
+              <div v-html="$md.strip($md.render(source.fields['Data:String'] || ''))" />
+            </div>
 
-            <div :class="pathMatch(source.fields['Node:AbsolutePath']) ? '--active' : ''" 
+            <!-- isChecked shifts all submenus to root, otherwise partials are submenus -->
+            <!-- this is super useful for sections w/ only one main section -->
+            <div :class="pathMatch(source.fields['Node:AbsolutePath']) && !source.fields['Data:isChecked'] ? '--active' : ''" 
                  class="_sidebar-content-group"
             >
-              <router-link
+              <nuxt-link
                 v-scroll-to="{
                   el: '#top',
                   onDone: (element) => { doneScrolling(element) }
                 }"
                 :to="`${source.fields['Node:AbsolutePath']}#top`" 
-                class="_sidebar-item" >
+                :class="pathMatch(source.fields['Node:AbsolutePath']) ? 'nuxt-link-active nuxt-link-exact-active' : ''"
+                class="_sidebar-item" 
+              >
                 {{ source.fields['Node:Name'] }}
-              </router-link>
-              <div v-if="pathMatch(source.fields['Node:AbsolutePath'])" class="_sidebar-submenu" >
+              </nuxt-link>
+
+              <!-- isChecked shifts all submenus to root, otherwise partials are submenus -->
+              <div v-if="pathMatch(source.fields['Node:AbsolutePath'])" :class="!source.fields['Data:isChecked'] ? '_sidebar-submenu' : ''" > 
                 <div v-for="(item, index) of source.fields['Node:Nav']" 
-                     :key="item" >
-                  <!-- <router-link :to="`${source.fields['Node:AbsolutePath'] + source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" >{{ item }}</router-link> -->
-                  <router-link 
+                     :key="item" 
+                >
+                  <!-- <nuxt-link :to="`${source.fields['Node:AbsolutePath'] + source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" >{{ item }}</nuxt-link> -->
+                  <nuxt-link 
                     v-scroll-to="{
                       el: source.fields['Node:Nav-Links'][index],
                       onDone: (element) => { doneScrolling(element) }
@@ -42,7 +49,7 @@
                     :to="`${source.fields['Node:Nav-Links'][index]}`" class="_sidebar-item _sidebar-subitem" 
                   >
                     {{ item }}
-                  </router-link>
+                  </nuxt-link>
                 </div>
               </div>
 
@@ -51,8 +58,8 @@
             <!-- if node has a source, use the source for nav -->
             <div 
               v-for="(item) of sourceChildren" 
-              :class="pathMatch(item.fields['Node:AbsolutePath']) ? '--active' : ''" 
               :key="item.id"
+              :class="pathMatch(item.fields['Node:AbsolutePath']) ? '--active' : ''" 
               class="_sidebar-content-group"  
             >
               <!-- label -->
@@ -64,13 +71,13 @@
               </div>
 
               <!-- link -->
-              <router-link 
+              <nuxt-link 
                 v-if="item.fields['Type'] == 'Node'"
                 :to="`${item.fields['Node:AbsolutePath']}`"
                 class="_sidebar-item"
               >
                 {{ item.fields['Node:Name'] }}
-              </router-link>
+              </nuxt-link>
 
               <div v-if="pathMatch(item.fields['Node:AbsolutePath'])">
                 <div v-if="pathMatch(item.fields['Node:AbsolutePath'])" class="_sidebar-submenu" >
@@ -78,12 +85,12 @@
                     v-for="(item2, index) of item.fields['Node:Nav']" 
                     :key="item2" 
                   >
-                    <router-link 
+                    <nuxt-link 
                       :to="`${item.fields['Node:AbsolutePath'] + item.fields['Node:Nav-Links'][index]}`"
                       class="_sidebar-item _sidebar-subitem"
                     >
                       {{ item2 }}
-                    </router-link>
+                    </nuxt-link>
                   </div>
                 </div>
               </div>
@@ -175,6 +182,7 @@ export default {
         let source = this.$cytosis.getLinkedRecords(this.node.fields['Node:Source'], this.Content , true )
         return source.reverse()[0]
       }
+      return undefined
     },
 
     source() {
@@ -188,6 +196,7 @@ export default {
         // airtable always returns lists in reverse order
         return children.reverse()
       }
+      return undefined
     },
 
     sourceChildren() {
@@ -196,12 +205,14 @@ export default {
         // airtable always returns lists in reverse order
         return children.reverse()
       }
+      return undefined
     },
 
     class_sidebar() {
       // check linked content if sidebar is warranted
       if(this.source)
         return true
+      return false
     },
 
     class_sidenav() {
@@ -215,6 +226,7 @@ export default {
           position: 'unset !important',
         }
       }
+      return undefined
     }
   },
 

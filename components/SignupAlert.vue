@@ -6,7 +6,7 @@
  -->
 <template>
 
-  <div class="Signup Signup-Alert _card --shadow _margin-none" >
+  <div class="Signup Signup-Alert _card _margin-none" >
     <form 
       class="Signup-form _height-100 _flex-col" 
       action="https://tinyletter.com/phagedirectory" 

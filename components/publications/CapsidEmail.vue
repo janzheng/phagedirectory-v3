@@ -11,10 +11,10 @@
 
     <div class="Capsid-masthead ">
       <div class="  _padding-bottom">
-        <router-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
+        <nuxt-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
           <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail" >
           <div class="Capsid-masthead-title _left _font-serif">A weekly phage periodical</div>
-        </router-link>
+        </nuxt-link>
       </div>
     </div>
 
@@ -25,9 +25,9 @@
           <span class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span>
         </div>
 
-        <router-link :to="`/capsid/${issue.fields['Slug']}`">
+        <nuxt-link :to="`/capsid/${issue.fields['Slug']}`">
           <h1 class="Capsid-title _padding-top-half _padding-bottom" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
-        </router-link>
+        </nuxt-link>
         <div class="_section-article">
           <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
           
@@ -103,8 +103,8 @@
           <div class="_grid-2-xs _padding-bottom">
             <h5 class="_font-bold">Latest Jobs</h5>
             <div class="_right-sm ">
-              <router-link to="/jobs" class=" _margin-right">View all jobs</router-link>
-              <router-link to="/services#jobs" class="">Post a job</router-link>
+              <nuxt-link to="/jobs" class=" _margin-right">View all jobs</nuxt-link>
+              <nuxt-link to="/services#jobs" class="">Post a job</nuxt-link>
             </div>
           </div>
           <div v-if="jobs.length > 0" >
@@ -122,7 +122,7 @@
           <div class="_grid-2-xs _padding-bottom">
             <h5 class="_font-bold">Community Board</h5>
             <div class="_right-sm ">
-              <router-link to="/community" class=" _margin-right">View all posts</router-link>
+              <nuxt-link to="/community" class=" _margin-right">View all posts</nuxt-link>
               <a href="mailto:board@phage.directory?subject=Phage%20Directory%20Community%20Board&body=Hi%20Phage%20Directory,%20I'd%20like%20to%20post%20a%20message%20to%20your%20community%20board%20..." class="">Post a message</a>
             </div>
           </div>

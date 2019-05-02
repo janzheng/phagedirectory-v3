@@ -1,7 +1,7 @@
 
 <template>
 
-  <div class="Event _card --shadow _padding " >
+  <div class="Event _card _padding " >
 
     <div class="Event-header ">
 

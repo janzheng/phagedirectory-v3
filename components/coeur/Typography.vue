@@ -243,7 +243,7 @@ export default {
     return {
     	markdown: 
 `
-## Typography
+## Typography {#typography}
 
 Typography follows the same scale as the Sizing scale, but sizing like h1, h2, p, etc. _may change with context_ and publications like Capsid & Tail might look different than the guidelines below. Also, I'm using 'px' because they stay consistent; the rem calculator could be used to convert to rem in some instances.
 

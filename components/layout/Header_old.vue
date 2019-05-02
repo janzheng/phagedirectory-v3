@@ -6,14 +6,14 @@
     <!-- if using a fixed header, the header-container height maintains the original height -->
     <header ref="nav" :class="headerClass" class="Header _hide _padding-left-3" >
       <div class="_grid-auto-1-xs _grid-gap _align-vertically">
-        <router-link to="/" class="Header-title " >
+        <nuxt-link to="/" class="Header-title " >
           <img class="_v-middle" src="/icon.png" width="32">
           <!-- Coeur -->
-        </router-link>
+        </nuxt-link>
 
         <!-- <div class="_flex-row _flex-vertically _flex-right"> -->
         <div class="_flex-row _flex-vertically">
-          <router-link v-for="(item, i) of navs" :to="'/'+$slugify(navlinks[i], {lower: true})" :key="item" class="Header-nav _margin-right">{{ item }}</router-link>
+          <nuxt-link v-for="(item, i) of navs" :key="item" :to="'/'+$slugify(navlinks[i], {lower: true})" class="Header-nav _margin-right">{{ item }}</nuxt-link>
           <!-- <div class="_right-sm"> -->
           <!-- <input id="search" ref="search" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="search" placeholder="🔍 Search" @input="search"> -->
           <!-- </div> -->

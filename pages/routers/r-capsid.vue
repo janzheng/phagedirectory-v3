@@ -10,8 +10,7 @@
   <div class="Router-Capsid">
 
     <!-- the route should match against a slug and only the first matched slug should be relevant -->
-    <CapsidTemplate :issue="Manuscripts[0]" :atoms="atoms" :route="route" />
-
+    <CapsidTemplate :issue="manuscript" :atoms="atoms" />
 
   </div>
 </template>
@@ -21,7 +20,7 @@
 
 <script>
   
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 
 import CapsidTemplate from '~/pages/templates/node-capsid'
@@ -39,6 +38,24 @@ export default {
     tableQueries: ["_content"]
   },
 
+  data () {
+
+    return {
+    }
+  },
+
+  computed: {
+    // ...mapState([
+    //   'Content',
+    //   'Manuscripts',
+    //   ]),
+
+    // contents() {
+    //   let contents = this.$cytosis.getLinkedRecords(this.node.fields['Node:Contents'], this.Content , true )
+    //   return contents.reverse()
+    // },
+  },
+
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = unescape(route.params.slug)
@@ -50,65 +67,10 @@ export default {
 
     // fetches the relevant atoms into the store
     const atoms = await loadQuery(env, store, '{capsid router}', 'capsid-atoms', manuscript.tables.Manuscripts[0].fields['Name'])
-    console.log('matched atoms: ', atoms, ' @ ', manuscript.tables.Manuscripts[0].fields['Name'])
 
     return {
-      slug,
-      route,
       manuscript: manuscript.tables.Manuscripts[0],
       atoms: atoms.tables.Atoms,
-    }
-  },
-
-  data () {
-
-    return {
-    }
-  },
-  
-  computed: {
-    ...mapState([
-      'Content',
-      'Manuscripts',
-      ]),
-
-    contents() {
-      let contents = this.$cytosis.getLinkedRecords(this.node.fields['Node:Contents'], this.Content , true )
-      return contents.reverse()
-    },
-
-    nodeSource() {
-      if(this.node && this.node.fields['Node:Source']) {
-        let source = this.$cytosis.getLinkedRecords(this.node.fields['Node:Source'], this.Content , true )
-        return source.reverse()[0]
-      }
-    },
-
-    source() {
-      // source is either the node's source, or itself!
-      return this.nodeSource || this.node
-    },
-
-    children() {
-      if(this.node.fields['Node:Children']) {
-        let children = this.$cytosis.getLinkedRecords(this.node.fields['Node:Children'], this.Content , true )
-        // airtable always returns lists in reverse order
-        return children.reverse()
-      }
-    },
-
-    sourceChildren() {
-      if(this.source) {
-        let children = this.$cytosis.getLinkedRecords(this.source.fields['Node:Children'], this.Content , true )
-        // airtable always returns lists in reverse order
-        return children.reverse()
-      }
-    },
-
-    sidebar() {
-      // check linked content if sidebar is warranted
-      if(this.source)
-        return true
     }
   },
 
@@ -121,7 +83,7 @@ export default {
 
   methods: {
     pathMatch(path) {
-      console.log('pathMatch',this.route.path)
+      // console.log('pathMatch',this.route.path)
       if(!this.route.path)
         return false
 

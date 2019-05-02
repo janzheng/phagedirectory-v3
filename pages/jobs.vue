@@ -7,7 +7,7 @@
         <div class="_margin-bottom" v-html="$md.render(content || '')" />
       </div>
       <div>
-        <Job v-for="item of Atoms" :key="item.id" :atom="item" />
+        <Job v-for="item of jobs" :key="item.id" :atom="item" />
       </div>
 
     </div>
@@ -22,13 +22,13 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/pages/templates/node-form.vue'
+// import Form from '~/pages/templates/node-form.vue'
 import Job from '~/components/Job.vue'
 
 export default {
 
   components: {
-    Form,
+    // Form,
     Job,
   },
 
@@ -39,19 +39,10 @@ export default {
     refreshOnLoad: true,
   },
 
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
-  },
-
   data () {
     return {
       intro: this.$cytosis.find('Content.jobs-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       content: this.$cytosis.find('Content.jobs-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
   },
   
@@ -59,8 +50,19 @@ export default {
     ...mapState([
       'Atoms',
       ]),
+    jobs() {
+      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Job')
+    }
   },
 
+  // runs on generation and page route (but not on first page load)
+  async asyncData({env}) {
+
+    return {
+      postUrl: env.ext_handler,
+    }
+  },
+  
   mounted () {
   },
 

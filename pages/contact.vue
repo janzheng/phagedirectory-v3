@@ -34,14 +34,6 @@ export default {
     tableQuery: "_content"
   },
 
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
-  },
-
   data () {
     return {
       intro: this.$cytosis.findOne('contact-intro', this.$store.state['Content'] ).fields['Markdown'],
@@ -58,6 +50,14 @@ export default {
 
   },
 
+  // runs on generation and page route (but not on first page load)
+  async asyncData({env}) {
+
+    return {
+      postUrl: env.ext_handler,
+    }
+  },
+  
   mounted () {
   },
 

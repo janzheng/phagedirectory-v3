@@ -1,7 +1,7 @@
 
 <template>
 
-  <div :class="atom.fields['Data:Status'][0]" class="Job _card --shadow _padding " >
+  <div :class="atom.fields['Data:Status'][0]" class="Job _card _padding " >
 
     <div class="Job-header ">
 
@@ -79,6 +79,7 @@ export default {
       // console.log('attachment', job.fields['Attachment'][0]['url'])
       if(this.atom.fields['Cover'])
         return this.atom.fields['Cover'][0]['url']
+      return undefined
     },
   },
 

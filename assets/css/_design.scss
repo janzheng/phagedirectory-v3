@@ -64,6 +64,19 @@ h3 {
 //   // padding-bottom: 0;
 // }
 
+
+// template / layout 
+.ContentFrame {
+  position: relative;
+
+  // prevent scrolling the page when mobile nav is open
+  &.--open {
+    overflow: hidden;
+    height: 100%;
+    position: fixed;
+  }
+}
+
 blockquote {
   // border-left: $border-medium solid;
   border-color: usetheme(border-color); //$color-tertiary;

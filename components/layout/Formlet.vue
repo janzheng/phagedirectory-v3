@@ -2,15 +2,15 @@
 <template>
 
   <div v-if="inputs" class="Formlet item--fields" >
-    <div v-for="input in inputs" :class="input.required ? '--required' : '' " :key="input.name" class="item--field" >
+    <div v-for="input in inputs" :key="input.name" :class="input.required ? '--required' : '' " class="item--field" >
       <!-- <div>INPUT: {{ input }}</div> -->
       <div v-if="input.type==INPUT_TYPES.TEXT" class="_form-control" >
         <label :for="input.name" class="_form-label" v-html="markdown(input.label)" />
         <label v-if="markdown(input.description)" :for="input.name" class="_form-label _form-desc" v-html="markdown(input.description)" />
-        <input v-model.trim="fieldData[input.name]" 
+        <input :id="input.name"
+               v-model.trim="fieldData[input.name]" 
                :class="inputClasses" 
                :name="input.name"
-               :id="input.name"
                :placeholder="input.placeholder"
                :required="input.required"
                class="_form-input --width-full" type="text"
@@ -21,10 +21,10 @@
       <div v-if="input.type==INPUT_TYPES.EMAIL" class="_form-control" >
         <label :for="input.name" class="_form-label" v-html="markdown(input.label)" />
         <label v-if="markdown(input.description)" :for="input.name" class="_form-label _form-desc" v-html="markdown(input.description)" />
-        <input v-model.trim="fieldData[input.name]"
+        <input :id="input.name"
+               v-model.trim="fieldData[input.name]"
                :class="inputClasses"
                :name="input.name"
-               :id="input.name"
                :placeholder="input.placeholder"
                :required="input.required"
                class="_form-input --width-full" type="email"
@@ -35,10 +35,10 @@
       <div v-if="input.type==INPUT_TYPES.NUMBER" class="_form-control" >
         <label :for="input.name" class="_form-label" v-html="markdown(input.label)" />
         <label v-if="markdown(input.description)" :for="input.name" class="_form-label _form-desc" v-html="markdown(input.description)" />
-        <input v-model.trim="fieldData[input.name]"
+        <input :id="input.name"
+               v-model.trim="fieldData[input.name]"
                :class="inputClasses"
                :name="input.name"
-               :id="input.name"
                :placeholder="input.placeholder"
                :required="input.required"
                class="_form-input --width-full" type="number" 
@@ -49,8 +49,8 @@
       <div v-if="input.type==INPUT_TYPES.TEXTAREA" class="_form-control" >
         <label :for="input.name" class="_form-label" v-html="markdown(input.label)" />
         <label v-if="markdown(input.description)" :for="input.name" class="_form-label _form-desc" v-html="markdown(input.description)" />
-        <textarea v-model.trim="fieldData[input.name]"
-                  :id="input.name"
+        <textarea :id="input.name"
+                  v-model.trim="fieldData[input.name]"
                   :name="input.name"
                   :placeholder="input.placeholder"
                   :required="input.required" 
@@ -65,9 +65,9 @@
         <label v-if="isFieldInvalid(input)" class="_error" >{{ errorMessage(input) }}</label>
         <div v-for="option in input.options" :key="option.value" class="_form-radio --inline" >
           <label :for="option.value" class="_form-radio-label"> 
-            <input v-model.trim="fieldData[input.name]"
+            <input :id="option.value"
+                   v-model.trim="fieldData[input.name]"
                    :value="option.value"
-                   :id="option.value"
                    :name="input.name" 
                    type="radio" >
             <span :for="option.value">{{ option.label }}</span>
@@ -81,8 +81,8 @@
         <label v-if="isFieldInvalid(input)" class="_error" >{{ errorMessage(input) }}</label>
         <div v-for="option in input.options" :key="option.value" class="_form-checkbox --inline" >
           <label :for="option.value">
-            <input v-model.trim="fieldData[input.name+'.'+option.value]"
-                   :id="option.value"
+            <input :id="option.value"
+                   v-model.trim="fieldData[input.name+'.'+option.value]"
                    :name="option.value"
                    type="checkbox" >
             <span :for="option.value">{{ option.label }}</span>

@@ -1,13 +1,13 @@
 
 $sidenav: (
-  sidenav-links: usetheme(gray), // usetheme(gray),
-  sidenav-links-active: usetheme(brand-active),
+  sidenav-links: usetheme(brand-100), // usetheme(gray),
+  sidenav-links-hover: usetheme(brand-active),
+  sidenav-links-active: usetheme(brand-100),
   sidenav-bg: usetheme(silver-light, $colors_),
 
   sidenav-border: transparent, // usetheme(coeur-active),
   sidenav-border-active: usetheme(brand-80),
-  sidenav-color-active: usetheme(brand-100),
-  sidenav-background-active: usetheme(brand-10),
+  sidenav-background-active: usetheme(brand-5),
   // sidenav-background-active: usetheme(mono-5),
 );
 @include addtheme($sidenav)
@@ -36,9 +36,10 @@ $link-active-weight: 600;
     padding-top: $size--4;
     padding-bottom: $size--4;
     font-weight: normal;
+    border-left: $border-medium solid transparent;
 
     &:hover {
-      color: usetheme(sidenav-links-active);
+      color: usetheme(sidenav-links-hover);
     }
 
     &.nuxt-link-active {
@@ -46,14 +47,20 @@ $link-active-weight: 600;
       // font-weight: $link-active-weight; //$font-bold;
     }
 
-    &.nuxt-link-exact-active {
+  }
+    // .nuxt-link-exact-active {
+    .nuxt-link-active {
+      // affects both subsections and active links
       color: usetheme(sidenav-links-active);
       font-weight: $link-active-weight; //$font-bold;
+      background-color: usetheme(sidenav-background-active);
+      border-left-color: usetheme(sidenav-border-active);
     }
-  }
+
+
   ._sidebar-content {
     // @extend ._shadow-light;
-    background: usetheme(sidenav-bg);
+    // background: usetheme(sidenav-bg);
     // padding: $size;
     // position: sticky;
     // top: $size-2x;
@@ -69,7 +76,7 @@ $link-active-weight: 600;
 
   ._sidebar-content-group {
     // background-color: $color-ui;
-    border-left: $border-medium solid usetheme(sidenav-border);
+    // border-left: $border-medium solid usetheme(sidenav-border);
     // padding: 2px $size;
     // margin-bottom: $size/2;
     &:last-child {
@@ -77,14 +84,15 @@ $link-active-weight: 600;
     }
 
     &.--active {
-      color: usetheme(sidenav-color-active);
-      border-left-color: usetheme(sidenav-border-active);
+      // this is the subsection group that's currently active
+      // color: usetheme(sidenav-links-active);
+      // border-left-color: usetheme(sidenav-border-active);
       background-color: usetheme(sidenav-background-active);
     }
   }
 
   ._sidebar-submenu {
-    margin-left: $size;
+    a { padding-left: $size-2x; }
   }
 
   ._sidebar-item {
@@ -96,11 +104,12 @@ $link-active-weight: 600;
   }
   ._sidebar-label {
     padding-left: 0;
-    padding-bottom: $size-quart;
+    padding-bottom: $size-half;
     // all padding controlled by the label itself
   }
   ._sidebar-heading {
-    @extend h6;
+    // @extend h5;
+    font-weight: bold;
     // font-size: 100px !important;
   }
 }
@@ -109,9 +118,9 @@ $link-active-weight: 600;
 
 // for manually created docs, you can combine sidebar and content w/ nuxt-active (used in coeur docs)
 ._sidebar-content-group.nuxt-link-active {
-  color: usetheme(sidenav-color-active) !important;
-  border-left-color: usetheme(sidenav-border-active) !important;
-  background-color: usetheme(sidenav-background-active);
+  // color: usetheme(sidenav-links-active) !important;
+  // border-left-color: usetheme(sidenav-border-active) !important;
+  // background-color: usetheme(sidenav-background-active);
 }
 
 

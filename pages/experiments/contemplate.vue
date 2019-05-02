@@ -10,12 +10,12 @@
     <div class="_section-content">
       <div class="_section-article" v-html="$md.render(content || '')" />
       <div class="_section-article" >
-        <div v-for="content of linkedContent" :key="content.id">
-          <div v-if="content.fields['TemplateType'] == 'Form'">
+        <div v-for="item of linkedContent" :key="item.id">
+          <div v-if="item.fields['TemplateType'] == 'Form'">
             <FormTemplate :src="content" />
           </div>
-          <div v-else-if="content.fields['RenderFields']" v-html="content.fields[content.fields['RenderFields']]" />
-          <div v-else v-html="$md.render(content.fields['Markdown'] || '')" />
+          <div v-else-if="item.fields['RenderFields']" v-html="item.fields[item.fields['RenderFields']]" />
+          <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
         </div>
       </div>
     </div>
@@ -44,14 +44,6 @@ export default {
     tableQueries: ["_content"],
   },
 
-  // runs on generation and page route (but not on first page load)
-  asyncData({route}) {
-    const slug = unescape(route.params.slug)
-    return {
-      slug,
-    }
-  },
-
   data () {
   },
   
@@ -63,6 +55,7 @@ export default {
         return content.fields['Markdown']
       else
         this.$nuxt.error({ statusCode: 404, message: "Dynamic content couldn't be found" })
+      return undefined
     },
     linkedContent() {
       const src = this.$store.state['Content']
@@ -73,6 +66,14 @@ export default {
       // console.log('linked:', linkedArray, linked)
       return linked
     },
+  },
+
+  // runs on generation and page route (but not on first page load)
+  asyncData({route}) {
+    const slug = unescape(route.params.slug)
+    return {
+      slug,
+    }
   },
 
   mounted () {

@@ -1,14 +1,13 @@
 <template>
-  <div class="FooterSignups _margin ">
+  <div class="FooterSignups _margin-top _margin-bottom _margin-left-xs _margin-right-xs ">
 
-    <div class="_section-page _padding-left _padding-right _margin-center">
+    <div class="_width-content-max _margin-center _padding-none-xs">
       <!-- <div> -->
       <div class=" _grid-2 _grid-gap-small ">
 
-
-        <div class="FooterSignups-capsid">
-          <div class="_padding _justify-end _align-bottom">
-            <div class="_grid-auto-1-sm">
+        <div class="FooterSignups-capsid _radius">
+          <div class="_padding _flex-col">
+            <div class="_grid-auto-1-sm _flex-1">
               <img alt="Capsid & Tail" src="https://dl.airtable.com/.attachmentThumbnails/b739c7b74b17c1c96a1d8b0d327aee47/2a5a0691" height="48" width="auto" >
               <div v-html="$md.render('Follow [Capsid & Tail](/capsid), the only periodical that reports the latest news in phage therapy and the phage community.')" />
             </div>
@@ -22,7 +21,7 @@
                   </div>
                   <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a95319e0a6f57b754b11012a8_98ef5d6bca" tabindex="-1" value=""></div>
                   <div class="mc-field-group _flex-row">
-                    <input id="mce-EMAIL" placeholder="Your email" type="email" name="EMAIL" class="required email _form-input _flex-1 _radius" required>
+                    <input id="mce-EMAIL" placeholder="Your email" type="email" name="EMAIL" class="required email _form-input _width-100 _radius" required>
                     <input id="mc-embedded-subscribe" class=" _button" type="submit" value="Get Capsid &amp; Tail" name="subscribe">
                   </div>
                 </div>
@@ -35,9 +34,9 @@
             <div class="" v-html="$md.render(capsid || '')" />
           </div>
         </div> -->
-        <div class="FooterSignups-alerts">
-          <div class="_padding">
-            <div class="" v-html="$md.render('We send [Phage Alerts](/alerts) to the community when doctors require phages to treat their patient’s infections. If you need phages, [please email us](staff@phage.directory).')" />
+        <div class="FooterSignups-alerts _radius">
+          <div class="_padding _flex-col _height-100">
+            <div class="_flex-1" v-html="$md.render('We send [Phage Alerts](/alerts) to the community when doctors require phages to treat their patient’s infections. If you need phages, [please email us](staff@phage.directory).')" />
             <form class="" 
                   action="https://tinyletter.com/phagedirectory" 
                   method="post" target="popupwindow" 
@@ -45,7 +44,7 @@
             >
               <div class="_flex-row">
                 <input id="tlemail" name="email" type="email" 
-                       class="_flex-1 _form-input _radius"
+                       class="_width-100 _form-input _radius"
                        placeholder="Your email" required>
                 <input type="hidden" value="1" name="embed" >
                 <input class="_button --outline _margin-bottom-none " type="submit" value="Receive Alerts" >

@@ -64,8 +64,9 @@ $sizes: (
   lineheight: 24px,
   font-small: 13px,
   size: 16px,
-  nav-size: 14px,
-  size-search: 14px,
+  size-mobile: 19px,
+  size-mobile-input: 24px,
+  line-height-mobile: 26px,
   size-title: 16px,
   lineheight-title: 16px*1.2,
   font-large: 19px,
@@ -274,11 +275,11 @@ $context: (
 
   body: usetheme(blue-dark, $colors),
   body-bg: usetheme(blue-dark),
-  copy: usetheme(blue-dark, $colors),
-  copy-gray: usetheme(gray, $colors),
+  copy: usetheme(brand-100),
+  copy-gray: usetheme(mono-70),
 
-  header-color: usetheme(brand-110), // used for h1-h6
-  title-color: usetheme(brand, $colors), // used for logotype in nav
+  header-color: usetheme(brand-100), // used for h1-h6
+  title-color: usetheme(brand), // used for logotype in nav
   // header-bg-top: rgba(usetheme(gray), 0.02),
   // header-bg-scroll: rgba(usetheme(silver-lighter, $colors_), 0.86),
   // header-search-bg: rgba(usetheme(silver-lighter, $colors_), 0.26),
@@ -302,11 +303,6 @@ $context: (
   bg-silver: usetheme(silver-light, $colors_),
   bg-lighter: usetheme(silver-lighter, $colors_),
 
-  // bg-nav: usetheme(silver-light, $colors_),
-  // bg-nav-secondary: usetheme(silver-lighter, $colors_),
-  bg-nav: usetheme(mono-30),
-  bg-nav-secondary: usetheme(mono-5),
-  nav-color: usetheme(brand-110),
 
   btn-bg: usetheme(brand-active, $colors),
   btn-active: usetheme(brand-dark, $colors),
@@ -415,10 +411,6 @@ $button-color-disabled-text: usetheme(gray-light, $colors_);
 } ._font-mono, ._font-code { @extend %font-mono; }
 
 
-// $font-sans: 'Work Sans', 'Roboto', "-apple-system", "BlinkMacSystemFont", "system-ui", "Segoe UI", "Encode Sans", "Open Sans", "Oxygen-Sans", "Helvetica", "arial", "sans-serif";
-// $font-display: 'Work Sans', 'Roboto', sans-serif;
-// $font-coffee: 'Baruta', 'Work Sans', 'Roboto', sans-serif;
-
 %font-sans, ._font-sans,
 %font-basic, ._font-basic {
   font-family: $font-sans;
@@ -440,7 +432,6 @@ $button-color-disabled-text: usetheme(gray-light, $colors_);
 
 %font-display,
 ._font-display {
-  // font-family: 'Baruta', 'Work Sans', 'Roboto', sans-serif;
   font-family: $font-display;
 }
 

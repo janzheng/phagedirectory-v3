@@ -41,6 +41,11 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword) {
   let data
   data = await loadQuery(env, store, routeName, tableQuery, keyword)
   // console.log('[loadQueryData] data', data)
+
+  // if(routeName == 'jobs') {
+  //   console.log('JOOOOOBS:', store.state.Atoms)
+  // }
+
   return Promise.all([data])
 }
 
@@ -76,7 +81,6 @@ export default async function ({route, env, store}) {
     console.log('refresh — clear out the store', tableQuery, tableQueries)
     // store.cache.delete('loadCytosis')
     store.dispatch('clear', "Atoms")
-
   }
 
   // nuxt expects a promise for async middleware
@@ -87,28 +91,28 @@ export default async function ({route, env, store}) {
   //   return loadServerData(routeName, store, env)
   // }
   // else {
-    if (tableQuery) {
-      // console.log('[pageload] table query', tableQuery)
-      // loads data from airtable based on a partial query
-      return loadQueryData(routeName, store, env, tableQuery, keyword)
-    } else if (tableQueries) {
-      // in this case, we have multiple linked queries in airtable
-      const getData = async function() {
-        // console.log('tableQueries... ', tableQueries)
-        let queryData = tableQueries.map( (query) => {
-          return loadQueryData(routeName, store, env, query, keyword)
-        })
-        return Promise.all(queryData)
-      }
-
-      const data = await getData()
-      // console.log('finally', data.flat(2))
-      return data
-
-    } else {
-      return loadData(routeName, store, env)
+  if (tableQuery) {
+    // console.log('[pageload] table query', tableQuery)
+    // loads data from airtable based on a partial query
+    return loadQueryData(routeName, store, env, tableQuery, keyword)
+  } else if (tableQueries) {
+    // in this case, we have multiple linked queries in airtable
+    const getData = async function() {
+      // console.log('tableQueries... ', tableQueries)
+      let queryData = tableQueries.map( (query) => {
+        return loadQueryData(routeName, store, env, query, keyword)
+      })
+      return Promise.all(queryData)
     }
+
+    const data = await getData()
+    // console.log('finally', data.flat(2))
+    return data
+
+  } else {
+    return loadData(routeName, store, env)
   }
+}
 // }
 
 

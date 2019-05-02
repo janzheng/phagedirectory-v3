@@ -70,39 +70,6 @@ export default {
       return contents.reverse()
     },
 
-    nodeSource() {
-      if(this.node && this.node.fields['Node:Source']) {
-        let source = this.$cytosis.getLinkedRecords(this.node.fields['Node:Source'], this.Content , true )
-        return source.reverse()[0]
-      }
-    },
-
-    source() {
-      // source is either the node's source, or itself!
-      return this.nodeSource || this.node
-    },
-
-    children() {
-      if(this.node.fields['Node:Children']) {
-        let children = this.$cytosis.getLinkedRecords(this.node.fields['Node:Children'], this.Content , true )
-        // airtable always returns lists in reverse order
-        return children.reverse()
-      }
-    },
-
-    sourceChildren() {
-      if(this.source) {
-        let children = this.$cytosis.getLinkedRecords(this.source.fields['Node:Children'], this.Content , true )
-        // airtable always returns lists in reverse order
-        return children.reverse()
-      }
-    },
-
-    sidebar() {
-      // check linked content if sidebar is warranted
-      if(this.source)
-        return true
-    }
   },
 
   beforeCreate () {

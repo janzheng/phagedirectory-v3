@@ -7,7 +7,7 @@
       <!-- We use cookies for site analytics and customer service, but we don’t track your personal data.  -->
       We use cookies to improve our site, and to understand where people are visiting from. We don’t use targeted ads or track personal information.
 
-      Read our <router-link to="/policies">site policies here</router-link>.
+      Read our <nuxt-link to="/policies">site policies here</nuxt-link>.
     </div>
 
     <div class="_right">

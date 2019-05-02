@@ -1,5 +1,7 @@
 
 ._card {
+  box-shadow: usetheme(shadow-1, $shadows_);
+
   // adds slightly more visibility
   border: 1px solid usetheme(card); // $color-silver-lighter;
   color: usetheme(copy);
@@ -40,7 +42,8 @@
   }
 
   &.--shadow {
-    box-shadow: 0px 4px 8px rgba(70, 70, 70, 0.1);
+    //   box-shadow: 0px 4px 8px rgba(70, 70, 70, 0.1);
+    box-shadow: usetheme(shadow-2, $shadows_);
   }
 
 }

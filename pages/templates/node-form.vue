@@ -1,9 +1,8 @@
 <template>
   <div :class="src.fields['Data:Format']" class="Template-Form FormCard">
-
     <Form :payload="payload"
           :target="src.fields['Select']"
-          :sendEmail="true"
+          :send-email="true"
           class=""
           source="Contact page / contact form"
     />
@@ -37,7 +36,7 @@ export default {
       ]),
 
     payload() {
-      console.log('payload src:', this.src)
+      // console.log('payload src:', this.src)
       return {
         intro: this.src.fields['Markdown'],
         JSON: this.src.fields['Data:JSON'],

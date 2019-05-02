@@ -1,11 +1,11 @@
 
 $footer: (
-  capsid-border-color: usetheme(brand-90),
+  capsid-border-color: usetheme(brand-60),
   capsid-bg-color: usetheme(brand-5),
-  capsid-cta-color: usetheme(brand-10),
-  capsid-cta-bg-color: usetheme(brand-90),
+  capsid-cta-color: usetheme(brand-5),
+  capsid-cta-bg-color: usetheme(brand-70),
   capsid-cta-active-color: usetheme(brand-0),
-  capsid-cta-bg-active-color: usetheme(brand-70),
+  capsid-cta-bg-active-color: usetheme(brand-60),
   capsid-input-border-color: usetheme(brand-90),
   capsid-input-bg-color: usetheme(whiter),
   capsid-input-bg-active-color: usetheme(whiter),
@@ -28,7 +28,7 @@ $footer: (
 .FooterSignups-capsid {
   background: usetheme(capsid-bg-color, $footer);
   border-left: solid $border-thick;
-  // border-color: usetheme(capsid-border-color, $footer);
+  border-color: usetheme(capsid-border-color, $footer);
 
   ._form-input {
     background-color: usetheme(capsid-input-bg-color, $footer);

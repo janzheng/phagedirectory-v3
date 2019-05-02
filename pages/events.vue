@@ -29,13 +29,13 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/pages/templates/node-form.vue'
+// import Form from '~/pages/templates/node-form.vue'
 import Event from '~/components/Event.vue'
 
 export default {
 
   components: {
-    Form,
+    // Form,
     Event,
   },
 
@@ -44,14 +44,6 @@ export default {
   meta: {
     tableQueries: ["_content", "atoms-events"],
     refreshOnLoad: true,
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
   },
 
   data () {
@@ -66,20 +58,31 @@ export default {
     ...mapState([
       'Atoms',
       ]),
+    events() {
+      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
+    },
 
     past() {
       // events in the past, w/ newest first
-      return this.Atoms.filter(item => {
+      return this.events.filter(item => {
         const date = item.fields['Data:Date']
         return !this.$dayjs().isBefore(this.$dayjs(String(date)))
       }).reverse()
     },
     upcoming() {
       // events in the future
-      return this.Atoms.filter(item => {
+      return this.events.filter(item => {
         const date = item.fields['Data:Date']
         return this.$dayjs().isBefore(this.$dayjs(String(date)))
       })
+    }
+  },
+
+  // runs on generation and page route (but not on first page load)
+  async asyncData({env}) {
+
+    return {
+      postUrl: env.ext_handler,
     }
   },
 

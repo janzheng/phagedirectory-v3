@@ -21,19 +21,19 @@
           <div class="_padding-bottom-2" v-html="$md.render( content || '')" />
 
           <h6>Workout Series</h6>
-          <router-link to="/intro-workout" class="Home-button-tall _button --widest">
+          <nuxt-link to="/intro-workout" class="Home-button-tall _button --widest">
             <div class="_font-bold">Introductory Workout</div>
             Classic introductory workout series
-          </router-link>
-          <router-link to="/style" class="Home-button-tall _button --widest">
+          </nuxt-link>
+          <nuxt-link to="/style" class="Home-button-tall _button --widest">
             <div class="_font-bold">Style System</div>
             Style guide, design tokens, and screen components 
-          </router-link>
+          </nuxt-link>
           
           <div class="_padding-top-2 _padding-bottom-2">
             <h6>Generators</h6>
-            <router-link to="#" class="Home-button _button --disabled --outline --widest _margin-bottom-none-xs">General Workout Generator [work in progress]</router-link>
-            <router-link to="/resources" class="Home-button _button --outline --widest _margin-bottom-none-xs">Design Resources</router-link>
+            <nuxt-link to="#" class="Home-button _button --disabled --outline --widest _margin-bottom-none-xs">General Workout Generator [work in progress]</nuxt-link>
+            <nuxt-link to="/resources" class="Home-button _button --outline --widest _margin-bottom-none-xs">Design Resources</nuxt-link>
           </div>
         </div> -->
 
@@ -71,13 +71,6 @@ export default {
     tableQueries: ['_content', '_recently', ]
   },
 
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
-  },
-
   data () {
     return {
       content: this.$cytosis.findOne('home-intro', this.$store.state['Content'] ).fields['Markdown'],
@@ -90,6 +83,13 @@ export default {
       'Recently',
       ]),
 
+  },
+
+  async asyncData({env}) {
+
+    return {
+      postUrl: env.ext_handler,
+    }
   },
 
   methods: {

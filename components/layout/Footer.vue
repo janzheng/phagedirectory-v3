@@ -6,10 +6,10 @@
       <div class="Footer-left _grid-2-5">
         <div class="Footer-left _flex-col">
           <div class="_flex-1">
-            <router-link to="/" aria-label="Phage Directory Footer">
+            <nuxt-link class="_margin-bottom _inline-block" to="/" aria-label="Phage Directory Footer">
               <!-- <img class="Footer-logo-sm" src="~/static/ico_rings.png"/> -->
               <img class="Footer-logo _v-middle" src="/phagedirectory_negative.png" alt="Phage Directory footer" >
-            </router-link>
+            </nuxt-link>
             <div class="_padding-top">
               <!-- <a target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a> -->
               <a class="_margin-right-half" target="_blank" href="mailto:hello@phage.directory">
@@ -21,28 +21,28 @@
               </a>
             </div>
           </div>
-          <div class="Footer-textlogo"> 
+          <!-- <div class="Footer-textlogo"> 
             <span class="phagedirectory"><span>Phage</span> Directory, </span>
             <span class="">2017-{{ thisYear }}</span>
-          </div>
+          </div> -->
         </div>
 
         <!-- margin-right is for avoiding the drift box -->
         <div class="Footer-right _padding-top-half">
-          <div class="_grid-3 _grid-gap-none">
+          <div class="_grid-3 _grid-gap-small">
             <div class="Footer-column _padding-bottom-2-xs">
               <div class="Footer-title _font-bold _padding-bottom-half _color-brand-light">Phage Directory</div>
               <div>
-                <router-link to="/phages">Phage Host Database</router-link>
+                <nuxt-link to="/phages">Phage Host Database</nuxt-link>
               </div>
               <div>
-                <router-link to="/labs">Phage Research Labs</router-link>
+                <nuxt-link to="/labs">Phage Research Labs</nuxt-link>
               </div>
               <div>
-                <router-link to="/profiles">Phage Researchers</router-link>
+                <nuxt-link to="/profiles">Phage Researchers</nuxt-link>
               </div>
               <div>
-                <router-link to="/companies">Phage Companies</router-link>
+                <nuxt-link to="/companies">Phage Companies</nuxt-link>
               </div>
 
             </div>
@@ -50,19 +50,19 @@
             <div class="Footer-column _padding-bottom-2-xs">
               <div class="Footer-title _font-bold _padding-bottom-half _color-brand-light">Community</div>
               <div>
-                <router-link to="/capsid">Capsid &amp; Tail</router-link>
+                <nuxt-link to="/capsid">Capsid &amp; Tail</nuxt-link>
               </div>
               <div>
-                <router-link to="/alerts">Phage Alerts</router-link>
+                <nuxt-link to="/alerts">Phage Alerts</nuxt-link>
               </div>
               <div>
-                <router-link to="/community">Community Board</router-link>
+                <nuxt-link to="/community">Community Board</nuxt-link>
               </div>
               <div>
-                <router-link to="/jobs">Phage Jobs</router-link>
+                <nuxt-link to="/jobs">Phage Jobs</nuxt-link>
               </div>
               <div>
-                <router-link to="/classroom">Classroom Initiative</router-link>
+                <nuxt-link to="/classroom">Classroom Initiative</nuxt-link>
               </div>
 
             </div>
@@ -71,19 +71,19 @@
               
 
               <div>
-                <router-link to="/about">About Us</router-link>
+                <nuxt-link to="/about">About Us</nuxt-link>
               </div>
               <div>
-                <router-link to="/contact">Contact Us</router-link>
+                <nuxt-link to="/contact">Contact Us</nuxt-link>
               </div>
               <div>
-                <router-link to="/services">Services, Ads, Jobs</router-link>
+                <nuxt-link to="/services">Services, Ads, Jobs</nuxt-link>
               </div>
               <div>
-                <router-link to="/brand">Brand</router-link>
+                <nuxt-link to="/brand">Brand</nuxt-link>
               </div>
               <div>
-                <router-link to="/policies">Site Policy</router-link>
+                <nuxt-link to="/policies">Site Policy</nuxt-link>
               </div>
               <div>
                 <a target="_blank" href="mailto:hello@phage.directory">Email</a> / <a target="_blank" href="https://twitter.com/phagedirectory">Twitter</a>

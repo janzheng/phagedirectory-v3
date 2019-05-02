@@ -27,6 +27,10 @@
 
   <div class="_padding-2 _color-bg-brand-0">
     <div class="coeur-depth _margin-bottom-2">
+      shadow-1 — 0 1px 1px hsla(0, 0%, 0%, 0.08)
+      <div class="_shadow-1 _square-11 _color-bg-mono-0"></div>
+    </div>
+    <div class="coeur-depth _margin-bottom-2">
       shadow-2 — 0 1px 4px hsla(0, 0%, 0%, 0.18)
       <div class="_shadow-2 _square-11 _color-bg-mono-0"></div>
     </div>
@@ -86,7 +90,7 @@ export default {
     return {
     	markdown: 
 `
-## Depth
+## Depth {#depth}
 
 Don't go overboard — use shadows and insets sparingly, and keep things flat — this will make them really stand out.
 

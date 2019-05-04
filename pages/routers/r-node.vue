@@ -33,9 +33,9 @@
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 
-import TemplateArticle from '~/pages/templates/node-article'
-import TemplateBasic from '~/pages/templates/node-basic'
-import TemplateDocs from '~/pages/templates/node-documentation'
+import TemplateArticle from '~/templates/node-article'
+import TemplateBasic from '~/templates/node-basic'
+import TemplateDocs from '~/templates/node-documentation'
 
 
 export default {

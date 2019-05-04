@@ -53,7 +53,7 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-// import Form from '~/pages/templates/node-form.vue'
+// import Form from '~/templates/node-form.vue'
 // import CommunityPost from '~/components/CommunityPost.vue'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 
@@ -83,18 +83,19 @@ export default {
       'Manuscripts',
       ]),
 
+    issues() {
+      return this['Manuscripts'].filter(t => t.fields['pubState'] == 'Published')
+    },
+
     latest() {
       // NOTE: this always pulls the TOP item from airtable. Make sure it's the right one!
-      return this['Manuscripts'][0]
+      return this.issues[0]
     },
 
     notLatest() {
-      return this['Manuscripts'].slice(1)
+      return this.issues.slice(1)
     },
 
-    issues() {
-      return this['Manuscripts']
-    }
   },
 
   // runs on generation and page route (but not on first page load)

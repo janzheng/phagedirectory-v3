@@ -16,6 +16,29 @@
 @import '/templates/template-1-2';
 
 
+.Template-Manuscript-Capsid {
+  @include screen-xs {
+    // .Template-Context, .Template-Main {
+    //   display: block;
+    // }
+    // ._sidebar {
+    //   position: relative !important;
+    // }
+  }
+  @include screen-sm {
+    grid-template-areas: 'main context';
+  }
+  
+  .Template-Context {
+    grid-area: context
+  }
+  .Template-Main {
+    grid-area: main;
+  }
+
+}
+
+
 
 .Header-title {
   
@@ -78,19 +101,8 @@
 
 /* 
 
-  Already added to Coeur but haven't updated yet
+  To be added to Coeur
 
  */
-
-._justify-end {
-  justify-self: end;
-}
-._justify-start {
-  justify-self: start;
-}
-
-
-
-
 
 

@@ -1,9 +1,9 @@
 <template>
-  <div class="Template-Documentation _margin-top-3 _margin-bottom-2 ">
+  <div class="Template-Documentation _margin-top-2 _margin-bottom-2 _section-page _margin-center ">
 
     <div 
       :class="class_sidebar ? '_grid-1-4 _grid-gap-large': '' "
-      class="_center-margin _container _padding" 
+      class="" 
     >
 
       <!-- Side bar / Side menu -->
@@ -23,13 +23,14 @@
             <div :class="pathMatch(source.fields['Node:AbsolutePath']) && !source.fields['Data:isChecked'] ? '--active' : ''" 
                  class="_sidebar-content-group"
             >
+              <!-- if using submenus, the root item will be highlighted with nuxt-active -->
               <nuxt-link
                 v-scroll-to="{
                   el: '#top',
                   onDone: (element) => { doneScrolling(element) }
                 }"
                 :to="`${source.fields['Node:AbsolutePath']}#top`" 
-                :class="pathMatch(source.fields['Node:AbsolutePath']) ? 'nuxt-link-active nuxt-link-exact-active' : ''"
+                :class="pathMatch(!source.fields['Data:isChecked'] && source.fields['Node:AbsolutePath']) ? 'nuxt-link-active nuxt-link-exact-active' : ''"
                 class="_sidebar-item" 
               >
                 {{ source.fields['Node:Name'] }}
@@ -133,7 +134,7 @@
 <script>
   
 import { mapState } from 'vuex'
-import Form from '~/pages/templates/node-form.vue'
+import Form from '~/templates/node-form.vue'
 // import { loadQuery } from '~/other/loaders'
 
 export default {

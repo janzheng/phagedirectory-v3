@@ -28,7 +28,7 @@
 $use-cssvars: false;
 $use-colorate: true;
 
-$height-input: inherit; // coeur sets a height limit on inputs, but we don't want that here
+$height-input: 48px; //inherit; // coeur sets a height limit on inputs, but we don't want that here
 
 /* 
 
@@ -119,7 +119,8 @@ $colors: (
   purple: #980b7e,
 
   brand: #71EFF5,
-  brand-active: #FA5486, //color(#71EFF5, 142),
+  brand-active: #FA5486,
+  brand-bright: #0085FF,
   // brand-active: color(#71EFF5, 142),
   brand-dark: #374F6A, //color(#71EFF5, 150), —> //this color appears too greenish!?
   brand-light: #b0c3d8,
@@ -146,6 +147,7 @@ $colors-brand: (
   brand-90: #275F89,
   brand-100: #204065,
   brand-110: #172640,
+  brand-250: #0085FF,
 );
 
 // old
@@ -186,6 +188,7 @@ $colors-secondary: ( // dark blue
 
 // https://www.colorbox.io/#steps=8#hue_start=208#hue_end=218#hue_curve=easeInQuad#sat_start=13#sat_end=99#sat_curve=easeInOutCubic#sat_rate=78#lum_start=100#lum_end=38#lum_curve=easeOutQuad#lock_hex=71EFF5#minor_steps_map=0
 $colors-pink: (
+  pink--1: #FFF1F3, // added later as a much lighter pink as bg
   pink-0: #FFE3E8,
   pink-5: #FFD9E2,
   pink-10: #FFCFDC,
@@ -264,7 +267,7 @@ $context: (
   hover: usetheme(pink, $colors),
   links-decoration: usetheme(pink, $colors),
   // highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
-  highlight: usetheme(brand-lighter, $colors),
+  highlight: usetheme(brand-20, $colors),
   
   // highlight-light: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
   // advert: map-get($colorMap, pink-300), //usetheme(phdir, $colors),
@@ -275,7 +278,7 @@ $context: (
 
   body: usetheme(blue-dark, $colors),
   body-bg: usetheme(blue-dark),
-  copy: usetheme(brand-100),
+  copy: usetheme(brand-110),
   copy-gray: usetheme(mono-70),
 
   header-color: usetheme(brand-100), // used for h1-h6
@@ -328,15 +331,6 @@ $context: (
 @include addtheme($context)
 // @include colorate($context_);
 
-
-$capsid_: (
-  capsid-toc-featured: usetheme(silver-lighter), // usetheme(silver-lighter),
-  capsid-toc-new: usetheme(silver-light),
-  capsid-toc-jobs: usetheme(brand-0),
-  capsid-toc-community: usetheme(pink-0),
-);
-
-@include addtheme($capsid_)
 
 
 

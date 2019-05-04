@@ -49,12 +49,15 @@ $link-active-weight: 600;
 
   }
     // .nuxt-link-exact-active {
-    .nuxt-link-active {
+    .nuxt-link-active:not(.--active-disabled), .--scrollspy-active {
       // affects both subsections and active links
       color: usetheme(sidenav-links-active);
       font-weight: $link-active-weight; //$font-bold;
       background-color: usetheme(sidenav-background-active);
       border-left-color: usetheme(sidenav-border-active);
+
+      // not(.--active-disabled) is used to disable the nuxt-active b/c scrollspy's active class takes over;
+      // otherwise anchorlinks will trigger nuxt-link-active and create two active sidebar links
     }
 
 

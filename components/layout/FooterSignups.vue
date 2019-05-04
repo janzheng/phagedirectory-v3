@@ -14,15 +14,15 @@
 
             <div id="mc_embed_signup_footer">
               <form id="mc-embedded-subscribe-form" action="https://directory.us19.list-manage.com/subscribe/post?u=a95319e0a6f57b754b11012a8&amp;id=98ef5d6bca" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank">
-                <div id="mc_embed_signup_scroll">
+                <div id="mc_embed_signup_footer-scroll">
                   <div id="mce-responses" class="clear hhoney">
                     <div id="mce-error-response" style="display:none" class="response" />
                     <div id="mce-success-response" style="display:none" class="response" />
                   </div>
                   <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a95319e0a6f57b754b11012a8_98ef5d6bca" tabindex="-1" value=""></div>
-                  <div class="mc-field-group _flex-row">
-                    <input id="mce-EMAIL" placeholder="Your email" type="email" name="EMAIL" class="required email _form-input _width-100 _radius" required>
-                    <input id="mc-embedded-subscribe" class=" _button" type="submit" value="Get Capsid &amp; Tail" name="subscribe">
+                  <div class="mc-field-group _flex-row-sm">
+                    <input id="footer-mce-EMAIL" placeholder="Your email" type="email" name="EMAIL" class="required email _form-input _width-100 _radius _margin-bottom-half-xs" required>
+                    <input id="mc-embedded-footer-subscribe" class="_button _width-100 --webkit-reset" type="submit" value="Get Capsid &amp; Tail" name="subscribe">
                   </div>
                 </div>
               </form>
@@ -42,12 +42,12 @@
                   method="post" target="popupwindow" 
                   onsubmit="window.open('https://tinyletter.com/phagedirectory', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"
             >
-              <div class="_flex-row">
+              <div class="_flex-row-sm">
                 <input id="tlemail" name="email" type="email" 
-                       class="_width-100 _form-input _radius"
+                       class="_width-100 _form-input _radius _margin-bottom-half-xs"
                        placeholder="Your email" required>
                 <input type="hidden" value="1" name="embed" >
-                <input class="_button --outline _margin-bottom-none " type="submit" value="Receive Alerts" >
+                <input class="_button _width-100 --outline _margin-bottom-none " type="submit" value="Receive Alerts" >
               </div>
             </form>
             <!-- <div class="_padding-2 _section-footer _align-bottom">

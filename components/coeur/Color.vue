@@ -57,6 +57,7 @@
 			<div class="_color-bg-pink-10 _grid-2-xs _padding-half"><span>pink-10</span><span>#E2EDF1</span></div>
 			<div class="_color-bg-pink-5 _grid-2-xs _padding-half"><span>pink-5</span><span>#FFD9E2</span></div>
 			<div class="_color-bg-pink-0 _grid-2-xs _padding-half"><span>pink-0</span><span>#FFE3E8</span></div>
+			<div class="_color-bg-pink--1 _grid-2-xs _padding-half"><span>pink--1</span><span>#FFF1F3</span></div>
 		</div>
 
 		<div class="coeur-color-card _inline-block">

@@ -1,4 +1,6 @@
 process.env.DEBUG = 'nuxt:*'
+// process.env.NUXT_ENV_DEVALUE_LOG_LIMIT = -1
+process.env.NUXT_ENV_DEVALUE_LOG_LEVEL = 'silent' // default is 'warn'
 
 
 /*
@@ -197,8 +199,8 @@ export default {
     // https://github.com/Developmint/nuxt-purgecss
     // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
-    // this runs other plugins
     { src: '~/plugins/policy.js', ssr: false },
+    { src: '~/plugins/scrollspy.js', ssr: false },
   ],
 
   modules: [
@@ -329,11 +331,6 @@ export default {
           component: resolve(__dirname, 'pages/routers/r-capsid.vue')
         },
         {
-          name: 'capsid & tail tester',
-          path: '/capsidtest/:slug',
-          component: resolve(__dirname, 'pages/routers/r-capsid-test.vue')
-        },
-        {
           name: 'capsid & tail email generator',
           path: '/capsidemail/:slug*',
           component: resolve(__dirname, 'pages/routers/r-capsid-email.vue')
@@ -378,11 +375,16 @@ export default {
       //   }
 
       // routes for C&T article pages
-      for (let item of _cytosis.tables['Manuscripts']) {
+      let manuscripts = _cytosis.tables['Manuscripts'].sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
+      const latestManuscripts = manuscripts.slice(0,5)
+      // console.log('latest Manu:', latestManuscripts.length)
+
+      for (let item of latestManuscripts) {
+        // console.log('manu loop', item.fields['Data:Date'], ' - ', item.fields['Slug'])
         if(item.fields['Slug'])
-          // routeList.push(`/capsidtest/${item.fields['Slug']}`)
           routeList.push(`/capsid/${item.fields['Slug']}`)
       }
+      // only process the last few to save time
 
       // build Jobs detail pages
       // for (let jobs of site_routes.tables['Jobs']) {

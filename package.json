@@ -34,7 +34,7 @@
     "@nuxtjs/workbox": "^3.0.0-beta.14",
     "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
-    "coeur": "^0.2.15",
+    "coeur": "^0.2.21",
     "core-js": "2",
     "cross-env": "^5.2.0",
     "cytosis": "^0.0.326",
@@ -53,6 +53,7 @@
     "vue": "^2.6.10",
     "vue-disqus": "^3.0.5",
     "vue-scrollto": "^2.15.0",
+    "vue2-scrollspy": "^2.3.1",
     "vuelidate": "^0.7.4",
     "vuex-cache": "^3.1.0",
     "webpack-bundle-analyzer": "^3.3.2"
@@ -69,7 +70,6 @@
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-vue": "^5.2.2",
-    "lodash": "^4.17.10",
     "nodemon": "^1.18.11",
     "webpack-stats-plugin": "^0.2.1"
   }

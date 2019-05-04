@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <div class="Capsid-item Capsid-job _card _flex-col _height-100 _padding" >
+  <div class="Capsid-item Capsid-job _card _color-bg-white _padding _margin-none" >
     <div v-if="getCover" class="Capsid-logo" >
       <img :src="getCover" alt="Job logo">
     </div>

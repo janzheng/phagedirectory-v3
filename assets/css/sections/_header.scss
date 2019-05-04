@@ -6,9 +6,9 @@ $header: (
   bg-nav-secondary: usetheme(mono-5),
 
   nav-color-home: usetheme(brand-100),
-  nav-color-active: usetheme(brand-100),
+  nav-color-active: usetheme(brand-110),
   nav-color-notactive: usetheme(brand-90),
-  nav-color-border-active: usetheme(brand-60),
+  nav-color-border-active: usetheme(brand-90),
   nav-size: 15px,
   size-search: 15px,
 );
@@ -42,7 +42,7 @@ $header-item-height: $size-4;
 
       &:hover {
         // color: usetheme(brand-active);
-        color: usetheme(brand-80);
+        color: usetheme(brand-bright);
       }
     }
   }
@@ -69,14 +69,15 @@ $header-item-height: $size-4;
       font-weight: normal;
       color: usetheme(nav-color-notactive, $header);
       
-      &.nuxt-link-exact-active {
+      // &.nuxt-link-exact-active {
+      &.nuxt-link-active { // can't use exact b/c it'll unhighlight for anchor links
         // @extend %links-bg;
         @extend %font-bold;
         color: usetheme(nav-color-active);
         border-bottom: solid $border-medium usetheme(nav-color-border-active, $header) !important;
       }
       &:hover {
-        color: usetheme(brand-70) !important;
+        color: usetheme(brand-bright) !important;
       }
     }
     &.--home {

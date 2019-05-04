@@ -1,21 +1,26 @@
 
+
 <!-- 
 
   Template for each Capsid & Tail issue
 
+  DEPRECATED — use CapsidFour directly; this adds to a lot of confusion
+
  -->
 
+
+<!--
 <template>
 
   <div class="Capsid Capsid-Issue Template-Capsid ">
 
     <CapsidFour :issue="issue" :atoms="atoms" />
 
-    <div class="_section-page _margin-center">
+    <div class="_section-content _margin-center">
       <div class="_section-content _margin-center">
 
-        <div class="_section-content _margin-center">
-          <div v-if="!issue || issue === 'undefined'">
+        <div v-if="!issue || issue === 'undefined'" class="_section-content _margin-center _padding">
+          <div >
             <h4>Sorry, no Capsid & Tail issue was found at this URL</h4>
             <div>
               If you think this is a bug, please email us at <a href="mailto:support@phage.directory">support@phage.directory</a>
@@ -23,16 +28,11 @@
           </div>
         </div>
 
-        <div class="Capsid-footer _section-content _margin-center">
+        <div class="Capsid-footer _section-content _margin-center _padding">
           <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup)" />
+
           <div class="_section-article _margin-center" v-html="$md.render(highlight)" />
         </div>
-        
-        <no-ssr>
-          <div id="comment" class="Capsid-disqus">
-            <vue-disqus :identifier="path" shortname="capsid-tail" url="https://phage.directory" />
-          </div>
-        </no-ssr>
 
         <div class="_section-content _margin-center">
           <div class=" _margin-center _font-small" v-html="$md.render(fineprint || '')" />
@@ -49,7 +49,7 @@
 
 // import { mapState } from 'vuex'
 import CapsidFour from '~/components/publications/CapsidFour.vue'
-// import TemplateDocs from '~/pages/templates/node-documentation'
+// import TemplateDocs from '~/templates/node-documentation'
 
 export default {
 
@@ -94,4 +94,4 @@ export default {
 
 }
 </script>
-
+-->

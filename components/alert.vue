@@ -1,11 +1,11 @@
 
 <template>
 
-  <div :class="atom.fields['Data:Status'][0]" class="Alert _card _padding " >
+  <div :class="atom.fields['Data:Status']" class="Alert _card _padding " >
 
     <div class="Alert-status" >
       <div class="_grid-auto-1-xs _align-vertically">
-        <span :class="atom.fields['Data:Status'][0]" class="Alert-status-tag" >{{ atom.fields['Data:Status'][0] }}</span>
+        <span :class="atom.fields['Data:Status']" class="Alert-status-tag" >{{ atom.fields['Data:Status'] }}</span>
         <span class="_right">{{ atom.fields['Data:Date'] | niceDate }}</span>
       </div>
     </div>

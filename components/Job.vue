@@ -1,7 +1,7 @@
 
 <template>
 
-  <div :class="atom.fields['Data:Status'][0]" class="Job _card _padding " >
+  <div :class="atom.fields['Data:Status']" class="Job _card _padding " >
 
     <div class="Job-header ">
 
@@ -70,7 +70,7 @@ export default {
 
   computed: {
     isExpired() {
-      if( this.atom.fields['Data:Status'][0] == 'Expired' ) return true
+      if( this.atom.fields['Data:Status'] == 'Expired' ) return true
       return undefined
     },
 

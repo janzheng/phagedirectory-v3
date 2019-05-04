@@ -1,16 +1,18 @@
 <template>
-  <div class="Alerts Template-1-2 _section-page">
+  <div class="Alerts _section-page _padding-top-3 _padding-bottom-2 _margin-center">
 
-    <div class="_section-content _margin-center" v-html="$md.render(intro || '')" />
-    <div class="_section-content _margin-center _grid-1-3 _grid-gap-large">
-      <div class="Template-sidebar">
-        <div class="_margin-bottom" v-html="$md.render(content || '')" />
-        <div class="Alerts-form FormCard --simple" v-html="$md.render(alertSignup || '')" />
+    <div class="_section-content _margin-center">
+      <div class="_section-article" v-html="$md.render(intro || '')" />
+      <div class="_section-article">
+        <div class="_padding-bottom-3">
+          <div class="_margin-bottom" v-html="$md.render(content || '')" />
+          <div class="Alerts-form FormCard --simple" v-html="$md.render(alertSignup || '')" />
+        </div>
       </div>
-      <div>
+
+      <div class="_section-article ">
         <Alert v-for="item of alerts" :key="item.id" :atom="item" />
       </div>
-
     </div>
 
   </div>
@@ -23,7 +25,7 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-// import Form from '~/pages/templates/node-form.vue'
+// import Form from '~/templates/node-form.vue'
 import Alert from '~/components/Alert.vue'
 
 export default {

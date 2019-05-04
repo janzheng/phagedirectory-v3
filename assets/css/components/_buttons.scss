@@ -13,6 +13,16 @@ button, ._button {
       @extend %ease;
     }
   }
+
+  &.--short {
+    line-height: $size-half;
+  }
+
+  &.--compact {
+    padding-left: $size-half;
+    padding-right: $size-half;
+    font-size: usetheme(font--1);
+  }
 }
 
 button.CTA, ._button.CTA, .CTA { // actionable button; inherits from but overrides _button

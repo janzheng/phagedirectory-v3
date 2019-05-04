@@ -20,7 +20,7 @@
 
 <script>
 
-import _ from 'lodash'
+import _ from '~/other/lodash.custom.min.js'
 
 import { mapState } from 'vuex'
 import VueScrollTo from 'vue-scrollto'
@@ -61,6 +61,7 @@ export default {
     return {
       scrollY: 0,
       route: '',
+      width: 0,
       // searchString: 'testStr'
       // children: route ? route.children : undefined,
     }
@@ -112,6 +113,8 @@ export default {
 
   // link intercept idea from: https://github.com/nuxt/nuxtjs.org/blob/master/components/HtmlParser.vue
   created () {
+    // this.width = window.outerWidth
+
     if(process.browser)
       window.addEventListener('scroll', this.handleScroll)
   },

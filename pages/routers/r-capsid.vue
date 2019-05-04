@@ -10,7 +10,42 @@
   <div class="Router-Capsid">
 
     <!-- the route should match against a slug and only the first matched slug should be relevant -->
-    <CapsidTemplate :issue="manuscript" :atoms="atoms" />
+
+    <Template class="_section-page _margin-center">
+      
+      <div slot="sidebar" >
+        <div class="_sidebar-content-group">
+          <div class="_sidebar-item _sidebar-heading _sidebar-label">
+            {{ manuscript.fields['Name'] }}
+          </div>
+        </div>
+        <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
+             v-scroll-spy-link="{selector: 'a._sidebar-item'}"
+             class="scrollspy" 
+        >
+          <nuxt-link to="#intro" class="_sidebar-item _block --active-disabled">
+            Intro
+          </nuxt-link>
+          <nuxt-link to="#whats-new" class="_sidebar-item _sidebar-content-group _block --active-disabled">
+            What's New
+          </nuxt-link>
+          <nuxt-link to="#jobs" class="_sidebar-item _block --active-disabled">
+            Jobs
+          </nuxt-link>
+          <nuxt-link to="#community" class="_sidebar-item _sidebar-content-group _block --active-disabled">
+            Community
+          </nuxt-link>
+          <nuxt-link to="#article" class="_sidebar-item _block --active-disabled">
+            Article
+          </nuxt-link>
+          <!-- <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
+            Comments
+          </nuxt-link> -->
+        </div>
+      </div>
+
+      <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" />
+    </Template>
 
   </div>
 </template>
@@ -23,13 +58,15 @@
 // import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 
-import CapsidTemplate from '~/pages/templates/node-capsid'
+import Template from '~/templates/manuscript-capsid.vue'
+import Capsid from '~/components/publications/CapsidFour.vue'
 
 
 export default {
 
   components: {
-    CapsidTemplate,
+    Capsid,
+    Template,
   },
 
   layout: 'contentframe',

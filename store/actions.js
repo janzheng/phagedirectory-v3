@@ -1,7 +1,8 @@
 
 import Cytosis from 'cytosis'
 // import Cytosis from '~/other/cytosis'
-import _ from 'lodash'
+// import _ from 'lodash'
+import _ from '~/other/lodash.custom.min.js'
 
 
 export default {

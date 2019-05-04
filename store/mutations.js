@@ -1,5 +1,6 @@
 
-import _ from 'lodash'
+// import _ from 'lodash'
+import _ from '~/other/lodash.custom.min.js'
 
 export default { 
 

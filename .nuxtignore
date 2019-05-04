@@ -4,5 +4,5 @@
 components/experiments/*
 pages/experiments/*
 # /components/coeur
-pages/templates/*
+templates/*
 pages/routers/*

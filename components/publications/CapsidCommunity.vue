@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <div class="Capsid-item Capsid-new _card _flex-col _height-100 _padding _margin-none" >
+  <div class="Capsid-item Capsid-new _card _color-bg-white _padding _margin-none" >
     <div v-if="atom.fields['Data:Date']" class="Capsid-item-header" >
       <div class="_md-p_fix _font-small _margin-bottom-half" >{{ atom.fields['Data:Date'] | niceDate }}</div>
     </div>

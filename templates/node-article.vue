@@ -1,22 +1,28 @@
 <template>
-  <div class="Template-Basic _padding-top-3 _padding-bottom-2 _section-page ">
+  <div class="Template-Article _padding-top-3 _padding-bottom-2 _section-page ">
 
-    <slot name="intro" />
+    <div class="_margin-bottom _section-content _margin-center">
+      <div class="_section-article _margin-center">
 
-    <!-- Native Contents -->
-    <div class="" v-html="$md.render(node.fields['Markdown'] || '')" />
+        <slot name="intro" />
 
-    <slot />
+        <!-- Native Contents -->
+        <div class="" v-html="$md.render(node.fields['Markdown'] || '')" />
 
-    <!-- Linked Contents  -->
-    <div v-for="item of contents" :key="item.id">
-      <div v-if="item.fields['Render:Template'] == 'Form'" >
-        <Form :src="item"/>
+        <slot />
+
+        <!-- Linked Contents  -->
+        <div v-for="item of contents" :key="item.id">
+          <div v-if="item.fields['Render:Template'] == 'Form'" >
+            <Form :src="item"/>
+          </div>
+          <div v-else class="" v-html="$md.render(item.fields['Markdown'] || '')" />
+        </div>
+
+        <slot name="footer" />
+
       </div>
-      <div v-else class="" v-html="$md.render(item.fields['Markdown'] || '')" />
     </div>
-
-    <slot name="footer" />
 
   </div>
 </template>
@@ -25,10 +31,9 @@
 
 
 <script>
-
-import Form from '~/pages/templates/node-form.vue'
+  
+import Form from '~/templates/node-form.vue'
 import { mapState } from 'vuex'
-// import { loadQuery } from '~/other/loaders'
 
 export default {
 
@@ -69,7 +74,6 @@ export default {
       let contents = this.$cytosis.getLinkedRecords(this.node.fields['Node:Contents'], this.Content , true )
       return contents.reverse()
     },
-
   },
 
   beforeCreate () {

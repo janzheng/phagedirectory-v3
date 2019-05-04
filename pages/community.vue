@@ -24,7 +24,7 @@
 
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
-import Form from '~/pages/templates/node-form.vue'
+import Form from '~/templates/node-form.vue'
 import CommunityPost from '~/components/CommunityPost.vue'
 
 export default {

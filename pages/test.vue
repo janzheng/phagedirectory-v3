@@ -1,15 +1,13 @@
 <template>
-  <div class="Alerts">
-    <Template>
-      <template>
-        <div class="" v-html="$md.render(intro || '')" />
-        <div class="_margin-bottom" v-html="$md.render(content || '')" />
-        <div class="Alerts-form FormCard --simple" v-html="$md.render(alertSignup || '')" />
-        <Alert v-for="item of alerts" :key="item.id" :atom="item" />
-      </template>
-    </Template>
+  
+  <Article>
+    This is an article!
 
-  </div>
+    <template #header>
+      <h1>This is the header ;)</h1>
+    </template>
+
+  </Article>
 </template>
 
 
@@ -20,15 +18,13 @@
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
 // import Form from '~/templates/node-form.vue'
-import Alert from '~/components/alert.vue'
-import Template from '~/templates/article.vue'
+import Article from '~/templates/article.vue'
 
 export default {
 
   components: {
     // Form,
-    Alert,
-    Template,
+    Article,
   },
 
   layout: 'contentframe',

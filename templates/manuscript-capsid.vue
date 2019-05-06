@@ -3,8 +3,8 @@
 
 
     <!-- Side bar / Side menu -->
-    <div class="Template-Context">
-      <nav class="Sidenav _sidebar --sticky --top-1 ">
+    <div class="Template--Context">
+      <nav class="Sidebar --sticky --top-1 ">
         <div class="--max-height-90">
           <slot name="sidebar" />
         </div>
@@ -12,7 +12,7 @@
     </div>
 
 
-    <div class="Template-Main">
+    <div class="Template--Main">
 
       <slot name="intro" />
 

@@ -11,32 +11,9 @@
 // modular
 @import 'components';
 @import 'sections';
+@import 'templates';
 
 
-@import '/templates/template-1-2';
-
-
-.Template-Manuscript-Capsid {
-  @include screen-xs {
-    // .Template-Context, .Template-Main {
-    //   display: block;
-    // }
-    // ._sidebar {
-    //   position: relative !important;
-    // }
-  }
-  @include screen-sm {
-    grid-template-areas: 'main context';
-  }
-  
-  .Template-Context {
-    grid-area: context
-  }
-  .Template-Main {
-    grid-area: main;
-  }
-
-}
 
 
 

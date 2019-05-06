@@ -1,0 +1,36 @@
+
+
+@import '/templates/template-1-2';
+
+
+.Template-Manuscript-Capsid {
+  @include screen-xs {
+  }
+  @include screen-sm {
+    grid-template-areas: 'main context';
+  }
+  
+  .Template--Context {
+    grid-area: context
+  }
+  .Template--Main {
+    grid-area: main;
+  }
+
+}
+
+.Template-Context {
+  .Template--Grid {
+    @include screen-sm {
+      grid-template-areas: 'main context';
+    }
+  }
+
+  .Template--Sidebar {
+    grid-area: context
+  }
+  .Template--Main {
+    grid-area: main;
+  }
+
+}

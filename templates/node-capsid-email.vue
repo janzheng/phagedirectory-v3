@@ -7,7 +7,7 @@
 
 <template>
 
-  <div class="Capsid Capsid-Email Template-Capsid ">
+  <div class="Capsid Capsid-Email ">
 
     <CapsidEmail :issue="issue" :atoms="atoms" />
 

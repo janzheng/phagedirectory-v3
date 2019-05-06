@@ -28,7 +28,18 @@
         </div>
 
         <!-- margin-right is for avoiding the drift box -->
-        <div class="Footer-right _padding-top-half">
+        <div class="Footer-right ">
+          <div class="Footer-top _padding-bottom">
+            <!-- <a href="#top"></a> -->
+            <nuxt-link
+              v-scroll-to="{
+                el: '#top',
+                onDone: (element) => { doneScrolling(element) }
+              }"
+              :to="`#top`" >
+              Go back up
+            </nuxt-link>
+          </div>
           <div class="_grid-3 _grid-gap-small">
             <div class="Footer-column _padding-bottom-2-xs">
               <div class="Footer-title _font-bold _padding-bottom-half _color-brand-light">Phage Directory</div>
@@ -123,6 +134,15 @@ export default {
       return date.getFullYear()
     }
   },
+
+  methods: {
+    doneScrolling(el) {
+      console.log('done scrolling', el.id)
+      this.$router.push({
+        path: this.route.path + '#' + el.id
+      })
+    }
+  }
 
 
 }

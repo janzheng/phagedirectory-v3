@@ -1,15 +1,9 @@
 <template>
-  <div class="Template-Article _padding-top-3 _padding-bottom-2 _section-page ">
+  <div class="Node-Article">
 
-    <div class="_margin-bottom _section-content _margin-center">
-      <div class="_section-article _margin-center">
-
-        <slot name="intro" />
-
-        <!-- Native Contents -->
+    <Article>
+      <template>
         <div class="" v-html="$md.render(node.fields['Markdown'] || '')" />
-
-        <slot />
 
         <!-- Linked Contents  -->
         <div v-for="item of contents" :key="item.id">
@@ -18,11 +12,9 @@
           </div>
           <div v-else class="" v-html="$md.render(item.fields['Markdown'] || '')" />
         </div>
-
-        <slot name="footer" />
-
-      </div>
-    </div>
+        
+      </template>
+    </Article>
 
   </div>
 </template>
@@ -32,6 +24,7 @@
 
 <script>
   
+import Article from '~/templates/article.vue'
 import Form from '~/templates/node-form.vue'
 import { mapState } from 'vuex'
 
@@ -39,6 +32,7 @@ export default {
 
   components: {
     Form,
+    Article,
   },
 
   props: {

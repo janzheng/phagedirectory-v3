@@ -1,16 +1,18 @@
 <template>
-  <div class="Jobs Template-1-2 _section-page">
+  <div class="Jobs">
+    <Template>
 
-    <div class="_section-content _margin-center" v-html="$md.render(intro || '')" />
-    <div class="_section-content _margin-center _grid-1-3 _grid-gap-large">
-      <div class="Template-sidebar">
+      <template #header>
+        <div class="" v-html="$md.render(intro || '')" />
+      </template>
+
+      <template #context>
         <div class="_margin-bottom" v-html="$md.render(content || '')" />
-      </div>
-      <div>
-        <Job v-for="item of jobs" :key="item.id" :atom="item" />
-      </div>
+      </template>
 
-    </div>
+      <Job v-for="item of jobs" :key="item.id" :atom="item" />
+
+    </Template>
 
   </div>
 </template>
@@ -24,12 +26,14 @@ import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
 // import Form from '~/templates/node-form.vue'
 import Job from '~/components/Job.vue'
+import Template from '~/templates/context.vue'
 
 export default {
 
   components: {
     // Form,
     Job,
+    Template,
   },
 
   layout: 'contentframe',

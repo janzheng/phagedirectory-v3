@@ -2,9 +2,9 @@
   <div class="Coeur">
 
     <!-- <Template class="_section-page _margin-center"> -->
-    <Template>
+    <Documentation>
       
-      <div slot="sidebar">
+      <template #sidebar>
         <div class="_sidebar-content-group">
           <div class="_sidebar-item _sidebar-heading _sidebar-label">
             Main
@@ -28,18 +28,19 @@
         <nuxt-link v-scroll-to="'#layout'" to="/coeur#layout" class="_sidebar-item _sidebar-content-group _block">
           Layout
         </nuxt-link>
-      </div>
+      </template>
 
-      <h1>Mini Design System</h1>
+      <template>
+        <h1 class="--title">Mini Design System</h1>
+        <Basics />
+        <Sizing />
+        <Color />
+        <Typography />
+        <Depth />
+        <Layout />
+      </template>
 
-      <Basics />
-      <Sizing />
-      <Color />
-      <Typography />
-      <Depth />
-      <Layout />
-
-    </Template>
+    </Documentation>
 
   </div>
 </template>
@@ -50,7 +51,7 @@
 <script>
 
 // import { mapState } from 'vuex'
-import Template from '~/templates/base-documentation.vue'
+import Documentation from '~/templates/documentation.vue'
 import Basics from '~/components/coeur/Basics.vue'
 import Sizing from '~/components/coeur/Sizing.vue'
 import Color from '~/components/coeur/Color.vue'
@@ -61,7 +62,7 @@ import Layout from '~/components/coeur/Layout.vue'
 export default {
 
   components: {
-    Template,
+    Documentation,
     Basics,
     Sizing,
     Color,

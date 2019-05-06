@@ -7,10 +7,10 @@
  -->
 <template>
 
-  <div class="Capsid Capsid-Issue Template-Capsid ">
-    <div class="_section-content _margin-center _card _margin-top-none-i" v-if="issue">
+  <div class="Capsid Capsid-Issue ">
+    <div v-if="issue" class="_section-content _margin-center _card _margin-top-none-i" >
 
-      <div class="scrollspy" v-scroll-spy>
+      <div v-scroll-spy class="scrollspy" >
         
         <div id="intro" class="Capsid-intro" >
           <div class="Capsid-masthead _section-page _margin-center _padding _padding-bottom-none-i " >

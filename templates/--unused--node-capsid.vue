@@ -12,7 +12,7 @@
 <!--
 <template>
 
-  <div class="Capsid Capsid-Issue Template-Capsid ">
+  <div class="Capsid Capsid-Issue ">
 
     <CapsidFour :issue="issue" :atoms="atoms" />
 

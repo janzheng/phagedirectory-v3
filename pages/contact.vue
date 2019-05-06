@@ -1,15 +1,14 @@
 <template>
-  <div class="Contact _section-page _section-page--min _margin-center _margin-bottom-2 _margin-top-2">
+  <div class="Contact">
 
-    <div class=" _margin-center">
-      <div class=" _section-article" v-html="$md.render(intro || '')" />
-      <div class="_grid-2-1 _grid-gap-large">
-        <div class=" _section-article" v-html="$md.render(content || '')" />
-        <div class="_section-article">
-          <Form :src="form"/>
-        </div>
-      </div>
-    </div>
+    <Context>
+      <template #context>
+        <Form :src="form"/>
+      </template>
+
+      <div class="" v-html="$md.render(intro || '')" />
+      <div class="" v-html="$md.render(content || '')" />
+    </Context>
 
   </div>
 </template>
@@ -19,13 +18,14 @@
 
 <script>
 
-// import FormContact from '~/forms/FormContact.vue'
+import Context from '~/templates/context.vue'
 import Form from '~/templates/node-form.vue'
 
 export default {
 
   components: {
     Form,
+    Context,
   },
 
   layout: 'contentframe',

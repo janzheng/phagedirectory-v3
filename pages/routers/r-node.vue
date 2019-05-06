@@ -14,13 +14,19 @@
       <div class="_card _padding">Source: {{ source }}</div>
     </div> -->
 
-    <!-- template selection -->
+    <!-- consider using dynamic loading only after too many templates (> 7) -->
+
+    <!-- For landing pages and basic articles -->
     <TemplateArticle v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
 
-    <TemplateBasic v-if="node.fields['Render:Template'] == 'Basic'" :node="node" :route="route" />
+
+    <!-- For lists like alerts, jobs, etc. -->
+    <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
+
+    <!-- <TemplateBasic v-if="node.fields['Render:Template'] == 'Basic'" :node="node" :route="route" /> -->
 
     <!-- <TemplateDocs :node="node" :route="route" /> -->
-    <TemplateDocs v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
+    <TemplateDocumentation v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
 
   </div>
 </template>
@@ -34,16 +40,16 @@ import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 
 import TemplateArticle from '~/templates/node-article'
-import TemplateBasic from '~/templates/node-basic'
-import TemplateDocs from '~/templates/node-documentation'
+// import TemplateBasic from '~/templates/node-basic'
+import TemplateDocumentation from '~/templates/node-documentation'
 
 
 export default {
 
   components: {
     TemplateArticle,
-    TemplateBasic,
-    TemplateDocs,
+    // TemplateBasic,
+    TemplateDocumentation,
   },
 
   layout: 'contentframe',

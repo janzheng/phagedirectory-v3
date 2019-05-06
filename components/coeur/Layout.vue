@@ -25,36 +25,51 @@ Using standardized template structures can help streamline developing lots of di
 
 Layouts and templates are defined under /components/templates, but the layouts are mostly determined by CSS — this allows pages to loosely mimic a template layout (easier if they're defined in markdown)
 
+
+
+
 ### Template Sections
 
-Note the use of double dash "-&#8202;-" to define sections
+Note the use of double dash \`"--"\` to define sections
 
-##### Header (.Template-&#8202;-Header)
+##### Header 
+
+\`.Template--Header\`
 
 Use for introductory content (article heading, author, etc.)
 
 
-##### Body (.Template-&#8202;-Main)
+##### Main 
+
+\`.Template--Main\`
 
 Use for the main body content / the meat of the content
 
 
-##### Context (.Template-&#8202;-Context)
+##### Context 
+
+\`.Template--Context\`
 
 Use for contextual stuff that describes the content (relevant downloads, links, filters, etc.)
 
-##### Nav (.Template-&#8202;-Nav)
+##### Sidebar 
+
+\`.Template--Sidebar\`
 
 Use for side nav / side menu type stuff
 
 
 
-### Template Types
+### Templates
 
 ##### Template-Documentation
 
 For showing documentation and long form explanatory content, but NOT as part of a publication. Includes this style guide, services, policies, guidelines, and such.
 
+
+##### Template-Manuscript-Capsid
+
+Tempalte for manuscripts; this one specifically for Capsid & Tail
 
 
 `

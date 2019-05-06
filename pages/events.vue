@@ -1,12 +1,9 @@
 <template>
-  <div class="Jobs _section-page">
-
-    <div class="_section-content _margin-center" v-html="$md.render(intro || '')" />
-    <div class="_section-content _margin-center">
-      <!-- <div class="Template-sidebar">
-        <div class="_margin-bottom" v-html="$md.render(content || '')" />
-      </div> -->
-      <div>
+  <div class="Events">
+    <Template>
+      <template>
+        <div class="" v-html="$md.render(intro || '')" />
+        
         <div>
           <h6>Upcoming Events</h6>
           <Event v-for="item of upcoming" :key="item.id" :atom="item" />
@@ -16,8 +13,9 @@
           <h6>Past Events</h6>
           <Event v-for="item of past" :key="item.id" :atom="item" />
         </div>
-      </div>
-    </div>
+
+      </template>
+    </Template>
 
   </div>
 </template>
@@ -31,12 +29,14 @@ import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
 // import Form from '~/templates/node-form.vue'
 import Event from '~/components/Event.vue'
+import Template from '~/templates/article.vue'
 
 export default {
 
   components: {
     // Form,
     Event,
+    Template,
   },
 
   layout: 'contentframe',

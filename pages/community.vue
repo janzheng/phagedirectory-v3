@@ -1,18 +1,19 @@
 <template>
-  <div class="Community Template-1-2 _section-page">
+  <div class="Community">
+    <Context>
 
-    <div class="_section-content _margin-center" v-html="$md.render(intro || '')" />
-    <div class="_section-content _margin-center _grid-1-2 _grid-gap-large">
-      <div class="Template-sidebar">
+      <template #header>
+        <div class="" v-html="$md.render(intro || '')" />
+      </template>
+
+      <CommunityPost v-for="item of community" :key="item.id" :atom="item" />
+
+      <template #context>
         <div class="_margin-bottom" v-html="$md.render(content || '')" />
         <!-- <div class="Alerts-form FormCard --simple" v-html="$md.render(form || '')" /> -->
         <Form :src="form"/>
-      </div>
-      <div class="Template-main">
-        <CommunityPost v-for="item of community" :key="item.id" :atom="item" />
-      </div>
-
-    </div>
+      </template>
+    </Context>
 
   </div>
 </template>
@@ -25,6 +26,7 @@
 import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
 import Form from '~/templates/node-form.vue'
+import Context from '~/templates/context.vue'
 import CommunityPost from '~/components/CommunityPost.vue'
 
 export default {
@@ -32,6 +34,7 @@ export default {
   components: {
     Form,
     CommunityPost,
+    Context,
   },
 
   layout: 'contentframe',

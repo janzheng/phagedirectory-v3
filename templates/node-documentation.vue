@@ -1,13 +1,12 @@
+
+<!-- 
+  uses templates/documentation as base template 
+-->
+
 <template>
-  <div class="Template-Documentation _margin-top-2 _margin-bottom-2 _section-page _margin-center ">
-
-    <div 
-      :class="class_sidebar ? '_grid-1-4 _grid-gap-large': '' "
-      class="" 
-    >
-
-      <!-- Side bar / Side menu -->
-      <div>
+  <div class="Node-Documentation">
+    <Documentation>
+      <template #sidebar>
         <nav v-if="class_sidebar" 
              ref="sidebar"
              :style="class_sidenav"
@@ -99,31 +98,30 @@
             </div>
           </div>
         </nav>
-      </div>
+      </template>
 
+      <template>
+        <div class="_section-article _margin-bottom ">
+          <slot name="intro" />
 
-      <div class="_section-article _margin-bottom ">
+          <!-- Native Contents -->
+          <div v-html="$md.render(node.fields['Markdown'] || '')" />
 
-        <slot name="intro" />
+          <slot />
 
-        <!-- Native Contents -->
-        <div v-html="$md.render(node.fields['Markdown'] || '')" />
-
-        <slot />
-
-        <!-- Linked Contents  -->
-        <div v-for="item of contents" :key="item.id">
-          <div v-if="item.fields['Render:Template'] == 'Form'" >
-            <Form :src="item"/>
+          <!-- Linked Contents  -->
+          <div v-for="item of contents" :key="item.id">
+            <div v-if="item.fields['Render:Template'] == 'Form'" >
+              <Form :src="item"/>
+            </div>
+            <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
           </div>
-          <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
+
+          <slot name="footer" />
+
         </div>
-
-        <slot name="footer" />
-
-      </div>
-    </div>
-
+      </template>
+    </Documentation>
 
   </div>
 </template>
@@ -135,12 +133,14 @@
   
 import { mapState } from 'vuex'
 import Form from '~/templates/node-form.vue'
+import Documentation from '~/templates/documentation.vue'
 // import { loadQuery } from '~/other/loaders'
 
 export default {
 
   components: {
-    Form
+    Form,
+    Documentation,
   },
 
   props: {

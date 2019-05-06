@@ -12,19 +12,18 @@
 <template>
   <div class="_padding-2">
     <h3>Testing Render props </h3>
-    <products-list :products="products"></products-list>
-    <products-list :products="products" :product-renderer="imageRenderer"></products-list>
-
+    <ProductsList :products="products"></ProductsList>
+    <ProductsList :products="products" :product-renderer="imageRenderer"></ProductsList>
 
     <h3>Testing Renderless components </h3>
-    <tags-input v-model="tags">
+    <TagsInput v-model="tags">
       <div slot="tester" slot-scope="{ childData, sayHello, events,  }" >
         <!-- these run whatever the child has -->
         {{ childData }}
         {{ sayHello() }}
         <div v-on="events">Click here, check console</div>
       </div>
-    </tags-input>
+    </TagsInput>
 
 
     <h3>Renderless </h3>
@@ -85,6 +84,9 @@ export default {
   },
   layout: 'contentframe',
   middleware: 'pageload',
+  meta: {
+    tableQueries: ["_content"],
+  },
 
   data: function () {
     return {

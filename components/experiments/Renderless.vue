@@ -39,7 +39,7 @@ export default {
 
   render() {
     return this.$scopedSlots.default({
-      // exampleProp: 'universe',
+      exampleProp: 'universe',
       tags: this.value,
       removeTag: this.removeTag,
       inputAttrs: {

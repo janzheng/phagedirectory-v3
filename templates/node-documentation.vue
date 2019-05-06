@@ -7,9 +7,9 @@
   <div class="Node-Documentation">
     <Documentation>
       <template #sidebar>
-        <nav v-if="class_sidebar" 
+        <nav v-if="showSidebar" 
              ref="sidebar"
-             :style="class_sidenav"
+             :style="sidenavAttrs"
              class="Sidenav _sidebar --sticky --top-1 " 
         >
           <div class="_sidebar-content --max-height-90 ">
@@ -100,27 +100,19 @@
         </nav>
       </template>
 
-      <template>
-        <div class="_section-article _margin-bottom ">
-          <slot name="intro" />
+      <!-- <template> -->
+      <!-- <div class="_section-article _margin-bottom "> -->
 
-          <!-- Native Contents -->
-          <div v-html="$md.render(node.fields['Markdown'] || '')" />
-
-          <slot />
-
-          <!-- Linked Contents  -->
-          <div v-for="item of contents" :key="item.id">
-            <div v-if="item.fields['Render:Template'] == 'Form'" >
-              <Form :src="item"/>
-            </div>
-            <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
-          </div>
-
-          <slot name="footer" />
-
-        </div>
+      <template v-slot:[slotName(node)]>
+        <!-- <template> -->
+        <div v-html="$md.render(node.fields['Markdown'] || '')" />
+        <NodeRenderer :nodes="contents" />
       </template>
+
+      <template #footer />
+
+      <!-- </div> -->
+      <!-- </template> -->
     </Documentation>
 
   </div>
@@ -132,14 +124,15 @@
 <script>
   
 import { mapState } from 'vuex'
-import Form from '~/templates/node-form.vue'
+// import Form from '~/templates/node-form.vue'
 import Documentation from '~/templates/documentation.vue'
+import NodeRenderer from '~/components/render/NodeRenderer.vue'
 // import { loadQuery } from '~/other/loaders'
 
 export default {
 
   components: {
-    Form,
+    NodeRenderer,
     Documentation,
   },
 
@@ -209,14 +202,14 @@ export default {
       return undefined
     },
 
-    class_sidebar() {
+    showSidebar() {
       // check linked content if sidebar is warranted
       if(this.source)
         return true
       return false
     },
 
-    class_sidenav() {
+    sidenavAttrs() {
       if (!this.isMounted) return
 
       const windowHeight = window.innerHeight
@@ -253,6 +246,10 @@ export default {
       this.$router.push({
         path: this.route.path + '#' + el.id
       })
+    },
+
+    slotName(node) {
+      return node.fields['Render:Slot'] || 'default'
     }
   },
 

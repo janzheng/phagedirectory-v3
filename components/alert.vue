@@ -10,11 +10,10 @@
       </div>
     </div>
 
-    <!-- {{ atom }} -->
-    <h4 v-html="$md.render(atom.fields['Data:Title'] || '')" />
+    <h4 v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
 
-    <div class="Alert-tags">
-      <span v-for="tag of atom.fields['Tags']" :key="tag" class="Alert-tag _tag" >
+    <div v-if="atom.fields['Data:Tags']"  class="Alert-tags" >
+      <span v-for="(tag, i) of atom.fields['Data:Tags']" :key="`${i}+${tag}`" class="Alert-tag _tag" >
         {{ tag }}
       </span>
     </div>

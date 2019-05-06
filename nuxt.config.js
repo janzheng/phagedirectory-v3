@@ -213,7 +213,7 @@ export default {
       id: 'GTM-WCR3X43' 
     }],
     ['@nuxtjs/pwa'],
-    'nuxt-purgecss',
+    // 'nuxt-purgecss', // purges markdown-based css... womp
   ],
 
   manifest: {

@@ -6,12 +6,7 @@
         <div class="" v-html="$md.render(node.fields['Markdown'] || '')" />
 
         <!-- Linked Contents  -->
-        <div v-for="item of contents" :key="item.id">
-          <div v-if="item.fields['Render:Template'] == 'Form'" >
-            <Form :src="item"/>
-          </div>
-          <div v-else class="" v-html="$md.render(item.fields['Markdown'] || '')" />
-        </div>
+        <NodeRenderer :nodes="contents" />
         
       </template>
     </Article>
@@ -25,13 +20,13 @@
 <script>
   
 import Article from '~/templates/article.vue'
-import Form from '~/templates/node-form.vue'
+import NodeRenderer from '~/components/render/NodeRenderer.vue'
 import { mapState } from 'vuex'
 
 export default {
 
   components: {
-    Form,
+    NodeRenderer,
     Article,
   },
 

@@ -32,10 +32,16 @@
       <slot name="main-container" >
         <div class="Template--Main _section-article _margin-bottom ">
           <slot name="default" />
-          <slot name="footer" />
         </div>
       </slot>
     </div>
+
+    <slot name="footer-container" >
+      <div class="Template--Footer">
+        <slot name="footer" />
+      </div>
+    </slot>
+
   </div>
 
 </template>
@@ -91,7 +97,6 @@ export default {
   beforeCreate () {
   },
   created(){
-    console.log('documentation slots:', this.$slots)
   },
   mounted () {
     this.isMounted = true

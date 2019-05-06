@@ -1,11 +1,17 @@
 <template>
   
   <Article>
-    This is an article!
-
     <template #header>
-      <h1>This is the header ;)</h1>
+      <h1>This is the header :P ;)</h1>
     </template>
+
+    <h3>Cytosis Component</h3>
+
+    <!-- <Cytosis 
+      :tableQueries = "['_content', 'atoms-alerts']"
+      :refreshOnLoad = "true"
+    /> -->
+
 
   </Article>
 </template>
@@ -19,36 +25,29 @@ import { mapState } from 'vuex'
 // import FormContact from '~/forms/FormContact.vue'
 // import Form from '~/templates/node-form.vue'
 import Article from '~/templates/article.vue'
+// import Cytosis from '~/components/experiments/Cytosis.vue'
 
 export default {
 
   components: {
     // Form,
     Article,
+    // Cytosis,
   },
 
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-alerts"],
-    refreshOnLoad: true,
+    tableQueries: ["_content"],
   },
 
   data () {
     return {
-      intro: this.$cytosis.find('Content.alerts-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      content: this.$cytosis.find('Content.alerts-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      alertSignup: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+
     }
   },
   
   computed: {
-    ...mapState([
-      'Atoms',
-      ]),
-    alerts() {
-      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Alert')
-    }
   },
 
   // runs on generation and page route (but not on first page load)

@@ -20,10 +20,9 @@
     <TemplateArticle v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
 
 
-    <!-- For lists like alerts, jobs, etc. -->
+    <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
     <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
 
-    <!-- <TemplateBasic v-if="node.fields['Render:Template'] == 'Basic'" :node="node" :route="route" /> -->
 
     <!-- <TemplateDocs :node="node" :route="route" /> -->
     <TemplateDocumentation v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />

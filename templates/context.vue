@@ -1,7 +1,6 @@
 <template>
   <div class="Template-Context _section-page _margin-center _margin-top-2 _margin-bottom-2 _padding-top-2 _padding-bottom-2 " :class="templateClasses">
 
-
     <slot name="header-container" >
       <div class="Template--Header _section-content _margin-bottom _margin-center _margin-top-none-i">
         <slot name="header" />
@@ -24,10 +23,15 @@
       <slot name="main-container" >
         <div class="Template--Main _margin-bottom ">
           <slot name="default" />
-          <slot name="footer" />
         </div>
       </slot>
     </div>
+
+    <slot name="footer-container" >
+      <div class="Template--Footer">
+        <slot name="footer" />
+      </div>
+    </slot>
 
   </div>
 

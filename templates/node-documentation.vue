@@ -124,10 +124,8 @@
 <script>
   
 import { mapState } from 'vuex'
-// import Form from '~/templates/node-form.vue'
 import Documentation from '~/templates/documentation.vue'
 import NodeRenderer from '~/components/render/NodeRenderer.vue'
-// import { loadQuery } from '~/other/loaders'
 
 export default {
 

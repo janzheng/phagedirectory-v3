@@ -18,8 +18,9 @@ import Cytosis from 'cytosis'
 // make sure to use the Head component for generated data
 const site_policy = '1.0.4' 
 
-const site_ga = 'UA-109657404-1' 
-const site_url = 'https://phage.directory'
+const site_ga = 'UA-109657404-1';
+const site_segment = 'GhV3WTeK9v27sGfmNZdlO2rw1J2XWRE1';
+const site_url = 'https://phage.directory';
 const site_name = 'Phage Directory';
 const site_title = 'Phage Directory';
 const site_twitter = '@phagedirectory';
@@ -50,7 +51,7 @@ if (process.env.NODE_ENV == 'spa') {
   mode = 'spa'
 }
 
-const site_static = true; // if set to true, the client will never pull data 
+const site_static = false; // if set to true, the client will never pull data 
 
 let site_routes; // used for the generate process to save on airtable pulls
 
@@ -72,7 +73,8 @@ export default {
     airtable_api: airtable_api,  
     airtable_base: airtable_base,
     site_policy: site_policy,
-    ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/phdir-input',
+    site_segment: site_segment,
+    // ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/phdir-input',
     // site_data: site_data,
     site_static: site_static,
   },
@@ -187,9 +189,8 @@ export default {
     // { src: '~/plugins/lazyload.js', ssr: false },
     // { src: '~/plugins/pictureswipe.js', ssr: false },
     // { src: '~/plugins/paypal.js', ssr: false },
-    { src: '~/plugins/disqus.js', ssr: false },
+    // { src: '~/plugins/disqus.js', ssr: false },
     // { src: '~/plugins/twitter.js', ssr: false }, // very heavy
-    { src: '~/plugins/drift.js', ssr: false },
     { src: '~/plugins/markdownit.js' },
     { src: '~/plugins/cytosis.js' },
     { src: '~/plugins/date.js' },
@@ -199,20 +200,27 @@ export default {
     // https://github.com/Developmint/nuxt-purgecss
     // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
-    { src: '~/plugins/policy.js', ssr: false },
+    { src: '~/plugins/drift.js', ssr: false },
     { src: '~/plugins/scrollspy.js', ssr: false },
+    { src: '~/plugins/segment.js', ssr: false },
+
+    // needs to be loaded last (after all the other analytics etc.)
+    { src: '~/plugins/policy.js', ssr: false },
   ],
 
   modules: [
     // '@nuxtjs/font-awesome',
-    ['@nuxtjs/google-analytics', {
-      id: site_ga,
-      // disabled: true // gdpr, policy.js enables it: https://medium.com/dailyjs/google-analytics-gdpr-and-vuejs-e1bd6affd2b4
-    }],
-    ['@nuxtjs/google-tag-manager', { 
-      id: 'GTM-WCR3X43' 
-    }],
+    // ['@nuxtjs/google-analytics', {
+    //   id: site_ga,
+    //   // disabled: true // gdpr, policy.js enables it: https://medium.com/dailyjs/google-analytics-gdpr-and-vuejs-e1bd6affd2b4
+    // }],
+    // ['@nuxtjs/google-tag-manager', { 
+    //   id: 'GTM-WCR3X43' 
+    // }],
     ['@nuxtjs/pwa'],
+
+    // segment handles all analytics — use the plugin instead!!
+    // ['nuxt-segment-analytics', { id: site_segment, useRouter: true }],
     // 'nuxt-purgecss', // purges markdown-based css... womp
   ],
 

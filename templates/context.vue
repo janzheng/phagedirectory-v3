@@ -7,8 +7,7 @@
       </div>
     </slot>
 
-    <div class="Template--Grid _grid-2-1 _grid-gap ">
-      <!-- for a11y, sidebar is actually placed ahead of the main container -->
+    <div class="Template--Grid _grid-2-1-sm _grid-gap ">
       <slot name="sidebar-container">
         <div class="Template--Sidebar">
           <nav :class="sidebarClasses" class="_sidebar">
@@ -19,7 +18,7 @@
           </nav>
         </div>
       </slot>
-
+      
       <slot name="main-container" >
         <div class="Template--Main _margin-bottom ">
           <slot name="default" />

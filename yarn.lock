@@ -2421,10 +2421,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-coeur@^0.2.21:
-  version "0.2.21"
-  resolved "https://registry.yarnpkg.com/coeur/-/coeur-0.2.21.tgz#020fb85982c558cece70b2b2b922a726bd91ba48"
-  integrity sha512-dSMg2Wb62LQxTDYZxfJEwbuokx+CzkGuWlx4QbHKjQ+fEjJbL0O7KapryLxnQuY6KXO96DqMl+elr3JizCWvqQ==
+coeur@^0.2.24:
+  version "0.2.24"
+  resolved "https://registry.yarnpkg.com/coeur/-/coeur-0.2.24.tgz#4dadd9d7bc52e01c3b1d69d8c5bf29e8f7e8c08c"
+  integrity sha512-23K9tkv4g661cDbI8Kn/Ue45I5euVxprhIzNy7UBn0P6zsYB6yDTJqUr0i0mbG2HjCPMeBBwwnfxAQYzWZATmQ==
 
 collection-visit@^1.0.0:
   version "1.0.0"
@@ -5079,6 +5079,11 @@ load-json-file@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
+
+load-script@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha1-BJGTngvuVkPuSUp+PaPSuscMbKQ=
 
 loader-fs-cache@^1.0.0:
   version "1.0.2"
@@ -8746,6 +8751,13 @@ vue-scrollto@^2.15.0:
   integrity sha512-FmJncIrXvsqvyVAN55Trc2CQWVDyxuMgdQQp1Q9I9bhoEi7XXpvXXQonhbFBktzNggJf1rpfHpVqa8KLhPeePQ==
   dependencies:
     bezier-easing "2.1.0"
+
+vue-segment-analytics@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/vue-segment-analytics/-/vue-segment-analytics-0.3.1.tgz#98587b60be0870e4e1aa295a2c2c73e5098c7982"
+  integrity sha512-Uk7t6tiIAb828L1sEIMegL2IVVnPc2b301QVOnIVRQ+VuuNQ/AYEqeHDBsbtysPlMCdsr7onpChPxUEQ1JnkBA==
+  dependencies:
+    load-script "~1.0.0"
 
 vue-server-renderer@^2.6.10:
   version "2.6.10"

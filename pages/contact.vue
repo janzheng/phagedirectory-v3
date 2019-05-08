@@ -3,7 +3,7 @@
 
     <Context>
       <template #context>
-        <Form :src="form"/>
+        <NodeForm :src="form"/>
       </template>
 
       <div class="" v-html="$md.render(intro || '')" />
@@ -19,12 +19,12 @@
 <script>
 
 import Context from '~/templates/context.vue'
-import Form from '~/templates/node-form.vue'
+import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
 
   components: {
-    Form,
+    NodeForm,
     Context,
   },
 

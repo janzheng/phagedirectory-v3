@@ -10,7 +10,7 @@
   <div class="NodeContent" >
     <div v-for="item of nodes" :key="item.id">
       <div v-if="item.fields['Render:Template'] == 'Form'" >
-        <Form :src="item"/>
+        <NodeForm :src="item"/>
       </div>
       <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
     </div>
@@ -21,12 +21,12 @@
 
 <script>
 
-import Form from '~/templates/node-form.vue'
+import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
 
   components: {
-    Form,
+    NodeForm,
   },
 
   props: {

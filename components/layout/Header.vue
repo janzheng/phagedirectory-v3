@@ -1,128 +1,131 @@
 
 <template>
   <!-- <header class="Header _section-page _padding-top _padding-bottom _margin-center"> -->
-  <header class="Header _margin-center">
-    <div class="Header-content">
+  <div class="Header-container _color-bg-brand-5 ">
 
-      <div :class="navOpen ? '--open' : ''" class="Header-mobile _hidden-sm-up" >
+    <header class="Header _margin-center">
+      <div class="Header-content">
 
-        <!-- https://w3bits.com/animated-menu-icon-css/ -->
-        <!-- <div class="nav-icon --open">
-          <div class="nav-icon-child " />
-        </div>
-        <div class="nav-icon">
-          <div class="nav-icon-child " />
-        </div> -->
+        <div :class="navOpen ? '--open' : ''" class="Header-mobile _hidden-sm-up" >
 
-        <div class="Header-mobile-nav _grid-auto-1-xs _align-vertically _padding _padding-top ">
-          <div class="Header-logo">
-            <nuxt-link name="Home" to="/" class=" Header-logo-link _border-none-i"><img class="logo-xs" alt="Phage Directory Logo" src="~/static/icon.png"></nuxt-link>
+          <!-- https://w3bits.com/animated-menu-icon-css/ -->
+          <!-- <div class="nav-icon --open">
+            <div class="nav-icon-child " />
+          </div>
+          <div class="nav-icon">
+            <div class="nav-icon-child " />
+          </div> -->
+
+          <div class="Header-mobile-nav _grid-auto-1-xs _align-vertically _padding _padding-top ">
+            <div class="Header-logo">
+              <nuxt-link name="Home" to="/" class=" Header-logo-link _border-none-i"><img class="logo-xs" alt="Phage Directory Logo" src="~/static/icon.png"></nuxt-link>
+            </div>
+
+            <div class="Header-mobile-cta _align-right" @click="toggleNav" >
+              <div class="_grid-auto-1-xs _grid-gap-none _align-vertically">
+                <h4 class="_padding-none">Menu</h4>
+                <div :class="navOpen ? '--open' : ''" class="nav-icon">
+                  <div class="nav-icon-child " />
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="Header-mobile-cta _align-right" @click="toggleNav" >
-            <div class="_grid-auto-1-xs _grid-gap-none _align-vertically">
-              <h4 class="_padding-none">Menu</h4>
-              <div :class="navOpen ? '--open' : ''" class="nav-icon">
-                <div class="nav-icon-child " />
+          <div v-if="navOpen" class="Header-mobile-content" @click="handleNavClick" >
+            <div class="Header-inset _padding-half">
+              <div class="Header-mobile-item">
+                <div class="Header-search-container _form-control _margin-none">
+                  <label for="textSearch" class="_form-label-icon _padding-left-half _padding-bottom-none _height-100">
+                    <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg>
+                  </label>
+                  <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="header_searchbar" placeholder="Search" @input="search">
+                </div>
+              </div>
+              <div class="Header-mobile-item _padding-top _padding-bottom">
+                <nuxt-link to="/join" class="Header-join _button --outline _margin-none-i ">
+                  Sign Up
+                </nuxt-link>
+              </div>
+              <div class="Header-mobile-item">
+                <nuxt-link to="/phages" class="_button --text _padding-none -left _margin-none-i --border-none">
+                  Phage Hosts
+                </nuxt-link>
+              </div>
+              <div class="Header-mobile-item">
+                <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+                  Organizations
+                </nuxt-link>
+              </div>
+              <div class="Header-mobile-item">
+                <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+                  People
+                </nuxt-link>
+              </div>
+              <div class="Header-mobile-item">
+                <nuxt-link to="/labs" class="_button --text _padding-none _margin-none-i --border-none">
+                  Labs
+                </nuxt-link>
+              </div>
+
+              <!-- sub section -->
+              <div :class="isHome ? '--home' : ''" class="Header-links _padding">
+                <div v-for="item of links" :key="item.name" class="Header-mobile-item">
+                  <nuxt-link :to="item.link" class="_button --text _padding-none ">
+                    {{ item.name }}
+                  </nuxt-link>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div v-if="navOpen" class="Header-mobile-content" @click="handleNavClick" >
-          <div class="Header-inset _padding-half">
-            <div class="Header-mobile-item">
+
+
+
+
+
+
+        <!-- Desktop menu -->
+        <div class="Header-desktop _section-page _margin-center _hidden-xs _grid-auto-1 _grid-gap-none">
+          <div class="Header-logo _align-vertically">
+            <nuxt-link name="Home" to="/" class=" Header-logo-link _border-none-i _padding"><img class="logo-xs" alt="Phage Directory Logo" src="~/static/icon.png"></nuxt-link>
+          </div>
+          <div class="Header-container _margin-half _margin-left-none">
+            <div class="Header-inset _flex-row _flex-2 _padding-half _margin-bottom-none">
+              <nuxt-link to="/phages" class="_button --text _padding-none -left _margin-none-i --border-none">
+                Phage Hosts
+              </nuxt-link>
+              <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+                Organizations
+              </nuxt-link>
+              <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+                People
+              </nuxt-link>
+              <nuxt-link to="/labs" class="_button --text _padding-none _margin-none-i --border-none">
+                Labs
+              </nuxt-link>
+              <nuxt-link to="/join" class="Header-join _button --outline  ">
+                Sign Up
+              </nuxt-link>
+
               <div class="Header-search-container _form-control _margin-none">
                 <label for="textSearch" class="_form-label-icon _padding-left-half _padding-bottom-none _height-100">
                   <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg>
                 </label>
-                <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="header_searchbar" placeholder="Search" @input="search">
+                <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline " type="text" name="header_searchbar" placeholder="Search" @input="search">
               </div>
-            </div>
-            <div class="Header-mobile-item _padding-top _padding-bottom">
-              <nuxt-link to="/join" class="Header-join _button --outline _margin-none-i ">
-                Sign Up
-              </nuxt-link>
-            </div>
-            <div class="Header-mobile-item">
-              <nuxt-link to="/phages" class="_button --text _padding-none -left _margin-none-i --border-none">
-                Phage Hosts
-              </nuxt-link>
-            </div>
-            <div class="Header-mobile-item">
-              <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
-                Organizations
-              </nuxt-link>
-            </div>
-            <div class="Header-mobile-item">
-              <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
-                People
-              </nuxt-link>
-            </div>
-            <div class="Header-mobile-item">
-              <nuxt-link to="/labs" class="_button --text _padding-none _margin-none-i --border-none">
-                Labs
-              </nuxt-link>
             </div>
 
-            <!-- sub section -->
-            <div :class="isHome ? '--home' : ''" class="Header-links _padding">
-              <div v-for="item of links" :key="item.name" class="Header-mobile-item">
-                <nuxt-link :to="item.link" class="_button --text _padding-none ">
-                  {{ item.name }}
-                </nuxt-link>
-              </div>
+            <div :class="isHome ? '--home' : ''" class="Header-links _padding-left-half _padding-right-half">
+              <nuxt-link v-for="item of links" :key="item.name" :to="item.link" class="_button --text _padding-none ">
+                {{ item.name }}
+              </nuxt-link>
             </div>
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
-      <!-- Desktop menu -->
-      <div class="Header-desktop _section-page _margin-center _hidden-xs _grid-auto-1 _grid-gap-none">
-        <div class="Header-logo _align-vertically">
-          <nuxt-link name="Home" to="/" class=" Header-logo-link _border-none-i _padding"><img class="logo-xs" alt="Phage Directory Logo" src="~/static/icon.png"></nuxt-link>
-        </div>
-        <div class="Header-container _margin-half _margin-left-none">
-          <div class="Header-inset _flex-row _flex-2 _padding-half _margin-bottom-none">
-            <nuxt-link to="/phages" class="_button --text _padding-none -left _margin-none-i --border-none">
-              Phage Hosts
-            </nuxt-link>
-            <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
-              Organizations
-            </nuxt-link>
-            <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
-              People
-            </nuxt-link>
-            <nuxt-link to="/labs" class="_button --text _padding-none _margin-none-i --border-none">
-              Labs
-            </nuxt-link>
-            <nuxt-link to="/join" class="Header-join _button --outline  ">
-              Sign Up
-            </nuxt-link>
-
-            <div class="Header-search-container _form-control _margin-none">
-              <label for="textSearch" class="_form-label-icon _padding-left-half _padding-bottom-none _height-100">
-                <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg>
-              </label>
-              <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline " type="text" name="header_searchbar" placeholder="Search" @input="search">
-            </div>
-          </div>
-
-          <div :class="isHome ? '--home' : ''" class="Header-links _padding-left-half _padding-right-half">
-            <nuxt-link v-for="item of links" :key="item.name" :to="item.link" class="_button --text _padding-none ">
-              {{ item.name }}
-            </nuxt-link>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
+    </header>
+  </div>
 </template>
 
 

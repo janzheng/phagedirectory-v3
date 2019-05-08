@@ -26,15 +26,12 @@
 <script>
 
 import { mapState } from 'vuex'
-// import FormContact from '~/forms/FormContact.vue'
-// import Form from '~/templates/node-form.vue'
 import Event from '~/components/Event.vue'
 import Template from '~/templates/article.vue'
 
 export default {
 
   components: {
-    // Form,
     Event,
     Template,
   },

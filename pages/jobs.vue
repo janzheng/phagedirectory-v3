@@ -23,15 +23,12 @@
 <script>
 
 import { mapState } from 'vuex'
-// import FormContact from '~/forms/FormContact.vue'
-// import Form from '~/templates/node-form.vue'
 import Job from '~/components/Job.vue'
 import Template from '~/templates/context.vue'
 
 export default {
 
   components: {
-    // Form,
     Job,
     Template,
   },

@@ -1,35 +1,41 @@
 <template>
 
-  <!-- 
-
-    JSON mode means JSON-ONLY!! all content will be saved into the JSON column
-    - normally form data is saved into Airtable columns. Sometimes there's a mismatch, and airtable won't save correctly
-    - this also means that your forms will quietly drop user form data
-    - with JSON-mode, all data is purely saved into the JSON column, meaning you'll get all your data, but it'll be fugly 
-
-   -->
-
   <div class="Form"> 
     <div v-if="payload.intro" class="Form-intro " v-html="$md.render(payload.intro || '')" />
+
     <div class="Form-body">
       <div v-if="!success && !error">
-        <Formlet ref="form" :inputs="getForm(payload.JSON)" @handler="formHandler" />
-        <!-- <div class=" _grid-3-2 _align-vertically" > -->
+        <Formlet ref="form" 
+                 :inputs="getForm(payload.JSON)"
+                 :on-submit="onSubmit"
+                 @onValid="formHandler"
+                 @onValidating="validationHandler"
+        />
         <div>
-          <div class="">
-            <span class="Form-privacy " v-html="$md.render(payload.privacy || '')" />
+          <div class="Form-privacy">
+            <span class=" " v-html="$md.render(payload.privacy || '')" />
           </div>
-          <button v-if="!sending" class="Form-btn _button _margin-none _center _padding-left _padding-right" @click="submit" >{{ payload.cta }}</button>
-          <button v-if="sending" :class="'--loading'" class="Form-btn _button --outline _margin-none _center" >Sending...</button>
+          <div class="Form-cta">
+            <button v-if="!isSending" class="Form-btn _button _margin-none _center _padding-left _padding-right" @click="submit" >{{ payload.cta }}</button>
+            <button v-if="isSending" :class="'--loading'" class="Form-btn _button --outline _margin-none _center" >
+              <span class="_font-bold _relative">
+                <span class="_loader --circle" /> <span class="_margin-left-2">Sending...</span>
+              </span>
+            </button>
+          </div>
+          <div v-if="onSubmit && !isFormValid" class="Form-error _card --alert _padding _margin-top">
+            We found a mistake — please scroll back up and check.
+          </div>
         </div>
       </div>
 
-      <div v-if="success" class="" v-html="$md.render(payload.thanks || '')">
+      <div v-if="success" class="_card --alert _padding _md-pfix" v-html="$md.render(payload.thanks || '')">
         <h4>Thank you for sending us feedback!</h4>
       </div>
 
-      <div v-if="error" class="" v-html="$md.render(payload.error || '')">
-        Something went wrong, please try again
+      <!-- submit error -->
+      <div v-if="error" class="_card --alert _padding _md-pfix" v-html="$md.render(payload.error || '')">
+        Something went wrong, please refresh and try again, or contact us if it happens again.
       </div>
     </div>
 
@@ -38,6 +44,7 @@
 
 <script>
 
+import _ from '~/other/lodash.custom.min.js'
 import Formlet from '~/components/layout/Formlet.vue'
 import axios from 'axios'
 
@@ -48,22 +55,22 @@ export default {
   },
 
   // source is the form's json source
-  // set :json='true' to dump the payload into a table named JSON, to prevent throwing errors
-  // alert: sends us an email alert (this is through the server)
   props: {
     'payload': Object,
-    'sendEmail': Boolean, // if true, pings the handler to send an email (NOT IMPLEMENTED)
-    'validate': Boolean, // if true, run through vuelidate, otherwise skip (NOT IMPLEMENTED)
-    'target': String, // name of the target table
-    'source': String, // optional; what's the source of this form input (for debugging, mostly)
+    'sendEmail': Boolean,     // if true, pings the handler to send an email (NOT IMPLEMENTED)
+    'validate': Boolean,      // if true, run through vuelidate, otherwise skip (NOT IMPLEMENTED)
+    'targetTable': String,    // name of the target table 
+    'formName': String,       // optional; what's the source of this form input (for debugging, mostly)
   },
 
   data: function () {
     return {
-      sending: false,
+      isSending: false,
       isFormValid: false,
+      isValidating: false,
+      onSubmit: false,
       success: false,
-      error: false
+      error: false            // submit / axios error
     }
   },
 
@@ -77,29 +84,34 @@ export default {
       const form = JSON.parse(formStr) || undefined
       return form.inputs
     },
-    formHandler(data) {
+    validationHandler(isValidating) {
+      this.isValidating = isValidating
+    },
+    formHandler: _.debounce(function (data) {
+      console.log('onValid — formhandler — data:', data, ' isvalidating:', this.isValidating)
       if(data) {
         this.form = data
         this.isFormValid = true
       } else {
         this.isFormValid = false // required if validator is dirty
       }
-    },
+    }, 300),
     submit() {
       const _this = this
-      this.$refs.form.touch()
+      console.log('Form Handler triggered — valid:', this.isFormValid, 'isSending:', this.isSending )
+      this.onSubmit = true
 
-      if(this.isFormValid && !this.sending) {
+      if(this.isFormValid && !this.isSending) {
         const data = {
-          type: 'cytosis',
-          target: this.target,
+          type: this.type || 'cytosis-form-request',
+          targetTable: this.targetTable,
           sendEmail: this.sendEmail,
-          source: this.source,
+          formName: this.formName,
           form: this.form.$model,
           payload: this.payload,
         }
 
-        this.sending = true
+        this.isSending = true
 
         console.log('Submitting data: ', data)
         axios.post(this.payload.handler, data)
@@ -107,13 +119,13 @@ export default {
           console.log('Message sent! Status:', response.status)
           // if(status.status == 200) {
             _this.success = true
-            _this.sending = false
+            _this.isSending = false
           // }
         })
         .catch(function (error) {
           console.log('error', error)
           _this.error = error
-          _this.sending = false
+          _this.isSending = false
         })
       }
     }

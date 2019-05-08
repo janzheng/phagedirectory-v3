@@ -92,8 +92,13 @@ export default {
     }
   },
 
+  mounted() {
+    this.$segment.page('PDv3:index')
+  },
+
   methods: {
   },
+
 
 
 }

@@ -10,8 +10,7 @@
 
       <template #context>
         <div class="_margin-bottom" v-html="$md.render(content || '')" />
-        <!-- <div class="Alerts-form FormCard --simple" v-html="$md.render(form || '')" /> -->
-        <Form :src="form"/>
+        <NodeForm :src="form"/>
       </template>
     </Context>
 
@@ -24,15 +23,14 @@
 <script>
 
 import { mapState } from 'vuex'
-// import FormContact from '~/forms/FormContact.vue'
-import Form from '~/templates/node-form.vue'
+import NodeForm from '~/components/render/NodeForm.vue'
 import Context from '~/templates/context.vue'
 import CommunityPost from '~/components/CommunityPost.vue'
 
 export default {
 
   components: {
-    Form,
+    NodeForm,
     CommunityPost,
     Context,
   },

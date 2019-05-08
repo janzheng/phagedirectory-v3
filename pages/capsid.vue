@@ -38,9 +38,6 @@
         <CapsidStub v-for="issue of notLatest" :key="issue.id" :issue="issue" show-lede="true" class="" />
       </div>
 
-      <!-- latest manuscript -->
-      <!-- {{ Manuscripts }} -->
-
     </div>
     
   </div>
@@ -52,16 +49,11 @@
 <script>
 
 import { mapState } from 'vuex'
-// import FormContact from '~/forms/FormContact.vue'
-// import Form from '~/templates/node-form.vue'
-// import CommunityPost from '~/components/CommunityPost.vue'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 
 export default {
 
   components: {
-    // Form,
-    // CommunityPost,
     CapsidStub,
   },
 

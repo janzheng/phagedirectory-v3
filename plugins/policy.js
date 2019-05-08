@@ -1,7 +1,7 @@
 
 
 
-import Vue from 'vue'
+// import Vue from 'vue'
 
 let latestPolicy
 
@@ -31,13 +31,14 @@ export default ({app, env, store }, inject) => {
         return false
 
       console.log('[Running policy-enhanced features]')
-      console.log('[Policy.js] Enable ga', app, Vue.$ga)
-      Vue.$ga.enable()
+      // console.log('[Policy.js] Enable ga', app, Vue.$ga)
+      // Vue.$ga.enable()
       app.$drift.init()
+      app.$initSegment()
     },
     disablePolicyFeatures: () => {
       // disable if no policy
-      Vue.$ga.disable()
+      // Vue.$ga.disable()
       return true
     }
   }
@@ -68,3 +69,4 @@ export default ({app, env, store }, inject) => {
 
   }
 }
+

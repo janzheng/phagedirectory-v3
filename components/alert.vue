@@ -12,7 +12,7 @@
 
     <h4 v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
 
-    <div v-if="atom.fields['Data:Tags']"  class="Alert-tags" >
+    <div v-if="atom.fields['Data:Tags']" class="Alert-tags" >
       <span v-for="(tag, i) of atom.fields['Data:Tags']" :key="`${i}+${tag}`" class="Alert-tag _tag" >
         {{ tag }}
       </span>

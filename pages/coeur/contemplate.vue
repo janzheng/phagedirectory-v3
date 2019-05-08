@@ -12,7 +12,7 @@
       <div class="_section-article" >
         <div v-for="item of linkedContent" :key="item.id">
           <div v-if="item.fields['TemplateType'] == 'Form'">
-            <FormTemplate :src="content" />
+            <NodeForm :src="content" />
           </div>
           <div v-else-if="item.fields['RenderFields']" v-html="item.fields[item.fields['RenderFields']]" />
           <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
@@ -29,12 +29,12 @@
 <script>
 
 // import { mapState } from 'vuex'
-import FormTemplate from '~/templates/node-form.vue'
+import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
 
   components: {
-    FormTemplate
+    NodeForm
   },
 
   layout: 'contentframe',

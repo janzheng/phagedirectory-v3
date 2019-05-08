@@ -145,6 +145,9 @@ $colors-brand: (
   brand-100: #204065,
   brand-110: #172640,
   brand-250: #0085FF,
+  brand-alert: #71EFF5,
+  brand-border: #71EFF5,
+  brand-disabled: #D6F9FF,
 );
 
 // old
@@ -198,6 +201,10 @@ $colors-pink: (
   pink-80: #6B0027,
   pink: #FA5486,
   pink-copy: #6B0027,
+  pink-active: #FA5486,
+  pink-disabled: #FFCFDC, 
+  pink-background: #FFE3E8, 
+  pink-border: #BD053A, 
 );
 @include addtheme($colors-pink);
 @include colorate($colors-pink);
@@ -245,7 +252,7 @@ $colors-mono: (
 
 
 ._color-brand { color: usetheme(brand, $colors); }
-._color-brand-active { color: usetheme(brand-active, $colors); }
+._color-brand-active { color: usetheme(active, $colors); }
 ._color-brand-dark { color: usetheme(brand-dark, $colors); }
 ._color-brand-light { color: usetheme(brand-light, $colors); }
 
@@ -259,12 +266,12 @@ $context: (
   tertiary: usetheme(pink, $colors),
   tertiary-dark: color(usetheme(pink, $colors), 122),
 
-  active: usetheme(brand-active, $colors),
+  active: usetheme(pink-active),
   links: usetheme(brand-dark, $colors),
   hover: usetheme(pink, $colors),
   links-decoration: usetheme(pink, $colors),
   // highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
-  highlight: usetheme(brand-20, $colors),
+  highlight: usetheme(brand-20),
   
   // highlight-light: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
   // advert: map-get($colorMap, pink-300), //usetheme(phdir, $colors),
@@ -284,7 +291,7 @@ $context: (
   // header-bg-scroll: rgba(usetheme(silver-lighter, $colors_), 0.86),
   // header-search-bg: rgba(usetheme(silver-lighter, $colors_), 0.26),
   header-links: usetheme(gray),
-  header-active: usetheme(brand-active),
+  header-active: usetheme(active),
 
   footer-bg: usetheme(blue-dark),
   footer-copy: usetheme(white),
@@ -303,10 +310,7 @@ $context: (
   bg-silver: usetheme(silver-light, $colors_),
   bg-lighter: usetheme(silver-lighter, $colors_),
 
-
-  btn-bg: usetheme(brand-active, $colors),
   btn-active: usetheme(brand-dark, $colors),
-  btn-bg-loading: usetheme(white, $colors_),
   // bg-blue: usetheme(blue-dark, $colors_),
   // bg-blue-silver: usetheme(blue-silver, $colors),
   // tbd refactor later
@@ -317,6 +321,7 @@ $context: (
 
   // alert-color-cta: usetheme(teal_dull, $colors),
 
+  alert: usetheme(brand-20),
   success: usetheme(green, $colors_),
   warning: usetheme(yellow, $colors_),
   info: usetheme(_brown, $colors_),

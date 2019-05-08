@@ -1,10 +1,18 @@
+
+<!-- 
+
+  Takes a node object from cytosis and turns it into a usable form object
+
+ -->
+
 <template>
-  <div :class="src.fields['Data:Format']" class="Template-Form FormCard">
+  <div :class="src.fields['Data:Attrs']" class="Template-Form FormCard">
     <Form :payload="payload"
-          :target="src.fields['Select']"
+          :target-table="src.fields['Data:Select']"
           :send-email="true"
+          :validate="true"
+          :form-name="src.fields['Name']"
           class=""
-          source="Contact page / contact form"
     />
   </div>
 </template>

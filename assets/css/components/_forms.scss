@@ -1,10 +1,13 @@
 
 
+$forms: (
+  btn-bg: usetheme(pink-50),
+);
 
 // dynamic form
 .Form {
   .Form-btn {
-    background-color: usetheme(btn-bg);
+    background-color: usetheme(btn-bg, $forms);
 
     &:hover {
       background-color: usetheme(hover); // (btn-active); //$color-links;
@@ -12,13 +15,18 @@
       border-color: usetheme(hover); // (btn-active); //$color-links;
     }
     &:active, &:focus {
-      background-color: usetheme(active); //$color-links;
+      background-color: usetheme(pink-active); //$color-links;
       color: usetheme(white); //$color-bg;
-      border-color: usetheme(active); //$color-gray;
+      border-color: usetheme(pink-active); //$color-gray;
     }
 
     &.--loading {
-      background-color: usetheme(btn-bg-loading);
+      cursor: progress;
+      &, &:active, &:hover, &:focus {
+        color: usetheme(pink-copy);
+        border-color: usetheme(active);
+        background-color: usetheme(pink-10);
+      }
     }
   }
 
@@ -71,6 +79,14 @@
     &, p {
       font-size: $font-small;
     }
+  }
+
+  ._error {
+    @extend ._card;
+    padding: $size-half $size;
+    margin-top: $size-half;
+    border: $border-line solid usetheme(pink-border);
+    background-color: usetheme(pink-background);
   }
 }
 

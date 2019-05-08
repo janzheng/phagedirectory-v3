@@ -10,6 +10,7 @@
           <span v-if="atom.fields['Data:Categories']" class="CommunityPost-type _tag --highlight">
             {{ atom.fields['Data:Categories'][0] }}
           </span>
+          <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="CommunityPost-tag _tag">{{ item }}</span>
         </div>
         <div class="CommunityPost-date _right-sm _font-small">
           <span>Posted {{ atom.fields['Data:Date'] | dateTo }}</span>
@@ -20,9 +21,9 @@
         <h5 v-if="atom.fields['Data:Title']" class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
       </div>
 
-      <div class="CommunityPost-tags _margin-bottom-half">
+      <!-- <div class="CommunityPost-tags _margin-bottom-half">
         <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="CommunityPost-tag _tag">{{ item }}</span>
-      </div>
+      </div> -->
 
       <div class="CommunityPost-info _margin-bottom _margin-top">
         <div v-if="atom.fields['Data:Source']"><strong>{{ atom.fields['Data:Source'] }}</strong></div>

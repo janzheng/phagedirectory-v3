@@ -42,6 +42,11 @@
     border-color: usetheme(advert); // $color-teal-50;
   }
 
+  &.--alert {
+    background-color: usetheme(brand-disabled); // $color-teal-50;
+    border-color: usetheme(brand-border); // $color-teal-50;
+  }
+
   &.--shadow {
     //   box-shadow: 0px 4px 8px rgba(70, 70, 70, 0.1);
     box-shadow: usetheme(shadow-2, $shadows_);

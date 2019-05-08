@@ -1,6 +1,9 @@
 <template>
   <div class="Coeur">
 
+
+    <NodeForm :src="form"/>
+
     <Cytosis
       :tableQueries="['atoms-alerts']"
       :refreshOnLoad="true"
@@ -19,11 +22,13 @@
 
 // import { mapState } from 'vuex'
 import Cytosis from '~/components/experiments/Cytosis.vue'
+import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
 
   components: {
     Cytosis,
+    NodeForm,
   },
 
   layout: 'contentframe',
@@ -34,6 +39,7 @@ export default {
 
   data () {
     return {
+      form: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
     }
   },
   

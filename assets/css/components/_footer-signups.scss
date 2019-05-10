@@ -30,7 +30,7 @@ $footer: (
   border-left: solid $border-thick;
   border-color: usetheme(capsid-border-color, $footer);
 
-  ._form-input {
+  input._form-input {
     background-color: usetheme(capsid-input-bg-color, $footer);
 
     border-style: solid;
@@ -66,7 +66,7 @@ $footer: (
   border-left: solid $border-thick;
   border-color: usetheme(alert-border-color, $footer);
 
-  ._form-input {
+  input._form-input {
     background-color: usetheme(alert-input-bg-color, $footer);
 
     border-style: solid;

@@ -1,17 +1,41 @@
 <template>
   <div class="Events">
-    <Template>
-      <template>
-        <div class="" v-html="$md.render(intro || '')" />
-        
-        <div>
-          <h6>Upcoming Events</h6>
-          <Event v-for="item of upcoming" :key="item.id" :atom="item" />
-        </div>
+    <Template :template-classes="'_margin-center'">
+      <template #container>
 
-        <div class="_padding-top-2">
-          <h6>Past Events</h6>
-          <Event v-for="item of past" :key="item.id" :atom="item" />
+        <div class="_section-article _margin-center">
+          <div class="_padding-bottom-2" v-html="$md.render(intro || '')" />
+
+          <Tabbed 
+            :left="leftData"
+            :right="rightData"
+            :active-tab="activeTab"
+            v-on="{ 'tabClick': tabClick, 'One': oneHandler, 'Two Button': twoHandler }"
+          >
+
+            <template slot="Upcoming Events">
+              <div class=" _padding-top">
+                <Event v-for="item of upcoming" :key="item.id" :atom="item" />
+              </div>
+            </template>
+
+            <template slot="Past Events">
+              <div class=" _padding-top">
+                <Event v-for="item of past" :key="item.id" :atom="item" />
+              </div>
+            </template>
+          </Tabbed>
+
+          <!-- 
+          <div>
+            <h6>Upcoming Events</h6>
+            <Event v-for="item of upcoming" :key="item.id" :atom="item" />
+          </div>
+
+          <div class="_padding-top-2">
+            <h6>Past Events</h6>
+            <Event v-for="item of past" :key="item.id" :atom="item" />
+          </div> -->
         </div>
 
       </template>
@@ -27,6 +51,7 @@
 
 import { mapState } from 'vuex'
 import Event from '~/components/Event.vue'
+import Tabbed from '~/components/layout/Tabbed.vue'
 import Template from '~/templates/article.vue'
 
 export default {
@@ -34,6 +59,7 @@ export default {
   components: {
     Event,
     Template,
+    Tabbed,
   },
 
   layout: 'contentframe',
@@ -45,6 +71,20 @@ export default {
 
   data () {
     return {
+      activeTab: 'Upcoming Events',
+      leftData: {
+        'Upcoming Events': {
+          // link: 'about',
+          // attrs: '_pointer',
+          // active: true,
+        },
+      },
+      rightData: {
+        'Past Events': {
+          // attrs: '_pointer',
+          // link: 'about',
+        },
+      },
       intro: this.$cytosis.find('Content.events-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       content: this.$cytosis.find('Content.events-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
@@ -59,6 +99,12 @@ export default {
       return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
     },
 
+    featured() {
+      // events in the past, w/ newest first
+      return this.events.filter(item => {
+        return item.fields['Data:Date']
+      }).reverse()
+    },
     past() {
       // events in the past, w/ newest first
       return this.events.filter(item => {
@@ -87,6 +133,16 @@ export default {
   },
 
   methods: {
+    tabClick(item, key) {
+      // console.log('default tabclick', item, key)
+      this.activeTab = key
+    },
+    // oneHandler(data) {
+    //   // console.log('one handler', data)
+    // },
+    // twoHandler(data) {
+    //   // console.log('two handler', data)
+    // }
   },
 
 

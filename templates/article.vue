@@ -4,7 +4,7 @@
 
     <div class="Template--Main _section-content _margin-bottom _margin-center _margin-top-none-i">
       <slot name="container" >
-        <div class="_section-article">
+        <div class="_section-article" >
           <slot name="header" />
           <slot name="default" />
           <slot name="footer" />

@@ -48,9 +48,10 @@ $header-item-height: $size-4;
   }
   .Header-container {
     // background-color: usetheme(bg-nav-secondary);
+    margin-bottom: 0;
   }
   .Header-links {
-    background-color: usetheme(bg-nav-secondary, $header);
+    // background-color: usetheme(bg-nav-secondary, $header);
     // padding-left: $size;
 
     a {
@@ -238,6 +239,11 @@ $header-item-height: $size-4;
     // @include input-placeholder {
     //   font-size: usetheme(size-mobile-input);
     // }
+  }
+  .Header-links {
+    background: usetheme(brand-0);
+    border-radius: $radius;
+    margin-bottom: $size-2
   }
 }
 .Header {

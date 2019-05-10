@@ -1,0 +1,87 @@
+
+.Tabbed {
+
+  $border: solid $border-medium;
+
+  .Tabbed-container {
+    position: relative;
+    &:after {
+      content: '';
+      border: $border;
+      border-color: usetheme(disabled);
+      position: absolute;
+      bottom: 0; // -12px;
+      left: 0;
+      width: 100%;
+    }
+  }
+
+  .Tabbed-links {
+    position: relative;
+
+    &.Tabbed-left {
+      .Tabbed-tab {
+        margin-right: $size;
+      }
+    }
+    &.Tabbed-right {
+      .Tabbed-tab {
+        margin-left: $size;
+      }
+    }
+
+    .Tabbed-tab {
+      font-size: $font-h5;
+      line-height: $lineheight-h5;
+
+      text-decoration: none;
+      // padding-bottom: $size-half;
+      font-weight: bold;
+
+      a {
+        text-decoration: none;
+      }
+
+      & > * {
+        padding-bottom: $size;
+        cursor: pointer;
+      }
+
+      // current highlighted view
+      &.nuxt-link-exact-active, &.--active {
+        color: usetheme(active);
+        &:after {
+          content: '';
+          border: $border;
+          border-color: usetheme(active); // usetheme(disabled);
+          position: absolute;
+          bottom: 0; // -12px;
+          left: 0;
+          width: 100%;
+          z-index: 100;
+        }
+      //   position: relative;
+      //   z-index: 100;
+      //   color: usetheme(active);
+      //   // border-bottom: $border-thick solid usetheme(active);
+      //   border: $border;
+      //   border-color: usetheme(disabled);
+      }
+    }
+
+    @include screen-xs {
+      display: block;
+
+      a {
+        display: block;
+        text-align: left;
+        margin: 0;
+      }
+    }
+  }
+}
+
+
+
+
+

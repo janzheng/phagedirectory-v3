@@ -10,7 +10,7 @@
         font--2
       </div>
       <div class="coeur-typography-sample _font--2">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 12px, font-weight: normal, line-height: 30px)
@@ -22,7 +22,7 @@
         font--1 / size-smaller
       </div> 
       <div class="coeur-typography-sample _font--1">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 14px, font-weight: normal, line-height: 21px)
@@ -34,7 +34,7 @@
         font / body copy
       </div>
       <div class="coeur-typography-sample _font">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 16px, font-weight: normal, line-height: 24px)
@@ -46,7 +46,7 @@
         font-1
       </div>
       <div class="coeur-typography-sample _font-1">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 18px, font-weight: normal, line-height: 27px)
@@ -58,7 +58,7 @@
         font-2
       </div>
       <div class="coeur-typography-sample _font-2">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 20px, font-weight: normal, line-height: 30px)
@@ -70,7 +70,7 @@
         font-3
       </div>
       <div class="coeur-typography-sample _font-3">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 24px, font-weight: normal, line-height: 32px)
@@ -82,7 +82,7 @@
         font-4
       </div>
       <div class="coeur-typography-sample _font-4">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 32px, font-weight: normal, line-height: 40px)
@@ -94,7 +94,7 @@
         font-5
       </div>
       <div class="coeur-typography-sample _font-5">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 40px, font-weight: normal, line-height: 48px)
@@ -106,7 +106,7 @@
         font-6
       </div>
       <div class="coeur-typography-sample _font-6">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 48px, font-weight: normal, line-height: 58px)
@@ -118,7 +118,7 @@
         font-7
       </div>
       <div class="coeur-typography-sample _font-7">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 56px, font-weight: normal, line-height: 67px)
@@ -130,7 +130,7 @@
         font-8
       </div>
       <div class="coeur-typography-sample _font-8">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 64px, font-weight: normal, line-height: 64px)
@@ -142,7 +142,7 @@
         font-9
       </div>
       <div class="coeur-typography-sample _font-9">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </div>
       <div class="coeur-typography-desc _font--1">
         (font-size: 80px, font-weight: normal, line-height: 80px)
@@ -157,7 +157,7 @@
         h1
       </div>
       <h1 class="coeur-typography-sample">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </h1>
       <div class="coeur-typography-desc _font--1">
         (font-size: 32px, font-weight: 700, line-height: 40px)
@@ -169,7 +169,7 @@
         h2
       </div>
       <h2 class="coeur-typography-sample">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </h2>
       <div class="coeur-typography-desc _font--1">
         (font-size: 24px, font-weight: 700, line-height: 32px)
@@ -181,7 +181,7 @@
         h3
       </div>
       <h3 class="coeur-typography-sample">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </h3>
       <div class="coeur-typography-desc _font--1">
         (font-size: 20px, font-weight: 700, line-height: 30px)
@@ -193,7 +193,7 @@
         h4
       </div>
       <h4 class="coeur-typography-sample">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </h4>
       <div class="coeur-typography-desc _font--1">
         (font-size: 20px, font-weight: normal, line-height: 30px)
@@ -205,7 +205,7 @@
         h5
       </div>
       <h5 class="coeur-typography-sample">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </h5>
       <div class="coeur-typography-desc _font--1">
         (font-size: 18px, font-weight: 700, line-height: 27px)
@@ -217,7 +217,7 @@
         h6
       </div>
       <h6 class="coeur-typography-sample">
-        The quick brown fox jumps over the lazy dog
+        The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </h6>
       <div class="coeur-typography-desc _font--1">
         (font-size: 12px, font-weight: 700, line-height: 30px, letter-spacing: 1.2px )

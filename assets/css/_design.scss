@@ -50,6 +50,7 @@ h3 {
 h4 {
 // used to introduce subtopics, hugs content but still needs to breathe
   padding-top: $size-2;
+  line-height: $size-2x;
 }
 
 h5 {
@@ -159,6 +160,7 @@ a, ._link {
     color: usetheme(disabled);
   }
 }
+
   .ContentFrame-body a {
     font-weight: bold;
   }

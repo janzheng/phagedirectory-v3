@@ -1,11 +1,36 @@
 <template>
   <div class="Alerts">
     <Template>
-      <template>
-        <div class="" v-html="$md.render(intro || '')" />
-        <div class="_margin-bottom" v-html="$md.render(content || '')" />
-        <div class="Alerts-form FormCard --simple" v-html="$md.render(alertSignup || '')" />
-        <Alert v-for="item of alerts" :key="item.id" :atom="item" />
+      <template #container>
+        <div class="_section-article _margin-center">
+          <div class="" v-html="$md.render(intro || '')" />
+          <div class="_margin-bottom" v-html="$md.render(content || '')" />
+          <!-- <div class="Alerts-form FormCard --simple" v-html="$md.render(alertSignup || '')" /> -->
+          <AlertSignup class="_margin-bottom" />
+          
+          <Tabbed 
+            :left="{'Active':{}}"
+            :right="{'Resolved':{}}"
+            :active-tab="activeTab"
+            v-on="{ 'tabClick': tabClick }"
+          >
+
+            <template slot="Active">
+              <div class=" _padding-top">
+                <Alert v-for="item of active" :key="item.id" :atom="item" />
+              </div>
+            </template>
+
+            <template slot="Resolved">
+              <div class=" _padding-top">
+                <Alert v-for="item of resolved" :key="item.id" :atom="item" />
+              </div>
+            </template>
+          </Tabbed>
+
+
+          <!-- <Alert v-for="item of alerts" :key="item.id" :atom="item" /> -->
+        </div>
       </template>
     </Template>
 
@@ -19,13 +44,17 @@
 
 import { mapState } from 'vuex'
 import Alert from '~/components/alert.vue'
+import AlertSignup from '~/components/layout/FooterSignups-alerts.vue'
 import Template from '~/templates/article.vue'
+import Tabbed from '~/components/layout/Tabbed.vue'
 
 export default {
 
   components: {
     Alert,
+    AlertSignup,
     Template,
+    Tabbed,
   },
 
   layout: 'contentframe',
@@ -37,6 +66,7 @@ export default {
 
   data () {
     return {
+      activeTab: 'Active',
       intro: this.$cytosis.find('Content.alerts-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       content: this.$cytosis.find('Content.alerts-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       alertSignup: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
@@ -49,6 +79,12 @@ export default {
       ]),
     alerts() {
       return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Alert')
+    },
+    active() {
+      return this.alerts.filter(t => {return t.fields['Data:Status'] !== 'Resolved'})
+    },
+    resolved() {
+      return this.alerts.filter(t => t.fields['Data:Status'] === 'Resolved')
     }
   },
 
@@ -64,6 +100,10 @@ export default {
   },
 
   methods: {
+    tabClick(item, key) {
+      // console.log('default tabclick', item, key)
+      this.activeTab = key
+    },
   },
 
 

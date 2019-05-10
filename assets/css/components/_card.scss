@@ -8,6 +8,16 @@
   overflow: auto;
   @extend %ease;
 
+  a {
+    &:hover {
+      *, & {
+        color: usetheme(active) !important;
+      }
+    }
+  }
+
+
+
   &.--hover:hover {
     border-color: usetheme(active);
     @extend %ease;

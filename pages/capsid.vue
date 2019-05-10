@@ -22,7 +22,8 @@
 
         <div class="_margin-center _section-article">
           <div class="_margin-bottom" v-html="$md.render(intro || '')" />
-          <div class="" v-html="$md.render(signup || '')" />
+          <!-- <div class="" v-html="$md.render(signup || '')" /> -->
+          <CapsidSignup />
         </div>
       </div>
     </div>
@@ -50,11 +51,13 @@
 
 import { mapState } from 'vuex'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
+import CapsidSignup from '~/components/layout/FooterSignups-capsid.vue'
 
 export default {
 
   components: {
     CapsidStub,
+    CapsidSignup,
   },
 
   layout: 'contentframe',
@@ -66,7 +69,7 @@ export default {
   data () {
     return {
       intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      // signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
   },
   

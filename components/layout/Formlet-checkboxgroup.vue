@@ -21,8 +21,8 @@
     <div v-for="option in input.options" :key="option.value" class="_form-checkbox --inline" >
       <label :for="option.value" class="_form-checkbox-label">
         <input :id="option.value"
-               :name="option.value"
                v-model.trim="data[input.name+'.'+option.value]"
+               :name="option.value"
                :value="option.value"
                type="checkbox" 
                @change="$emit('change', data)"

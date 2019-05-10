@@ -12,9 +12,9 @@
 
       <div class="Event-title _font-bold _margin-top-half ">
         <a v-if="atom.fields['URL']" :href="atom.fields['URL']" target="_blank">
-          <h5 v-if="atom.fields['Data:Title']" class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
+          <h4 v-if="atom.fields['Data:Title']" class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
         </a>
-        <h5 v-else class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
+        <h4 v-else class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
       </div>
       <!-- 
         <div class="Event-tags _margin-bottom-half">
@@ -22,7 +22,7 @@
         </div> 
       -->
 
-      <div class="Event-info _margin-bottom _margin-top">
+      <div class="Event-info _margin-bottom _margin-top-half">
         <div v-if="atom.fields['Data:Subtitle']" class="_font-bold _md-pfix" v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
         <div v-if="atom.fields['Data:Source']">
           {{ atom.fields['Data:Source'] }}

@@ -16,7 +16,10 @@
             <span class=" " v-html="$md.render(payload.privacy || '')" />
           </div>
           <div class="Form-cta">
-            <button v-if="!isSending" class="Form-btn _button _margin-none _center _padding-left _padding-right" @click="submit" >{{ payload.cta }}</button>
+            <button v-if="!isSending" 
+                    class="Form-btn _button _margin-none _center _padding-left _padding-right"
+                    @click="submitHandler" 
+            >{{ payload.cta }}</button>
             <button v-if="isSending" :class="'--loading'" class="Form-btn _button --outline _margin-none _center" >
               <span class="_font-bold _relative">
                 <span class="_loader --circle" /> <span class="_margin-left-2">Sending...</span>
@@ -87,16 +90,18 @@ export default {
     validationHandler(isValidating) {
       this.isValidating = isValidating
     },
-    formHandler: _.debounce(function (data) {
-      console.log('onValid — formhandler — data:', data, ' isvalidating:', this.isValidating)
+    formHandler(data) { // _.debounce(function (data) {
+      console.log('formhandler — data:', data, ' isvalidating:', this.isValidating)
       if(data) {
         this.form = data
         this.isFormValid = true
       } else {
         this.isFormValid = false // required if validator is dirty
       }
-    }, 300),
-    submit() {
+      console.log('formhandler:end — data:', data, ' isvalidating:', this.isValidating)
+     // }, 300),
+    },
+    submitHandler() {
       const _this = this
       console.log('Form Handler triggered — valid:', this.isFormValid, 'isSending:', this.isSending )
       this.onSubmit = true

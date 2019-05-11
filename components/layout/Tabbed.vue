@@ -17,33 +17,33 @@
       <div :class="tabAttrs" class="Tabbed-menu">
         <slot name="left">
           <div v-if="left" class="Tabbed-links Tabbed-left">
-            <div v-for="key of Object.keys(left)" :id="key" :key="key" :class="classes(left[key],key)" class="Tabbed-tab _inline-block _relative" >
+            <div v-for="key of Object.keys(left)" :id="key" :key="key" :class="classes(left[key],key)" class="Tabbed-tab _relative" >
               <router-link
                 v-if="left[key].link" 
                 :to="left[key].link" 
                 :class="classes(left[key])" 
-                class="_inline-block _relative"
+                class=" _relative"
               >{{ key }}</router-link>
               <span v-else 
                     :class="classes(left[key])" 
-                    class="_inline-block _relative"
+                    class=" _relative"
                     @click="clickHandler(left[key],key)"
               >{{ key }}</span>
             </div>
           </div>
         </slot>
         <slot name="right">
-          <div v-if="right" class="Tabbed-links Tabbed-right _right">
-            <div v-for="key of Object.keys(right)" :id="key" :key="key" :class="classes(right[key],key)" class="Tabbed-tab _inline-block _relative" >
+          <div v-if="right" class="Tabbed-links Tabbed-right">
+            <div v-for="key of Object.keys(right)" :id="key" :key="key" :class="classes(right[key],key)" class="Tabbed-tab _relative" >
               <router-link
                 v-if="right[key].link" 
                 :to="right[key].link" 
                 :class="classes(right[key])" 
-                class="_inline-block _relative"
+                class=" _relative"
               >{{ key }}</router-link>
               <span v-else 
                     :class="classes(right[key])" 
-                    class="_inline-block _relative"
+                    class=" _relative"
                     @click="clickHandler(right[key],key)"
               >{{ key }}</span>
             </div>
@@ -58,7 +58,7 @@
         <div v-for="key of contents" 
              :id="key+'_content'"
              :key="key+'_content'"
-             class="Tabbed-tab _relative" 
+             class="Tabbed-contents-block _relative" 
         >
           <slot :name="key" />
         </div>
@@ -89,7 +89,7 @@ export default {
     */
     'tabAttrs': {
       type: String,
-      default: '_grid-3-1-xs',
+      default: '_grid-3-1-sm Tabbed-mobile',
     },
     'tabOuterAttrs': {
       type: String,

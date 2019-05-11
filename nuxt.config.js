@@ -74,7 +74,7 @@ export default {
     airtable_base: airtable_base,
     site_policy: site_policy,
     site_segment: site_segment,
-    // ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/phdir-input',
+    ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-basic',
     // site_data: site_data,
     site_static: site_static,
   },
@@ -218,6 +218,7 @@ export default {
     //   id: 'GTM-WCR3X43' 
     // }],
     ['@nuxtjs/pwa'],
+    ['nuxt-leaflet', { /* module options */ }],
 
     // segment handles all analytics — use the plugin instead!!
     // ['nuxt-segment-analytics', { id: site_segment, useRouter: true }],

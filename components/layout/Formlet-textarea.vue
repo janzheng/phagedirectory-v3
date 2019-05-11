@@ -16,15 +16,16 @@
       v-html="$md.render(input.description || '')" 
     />
     <textarea :id="input.name"
-              v-model.trim.lazy="data" 
+              v-model.trim="data" 
               :name="input.name"
               :class="inputAttrs" 
               :placeholder="input.placeholder"
               :required="input.required" 
               class="_form-input _block" 
               type="text" rows="4"
-              @change="emit"
+              @input="emit"
               @blur="emit"
+              @change="emit"
     />
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
 
@@ -66,6 +67,11 @@ export default {
       return undefined
     },
     errorMessage () {
+
+      // UX update — don't show error messages until user hits submit
+      if(!this.onSubmit)
+        return
+
       // let message
       if(this.input.error && typeof(this.input.error) == 'string')
         return this.input.error
@@ -106,7 +112,17 @@ export default {
       // console.log('emit')
       this.$emit('input', this.data)
       // this.delay = 200
-    }, 300)
+    }, 100, {
+      trailing: true
+    }),
+    emitOnSubmit() {
+      // DEPRECATED but keep around
+      // trigger this only if user has tried to submit
+      if(this.onSubmit) {
+        // console.log('emitOnSubmit')
+        this.$emit('input', this.data)
+      }
+    },
   }
 
 }

@@ -6,7 +6,7 @@
           <div class="" v-html="$md.render(intro || '')" />
           <div class="_margin-bottom" v-html="$md.render(content || '')" />
           <!-- <div class="Alerts-form FormCard --simple" v-html="$md.render(alertSignup || '')" /> -->
-          <AlertSignup class="_margin-bottom" />
+          <AlertSignup class="_margin-bottom-2" />
           
           <Tabbed 
             :left="{'Active':{}}"

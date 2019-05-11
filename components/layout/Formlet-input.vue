@@ -14,20 +14,18 @@
       class="_form-label _form-desc" 
       v-html="$md.render(input.description || '')" 
     />
-    data: {{ data }}
     <input :id="input.name"
-           v-model.trim.lazy="data" 
+           v-model.trim="data" 
            :class="inputAttrs" 
            :name="input.name"
            :placeholder="input.placeholder"
            :required="input.required"
            class="_form-input --width-full" 
            :type="type"
-           @change="emit"
+           @input="emit"
            @blur="emit"
+           @change="emit"
     >
-    <!-- 
-           v-on:input="emit()" -->
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
   </div>
 
@@ -37,6 +35,7 @@
 
 import _ from '~/other/lodash.custom.min.js'
 
+let _delay = 100
 
 export default {
 
@@ -64,6 +63,11 @@ export default {
       return undefined
     },
     errorMessage () {
+
+      // UX update — don't show error messages until user hits submit
+      if(!this.onSubmit)
+        return
+
       // let message
       if(this.input.error && typeof(this.input.error) == 'string')
         return this.input.error
@@ -87,7 +91,6 @@ export default {
           return 'This field is required'
       }
 
-
       // return message
       return undefined
     },
@@ -106,13 +109,29 @@ export default {
     //     'trailing': true
     //   })()
     // }
-    emit: _.debounce(function() { // long initial delay
+    emit: new _.debounce(function() { // long initial delay
       // slows down error messages
-      // console.log('emit')
+      // console.log('emitting formlet-input', _delay)
       this.$emit('input', this.data)
-      // this.delay = 200
-    }, 300)
-  }
+      _delay = 100
+    }, _delay, {
+      trailing: true
+    }),
+    emitOnSubmit() {
+      // trigger this only if user has tried to submit
+      if(this.onSubmit) {
+        // console.log('emitOnSubmit')
+        this.$emit('input', this.data)
+      }
+    }
+  },
+
+  // watch: {
+  //   data: function (newData, oldData) {
+  //     console.log('watcher running on data change', newData)
+  //     this.emit()
+  //   }
+  // },
 
 }
 </script>

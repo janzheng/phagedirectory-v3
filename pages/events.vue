@@ -1,6 +1,8 @@
 <template>
   <div class="Events">
+
     <Template :template-classes="'_margin-center'">
+
       <template #container>
 
         <div class="_section-article _margin-center">
@@ -10,11 +12,35 @@
             :left="leftData"
             :right="rightData"
             :active-tab="activeTab"
-            v-on="{ 'tabClick': tabClick, 'One': oneHandler, 'Two Button': twoHandler }"
+            v-on="{ 'tabClick': tabClick }"
           >
 
             <template slot="Upcoming Events">
-              <div class=" _padding-top">
+              <div class="_padding-top">
+                <div id="map-wrap" class="Leaflet _hidden-xs _margin-bottom" style="height: 50vh">
+                  <!-- <no-ssr> ssr breaks inside the template lol.. -->
+                  <l-map :zoom="1" :center="[47.413220, -1.219482]" class="Leaflet-map" >
+                    <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                                  attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
+                    />
+                    <l-marker v-for="item of upcoming" 
+                              :key="item.id" 
+                              :lat-lng="item.fields['Meta:LatLng'][0].split(',')" 
+                              class="Leaflet-marker"
+                    >
+                      <l-tooltip class="Leaflet-tooltip">
+                        {{ item.fields['Name'] }}
+                        <div class="_font-small"> 
+                          <span>{{ item.fields['Data:Date'] | niceDate }}</span>
+                          <span v-if="item.fields['Data:DateEnd']" > – {{ item.fields['Data:DateEnd'] | niceDate }}</span>
+                        </div>
+                      </l-tooltip>
+                    </l-marker>
+                    <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+                  </l-map>
+                  <!-- </no-ssr> -->
+                </div>
+
                 <Event v-for="item of upcoming" :key="item.id" :atom="item" />
               </div>
             </template>
@@ -39,6 +65,7 @@
         </div>
 
       </template>
+      
     </Template>
 
   </div>
@@ -86,7 +113,7 @@ export default {
         },
       },
       intro: this.$cytosis.find('Content.events-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      content: this.$cytosis.find('Content.events-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      // content: this.$cytosis.find('Content.events-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
   },
@@ -137,12 +164,6 @@ export default {
       // console.log('default tabclick', item, key)
       this.activeTab = key
     },
-    // oneHandler(data) {
-    //   // console.log('one handler', data)
-    // },
-    // twoHandler(data) {
-    //   // console.log('two handler', data)
-    // }
   },
 
 

@@ -7,7 +7,7 @@ $footer: (
   capsid-cta-active-color: usetheme(brand-0),
   capsid-cta-bg-active-color: usetheme(brand-90),
   capsid-input-border-color: usetheme(brand-90),
-  capsid-input-bg-color: usetheme(whiter),
+  capsid-input-bg-color: usetheme(purewhite),
   capsid-input-bg-active-color: usetheme(whiter),
 
   alert-border-color: usetheme(pink-5),
@@ -15,13 +15,14 @@ $footer: (
   alert-cta-color: usetheme(pink-60),
   alert-cta-active-color: usetheme(brand-active),
   alert-input-border-color: usetheme(pink-30),
-  alert-input-bg-color: usetheme(whiter),
+  alert-input-bg-color: usetheme(purewhite),
   alert-input-bg-active-color: usetheme(whiter),
 );
 
 // for alerts and mailchimp
 // custom breakpoint
 .FooterSignups {
+  background-color: usetheme(mono-30);
 }
 
 
@@ -29,6 +30,7 @@ $footer: (
   background: usetheme(capsid-bg-color, $footer);
   border-left: solid $border-thick;
   border-color: usetheme(capsid-border-color, $footer);
+  @extend ._shadow-1;
 
   input._form-input {
     background-color: usetheme(capsid-input-bg-color, $footer);
@@ -65,6 +67,7 @@ $footer: (
   background: usetheme(alert-bg-color, $footer);
   border-left: solid $border-thick;
   border-color: usetheme(alert-border-color, $footer);
+  @extend ._shadow-1;
 
   input._form-input {
     background-color: usetheme(alert-input-bg-color, $footer);

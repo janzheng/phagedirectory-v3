@@ -195,7 +195,7 @@ export default {
     { src: '~/plugins/cytosis.js' },
     { src: '~/plugins/date.js' },
     { src: '~/plugins/headmatter.js' },
-    // { src: '~/plugins/slugify.js' },
+    { src: '~/plugins/slugify.js' },
     { src: '~plugins/vue-scrollto.js' },
     // https://github.com/Developmint/nuxt-purgecss
     // { src: '~/plugins/dynamicData.js' } // done as middleware instead

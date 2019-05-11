@@ -1,12 +1,13 @@
 <template>
 
-  <div class="Form"> 
+  <div :id="`Form--${formName}`" class="Form" > 
     <div v-if="payload.intro" class="Form-intro " v-html="$md.render(payload.intro || '')" />
 
     <div class="Form-body">
       <div v-if="!success && !error">
         <Formlet ref="form" 
                  :inputs="getForm(payload.JSON)"
+                 :submit-handler="submitHandler"
                  :on-submit="onSubmit"
                  @onValid="formHandler"
                  @onValidating="validationHandler"
@@ -32,7 +33,7 @@
         </div>
       </div>
 
-      <div v-if="success" class="_card --alert _padding _md-pfix" v-html="$md.render(payload.thanks || '')">
+      <div v-if="success" id="Form--thanks" class="_card --alert _padding _md-pfix" v-html="$md.render(payload.thanks || '')">
         <h4>Thank you for sending us feedback!</h4>
       </div>
 
@@ -47,7 +48,7 @@
 
 <script>
 
-import _ from '~/other/lodash.custom.min.js'
+// import _ from '~/other/lodash.custom.min.js'
 import Formlet from '~/components/layout/Formlet.vue'
 import axios from 'axios'
 
@@ -91,14 +92,17 @@ export default {
       this.isValidating = isValidating
     },
     formHandler(data) { // _.debounce(function (data) {
-      console.log('formhandler — data:', data, ' isvalidating:', this.isValidating)
+      // listens on formlet changes; figures out if data is valid or not whenever data is updated
+      // should switch to a promise-based system at some point
+
+      // console.log('formhandler — data:', data, ' isvalidating:', this.isValidating)
       if(data) {
         this.form = data
         this.isFormValid = true
       } else {
         this.isFormValid = false // required if validator is dirty
       }
-      console.log('formhandler:end — data:', data, ' isvalidating:', this.isValidating)
+      // console.log('formhandler:end — data:', data, ' isvalidating:', this.isValidating)
      // }, 300),
     },
     submitHandler() {
@@ -125,6 +129,8 @@ export default {
           // if(status.status == 200) {
             _this.success = true
             _this.isSending = false
+            _this.$scrollTo(`#Form--${_this.formName}`)
+            // _this.$scrollTo(`#Form--thanks`)
           // }
         })
         .catch(function (error) {

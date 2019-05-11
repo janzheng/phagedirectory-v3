@@ -9,7 +9,7 @@
   <div :class="src.fields['Data:Attrs']" class="Template-Form FormCard">
     <Form :payload="payload"
           :target-table="src.fields['Data:Select']"
-          :send-email="false"
+          :send-email="true"
           :validate="true"
           :form-name="src.fields['Name']"
           class=""

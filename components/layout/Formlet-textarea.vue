@@ -12,7 +12,7 @@
     <label 
       v-if="input.description" 
       :for="input.name" 
-      class="_form-label _form-desc" 
+      class="_form-desc" 
       v-html="$md.render(input.description || '')" 
     />
     <textarea :id="input.name"
@@ -21,8 +21,9 @@
               :class="inputAttrs" 
               :placeholder="input.placeholder"
               :required="input.required" 
+              :rows="input.rows || 4"
               class="_form-input _block" 
-              type="text" rows="4"
+              type="text" 
               @input="emit"
               @blur="emit"
               @change="emit"

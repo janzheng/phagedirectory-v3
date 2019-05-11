@@ -87,7 +87,7 @@ export default {
   },
   // clear (or reset) an object (esp. used on update)
   clear (state, name) {
-    console.log('Store.clear', 'Clearing:', name)
+    // console.log('Store.clear', 'Clearing:', name)
     if(state[name] !== undefined) {
       // state[name] = undefined
       delete state[name]

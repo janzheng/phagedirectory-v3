@@ -240,7 +240,7 @@ export default {
     },
 
     doneScrolling(el) {
-      console.log('done scrolling', el.id)
+      // console.log('done scrolling', el.id)
       this.$router.push({
         path: this.route.path + '#' + el.id
       })

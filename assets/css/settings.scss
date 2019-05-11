@@ -145,9 +145,11 @@ $colors-brand: (
   brand-100: #204065,
   brand-110: #172640,
   brand-250: #0085FF,
+  brand-copy: #172640,
   brand-alert: #71EFF5,
-  brand-border: #71EFF5,
-  brand-disabled: #D6F9FF,
+  brand-border: #9EF3FD, // was 71EFF5; too bright?
+  brand-disabled: #E7FBFF,
+  brand-background: #E7FBFF,
 );
 
 // old
@@ -188,20 +190,20 @@ $colors-secondary: ( // dark blue
 
 // https://www.colorbox.io/#steps=8#hue_start=208#hue_end=218#hue_curve=easeInQuad#sat_start=13#sat_end=99#sat_curve=easeInOutCubic#sat_rate=78#lum_start=100#lum_end=38#lum_curve=easeOutQuad#lock_hex=71EFF5#minor_steps_map=0
 $colors-pink: (
-  pink--1: #FFF1F3, // added later as a much lighter pink as bg
+  pink--1: #FFF1F3,           // added later as a much lighter pink as bg
   pink-0: #FFE3E8,
   pink-5: #FFD9E2,
   pink-10: #FFCFDC,
   pink-20: #FFB3C8,
   pink-30: #FF89AB,
-  pink-40: #FA5486, // ** brand
+  pink-40: #FA5486,           // ** brand
   pink-50: #DF2C5F,
   pink-60: #BD053A, 
   pink-70: #950031,
   pink-80: #6B0027,
   pink: #FA5486,
   pink-copy: #6B0027,
-  pink-active: #FA5486,
+  pink-active: #DF2C5F,       // brand color not AA
   pink-disabled: #FFCFDC, 
   pink-background: #FFE3E8, 
   pink-border: #BD053A, 

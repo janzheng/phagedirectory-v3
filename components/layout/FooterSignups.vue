@@ -1,5 +1,5 @@
 <template>
-  <div class="FooterSignups _margin-top _margin-bottom _margin-left-xs _margin-right-xs ">
+  <div class="FooterSignups _padding-top _padding-bottom _margin-left-xs _margin-right-xs ">
 
     <div class="_width-content-max _margin-center _padding-none-xs">
       <!-- <div> -->

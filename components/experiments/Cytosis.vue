@@ -58,7 +58,7 @@ export default {
     const refreshOnLoad = this.refreshOnLoad
 
     if(refreshOnLoad) {
-      console.log('refresh — clear out the store', tableQuery, tableQueries)
+      // console.log('refresh — clear out the store', tableQuery, tableQueries)
       // store.cache.delete('loadCytosis')
       this.$store.dispatch('clear', "Atoms")
     }

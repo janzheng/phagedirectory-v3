@@ -7,6 +7,6 @@ Vue.component('vue-scrollto', VueScrollTo)
 
 // export default ({ app }, inject) => {
 export default ({ }, inject) => {
-  inject('v-scroll-to', VueScrollTo)
+  inject('scrollTo', VueScrollTo)
 }
 

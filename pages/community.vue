@@ -134,6 +134,8 @@ export default {
   },
 
   mounted () {
+    const tab = this.$router.currentRoute.hash.substring(1).replace(/[-]/g, ' ') // replace all '-' in the slugified hash with spaces
+    this.activeTab = tab
   },
 
   methods: {

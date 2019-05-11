@@ -7,12 +7,13 @@ import _ from '~/other/lodash.custom.min.js'
 
 export default {
   // async loadCytosis ({ commit, state }, {env, tableQuery, options, caller}) {
-  async loadCytosis ({ commit }, {env, tableQuery, options, settings, caller, _key, _base}) {
+  async loadCytosis ({ commit }, {env, tableQuery, options, settings, _key, _base}) {
+  // async loadCytosis ({ commit }, {env, tableQuery, options, settings, caller, _key, _base}) {
     const airKey = _key || env.airtable_api
     const airBase = _base || env.airtable_base
 
     // if(!process.server)
-      console.log(`[actions/loadCytosis loading from:${caller}]: query/options:`, tableQuery, options)
+      // console.log(`[actions/loadCytosis loading from:${caller}]: query/options:`, tableQuery, options)
       // console.log(`[actions/loadCytosis loading from:${caller}]: isServer:`, process.server)
     
     // if generated, not server, and static is true
@@ -30,7 +31,7 @@ export default {
     commit('setCytosis', cytosis)
 
     // if(!process.server)
-    console.log(`[actions/loadCytosis from:${caller}]: done.`)
+    // console.log(`[actions/loadCytosis from:${caller}]: done.`)
 
     return Promise.resolve(cytosis)
   

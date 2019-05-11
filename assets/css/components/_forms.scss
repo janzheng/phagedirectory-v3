@@ -4,6 +4,51 @@ $forms: (
   btn-bg: usetheme(pink-50),
 );
 
+
+
+
+
+// Phage Directory form design standards
+
+input, .input, %input {
+  border-radius: $radius;
+  background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
+
+  &[type="email"],
+  &[type="text"],
+  &[type="number"],
+  &[type="password"],
+  &[type="date"],
+  &[type="url"] {
+    border: solid $border-thin usetheme(brand-70);
+    border-top-color: transparent;
+    border-left-color: transparent;
+    border-right-color: transparent;
+
+    &:focus, &:active, &:hover, &:hover:focus {
+      border: solid $border-thin usetheme(brand-70);
+      background-color: usetheme(purewhite);
+    }
+  }
+
+}
+
+
+textarea, .textarea { 
+  border-radius: $radius;
+  background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
+  border-color: usetheme(brand-10); // grabs attention w/ border color
+  &:focus, &:active, &:hover {
+    border-color: usetheme(brand-70);
+    background-color: usetheme(purewhite);
+  }
+  &:hover {
+    background-color: usetheme(purewhite);
+  }
+}
+
+
+
 // dynamic form
 .Form {
   .Form-btn {
@@ -23,9 +68,11 @@ $forms: (
     &.--loading {
       cursor: progress;
       &, &:active, &:hover, &:focus {
-        color: usetheme(pink-copy);
-        border-color: usetheme(active);
-        background-color: usetheme(pink-10);
+        &, * {
+          color: usetheme(brand-copy) !important;
+        }
+        border-color: usetheme(brand-border);
+        background-color: usetheme(brand-background);
       }
     }
   }
@@ -47,12 +94,18 @@ $forms: (
 .FormCard {
 	@extend ._card;
 	// padding: $size $size-2x;
-  padding: $size;
+  padding: $size-2x $size;
   color: usetheme(copy);
+
+  background-color: usetheme(brand-background); 
+  border-color: usetheme(brand-border); 
+  border-width: $border-thin;
 
   @include screen-xs {
     padding: $size;
   }
+
+  @extend ._shadow-4;
 }
 
 
@@ -72,12 +125,15 @@ $forms: (
   }
   ._form-label {
     &, p {
-      font-size: $font-large;
+      font-size: $size;
+      padding-bottom: $size-quart;
+      font-weight: bold;
     }
   }
   ._form-desc {
     &, p {
-      font-size: $font-small;
+      font-size: $size;
+      padding-bottom: $size-quart;
     }
   }
 
@@ -89,5 +145,6 @@ $forms: (
     background-color: usetheme(pink-background);
   }
 }
+
 
 

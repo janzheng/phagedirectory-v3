@@ -78,7 +78,7 @@ export default async function ({route, env, store}) {
   })[0]
 
   if(refreshOnLoad) {
-    console.log('refresh — clear out the store', tableQuery, tableQueries)
+    // console.log('refresh — clear out the store', tableQuery, tableQueries)
     // store.cache.delete('loadCytosis')
     store.dispatch('clear', "Atoms")
   }

@@ -7,8 +7,8 @@ export async function loadQuery(env, store, routeName, query, keyword) {
   // esp. important for site generation
   // if(store.state && !store.state.Content) {
 
-  if(!process.server)
-    console.log('[Loader] Load cytosis by query:', query, 'keyword:', keyword, 'route:', routeName)
+  // if(!process.server)
+    // console.log('[Loader] Load cytosis by query:', query, 'keyword:', keyword, 'route:', routeName)
   // data = await store.cache.dispatch('loadCytosis', {
   data = await store.dispatch('loadCytosis', {
     env,

@@ -15,6 +15,7 @@
           :type="input.type.toLowerCase()" 
           :v="$v.fieldData[input.name]"
           :on-submit="onSubmit"
+          :submit-handler="submitHandler"
           @input="(data) => { validationUpdate(data, input) }" 
         />
       </div>
@@ -92,7 +93,8 @@ export default {
   props: {
     inputs: Array,
     inputAttrs: String, // classes that apply to every input
-    onSubmit: Boolean, // fires when submit cta is clicked
+    onSubmit: Boolean, // fires when submit cta is clicked; used to show validation
+    submitHandler: Function, // submit handler to process @keyup handling
   },
 
   data: function () {
@@ -145,6 +147,10 @@ export default {
   methods: {
     touch() {
       this.$v.$touch()
+    },
+
+    keyEnterHandler() {
+      console.log('key enter pressed')
     },
 
     // update validation model when inputs change

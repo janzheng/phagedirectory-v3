@@ -10,7 +10,7 @@
   &.Resolved { 
     opacity: usetheme(opacity-expired);
     background-color: usetheme(bg-silver-lighter); // $color-silver-lighter;
-    border: 0;
+    // border: 0;
   }
   &.Urgent {
     border-top: $border-thin solid usetheme(danger); // $color-danger;

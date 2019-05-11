@@ -11,7 +11,7 @@
     <label 
       v-if="input.description" 
       :for="input.name" 
-      class="_form-label _form-desc" 
+      class="_form-desc" 
       v-html="$md.render(input.description || '')" 
     />
     <input :id="input.name"
@@ -25,6 +25,7 @@
            @input="emit"
            @blur="emit"
            @change="emit"
+           @keyup.enter="keyEnterHandler"
     >
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
   </div>
@@ -45,6 +46,7 @@ export default {
     inputAttrs: String, // classes that might be applied to every input
     v: Object, // validation object, for errors and messages
     onSubmit: Boolean, // fires when submit cta is clicked
+    submitHandler: Function, // submit handler to process @keyup handling
   },
 
   data: function () {
@@ -123,7 +125,11 @@ export default {
         // console.log('emitOnSubmit')
         this.$emit('input', this.data)
       }
-    }
+    },
+    keyEnterHandler() {
+      console.log('key enter pressed')
+      this.submitHandler()
+    },
   },
 
   // watch: {

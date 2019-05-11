@@ -112,11 +112,19 @@ export default {
     }
   },
 
+  // set active state based on anchor
+  // mounted() {
+  // }
+  
   methods: {
     clickHandler(item,key) {
       // console.log(`'emitting: '${key}'`)
       this.$emit(`${key}`, item)
       this.$emit(`tabClick`, item,key)
+
+      this.$router.push({
+        path: this.$router.currentRoute.path + '#' + this.$slugify(key)
+      })
     },
     classes(item,key) {
       // console.log('classes:', item, key)
@@ -124,12 +132,13 @@ export default {
       if (item.active)
         classes += ` --active`
 
-      if(this.activeTab == key)
+      else if(this.activeTab == key)
         classes += ` --active`
 
       return classes
-    }
-  }
+    },
+  },
+
 
 }
 </script>

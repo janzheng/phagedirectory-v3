@@ -57,7 +57,7 @@
       </div>
 
       <div v-if="input.type==INPUT_TYPES.MARKDOWN" class="_form-markdown" >
-        <div class="_padding-top _padding-bottom" v-html="$md.render(input.markdown || '')" />
+        <div class="_padding-top _padding-bottom _margin-bottom" v-html="$md.render(input.markdown || '')" />
       </div>
 
     </div>

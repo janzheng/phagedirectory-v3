@@ -50,11 +50,11 @@ export default {
         JSON: this.src.fields['Data:JSON'],
         isPublished: this.src.fields['isPublished'],
     
-        handler: this.src.fields['Data:URL'] || this.$store.state.ext_handler,
-        error: this.$cytosis.findOne('form-default:error', this.$store.state['Content'] ).fields['Markdown'],
-        thanks: this.$cytosis.findOne('form-default:thanks', this.$store.state['Content'] ).fields['Markdown'],
-        cta: this.src.fields['Data:String'] || this.$cytosis.findOne('form-default:cta', this.$store.state['Content'] ).fields['Markdown'],
-        privacy: this.$cytosis.findOne('form-default:privacy', this.$store.state['Content'] ).fields['Markdown'],
+        handler:  this.src.fields['Data:URL'] || this.$store.state.ext_handler,
+        error:    this.src.fields['Data:Error'] || this.$cytosis.findOne('form-default:error', this['Content'] ).fields['Markdown'],
+        thanks:   this.src.fields['Data:Success'] || this.$cytosis.findOne('form-default:thanks', this['Content'] ).fields['Markdown'],
+        cta:      this.src.fields['Data:String'] || this.$cytosis.findOne('form-default:cta', this['Content'] ).fields['Markdown'],
+        privacy: this.$cytosis.findOne('form-default:privacy', this['Content'] ).fields['Markdown'],
       }
     }
   },

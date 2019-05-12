@@ -13,9 +13,6 @@
                  @onValidating="validationHandler"
         />
         <div>
-          <div class="Form-privacy">
-            <span class=" " v-html="$md.render(payload.privacy || '')" />
-          </div>
           <div class="Form-cta">
             <button v-if="!isSending" 
                     class="Form-btn _button _margin-none _center _padding-left _padding-right"
@@ -26,6 +23,10 @@
                 <span class="_loader --circle" /> <span class="_margin-left-2">Sending...</span>
               </span>
             </button>
+          </div>
+          <!-- privacy moved UNDER cta — really disrupts the tab flow -->
+          <div class="Form-privacy _padding-top">
+            <span class=" " v-html="$md.render(payload.privacy || '')" />
           </div>
           <div v-if="onSubmit && !isFormValid" class="Form-error _card --alert _padding _margin-top">
             We found a mistake — please scroll back up and check.

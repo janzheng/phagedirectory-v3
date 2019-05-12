@@ -6,7 +6,7 @@
 
         <div class="_section-article _margin-center">
           <div class="" v-html="$md.render(intro || '')" />
-          <div class="_margin-bottom" v-html="$md.render(content || '')" />
+          <div class="_margin-bottom-2" v-html="$md.render(content || '')" />
 
           <Tabbed 
             :left="{
@@ -134,8 +134,18 @@ export default {
   },
 
   mounted () {
-    const tab = this.$router.currentRoute.hash.substring(1).replace(/[-]/g, ' ') // replace all '-' in the slugified hash with spaces
-    this.activeTab = tab
+    // if(this.$router.currentRoute.hash) {
+    if(this.$router.currentRoute.query && this.$router.currentRoute.query.tab) {
+      // const tab = this.$router.currentRoute.hash.substring(1).replace(/[-]/g, ' ') // replace all '-' in the slugified hash with spaces
+      // use query instead
+      this.activeTab = this.$router.currentRoute.query.tab.replace(/[-]/g, ' ')
+    }
+  },
+
+  watch: {
+    $route () {
+      console.log('route changed', this.$route)
+    }
   },
 
   methods: {
@@ -144,7 +154,6 @@ export default {
       this.activeTab = key
     },
   },
-
 
 }
 </script>

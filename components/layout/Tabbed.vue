@@ -123,7 +123,9 @@ export default {
       this.$emit(`tabClick`, item,key)
 
       this.$router.push({
-        path: this.$router.currentRoute.path + '#' + this.$slugify(key)
+        // path: this.$router.currentRoute.path + '#' + this.$slugify(key),
+        path: this.$router.currentRoute.path,
+        query: { tab: this.$slugify(key) }
       })
     },
     classes(item,key) {

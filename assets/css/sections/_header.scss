@@ -243,11 +243,16 @@ $header-item-height: $size-4;
   .Header-links {
     background: usetheme(brand-0);
     border-radius: $radius;
-    margin-bottom: $size-2
+    margin-top: $size-2;
+    margin-bottom: $size-2;
   }
 }
 .Header {
   .Header-mobile-item {
+    a {
+      padding-top: $size-half;
+      padding-bottom: $size-quart;
+    }
 
     a._button {
       font-size: usetheme(size-mobile);

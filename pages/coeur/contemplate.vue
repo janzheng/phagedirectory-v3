@@ -5,22 +5,24 @@
 
  -->
 <template>
-  <div class="Contemplate _section-page _margin-center _padding-left-2 _padding-right-2">
+  <no-ssr>
+    <div class="Contemplate _section-page _margin-center _padding-left-2 _padding-right-2">
 
-    <div class="_section-content">
-      <div class="_section-article" v-html="$md.render(content || '')" />
-      <div class="_section-article" >
-        <div v-for="item of linkedContent" :key="item.id">
-          <div v-if="item.fields['TemplateType'] == 'Form'">
-            <NodeForm :src="content" />
+      <div class="_section-content">
+        <div class="_section-article" v-html="$md.render(content || '')" />
+        <div class="_section-article" >
+          <div v-for="item of linkedContent" :key="item.id">
+            <div v-if="item.fields['TemplateType'] == 'Form'">
+              <NodeForm :src="content" />
+            </div>
+            <div v-else-if="item.fields['RenderFields']" v-html="item.fields[item.fields['RenderFields']]" />
+            <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
           </div>
-          <div v-else-if="item.fields['RenderFields']" v-html="item.fields[item.fields['RenderFields']]" />
-          <div v-else v-html="$md.render(item.fields['Markdown'] || '')" />
         </div>
       </div>
-    </div>
 
-  </div>
+    </div>
+  </no-ssr>
 </template>
 
 

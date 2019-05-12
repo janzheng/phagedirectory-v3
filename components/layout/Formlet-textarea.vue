@@ -28,6 +28,10 @@
               @blur="emit"
               @change="emit"
     />
+    <label v-if="input.maxLength" class="_font-small _padding-top-half" >
+      <span v-if="v.maxLength != false">Characters: {{ data.length }}</span>
+      <span v-else>Characters: {{ input.maxLength - data.length }} </span>
+    </label>
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
 
   </div>
@@ -69,6 +73,10 @@ export default {
     },
     errorMessage () {
 
+      // show char error before submit
+      if(this.input.maxLength && !this.v.maxLength)
+        return 'Please stay under the character limit'
+
       // UX update — don't show error messages until user hits submit
       if(!this.onSubmit)
         return
@@ -84,15 +92,6 @@ export default {
       }
       return undefined
 
-      // NOT SUPPORTED YET — if input is an object 
-      // e.g. error.$email, error.$required, etc. — would match the v model
-      // so you can create custom messages for different situations,
-      // like email is wrong etc.
-      // else if(input.error)
-      // if (!message && this.$v.fieldData[input.name].$required)
-      //   message = "This field is required"
-
-      // return message
     },
   },
 

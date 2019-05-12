@@ -5,9 +5,12 @@
 
     <div v-for="input in inputs" :key="input.name" :class="input.required ? '--required' : '' " class="item--field" >
       
-      <!-- <div>INPUT: {{ input }}</div> -->
+      <!-- <div>INPUT: {{ input.type }}</div> -->
       <div 
-        v-if="input.type==INPUT_TYPES.TEXT || input.type==INPUT_TYPES.EMAIL || input.type==INPUT_TYPES.NUMBER" 
+        v-if="input.type==INPUT_TYPES.TEXT || 
+          input.type==INPUT_TYPES.EMAIL || 
+          input.type==INPUT_TYPES.NUMBER || 
+          input.type==INPUT_TYPES.URL" 
         class="_form-control" >
         <FormletInput 
           :input="input" 
@@ -52,6 +55,11 @@
           @change="(data) => { validationUpdate(data, input) }" 
         />
       </div>
+
+      <div v-if="input.type==INPUT_TYPES.MARKDOWN" class="_form-markdown" >
+        <div class="_padding-top _padding-bottom" v-html="$md.render(input.markdown || '')" />
+      </div>
+
     </div>
   </div>
 
@@ -65,15 +73,17 @@ import _ from '~/other/lodash.custom.min.js'
 const INPUT_TYPES = {
   "TEXT":     'TEXT',     // input text, generic; default
   "EMAIL":    'EMAIL',    // email input
+  "URL":      'URL',      // url input
   "NUMBER":   'NUMBER',   // number input
   "TEXTAREA": 'TEXTAREA', // text area
   "RADIO":    'RADIO',    // radio button group
   "CHECKBOX": 'CHECKBOX', // checkbox group        
+  "MARKDOWN": 'MARKDOWN', // random markdown comments        
 }
 
 // used for validation
 import { validationMixin } from 'vuelidate'
-import { required, email, numeric,  } from 'vuelidate/lib/validators'
+import { required, email, numeric, maxLength } from 'vuelidate/lib/validators'
 import FormletInput from '~/components/layout/Formlet-input'
 import FormletTextarea from '~/components/layout/Formlet-textarea'
 import FormletRadiogroup from '~/components/layout/Formlet-radiogroup'
@@ -115,6 +125,9 @@ export default {
 
     this.inputs.forEach(function(input) {
 
+      if(!input.name) // skipping "markdown" and other types that don't have names
+        return
+
       fieldData[input.name] = {}
 
       // so we don't re-initialize on prop change
@@ -130,6 +143,11 @@ export default {
       if (input.type == INPUT_TYPES.NUMBER) { 
         fieldData[input.name]['numeric'] = numeric
       }
+
+      if (input.maxLength) { 
+        fieldData[input.name]['maxLength'] = maxLength(input.maxLength)
+      }
+
     })
 
     // console.log('fieldData:', fieldData)

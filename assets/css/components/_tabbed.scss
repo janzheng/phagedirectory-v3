@@ -108,12 +108,13 @@
     .Tabbed-tab {
       display: block;
       margin: 0;
-      margin-bottom: $size--1;
+      margin-bottom: $size;
 
       & > * {
         padding-bottom: $size-half;
         width: 100%;
         display: block;
+        font-size: $size-3;
       }
 
       // &:after { // reset the underscore highlight for something more traditional
@@ -132,10 +133,13 @@
   }
 }
 
-.Tabbed-container {
-  @include screen-xs {
-    background-color: usetheme(mono-10);
-    padding: $size $size-half;
+@include screen-xs {
+  .Tabbed-container {
+    // background-color: usetheme(mono-10);
+    // padding: $size $size-half;
+    &:after {
+      display: none;
+    }
   }
 }
 

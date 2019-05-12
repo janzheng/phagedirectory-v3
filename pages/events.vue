@@ -50,18 +50,15 @@
                 <Event v-for="item of past" :key="item.id" :atom="item" />
               </div>
             </template>
+
+            <template slot="Add an Event">
+              <div class=" _padding-top">
+                <NodeForm :src="form"/>
+              </div>
+            </template>
+
           </Tabbed>
 
-          <!-- 
-          <div>
-            <h6>Upcoming Events</h6>
-            <Event v-for="item of upcoming" :key="item.id" :atom="item" />
-          </div>
-
-          <div class="_padding-top-2">
-            <h6>Past Events</h6>
-            <Event v-for="item of past" :key="item.id" :atom="item" />
-          </div> -->
         </div>
 
       </template>
@@ -79,6 +76,7 @@
 import { mapState } from 'vuex'
 import Event from '~/components/Event.vue'
 import Tabbed from '~/components/layout/Tabbed.vue'
+import NodeForm from '~/components/render/NodeForm.vue'
 import Template from '~/templates/article.vue'
 
 export default {
@@ -87,6 +85,7 @@ export default {
     Event,
     Template,
     Tabbed,
+    NodeForm,
   },
 
   layout: 'contentframe',
@@ -105,14 +104,13 @@ export default {
           // attrs: '_pointer',
           // active: true,
         },
+        'Past Events':{},
       },
       rightData: {
-        'Past Events': {
-          // attrs: '_pointer',
-          // link: 'about',
-        },
+        'Add an Event':{},
       },
       intro: this.$cytosis.find('Content.events-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      form: this.$cytosis.find('Content.form-event', {'Content': this.$store.state['Content']} )[0],
       // content: this.$cytosis.find('Content.events-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
@@ -157,6 +155,12 @@ export default {
   },
 
   mounted () {
+    // if(this.$router.currentRoute.hash) {
+    if(this.$router.currentRoute.query && this.$router.currentRoute.query.tab) {
+      // const tab = this.$router.currentRoute.hash.substring(1).replace(/[-]/g, ' ') // replace all '-' in the slugified hash with spaces
+      // use query instead
+      this.activeTab = this.$router.currentRoute.query.tab.replace(/[-]/g, ' ')
+    }
   },
 
   methods: {

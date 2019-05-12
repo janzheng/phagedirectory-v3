@@ -1,9 +1,9 @@
 <template>
 
   <div :id="`Form--${formName}`" class="Form" > 
-    <div v-if="payload.intro" class="Form-intro " v-html="$md.render(payload.intro || '')" />
+    <div v-if="payload.intro" class="Form-intro _margin-bottom" v-html="$md.render(payload.intro || '')" />
 
-    <div class="Form-body">
+    <div class="Form-body _padding-top">
       <div v-if="!success && !error">
         <Formlet ref="form" 
                  :inputs="getForm(payload.JSON)"

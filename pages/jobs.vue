@@ -6,7 +6,7 @@
 
         <div class="_section-article _margin-center">
           <div class="" v-html="$md.render(intro || '')" />
-          <div class="_margin-bottom" v-html="$md.render(content || '')" />
+          <div class="_margin-bottom-2" v-html="$md.render(content || '')" />
 
           <!-- {{ current }} -->
           <Tabbed 
@@ -14,7 +14,9 @@
               'Current Jobs':{},
               'Expired Jobs':{}
             }"
-            :right="{}"
+            :right="{
+              'Post a Job':{}
+            }"
             :active-tab="activeTab"
             v-on="{ 'tabClick': tabClick }"
           >
@@ -34,18 +36,15 @@
                 <Job v-for="item of expired" :key="item.id" :atom="item" />
               </div>
             </template>
+
+            <template slot="Post a Job">
+              <div class=" _padding-top">
+                <NodeForm :src="form"/>
+              </div>
+            </template>
+
           </Tabbed>
 
-          <!-- 
-          <div>
-            <h6>Upcoming Events</h6>
-            <Event v-for="item of upcoming" :key="item.id" :atom="item" />
-          </div>
-
-          <div class="_padding-top-2">
-            <h6>Past Events</h6>
-            <Event v-for="item of past" :key="item.id" :atom="item" />
-          </div> -->
         </div>
 
       </template>
@@ -65,6 +64,7 @@ import Job from '~/components/Job.vue'
 // import Template from '~/templates/context.vue'
 import Template from '~/templates/article.vue'
 import Tabbed from '~/components/layout/Tabbed.vue'
+import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
 
@@ -72,6 +72,7 @@ export default {
     Job,
     Template,
     Tabbed,
+    NodeForm,
   },
 
   layout: 'contentframe',
@@ -86,6 +87,7 @@ export default {
       activeTab: "Current Jobs",
       intro: this.$cytosis.find('Content.jobs-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       content: this.$cytosis.find('Content.jobs-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      form: this.$cytosis.find('Content.form-jobs', {'Content': this.$store.state['Content']} )[0],
     }
   },
   
@@ -118,6 +120,12 @@ export default {
   },
   
   mounted () {
+    // if(this.$router.currentRoute.hash) {
+    if(this.$router.currentRoute.query && this.$router.currentRoute.query.tab) {
+      // const tab = this.$router.currentRoute.hash.substring(1).replace(/[-]/g, ' ') // replace all '-' in the slugified hash with spaces
+      // use query instead
+      this.activeTab = this.$router.currentRoute.query.tab.replace(/[-]/g, ' ')
+    }
   },
 
   methods: {

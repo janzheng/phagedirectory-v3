@@ -200,12 +200,12 @@ export default {
     // https://github.com/Developmint/nuxt-purgecss
     // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
-    { src: '~/plugins/drift.js', ssr: false },
-    { src: '~/plugins/scrollspy.js', ssr: false },
-    { src: '~/plugins/segment.js', ssr: false },
+    { src: '~/plugins/drift.js', mode: 'client' }, // ssr: false is deprecated
+    { src: '~/plugins/scrollspy.js', mode: 'client' },
+    { src: '~/plugins/segment.js', mode: 'client' },
 
     // needs to be loaded last (after all the other analytics etc.)
-    { src: '~/plugins/policy.js', ssr: false },
+    { src: '~/plugins/policy.js', mode: 'client' },
   ],
 
   modules: [

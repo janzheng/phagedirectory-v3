@@ -28,6 +28,9 @@ h1, h2, h3, h4, h5, h6 {
   &.--title {
     padding-top: 0 !important;
   }
+  &.--inline {
+    padding-bottom: $size-half !important;
+  }
 }
 
 // semantically used to introduce a page, not meant to surround content
@@ -54,7 +57,7 @@ h4 {
 }
 
 h5 {
-  font-size: $size;
+  font-size: $size + 2px;
 }
 
 

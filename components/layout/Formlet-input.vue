@@ -74,7 +74,7 @@ export default {
       if(this.input.error && typeof(this.input.error) == 'string')
         return this.input.error
 
-      if(!this.v.email)
+      if(this.input.type == 'EMAIL' && !this.v.email)
         return 'Please enter a valid email'
 
       // NOT SUPPORTED YET — if input is an object 

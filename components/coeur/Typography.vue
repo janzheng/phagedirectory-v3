@@ -220,7 +220,7 @@
         The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! The quick brown fox jumps over the lazy dog! 
       </h6>
       <div class="coeur-typography-desc _font--1">
-        (font-size: 12px, font-weight: 700, line-height: 30px, letter-spacing: 1.2px )
+        (font-size: 14px, font-weight: 700, line-height: 30px, letter-spacing: 1.2px )
       </div>
     </div>
 

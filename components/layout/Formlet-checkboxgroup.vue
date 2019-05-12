@@ -12,7 +12,7 @@
     <label 
       v-if="input.description" 
       :for="input.name" 
-      class="_form-label _form-desc" 
+      class="_form-desc" 
       v-html="$md.render(input.description || '')" 
     />
 

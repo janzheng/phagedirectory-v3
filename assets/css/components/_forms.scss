@@ -13,6 +13,7 @@ $forms: (
 input, .input, %input {
   border-radius: $radius;
   background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
+  @extend %font-sans;
 
   &[type="email"],
   &[type="text"],
@@ -38,6 +39,8 @@ textarea, .textarea {
   border-radius: $radius;
   background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
   border-color: usetheme(brand-10); // grabs attention w/ border color
+  @extend %font-sans;
+
   &:focus, &:active, &:hover {
     border-color: usetheme(brand-70);
     background-color: usetheme(purewhite);

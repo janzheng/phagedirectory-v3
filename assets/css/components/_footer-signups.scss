@@ -22,7 +22,9 @@ $footer: (
 // for alerts and mailchimp
 // custom breakpoint
 .FooterSignups {
-  background-color: usetheme(mono-30);
+  @include screen-sm {
+    background-color: usetheme(mono-30);
+  }
 }
 
 

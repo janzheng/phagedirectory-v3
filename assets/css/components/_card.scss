@@ -11,7 +11,7 @@
   a {
     &:hover {
       *, & {
-        color: usetheme(active) !important;
+        color: usetheme(active) // !important; // !important messes w/ button states
       }
     }
   }
@@ -32,6 +32,12 @@
   &.--silver {
     background-color: usetheme(silver-light); // $color-teal-50;
     border-color: usetheme(silver-light);
+  }
+  &.--fyi {
+    background: usetheme(brand-5);
+    border-left: solid $border-thick;
+    border-color: usetheme(brand-60);
+    border-radius: $radius;
   }
   &.--brand {
     background-color: usetheme(brand-20); // $color-teal-50;

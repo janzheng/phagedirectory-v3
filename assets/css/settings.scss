@@ -71,6 +71,10 @@ $sizes: (
   lineheight-title: 16px*1.2,
   font-large: 19px,
 
+  // roomier copy for article pages
+  copy-large: 18px,
+  copy-large-lh: 28px,
+
   opacity-expired: 0.5,
 
   z-top: 90,
@@ -131,6 +135,7 @@ $colors: (
 
 $colors-brand: (
   brand: #71EFF5,
+  brand--1: #FAFEFF, // super light blue, good for really light bgs
   brand-0: #FBFDFF,
   brand-5: #F1FBFF,
   brand-10: #E7FBFF,
@@ -149,7 +154,7 @@ $colors-brand: (
   brand-alert: #71EFF5,
   brand-border: #9EF3FD, // was 71EFF5; too bright?
   brand-disabled: #E7FBFF,
-  brand-background: #E7FBFF,
+  brand-background: #F1FBFF,
 );
 
 // old

@@ -160,6 +160,8 @@ $capsid_: (
   // padding: $size;
   @include screen-sm {
     padding: $size-2x;
+    padding-left: $size;
+    padding-right: $size;
   }
 
   .Capsid-section-header {

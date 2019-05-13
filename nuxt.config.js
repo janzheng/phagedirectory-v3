@@ -332,6 +332,11 @@ export default {
       // to people and orgs; easier w/ a uniform id resolver
       routes.push(
         {
+          name: 'capsid & tail tips',
+          path: '/capsid/tips',
+          component: resolve(__dirname, 'pages/capsidtips.vue')
+        },
+        {
           // Dynamic Template Router
           // catches all routes and attempts to find a template
           // throws error if it can't

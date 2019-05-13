@@ -3,7 +3,7 @@
     <div class="_padding _flex-col">
       <div class="_grid-auto-1-sm _flex-1">
         <img alt="Capsid & Tail" src="https://dl.airtable.com/.attachmentThumbnails/b739c7b74b17c1c96a1d8b0d327aee47/2a5a0691" height="48" width="auto" >
-        <div v-html="$md.render('Follow [Capsid & Tail](/capsid), the only periodical that reports the latest news in phage therapy and the phage community.')" />
+        <div v-html="$md.render('Follow [Capsid & Tail](/capsid), the periodical that reports the latest news in phage therapy and the phage community.')" />
       </div>
 
       <div id="mc_embed_signup_footer">

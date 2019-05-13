@@ -44,6 +44,8 @@
         </div>
       </div>
 
+      <!-- <a href="/capsid" class="--quiet _inline-block _padding-bottom">Browse all issues of Capsid &amp; Tail</a> -->
+
       <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" />
     </Template>
 

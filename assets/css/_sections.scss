@@ -19,6 +19,20 @@
 
 
 
+%roomiest {
+  margin-top: $size-12 !important;
+  margin-bottom: $size-12 !important;
+}
+%roomier {
+  margin-top: $size-2x !important;
+  margin-bottom: $size-2x !important;
+}
+%roomy {
+  margin-top: $size !important;
+  margin-bottom: $size !important;
+}
+
+
 ._section-page--min {
   min-height: 50vh
 }
@@ -51,6 +65,16 @@ section {
 ._section-page {
   @extend ._width-content-max;
 
+  &.--roomy {
+    @extend %roomy;
+  }
+  &.--roomier {
+    @extend %roomier;
+  }
+  &.--roomiest {
+    @extend %roomiest;
+  }
+
   // custom for coffee shops
   @include screen-xs {
     padding-left: $size;
@@ -69,12 +93,23 @@ section {
   margin-top: $size-3;
   margin-bottom: $size-3;
 
+  &.--roomy {
+    @extend %roomy;
+  }
+  &.--roomier {
+    @extend %roomier;
+  }
+  &.--roomiest {
+    @extend %roomiest;
+  }
+
   @include screen-xs {
     margin-top: $size;
     margin-bottom: $size;
   }
 
 }
+
 
 
 // Creates margins for articles within content of a page
@@ -84,6 +119,17 @@ section {
 // some of these are specified in markdown, so the markup should be very simple
 $article-width: 60ch;
 ._section-article {
+
+  &.--roomy {
+    @extend %roomy;
+  }
+  &.--roomier {
+    @extend %roomier;
+  }
+  &.--roomiest {
+    @extend %roomiest;
+  }
+
   // used for pages outside of just Capsid!! including Classroom Initiative
   @include screen-sm {
     max-width: $article-width;

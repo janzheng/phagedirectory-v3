@@ -4,6 +4,11 @@
 
 button, ._button {
 
+  background-color: usetheme(brand-background); //$color-links;
+  border-color: usetheme(brand-80); //$color-links;
+  color: usetheme(brand-80); //$color-links;
+  // @extend ._shadow-1;
+
   // declared using overriding default variables in settings
   &.--outline {
     &:hover {
@@ -25,7 +30,7 @@ button, ._button {
   }
 }
 
-button.CTA, ._button.CTA, .CTA { // actionable button; inherits from but overrides _button
+button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionable button; inherits from but overrides _button
   
   @extend ._button;
 
@@ -33,10 +38,15 @@ button.CTA, ._button.CTA, .CTA { // actionable button; inherits from but overrid
   text-decoration: none; // <a>s might have underlines
   margin-right: $size-half;
 
+  background-color: usetheme(brand-background); //$color-links;
+  border-color: usetheme(brand-80); //$color-links;
+  color: usetheme(brand-80); //$color-links;
+
+
   &:hover {
-    background-color: usetheme(links); //$color-links;
-    border-color: usetheme(links); //$color-links;
-    color: usetheme(bg); //$color-bg;
+    background-color: usetheme(purewhite); //$color-links;
+    border-color: usetheme(brand-bright); //$color-links;
+    color: usetheme(brand-bright); //$color-bg;
     @extend %ease;
   }
 
@@ -79,16 +89,16 @@ button.CTA, ._button.CTA, .CTA { // actionable button; inherits from but overrid
     // }
   }
 }
-  a.CTA._button {
-    color: usetheme(bg);
-    &:hover {
-      background-color: usetheme(active);
-      border-color: usetheme(active);
-    }
-  }
-  a.CTA._button.--outline {
-    color: usetheme(copy);
-  }
+  // a.CTA._button {
+  //   color: usetheme(bg);
+  //   &:hover {
+  //     background-color: usetheme(active);
+  //     border-color: usetheme(active);
+  //   }
+  // }
+  // a.CTA._button.--outline {
+  //   color: usetheme(copy);
+  // }
 
 
 // ._button.--yellow {

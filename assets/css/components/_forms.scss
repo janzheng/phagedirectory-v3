@@ -58,6 +58,8 @@ textarea, .textarea {
 .Form {
   .Form-btn {
     background-color: usetheme(btn-bg, $forms);
+    border-color: usetheme(btn-bg, $forms);
+    color: usetheme(white); //$color-bg;
 
     &:hover {
       background-color: usetheme(hover); // (btn-active); //$color-links;
@@ -130,7 +132,9 @@ textarea, .textarea {
   }
   ._form-label {
     &, p {
-      font-size: $size;
+      // font-size: $size;
+      @extend h5;
+      padding-top: 0;
       padding-bottom: $size-quart;
       font-weight: bold;
     }

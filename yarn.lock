@@ -2445,10 +2445,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-coeur@^0.2.24:
-  version "0.2.24"
-  resolved "https://registry.yarnpkg.com/coeur/-/coeur-0.2.24.tgz#4dadd9d7bc52e01c3b1d69d8c5bf29e8f7e8c08c"
-  integrity sha512-23K9tkv4g661cDbI8Kn/Ue45I5euVxprhIzNy7UBn0P6zsYB6yDTJqUr0i0mbG2HjCPMeBBwwnfxAQYzWZATmQ==
+coeur@^0.2.25:
+  version "0.2.25"
+  resolved "https://registry.yarnpkg.com/coeur/-/coeur-0.2.25.tgz#9c9b9a32fa0a955e73a22b0a3b04a474693c988c"
+  integrity sha512-HVQhaqfbSJy3Q1XufWiQkbE6XVQV9RLZbJx784XkgjRY2YLUr3FKOQg0qKUd7FXsPsAnDxwj2lqd3+5wdeoUpQ==
 
 collection-visit@^1.0.0:
   version "1.0.0"

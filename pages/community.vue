@@ -14,7 +14,7 @@
               'Expired Posts':{},
             }"
             tab-attrs="_grid-2-1-sm Tabbed-mobile"
-            :right="{'Create a New Post':{}}"
+            :right="{'Post a Message':{}}"
             :active-tab="activeTab"
             v-on="{ 'tabClick': tabClick }"
           >
@@ -32,7 +32,7 @@
               </div>
             </template>
 
-            <template slot="Create a New Post">
+            <template slot="Post a Message">
               <div class=" _padding-top">
                 <NodeForm :src="form"/>
               </div>

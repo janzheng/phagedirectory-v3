@@ -13,7 +13,7 @@
       <div v-scroll-spy class="scrollspy" >
         
         <div id="intro" class="Capsid-intro" >
-          <div class="Capsid-masthead _section-page _margin-center _padding _padding-bottom-none-i " >
+          <div class="Capsid-masthead Capsid-section _margin-center _padding _padding-bottom-none-i " >
             <div class=" _section-content _margin-center">
               <nuxt-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
                 <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail" >
@@ -22,7 +22,7 @@
             </div>
           </div>
 
-          <div class="Capsid-header _section-page _margin-center _padding">
+          <div class="Capsid-header Capsid-section _margin-center _padding">
             <div class="_section-content _margin-center">
               <div class="Capsid-meta">
                 <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }},</span>
@@ -46,28 +46,40 @@
                 </div>
               </div>
 
-
-              <!-- leave Sponsors ABOVE the whats new area to call it out -->
-              <div v-if="getSponsors(issue).length>0" class="Capsid-sponsor" >
-                <!-- Don't show Sponsor title, just keep the tag<h4 class="Capsid-sponsors-title">{{'Sponsors'}}</h4> -->
-                <div v-for="sponsor of getSponsors(issue)" :key="sponsor.fields['Name']" class="Capsid-sponsor-item" >
-                  <div class="_md-p_fix" v-html="$md.render(sponsor.fields['Markdown'] || '')" />
-                  <div v-if="sponsor.fields['Tags']" class="_margin-top-half" >
-                    <span class="Capsid-item-tag _tag --sponsor">Sponsor</span>
-                  </div>
-                </div>
-              </div>
-
               <CapsidShare :link="getTwitterLink(issue)" message="Tweet this issue!" />
+
             </div>
           </div>
+
+          <!-- Sponsors — resides within the intro!!-->
+          <!-- <div v-if="sponsors.length > 0" class="Capsid-sponsor _section-page _margin-center _padding" >
+            Sponsor
+            <div v-for="item of sponsors" :key="item.id" class="_margin-bottom" >
+              <CapsidSponsor :atom="item" />
+            </div>
+          </div> -->
+
+          <!-- leave Sponsors ABOVE the whats new area to call it out -->
+          <div v-if="sponsors.length>0" class="Capsid-sponsor _padding-top _margin-bottom-2 _color-bg-brand-5" >
+            <!-- Don't show Sponsor title, just keep the tag<h4 class="Capsid-sponsors-title">{{'Sponsors'}}</h4> -->
+            <div class="_padding-left _padding-right">
+              <h6 class="_padding-none">Sponsor Message</h6>
+            </div>
+            <div v-for="item of sponsors" :key="item.id" class="_margin-bottom" >
+              <CapsidSponsor :atom="item" />
+            </div>
+          </div>
+
         </div>
+
+
+
 
         <!-- What's New -->
         <div id="whats-new" class="Capsid-section Capsid-section-new" >
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >What’s New</h2>
-            <a href="mailto:capsid@phage.directory" class="_button --short --compact --outline">Send us a tip</a>
+            Have an idea for us? <a href="/capsid/tips" class="_button --short --compact --outline _margin-left-half">Send us a tip!</a>
           </div>
           <div v-if="updates.length > 0" >
             <div v-for="item of updates" :key="item.id" class="_margin-bottom" >
@@ -83,7 +95,7 @@
             <h2 class="Capsid-section-heading" >Latest Jobs</h2>
             <div class="">
               <nuxt-link to="/jobs" class="_button --short --compact --outline _margin-right-half-i _margin-bottom-none">View all jobs</nuxt-link>
-              <nuxt-link to="/services#jobs" class="_button --short --compact --outline _margin-bottom-none">Post a job</nuxt-link>
+              <nuxt-link to="/jobs?tab=Post-a-Job" target="_blank" class="_button --short --compact --outline _margin-bottom-none">Post a job for free</nuxt-link>
             </div>
           </div>
           <div v-if="jobs.length > 0" >
@@ -100,7 +112,7 @@
             <h2 class="Capsid-section-heading" >Community Board</h2>
             <div class="">
               <nuxt-link to="/community" class="_button --short --compact --outline _margin-right-half-i">View all posts</nuxt-link>
-              <a href="mailto:board@phage.directory?subject=Phage%20Directory%20Community%20Board&body=Hi%20Phage%20Directory,%20I'd%20like%20to%20post%20a%20message%20to%20your%20community%20board%20..." class="_button --short --compact --outline">Post a message</a>
+              <nuxt-link to="/community?tab=Post-a-Message" class="_button --short --compact --outline">Post a message</nuxt-link>
             </div>
             <div v-html="$md.render(communityDesc || '')" />
           </div>
@@ -122,12 +134,12 @@
             <CapsidShare :link="getTwitterLink(issue)" class="_margin-top-2 _margin-bottom" message="Tweet this issue!" />
           </div> -->
 
-          <div class="Capsid-body _section-page _margin-center">
+          <div class="Capsid-body Capsid-section _margin-center">
             <div class="Capsid-body _section-content _margin-center">
 
               <div class="_section-article">
                 <!-- <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" /> -->
-                <h1 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
+                <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
                 <!-- short description / name -->
                 <div v-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom-3" v-html="$md.render(issue.fields['Data:Author'] || '')" />
                 <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
@@ -181,6 +193,7 @@
 
 import { mapState } from 'vuex'
 import CapsidShare from '~/components/publications/CapsidShare'
+import CapsidSponsor from '~/components/publications/CapsidSponsor'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
@@ -188,6 +201,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 export default {
 
   components: {
+    CapsidSponsor,
     CapsidShare,
     CapsidNew,
     CapsidJob,
@@ -232,6 +246,11 @@ export default {
       'Content',
       ]),
 
+    sponsors() {
+      console.log('--sponsors?', this.atoms)
+      return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Sponsors'], this.atoms, true).reverse()
+    },
+
     jobs() {
       return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Jobs'], this.atoms, true).reverse()
       // return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Job')
@@ -254,18 +273,18 @@ export default {
 
   methods: {
 
-    getSponsors(issue) {
-      const sponsors = this.$cytosis.getLinkedRecords(issue.fields['Sponsors'], this['Updates'], true)
+    // getSponsors(issue) {
+    //   const sponsors = this.$cytosis.getLinkedRecords(issue.fields['Sponsors'], this['Updates'], true)
 
-      // console.log('Sponsors:', sponsors)
-      return sponsors.filter(t => t.fields['isPublished']) || undefined
-    },
+    //   // console.log('Sponsors:', sponsors)
+    //   return sponsors.filter(t => t.fields['isPublished']) || undefined
+    // },
 
-    getUpdates(issue) {
-      const updates = this.$cytosis.getLinkedRecords(issue.fields['Updates'], this['Updates'], true)
-      // console.log('Updates:', updates)
-      return updates || undefined
-    },
+    // getUpdates(issue) {
+    //   const updates = this.$cytosis.getLinkedRecords(issue.fields['Updates'], this['Updates'], true)
+    //   // console.log('Updates:', updates)
+    //   return updates || undefined
+    // },
 
     getTwitterLink(issue) {
       /*
@@ -289,9 +308,9 @@ export default {
 
        // generated from janistanian
        // https://pbs.twimg.com/media/DtRXxsOUwAAo-Iz.jpg:large
-      const text = issue.fields['TwitterText'] || issue.fields['Lede'] || 'Capsid & Tail'
+      const text = issue.fields['Social:Twitter'] || issue.fields['Data:Lede'] || 'Capsid & Tail'
       const url = issue.fields['URL']
-      const tags = issue.fields['TwitterTags']
+      const tags = issue.fields['Social:Twitter:Tags']
 
       return `https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${tags}`
     },

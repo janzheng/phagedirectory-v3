@@ -7,7 +7,8 @@
 
 
 <template>
-  <div class="Capsid-item _padding _margin-none" >
+  <div class="Capsid-item _padding _margin-none _shadow-1 _card" >
+    <h6 class="_font-small">Sponsor Message</h6>
     <div class="_flex-1 _md-p_fix" v-html="$md.render(atom.fields['Markdown'] || '')" />
     <!-- <div v-if="atom.fields['Data:Tags']" class="_margin-top-half" >
       <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag" >{{ item }}</span>

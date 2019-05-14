@@ -13,9 +13,9 @@
 
     <div class="_flex-1">
       <h5 class="" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
-      <div v-html="$md.render(atom.fields['Data:Source'] || '')" />
-      <div v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
-      <div v-html="$md.render(atom.fields['Markdown'] || '')" />
+      <div v-if="atom.fields['Data:Source']" v-html="$md.render(atom.fields['Data:Source'] || '')" />
+      <div v-if="atom.fields['Data:Subtitle']" v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
+      <div v-if="atom.fields['Markdown']" v-html="$md.render(atom.fields['Markdown'] || '')" />
     </div>
 
     <div v-if="atom.fields['Data:Status'] != 'Expired' && atom.fields['URL']" class=" _margin-top-half ">

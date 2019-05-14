@@ -128,7 +128,13 @@ $capsid_: (
     padding-bottom: $size-half;
   }
 }
-
+// sometimes it's using a table, for email formatting... these also come from airtable
+table.Capsid-author-header {
+  td {
+    vertical-align: middle;
+    padding: $size-half;
+  }
+}
 
 /* 
 
@@ -348,7 +354,7 @@ $capsid_: (
 
  */
 
-.Capsid-Email {
+.Capsid-email {
   background-color: usetheme(bg);
 }
 

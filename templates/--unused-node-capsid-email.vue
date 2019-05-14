@@ -4,7 +4,7 @@
   Template for each Capsid & Tail issue
 
  -->
-
+<!-- 
 <template>
 
   <div class="Capsid Capsid-Email ">
@@ -53,4 +53,4 @@ export default {
 
 }
 </script>
-
+ -->

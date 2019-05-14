@@ -7,10 +7,10 @@
 -->
 
 <template>
-  <div class="Router-Capsid-Email">
+  <div class="Router-Capsid-email Capsid-email">
 
     <!-- the route should match against a slug and only the first matched slug should be relevant -->
-    <CapsidTemplate :issue="Manuscripts[0]" :atoms="atoms" :route="route" />
+    <Capsid :issue="Manuscripts[0]" :atoms="atoms" :route="route" />
 
 
   </div>
@@ -24,12 +24,13 @@
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 
-import CapsidTemplate from '~/templates/node-capsid-email'
+// import CapsidTemplate from '~/templates/node-capsid-email'
+import Capsid from '~/components/publications/CapsidEmail.vue'
 
 export default {
 
   components: {
-    CapsidTemplate,
+    Capsid,
   },
 
   // layout: 'contentframe',

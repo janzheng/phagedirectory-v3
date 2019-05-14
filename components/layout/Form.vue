@@ -3,7 +3,7 @@
   <div :id="`Form--${formName}`" class="Form" > 
     <div v-if="payload.intro" class="Form-intro _margin-bottom" v-html="$md.render(payload.intro || '')" />
 
-    <div class="Form-body _padding-top">
+    <div class="Form-body">
       <div v-if="!success && !error">
         <Formlet ref="form" 
                  :inputs="getForm(payload.JSON)"
@@ -26,7 +26,7 @@
           </div>
           <!-- privacy moved UNDER cta — really disrupts the tab flow -->
           <div class="Form-privacy _padding-top">
-            <span class=" " v-html="$md.render(payload.privacy || '')" />
+            <span class=" " v-html="$md.strip($md.render(payload.privacy || ''))" />
           </div>
           <div v-if="onSubmit && !isFormValid" class="Form-error _card --alert _padding _margin-top">
             We found a mistake — please scroll back up and check.

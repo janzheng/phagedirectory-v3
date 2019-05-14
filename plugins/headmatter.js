@@ -28,14 +28,15 @@ export default ({ }, inject) => {
   // set site description
   head['setDescription'] = function (payload) {
     head['meta'].push({ hid: 'twitter-description', property: 'twitter:description', content: `${payload}` })
-    head['meta'].push({ hid: 'og-description', property: 'og:description', content: `${this.headDescription}` })
-    head['meta'].push({ hid: 'description', name: 'description', content: `${this.headDescription}` })
+    head['meta'].push({ hid: 'og-description', property: 'og:description', content: `${payload}` })
+    head['meta'].push({ hid: 'description', name: 'description', content: `${payload}` })
   }
 
-
-
-
-
+  // set page url
+  head['setUrl'] = function (payload) {
+    head['meta'].push({ hid: 'og-url', property: 'og:url', content: `${payload}` })
+    head['meta'].push({ hid: 'twitter-url', property: 'twitter:url', content: `${payload}` })
+  }
 
   head['reset'] = function () {
     head['title'] = ''

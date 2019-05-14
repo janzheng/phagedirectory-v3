@@ -143,6 +143,8 @@
 
             <div v-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
+            <NodeForm v-if="form" :src="form" class="Capsid-form" />
+
           </div>
         </div>
 
@@ -191,6 +193,8 @@ import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
 
+import NodeForm from '~/components/render/NodeForm.vue'
+
 export default {
 
   components: {
@@ -199,6 +203,7 @@ export default {
     CapsidNew,
     CapsidJob,
     CapsidCommunity,
+    NodeForm,
   },
 
   props: {
@@ -208,7 +213,12 @@ export default {
 
   head () {
 
-    this.$head.setTitle(this.issue.fields['Data:Title'] || "Capsid & Tail")
+    // strip html from title
+    let div = document.createElement("div")
+    div.innerHTML = this.$md.strip(this.$md.render(this.issue.fields['Data:Title']))
+    const title = div.textContent || div.innerText || ""
+
+    this.$head.setTitle(title || "Capsid & Tail")
     this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
 
     if(this.issue.fields['Cover'])
@@ -216,6 +226,8 @@ export default {
     
     return this.$head.get()
   },
+
+
 
   data: function () {
 
@@ -239,8 +251,13 @@ export default {
       'Content',
       ]),
 
+    form() {
+      if(this.issue.fields['Node:Form'])
+        return this.$cytosis.getLinkedRecords(this.issue.fields['Node:Form'], this['Content'], true).reverse()[0]
+      return undefined
+    },
+
     sponsors() {
-      console.log('--sponsors?', this.atoms)
       return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Sponsors'], this.atoms, true).reverse()
     },
 

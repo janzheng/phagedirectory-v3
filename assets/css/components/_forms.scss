@@ -93,11 +93,16 @@ textarea, .textarea {
       }
     }
   }
+
+  .Form-body {
+    padding-top: $size;
+  }
 }
 
 
 
 // cards in forms, as quick questions (e.g. contact page)
+// wraps Node-Form
 .FormCard {
 	@extend ._card;
 	// padding: $size $size-2x;
@@ -113,6 +118,27 @@ textarea, .textarea {
   }
 
   @extend ._shadow-4;
+
+
+
+  // tighter, compact form
+  &.--compact {
+    padding-top: $size;
+    padding-bottom: $size;
+
+    .Form-body {
+      padding: 0;
+    }
+    ._form-label p {
+      font-size: usetheme(size);
+      line-height: usetheme(size-lh);
+      // font-weight: normal;
+      padding: 0;
+    }
+    ._form-control {
+      margin-bottom: $size;
+    }
+  }
 }
 
 

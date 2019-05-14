@@ -220,7 +220,6 @@ export default {
 
 
     sponsors() {
-      console.log('--sponsors?', this.atoms)
       return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Sponsors'], this.atoms, true).reverse()
     },
 

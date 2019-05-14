@@ -117,24 +117,6 @@ $capsid_: (
 
 
 
-/* 
-
-  Capsid Author
-  - some of these actually come from airtable... :\
-
- */
-.Capsid-author {
-  h5 {
-    padding-bottom: $size-half;
-  }
-}
-// sometimes it's using a table, for email formatting... these also come from airtable
-table.Capsid-author-header {
-  td {
-    vertical-align: middle;
-    padding: $size-half;
-  }
-}
 
 /* 
 
@@ -275,6 +257,25 @@ table.Capsid-author-header {
 
 
 
+/* 
+
+  Capsid Author
+  - some of these actually come from airtable... :\
+
+ */
+.Capsid-author {
+  margin-bottom: 0;
+  h5 {
+    padding-bottom: $size-half;
+  }
+}
+// sometimes it's using a table, for email formatting... these also come from airtable
+table.Capsid-author-header {
+  td {
+    vertical-align: middle;
+    padding: $size-half;
+  }
+}
 .Capsid-author,
 .Capsid-authorCard img {
   // margin-right: $size;
@@ -283,17 +284,21 @@ table.Capsid-author-header {
   // margin-top: $size/2;
   // max-width: 80px;
 }
-
-.Capsid-author {
-  // margin-top: $size;
-  margin-bottom: 0;
-}
   .Capsid-author-card {
     @extend .Capsid-card;
-    padding: $size;
+    padding: $size-half $size;
     background-color: usetheme(bg-lighter); // $color-ui-lighter;
     border-radius: $radius;
+
+    h3, h4, h5 {
+      padding-top: 0;
+    }
   }
+
+
+.Capsid-form {
+  margin-top: $size;
+}
 
 .Capsid-share {
   // @extend .Capsid-card;

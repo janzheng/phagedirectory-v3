@@ -390,7 +390,8 @@ export default {
 
       // routes for C&T article pages
       let manuscripts = _cytosis.tables['Manuscripts'].sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
-      const latestManuscripts = manuscripts.slice(0,5)
+      const latestManuscripts = manuscripts.slice(0,15)
+      // const latestManuscripts = manuscripts // everything
       // console.log('latest Manu:', latestManuscripts.length)
 
       for (let item of latestManuscripts) {

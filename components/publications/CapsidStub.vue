@@ -14,10 +14,15 @@
                  :class="isFeatured ? '--featured' :''"
                  class="Capsid-Stub-item _block _card _padding">
 
-        <h6 class="Capsid-Stub-latest">Latest Issue</h6>
+        <!-- <h6 class="Capsid-Stub-latest">Latest Issue</h6> -->
+        <!-- 
         <div class="Capsid-header _font--1 _grid-2 _grid-gap-small">
           <div class="Capsid-name">{{ issue.fields['Name'] }}</div>
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
+        </div> -->
+        <div class="Capsid-header _font--1 _grid-gap-small">
+          <span class="Capsid-name _font-bold ">{{ issue.fields['Name'] }}</span> | 
+          <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
         </div>
 
         <h1 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
@@ -30,10 +35,13 @@
                  :to="`/capsid/${issue.fields.Slug}`"
                  :class="isFeatured ? '--featured' :''"
                  class="Capsid-Stub-item _block _card _padding _height-100 _margin-none">
-
-        <div class="Capsid-header _font--1 _color-mono-90 _grid-2 _grid-gap-small">
+        <!-- <div class="Capsid-header _font--1 _color-mono-90 _grid-2 _grid-gap-small">
           <div class="Capsid-name">{{ issue.fields['Name'] }}</div>
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
+        </div> -->
+        <div class="Capsid-header _font--1 _grid-gap-small">
+          <span class="Capsid-name _font-bold ">{{ issue.fields['Name'] }}</span> | 
+          <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
         </div>
         <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
         <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />

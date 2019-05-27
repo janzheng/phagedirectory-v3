@@ -94,7 +94,7 @@ export default {
 
     loadQueryData: async function (routeName, store, env, tableQuery, keyword) {
       let data
-      data = await loadQuery(env, store, routeName, tableQuery, keyword)
+      data = await loadQuery({env, store, routeName, tableQuery, keyword})
       return Promise.all([data])
     }
 

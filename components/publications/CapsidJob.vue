@@ -27,8 +27,8 @@
     </div>
 
     <div class="_margin-top-half" >
-      <span v-if="atom.fields['Data:Categories']" class="_tag --highlight" >{{ atom.fields['Data:Categories'][0] }}</span> 
-      <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag" >{{ item }}</span>
+      <span v-if="atom.fields['Data:Categories']" class="_tag --highlight --nowrap" >{{ atom.fields['Data:Categories'][0] }}</span> 
+      <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag --nowrap" >{{ item }}</span>
     </div>
   </div>
 </template>

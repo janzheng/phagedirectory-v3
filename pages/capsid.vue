@@ -79,7 +79,7 @@ export default {
       ]),
 
     issues() {
-      return this['Manuscripts'].filter(t => t.fields['pubState'] == 'Published')
+      return this['Manuscripts'].filter(t => t.fields['Status'] == 'Published')
     },
 
     latest() {

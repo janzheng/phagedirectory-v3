@@ -30,7 +30,7 @@
   }
 
   &.--silver {
-    background-color: usetheme(silver-light); // $color-teal-50;
+    background-color: usetheme(silver-lighter); // $color-teal-50;
     border-color: usetheme(silver-light);
   }
   &.--fyi {
@@ -40,8 +40,8 @@
     border-radius: $radius;
   }
   &.--brand {
-    background-color: usetheme(brand-20); // $color-teal-50;
-    border-color: usetheme(brand-40); // $color-teal-50;
+    background-color: usetheme(brand-background); // $color-teal-50;
+    border-color: usetheme(brand-border); // $color-teal-50;
     color: usetheme(brand-90);
   }
     &.--border-highlight {

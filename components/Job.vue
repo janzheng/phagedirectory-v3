@@ -11,7 +11,7 @@
 
       <div class="_grid-1-auto _align-vertically _margin-bottom-half _grid-gap-small">
         <div>
-          <span v-if="atom.fields['Data:Categories']" class="Job-type _tag --highlight">
+          <span v-if="atom.fields['Data:Categories']" class="Job-type _tag --highlight --nowrap">
             {{ atom.fields['Data:Categories'][0] }}
           </span>
         </div>
@@ -25,7 +25,7 @@
       </div>
 
       <div class="Job-tags _margin-bottom-half">
-        <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="Job-tag _tag">{{ item }}</span>
+        <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="Job-tag _tag --nowrap">{{ item }}</span>
       </div>
 
       <div class="Job-info _margin-bottom _margin-top">

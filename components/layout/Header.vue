@@ -47,22 +47,22 @@
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
-                <nuxt-link to="/phages" class="_button --text _padding-none -left _margin-none-i --border-none">
+                <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
                   Phage Hosts
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
-                <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+                <nuxt-link :to="`/orgs${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   Organizations
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
-                <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+                <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   People
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
-                <nuxt-link to="/labs" class="_button --text _padding-none _margin-none-i --border-none">
+                <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
                   Labs
                 </nuxt-link>
               </div>
@@ -92,19 +92,19 @@
           </div>
           <div class="Header-container _margin-half _margin-left-none">
             <div class="Header-inset _flex-row _flex-2 _padding-half _margin-bottom-none">
-              <nuxt-link to="/phages" class="_button --text _padding-none -left _margin-none-i --border-none">
+              <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
                 Phage Hosts
               </nuxt-link>
-              <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+              <nuxt-link :to="`/orgs${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                 Organizations
               </nuxt-link>
-              <nuxt-link to="/labs" class="_button --text  _padding-none _margin-none-i --border-none">
+              <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                 People
               </nuxt-link>
-              <nuxt-link to="/labs" class="_button --text _padding-none _margin-none-i --border-none">
+              <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
                 Labs
               </nuxt-link>
-              <nuxt-link to="/join" class="Header-join _button --outline  ">
+              <nuxt-link :to="`/join${searchQuery}`" class="Header-join _button --outline  ">
                 Sign Up
               </nuxt-link>
 
@@ -148,17 +148,23 @@ export default {
     ]),
     searchString: {
       get: function () {
-        return this.$store.state.searchString
+        return this.$store.state.search.string
       },
       // setter
       set: function (str) {
-        const url = `/search/${this.searchString}`
         this.$store.dispatch("updateCreate", {
-          searchSource: "header",
-          searchString: str || "",
-          searchUrl: url,
+          search: {
+            string: str,
+            url: this.$router.currentRoute.fullPath,
+          }
         })
+        // const url = `/search/${str}`
       }
+    },
+    searchQuery() {
+      if(this.searchString)
+        return `?search=${this.searchString}`
+      return ''
     },
   },
 
@@ -167,25 +173,55 @@ export default {
       this.isHome = this.pathMatch('/') ? true : false
     }
   },
+
+  mounted() {
+    const querySearchString = this.$router.currentRoute.query.search
+    if(querySearchString) {
+      // this.$store.dispatch("updateCreate", {
+      //   searchSource: "header",
+      //   searchString: searchString || "",
+      //   searchUrl: this.$router.currentRoute.fullPath,
+      // })
+      this.$store.dispatch("updateCreate", {
+        search: {
+          string: querySearchString,
+          url: this.$router.currentRoute.fullPath,
+        }
+      })
+    }
+  },
   
   methods: {
     search() {
-      // console.log("handling search:",this.searchString)
       // const url = `/search/${this.searchString}`
-      const url = `/phages`
-      // console.log("search url:", url, "?", this.$router.history)
+
+      // const slug = this.$router.params.slug
+      const route = this.$router.currentRoute
+      let base = 'hosts'
+
+      if(route.path == '/orgs' || route.path == '/people' || route.path == '/labs')
+        base = route.path
+
+      const url = `${base}?search=${this.searchString}`
+      console.log("handling search:",this.searchString, 'route:', route)
+      console.log("search url:", url, "?", this.$router.history)
       // $router history push forces a page reload... use window to replace
       // store the searchstring into store?
-      if(this.searchString != "")
-        this.$router.replace(url)
 
-      // window.location = url;
-      // this.$store.dispatch("updateCreate", {
-      //   search: {
-      //     string: this.searchString,
-      //     url: url
-      //   }
-      // })
+      if(this.searchString == "") { // empty string = clearing the search! can't ignore 
+        // console.log('blank search!')
+        this.$router.replace(base)
+        return true
+      }
+
+      this.$router.replace(url)
+
+      this.$store.dispatch("updateCreate", {
+        search: {
+          string: this.searchString,
+          url: url,
+        }
+      })
     },
     pathMatch(path) {
       // console.log('pathMatch',this.$router.currentRoute.path)

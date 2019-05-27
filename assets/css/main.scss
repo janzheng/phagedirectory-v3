@@ -57,6 +57,21 @@
   background-size: cover;
 }
 
+img {
+  &.--profile {
+    & > *, & {
+      // width: 100%;
+      border-radius: 100%;
+      border: $border-medium solid usetheme(mono-disabled);
+    }
+
+    &.--medium {
+      width: 65px;
+      height: 65px; 
+    }
+  }
+}
+
 
 .Feed-item {
   h6 {

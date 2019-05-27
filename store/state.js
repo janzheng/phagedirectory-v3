@@ -2,9 +2,10 @@ export default {
 
   ext_handler: '',
 
-  searchSource: '',
-  searchString: '',
-  searchUrl: '',
+  // searchSource: '',
+  // searchString: '',
+  // searchUrl: '',
+  search: {},
   cytosis: {},
 
   diffTopHeader: false, // auto to true

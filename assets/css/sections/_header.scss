@@ -44,6 +44,9 @@ $header-item-height: $size-4;
         // color: usetheme(brand-active);
         color: usetheme(brand-bright);
       }
+      &.nuxt-link-active {
+        color: usetheme(brand-bright);
+      }
     }
   }
   .Header-container {
@@ -104,14 +107,18 @@ $header-item-height: $size-4;
     // border-color: usetheme(pink-40);
     // background-color: usetheme(pink-0);
     // color: usetheme(pink-60);
+    // border-color: usetheme(brand-5);
+    // background-color: usetheme(brand-5);
+    // color: usetheme(brand-80);
+    color: usetheme(brand-bright);
     border-color: usetheme(brand-5);
     background-color: usetheme(brand-5);
-    color: usetheme(brand-80);
 
     // padding:;
     &:hover {
-    border-color: usetheme(brand-80);
-    background-color: usetheme(brand-80); //usetheme(pink-0);
+    // border-color: usetheme(brand-80);
+    border-color: usetheme(brand-bright);
+    background-color: usetheme(brand-bright); //usetheme(pink-0);
     color: usetheme(brand-0);
       // background-color: usetheme(brand-60);
       // border-color: usetheme(brand-60);
@@ -154,7 +161,8 @@ $header-item-height: $size-4;
 
   }
   .Header-search { // input
-    border: $border-thin solid usetheme(bg-lighter); //;$color-ui-light;
+    border: $border-thin solid usetheme(brand-5); //;$color-ui-light;
+    background: usetheme(brand-5);
     border-radius: $radius;
     margin-right: 0;
     // max-width: 110px; // gives the links to the right more space

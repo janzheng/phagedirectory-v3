@@ -2,7 +2,9 @@
 ._tag {
   margin-bottom: $size-half;
   // white-space: nowrap;
-  line-height: $size-2x;
+  // line-height: $size-2x;
+  line-height: $size;
+  display: inline-block;
   
   &.--sponsor, &.--highlight {
     background-color: usetheme(highlight); //$color-teal-50;

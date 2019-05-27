@@ -9,42 +9,37 @@
 
 // import _ from 'lodash'
 
-import {loadStatic, loadDynamic, loadQuery} from '~/other/loaders'
-
+import {loadQuery} from '~/other/loaders'
 // import {loadStatic, loadDynamic, loadNews} from '~/other/loaders'
 
-async function loadData(routeName, store, env) {
-  // Load static data
-  // await store.dispatch('loadCytosis', {
-  //   env,
-  //   tableQuery: 'static',
-  // })
+// async function loadData(routeName, store, env) {
+//   // Load static data
+//   // await store.dispatch('loadCytosis', {
+//   //   env,
+//   //   tableQuery: 'static',
+//   // })
 
-  // if universal mode, don't load data when not server
-  // if(process.mode == 'universal' && !process.server)
-  //   return false;
+//   // if universal mode, don't load data when not server
+//   // if(process.mode == 'universal' && !process.server)
+//   //   return false;
 
-  // console.log('loading cytosis. Data:', `Content:${!!store.state.Content}, Orgs:${!!store.state.Organizations}`)
-  // if(process.server) {
-  // checks to prevent over-eager fetching?
-  // let staticData, dynamicData, newsData
-  let staticData, dynamicData
+//   // console.log('loading cytosis. Data:', `Content:${!!store.state.Content}, Orgs:${!!store.state.Organizations}`)
+//   // if(process.server) {
+//   // checks to prevent over-eager fetching?
+//   // let staticData, dynamicData, newsData
+//   let staticData, dynamicData
 
-  staticData = loadStatic(env, store, routeName)
-  dynamicData = loadDynamic(env, store, routeName)
+//   staticData = loadStatic(env, store, routeName)
+//   dynamicData = loadDynamic(env, store, routeName)
 
-  return Promise.all([staticData, dynamicData])
-}
+//   return Promise.all([staticData, dynamicData])
+// }
 
 
 async function loadQueryData(routeName, store, env, tableQuery, keyword) {
   let data
-  data = await loadQuery(env, store, routeName, tableQuery, keyword)
+  data = await loadQuery({env, store, routeName, query: tableQuery, keyword})
   // console.log('[loadQueryData] data', data)
-
-  // if(routeName == 'jobs') {
-  //   console.log('JOOOOOBS:', store.state.Atoms)
-  // }
 
   return Promise.all([data])
 }
@@ -108,10 +103,11 @@ export default async function ({route, env, store}) {
     const data = await getData()
     // console.log('finally', data.flat(2))
     return data
-
-  } else {
-    return loadData(routeName, store, env)
   }
+  console.error("Don't forget to set a query to load from for pageload ")
+  // } else {
+  //   return loadData(routeName, store, env)
+  // }
 }
 // }
 

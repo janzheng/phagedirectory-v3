@@ -7,7 +7,7 @@
       </div>
     </slot>
 
-    <div class="Template--Grid _grid-2-1-sm _grid-gap ">
+    <div :class="gridClasses">
       <slot name="sidebar-container">
         <div class="Template--Sidebar">
           <nav :class="sidebarClasses" class="_sidebar">
@@ -51,6 +51,10 @@ export default {
   props: {
     'templateClasses': String,
     'sidebarClasses': String,
+    'gridClasses': {
+      type: String,
+      default: 'Template--Main-Sidebar _grid-2-1-sm _grid-gap ',
+    }
   },
 
   layout: 'contentframe',

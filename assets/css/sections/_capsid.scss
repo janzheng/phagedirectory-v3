@@ -287,6 +287,7 @@ table.Capsid-author-header {
   .Capsid-author-card {
     @extend .Capsid-card;
     padding: $size-half $size;
+    padding-top: $size !important;
     background-color: usetheme(bg-lighter); // $color-ui-lighter;
     border-radius: $radius;
 

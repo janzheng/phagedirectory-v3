@@ -23,7 +23,7 @@
           <div class="Capsid-header Capsid-section _margin-center _padding">
             <div class="_section-content _margin-center">
               <div class="Capsid-meta">
-                <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }},</span>
+                <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }}</span> | 
                 <span class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span>
               </div>
 
@@ -135,11 +135,11 @@
               <!-- <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" /> -->
               <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
               <!-- short description / name -->
-              <div v-if="issue.fields['Data:Author']" class="Capsid-author" v-html="$md.render(issue.fields['Data:Author'] || '')" />
+              <div v-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
               <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
             </div>
 
-            <CapsidShare :link="twitterLink" class="_margin-top _margin-bottom _padding-xs" message="Tweet this issue!" />
+            <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom-2 _padding-xs" message="Tweet this issue!" />
 
             <div v-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 

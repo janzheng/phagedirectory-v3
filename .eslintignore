@@ -25,9 +25,12 @@ proptester.vue
 community.vue
 twitter.js
 
+components/svg
+
 # for internal use anyway
 components/coeur/
 components/experiments
+
 
 
 # from .gitignore

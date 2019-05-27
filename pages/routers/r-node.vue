@@ -77,7 +77,7 @@ export default {
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = '/' + unescape(route.params.slug)
-    const node = await loadQuery(env, store, '{node router}', 'Node-AbsolutePath', slug)
+    const node = await loadQuery({env, store, routeName: '{node router}', query: 'Node-AbsolutePath', keyword: slug})
     console.log('matched node: ', node, ' @ ', slug)
 
     return {

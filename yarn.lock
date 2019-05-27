@@ -2502,10 +2502,10 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-coeur@^0.2.25:
-  version "0.2.25"
-  resolved "https://registry.yarnpkg.com/coeur/-/coeur-0.2.25.tgz#9c9b9a32fa0a955e73a22b0a3b04a474693c988c"
-  integrity sha512-HVQhaqfbSJy3Q1XufWiQkbE6XVQV9RLZbJx784XkgjRY2YLUr3FKOQg0qKUd7FXsPsAnDxwj2lqd3+5wdeoUpQ==
+coeur@^0.2.28:
+  version "0.2.28"
+  resolved "https://registry.yarnpkg.com/coeur/-/coeur-0.2.28.tgz#c8c2cb243324625e571ded0de469b42d4de09653"
+  integrity sha512-0xCYcbYXmIUcRy4loHyfqG9kkQPoFia3iiRKiVhlL/Gt4UATSFGtXNCD19hE0nFe8qL09WNfJHnUTrZDYnpFsw==
 
 collection-visit@^1.0.0:
   version "1.0.0"

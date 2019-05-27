@@ -61,15 +61,17 @@ $height-input: 48px; //inherit; // coeur sets a height limit on inputs, but we d
 
 $sizes: (
   size-diff: 0,
-  lineheight: 24px,
-  font-small: 13px,
   size: 16px,
+  lineheight: 24px,
+
+  font-large: 19px,
+
   size-mobile: 19px,
   size-mobile-input: 24px,
   line-height-mobile: 26px,
+
   size-title: 16px,
   lineheight-title: 16px*1.2,
-  font-large: 19px,
 
   // roomier copy for article pages
   size-copy: 16px,
@@ -255,6 +257,7 @@ $colors-mono: (
   mono-90: #3B4451,
   mono-100: #1E2229,
   mono: #8FA3B7,
+  mono-disabled: #F2F8FD,
 );
 @include addtheme($colors-mono);
 @include colorate($colors-mono);

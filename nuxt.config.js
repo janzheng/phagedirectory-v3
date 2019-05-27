@@ -40,6 +40,9 @@ const site_fb = ''; // buildAtl fb id
 const airtable_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
 const airtable_base = 'appYvj7j9Ta5I15ks'; // PDv3 repo
 
+const db_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
+const db_base = 'appZBUJQuXSUckq4d'; // PDv3 DB repo
+
 const analyze = false; // analyzer (webpack; turn off for prod)
 const offline = false;
 let mode = 'universal' 
@@ -72,6 +75,9 @@ export default {
     site_fb: site_fb,
     airtable_api: airtable_api,  
     airtable_base: airtable_base,
+    db_api: db_api,  
+    db_base: db_base,
+
     site_policy: site_policy,
     site_segment: site_segment,
     ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-basic',
@@ -331,6 +337,50 @@ export default {
       // capsid should resolve anything from phages
       // to people and orgs; easier w/ a uniform id resolver
       routes.push(
+        {
+          name: 'hosts / phages',
+          path: '/phages',
+          component: resolve(__dirname, 'pages/hosts.vue')
+        },
+
+        {
+          name: 'orgs list',
+          path: '/orgs',
+          component: resolve(__dirname, 'pages/dir/orgs.vue')
+        },
+          {
+            name: 'orgs list',
+            path: '/organizations',
+            component: resolve(__dirname, 'pages/dir/orgs.vue')
+          },
+
+        {
+          name: 'people list',
+          path: '/people',
+          component: resolve(__dirname, 'pages/dir/people.vue')
+        },
+          {
+            name: 'people profiles',
+            path: '/people/:slug*',
+            component: resolve(__dirname, 'pages/dir/peopleProfile.vue')
+          },
+          {
+            name: 'people profiles',
+            path: '/profile/:slug*',
+            component: resolve(__dirname, 'pages/dir/peopleProfile.vue')
+          },
+
+        {
+          name: 'labs list',
+          path: '/labs',
+          component: resolve(__dirname, 'pages/dir/labs.vue')
+        },
+
+
+
+
+
+
         {
           name: 'capsid & tail tips',
           path: '/capsid/tips',

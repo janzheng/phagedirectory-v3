@@ -1,11 +1,14 @@
 <template>
-  <div class="Labs">
+  <div class="Labs Dir-category">
 
 
     <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap">
       <template #header-container>
         <h1 class="--title"><span class="_color-mono-60">Phage </span>Labs</h1>
         <h1 v-if="search.string" class="--title" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+        <div class="">
+          <h5 class="_padding-right"><span class="_font-normal">Number of labs: </span>{{ labs.length }}</h5>
+        </div>
       </template>
 
       <template #default>
@@ -13,34 +16,19 @@
         <div>
           <!-- people list -->
           <!-- {{ people }} -->
-          <div v-for="item of labs" :id="item.fields['Slug']" :key="item.id" class="Labs-list" >
-            <Card :item="item" :phage-collections="phageCollections" class="Labs-list-item" />
-          </div>
-        </div>
-
-      </template>
-      <template #context />
-    </Template>
-
-
-    <!-- <Template gridClasses="Template--Main-Sidebar _grid-3-1-sm _grid-gap">
-
-      <template #header-container>
-        <h1 class="--title"><span class="_color-mono-60">Phage </span>Labs</h1>
-      </template>
-
-      <template #default>
-
-        <div class="_section-article _margin-center">
 
           <div v-for="item of labs" :key="item.id" class="Labs-list" >
-            {{ item.fields['Name'] }}
+            <Card :lab="item" :phage-collections="phageCollections" class="Labs-list-item" />
           </div>
         </div>
 
-
       </template>
-    </Template> -->
+      <template #context >
+        [join button]
+        [ back to top]
+        [ search ]
+      </template>
+    </Template>
 
   </div>
 </template>

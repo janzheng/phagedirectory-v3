@@ -85,7 +85,14 @@ img {
 }
 
 
-
+._label {
+  font-size: $size--2; // usetheme(font--2);
+  line-height: $size--2 * 2;
+  letter-spacing: 0.5px;
+  color: usetheme(copy-light);
+  text-transform: uppercase;
+  font-weight: 500;
+}
 
 /* 
 

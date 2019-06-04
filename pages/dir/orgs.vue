@@ -1,10 +1,13 @@
 <template>
-  <div class="Orgs">
+  <div class="Orgs Dir-category">
     <Template>
 
       <template #header-container>
         <h1 class="--title"><span class="_color-mono-60">Phage </span>Organizations</h1>
         <h1 v-if="search.string" class="--title" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+        <div class="">
+          <h5 class="_padding-right"><span class="_font-normal">Number of organizations: </span>{{ orgs.length }}</h5>
+        </div>
       </template>
 
       <template #default>
@@ -14,13 +17,15 @@
           <!-- people list -->
           <!-- {{ people }} -->
           <div v-for="item of orgs" :key="item.id" class="Orgs-list" >
-            {{ item.fields['Name'] }}
+            <Card :org="item" :phage-collections="phageCollections" class="Hosts-list-item" />
           </div>
         </div>
 
       </template>
       <template #context>
-        Context here
+        [join button]
+        [ back to top]
+        [ search ]
       </template>
 
     </Template>
@@ -35,7 +40,7 @@
 
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
-// import PeopleCard from '~/components/dir/PeopleCard.vue'
+import Card from '~/components/dir/OrgCard.vue'
 // import Person from '~/components/dir/DirPeopleList.vue'
 
 import Template from '~/templates/context.vue'
@@ -45,8 +50,8 @@ import Template from '~/templates/context.vue'
 export default {
 
   components: {
-    // PeopleCard,
     Template,
+    Card,
   },
 
   layout: 'contentframe',
@@ -82,6 +87,7 @@ export default {
     return {
       slug,
       orgs: data.tables['Organizations'],
+      phageCollections: data.tables['PhageCollections'],
     }
   },
 

@@ -1,26 +1,34 @@
 <template>
-  <div class="Hosts">
-    <Template>
+  <div class="Hosts Dir-category">
+    <Template sidebar-classes="--sticky --top-1">
 
       <template #header-container>
         <h1 class="--title"><span class="_color-mono-60">Phage </span>Hosts</h1>
         <h1 v-if="search.string" class="--title" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+        <div class="">
+          <h5 class="_padding-right"><span class="_font-normal">Number of genera: </span>{{ genusList.length }}</h5>
+          <h5 class="_padding-right --title"><span class="_font-normal">Number of phage hosts: </span>{{ hosts.length }}</h5>
+        </div>
       </template>
 
       <template #default>
 
         <div class="_section-article _margin-center">
-          
+
           <!-- people list -->
           <!-- {{ people }} -->
-          <div v-for="item of hosts" :key="item.id" class="Hosts-list" >
-            {{ item.fields['Name'] }}
+          <div v-for="item of genusList" :key="item.id" class="Hosts-list" >
+            <Card :genus="item" :hosts="getGenusHosts(item)" :phage-collections="phageCollections" class="Hosts-list-item" />
           </div>
         </div>
 
       </template>
       <template #context>
-        Context here
+        <div>
+          are you working on a phage that targets hosts that we're missing? Please join Phage Directory so we can gain a complete picture
+          [ back to top]
+          [ search ]
+        </div>
       </template>
 
     </Template>
@@ -35,7 +43,7 @@
 
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
-// import PeopleCard from '~/components/dir/PeopleCard.vue'
+import Card from '~/components/dir/HostCard.vue'
 // import Person from '~/components/dir/DirPeopleList.vue'
 
 import Template from '~/templates/context.vue'
@@ -45,8 +53,8 @@ import Template from '~/templates/context.vue'
 export default {
 
   components: {
-    // PeopleCard,
     Template,
+    Card,
   },
 
   layout: 'contentframe',
@@ -66,6 +74,17 @@ export default {
     ...mapState([
       'search',
       ]),
+
+    genusList() {
+      let genuses = []
+      this.hosts.map((host) => {
+        const genus = host.fields['Genus']
+        if(genuses.findIndex(_genus => _genus == genus ) < 0) {
+          genuses.push(genus)
+        }
+      })
+      return genuses
+    }
   },
 
   watch: {
@@ -82,6 +101,7 @@ export default {
     return {
       slug,
       hosts: data.tables['Hosts'],
+      phageCollections: data.tables['PhageCollections'],
     }
   },
 
@@ -89,6 +109,9 @@ export default {
   },
   
   methods: {
+    getGenusHosts(genus) {
+      return this.hosts.filter((host) => host.fields['Genus'] == genus)
+    }
   },
 
 }

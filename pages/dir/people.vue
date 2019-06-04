@@ -1,11 +1,14 @@
 <template>
-  <div class="People">
+  <div class="People Dir-category">
 
     <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap">
 
       <template #header-container>
         <h1 class="--title"><span class="_color-mono-60">Phage </span>People</h1>
         <h1 v-if="search.string" class="--title" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+        <div class="">
+          <h5 class="_padding-right"><span class="_font-normal">Number of people: </span>{{ people.length }}</h5>
+        </div>
       </template>
 
       <template #default>
@@ -14,12 +17,16 @@
           <!-- people list -->
           <!-- {{ people }} -->
           <div v-for="item of people" :key="item.id" class="People-list" >
-            <Card :item="item" class="People-list-item" />
+            <Card :person="item" class="People-list-item" />
           </div>
         </div>
 
       </template>
-      <template #context />
+      <template #context >
+        [join button]
+        [ back to top]
+        [ search ]
+      </template>
 
     </Template>
 

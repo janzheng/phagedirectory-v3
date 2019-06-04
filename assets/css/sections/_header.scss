@@ -3,7 +3,7 @@ $header: (
   // bg-nav: usetheme(silver-light, $colors_),
   // bg-nav-secondary: usetheme(silver-lighter, $colors_),
   bg-nav: usetheme(mono-30),
-  bg-nav-secondary: usetheme(mono-5),
+  bg-nav-secondary: usetheme(mono-10),
 
   nav-color-home: usetheme(brand-100),
   nav-color-active: usetheme(brand-110),
@@ -15,6 +15,10 @@ $header: (
 
 $header-item-height: $size-4;
 
+.Header-container {
+  background-color: usetheme(bg-nav-secondary, $header);
+  margin-bottom: 0;
+}
 .Header {
 
   // give a lot more space to links
@@ -48,10 +52,6 @@ $header-item-height: $size-4;
         color: usetheme(brand-bright);
       }
     }
-  }
-  .Header-container {
-    // background-color: usetheme(bg-nav-secondary);
-    margin-bottom: 0;
   }
   .Header-links {
     // background-color: usetheme(bg-nav-secondary, $header);

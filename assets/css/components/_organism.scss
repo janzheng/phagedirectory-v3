@@ -1,13 +1,31 @@
 
-.--organism {
-	@extend ._tag;
-	// @extend %font-serif;
-	font-style: italic;
-	// font-size: usetheme(font-1);
-	line-height: usetheme(font-1-lh);
-	margin-bottom: $size-quart;
+._organism {
+  @extend ._tag;
+  // @extend %font-serif;
+  font-style: italic;
+  // font-size: usetheme(font-1);
+  line-height: usetheme(font-1-lh);
+  margin-bottom: $size-quart;
+
+  &.--inline {
+    display: inline;
+  }
+
+  // &:last-child { // often wrapped in another div so this won't work
+  //   margin-bottom: 0
+  // }
 }
-.--organism-tag {
-	// list the org name and other metadata
-	padding: $size-quart;
+._organism-name {
+  font-style: italic;
+}
+._organism-sp {
+  font-style: normal;
+}
+._organism-tag {
+  // list the org name and other metadata
+  padding: $size-quart;
+}
+a._organism {
+  font-weight: normal;
+  text-decoration: none;
 }

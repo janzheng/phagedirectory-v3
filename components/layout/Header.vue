@@ -1,7 +1,7 @@
 
 <template>
   <!-- <header class="Header _section-page _padding-top _padding-bottom _margin-center"> -->
-  <div class="Header-container _color-bg-brand-5 ">
+  <div class="Header-container ">
 
     <header class="Header _margin-center">
       <div class="Header-content">
@@ -52,6 +52,11 @@
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
+                <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
+                  Phage Labs
+                </nuxt-link>
+              </div>
+              <div class="Header-mobile-item">
                 <nuxt-link :to="`/orgs${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   Organizations
                 </nuxt-link>
@@ -59,11 +64,6 @@
               <div class="Header-mobile-item">
                 <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   People
-                </nuxt-link>
-              </div>
-              <div class="Header-mobile-item">
-                <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
-                  Labs
                 </nuxt-link>
               </div>
 
@@ -95,14 +95,14 @@
               <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
                 Phage Hosts
               </nuxt-link>
+              <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
+                Labs
+              </nuxt-link>
               <nuxt-link :to="`/orgs${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                 Organizations
               </nuxt-link>
               <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                 People
-              </nuxt-link>
-              <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
-                Labs
               </nuxt-link>
               <nuxt-link :to="`/join${searchQuery}`" class="Header-join _button --outline  ">
                 Sign Up

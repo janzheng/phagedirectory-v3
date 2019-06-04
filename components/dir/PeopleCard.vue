@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <div class="People People-Card Dir-card _padding _margin-bottom " >
+  <div :id="person.fields['Slug']" class="People People-Card Dir-card _padding _margin-bottom " >
     <div class="People-container _flex-row">
       <div class="People-profile _margin-right">
         <img :src="profileUrl" class="--profile --medium" >
@@ -14,11 +14,12 @@
       <div class="People-info _width-100">
 
         <!-- basic info -->
-        <div class="People-basic Dir-section">
+        <div class="Dir-basic Dir-section">
 
           <div class="People-name _flex-row _flex-vertically">
             <div class="Dir-title _flex-1">
-              <router-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</router-link>
+              <!-- <router-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</router-link> -->
+              <span>{{ person.fields['Name'] }}</span>
             </div>
             <div class="Dir-social ">
               <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
@@ -29,12 +30,15 @@
             </div>
           </div>
 
-          <div class="People-orgs Dir-subtitle">
-            <span v-if="roles" class="People-roles">{{ roles }}</span>
-            <router-link v-for="item of orgs" :key="item.name" :to="`/orgs/${ person.slug }`" class="--url">{{ item.name +'' }}</router-link><span v-if="item.fields['Orgs:Labs::Name']">,
-              <router-link :to="`/labs#${item.fields['Orgs:Labs::Slug'][0]}`" class="--url">{{ item.fields['Orgs:Labs::Name'] +'' }}</router-link>
-              <span v-if="isPI" class="_margin-left-half _tag">PI</span>
+          <div class="People-orgs">
+            <div v-if="roles" class="People-roles Dir-highlight">{{ roles }}</div>
+            <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
+              <router-link :to="`/labs#${ labSlugs }`" class="--url">{{ labs }}</router-link><span v-if="isPI" class="_margin-left-half _tag">PI</span>,
             </span>
+            <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="--url">
+              {{ item.name +'' }}
+            </span>
+
             <!-- <span v-if="isPI" class="">(PI)</span> -->
           </div>
           <div v-if="person.fields['Short']" class="Dir-short Dir-subtitle" >
@@ -46,41 +50,18 @@
         </div>
 
         <!-- phage hosts -->
-        <div v-if="hostNames && hostNames.length>0" class="People-phageHosts _padding-top">
+        <div v-if="hostNames && hostNames.length > 0" class="People-phageHosts _margin-top">
           <!-- <h6 class="Dir-section-title">Phage Hosts</h6> -->
-          <div class="" >
-            <!-- <span class="Dir-label">Phage Hosts:</span> -->
-            <div v-for="organism of hostNames" :key="organism" >
-              <span class="--organism">{{ organism }}</span>
-            </div>
+          <!-- <span class="Dir-label">Phage Hosts:</span> -->
+          <div v-for="host of hostNames" :key="host[0]" >
+            <!-- <span class="_organism">{{ organism }}</span> -->
+            <router-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</router-link>
           </div>
         </div>
 
       </div>
     
     </div>
-    <!-- <div v-if="getCover" class="Capsid-logo" >
-      <img :src="getCover" alt="Job logo">
-    </div>
-
-    <div class="_flex-1">
-      <h5 class="" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
-      <div v-if="atom.fields['Data:Source']" v-html="$md.render(atom.fields['Data:Source'] || '')" />
-      <div v-if="atom.fields['Data:Subtitle']" v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
-      <div v-if="atom.fields['Markdown']" v-html="$md.render(atom.fields['Markdown'] || '')" />
-    </div>
-
-    <div v-if="atom.fields['Data:Status'] != 'Expired' && atom.fields['URL']" class=" _margin-top-half ">
-      <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply --outline _button --short _margin-bottom-none-i _margin-right-half" target="_blank">More Details</a>
-      <span v-if="atom.fields['Data:DateEnd']" class="Job-expiry _font-small --nowrap">
-        Last day: <span class="_font-bold">{{ atom.fields['Data:DateEnd'] | niceDate }} </span>
-      </span>
-    </div>
-
-    <div class="_margin-top-half" >
-      <span v-if="atom.fields['Data:Categories']" class="_tag --highlight" >{{ atom.fields['Data:Categories'][0] }}</span> 
-      <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag" >{{ item }}</span>
-    </div> -->
   </div>
 </template>
 
@@ -104,8 +85,21 @@ export default {
     hostNames() {
       if(!this.person.fields['PhageCollections:Hosts::Names'])
         return undefined
-      const names = this.$cytosis.deduplicate(this.person.fields['PhageCollections:Hosts::Names'])
-      return names.sort()
+      const names = this.person.fields['PhageCollections:Hosts::Names']
+      const slugs = this.person.fields['PhageCollections:Hosts::Slugs']
+
+      let hosts = names.map((name,i) => {
+        return [name, slugs[i]]
+      }).sort((a,b) => ('' + a[0]).localeCompare(b[0]) )
+
+      // const names = this.$cytosis.deduplicate(this.person.fields['PhageCollections:Hosts::Names'])
+      return hosts
+    },
+    labs() {
+      return this.person.fields['Orgs:Labs::Name'] ? this.person.fields['Orgs:Labs::Name'] + '': this.person.fields['Orgs:SupervisorOf::Name'] + ''
+    },
+    labSlugs() {
+      return this.person.fields['Orgs:Labs::Slug'] ? this.person.fields['Orgs:Labs::Slug'] + '' : this.person.fields['Orgs:SupervisorOf::Slug'] + ''
     },
     orgs() {
       // let string = this.item.fields['Orgs::Name'] + '' // casts this into a string

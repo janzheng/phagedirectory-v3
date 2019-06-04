@@ -1,5 +1,5 @@
 <template>
-  <div class="Template-Context _section-page _margin-center _margin-top-2 _margin-bottom-2 _padding-top-2 _padding-bottom-2 " :class="templateClasses">
+  <div class="Template-Context _section-page _margin-center _padding-top-2 _padding-bottom-2 " :class="templateClasses">
 
     <slot name="header-container" >
       <div class="Template--Header _section-content _margin-bottom _margin-center _margin-top-none-i">

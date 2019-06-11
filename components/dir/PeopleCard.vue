@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <div :id="person.fields['Slug']" class="People People-Card Dir-card _padding _margin-bottom " >
+  <div :id="person.fields['Slug']" class="People People-card Dir-card " >
     <div class="People-container _flex-row">
       <div class="People-profile _margin-right">
         <img :src="profileUrl" class="--profile --medium" >
@@ -14,48 +14,59 @@
       <div class="People-info _width-100">
 
         <!-- basic info -->
-        <div class="Dir-basic Dir-section">
+        <div class="">
 
-          <div class="People-name _flex-row _flex-vertically">
-            <div class="Dir-title _flex-1">
+          <div class="People-name _flex-row">
+            <div class="_flex-1">
               <!-- <router-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</router-link> -->
-              <span>{{ person.fields['Name'] }}</span>
+              <div class="Dir-title">{{ person.fields['Name'] }}</div>
+
+              <div class="People-orgs Dir-row">
+                <span v-if="roles" class="People-roles _margin-top-half">
+                  <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
+                </span>
+
+                <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
+                  <router-link :to="`/labs#${ labSlugs }`" class="--url">{{ labs }}</router-link><span v-if="isPI" class="_margin-left-half _tag">PI</span>,
+                </span>
+                <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
+                  {{ item.name +'' }}
+                </span>
+              </div>
+
             </div>
-            <div class="Dir-social ">
-              <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
+            <div class="Dir-social Dir-title">
               <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
               <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><span class="_font-phage icon-google-scholar" /></a>
               <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
               <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
+              <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
             </div>
           </div>
 
-          <div class="People-orgs">
-            <div v-if="roles" class="People-roles Dir-highlight">{{ roles }}</div>
-            <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
-              <router-link :to="`/labs#${ labSlugs }`" class="--url">{{ labs }}</router-link><span v-if="isPI" class="_margin-left-half _tag">PI</span>,
-            </span>
-            <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="--url">
-              {{ item.name +'' }}
-            </span>
 
-            <!-- <span v-if="isPI" class="">(PI)</span> -->
-          </div>
-          <div v-if="person.fields['Short']" class="Dir-short Dir-subtitle" >
-            {{ person.fields['Short'] }}
-          </div>
-          <div v-if="url" class="Dir-link Dir-subtitle">
-            <a :href="url" class="_wordbreak --url">{{ url }}</a>
+          <div class="Dir-block">
+            <!-- <div><span class="Dir-label">Website</span></div> -->
+            <div v-if="person.fields['Short']" class="Dir-row" >
+              <span class="">{{ person.fields['Short'] }}</span>
+            </div>
+            <div v-if="person.fields['Social:Twitter']" class="Dir-row _grid-1-7-xs _align-vertically">
+              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="_wordbreak --url">@{{ person.fields['Social:Twitter'] }}</a>
+            </div>
+            <div v-if="url" class="Dir-row _grid-1-7-xs _align-vertically">
+              <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url">{{ url }}</a>
+            </div>
           </div>
         </div>
 
         <!-- phage hosts -->
-        <div v-if="hostNames && hostNames.length > 0" class="People-phageHosts _margin-top">
-          <!-- <h6 class="Dir-section-title">Phage Hosts</h6> -->
-          <!-- <span class="Dir-label">Phage Hosts:</span> -->
-          <div v-for="host of hostNames" :key="host[0]" >
-            <!-- <span class="_organism">{{ organism }}</span> -->
-            <router-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</router-link>
+
+        <div v-if="hostNames && hostNames.length > 0" class="Dir-block">
+          <div class="Dir-label">Phage Hosts</div>
+          <div class="Dir-miniCard">
+            <div v-for="host of hostNames" :key="host[0]" class="_organism-container">
+              <router-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</router-link>
+            </div>
           </div>
         </div>
 
@@ -128,12 +139,13 @@ export default {
       return string
     },
     roles() {
-      let string = this.person.fields['Roles']
+      return this.person.fields['Roles']
+      // let string = this.person.fields['Roles']
 
-      if(!string)
-        return undefined
+      // if(!string)
+      //   return undefined
 
-      return string.join(', ')
+      // return string.join(', ')
     },
     isPI() {
       if (this.person.fields['Orgs:Labs:isPI'])

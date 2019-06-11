@@ -8,6 +8,32 @@
 
 .Dir-category {
   background-color: usetheme(mono-0);
+
+  .--url {
+    // color: usetheme(copy-gray);
+    text-decoration: none;
+    // text-decoration-color: usetheme(copy-light);
+    // font-size: usetheme(font--1);
+    // line-height: usetheme(font--1-lh);
+    font-weight: bold; // 500;
+    // font-weight: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+    &:hover {
+      text-decoration-color: usetheme(hover);
+    }
+    &.--none {
+      text-decoration: none !important;
+      font-weight: normal;
+    }
+  }
+}
+
+.Dir-alternate {
+  &:nth-child(2n) {
+    background-color: usetheme(mono-0);
+  }
 }
 
 .Dir-section { // a block of larger content
@@ -61,7 +87,8 @@
 
 .Dir-title {
   // padding-top: $size-half;
-  // padding-bottom: $size-half;
+  // padding-bottom: $size;
+  margin-bottom: $size;
   line-height: $size-5;
   font-weight: 500;
 
@@ -79,11 +106,11 @@
     }
   }
 }
-.Dir-highlight {
-  &, * {
-    font-weight: 500 !important;
-  }
-}
+// .Dir-highlight {
+//   &, * {
+//     font-weight: 500 !important;
+//   }
+// }
 .Dir-subtitle {
   // font-size: usetheme(font--1);
   // line-height: usetheme(font--1-lh);
@@ -98,11 +125,9 @@
 
 }
 .Dir-label {
-  // font-size: usetheme(font--1);
-  // line-height: usetheme(font--1-lh);
-  // margin-bottom: $size-quart;
-  // color: usetheme(copy-gray);
-  @extend ._label;
+  color: usetheme(copy-light);
+  line-height: usetheme(font-2-lh);
+  // @extend ._label;
 }
 
 .Dir-card {
@@ -113,27 +138,15 @@
   // padding-top: $size;
   // padding-bottom: $size;
   margin-bottom: $size;
-  padding-top: $size-2;
-  padding-bottom: $size-2;
+  padding: $size-2x;
+  padding-top: $size-2x;
+  padding-bottom: $size-2x;
 
   background-color: usetheme(purewhite); // $color-teal-50;
   border-color: usetheme(silver-light);
+  border-width: $border-thin;
   // border-color: usetheme(mono-0);
 
-  .--url {
-    // color: usetheme(copy-gray);
-    // text-decoration: none;
-    text-decoration-color: usetheme(copy-gray);
-    // font-size: usetheme(font--1);
-    // line-height: usetheme(font--1-lh);
-    font-weight: normal;
-    word-break: break-word;
-    overflow-wrap: break-word;
-
-    &:hover {
-      text-decoration-color: usetheme(hover);
-    }
-  }
 }
   .Dir-miniCard {
     font-size: usetheme(font--1);
@@ -144,6 +157,10 @@
     padding: $size;
     background-color: usetheme(brand-0); // $color-teal-50;
     border-color: usetheme(brand-5);
+  
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 
 
@@ -152,6 +169,7 @@
   // font-size: usetheme(font--1);
   // line-height: usetheme(font--1-lh);
   // color: usetheme(copy-gray);
+  margin-bottom: $size-half;
 }
 
 .Dir-disabled {
@@ -181,7 +199,10 @@
 }
 
 
-
+.Dir-row {
+  line-height: $size-2;
+  padding-bottom: $size-half;
+}
 
 
 
@@ -203,5 +224,27 @@
 //    font-weight: bold;
 //  }
 // }
+
+
+
+
+
+/* 
+
+
+  Components
+
+
+ */
+
+.Dir-notice {
+  @extend ._card;
+  padding: $size-2x;
+  background-color: usetheme(brand--1);
+  margin-bottom: $size-6;
+  // @extend ._font-small;
+  border-width: $border-thin;
+}
+
 
 

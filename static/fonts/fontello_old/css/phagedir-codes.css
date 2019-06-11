@@ -1,0 +1,18 @@
+
+.icon-mail:before { content: '\e800'; } /* '' */
+.icon-open-access:before { content: '\e939'; } /* '' */
+.icon-open-access-square:before { content: '\e9f4'; } /* '' */
+.icon-doi:before { content: '\e97e'; } /* '' */
+.icon-doi-square:before { content: '\e98f'; } /* '' */
+.icon-researchgate:before { content: '\e95e'; } /* '' */
+.icon-researchgate-square:before { content: '\e99e'; } /* '' */
+.icon-orcid:before { content: '\e9d9'; } /* '' */
+.icon-orcid-square:before { content: '\e9c3'; } /* '' */
+.icon-google-scholar:before { content: '\e9d4'; } /* '' */
+.icon-google-scholar-square:before { content: '\e9f9'; } /* '' */
+.icon-twitter:before { content: '\f099'; } /* '' */
+.icon-twitter-squared:before { content: '\f304'; } /* '' */
+.icon-linkedin:before { content: '\f0e1'; } /* '' */
+.icon-linkedin-squared:before { content: '\f30c'; } /* '' */
+.icon-mail-alt:before { content: '\f0e0'; } /* '' */
+.icon-mail-squared:before { content: '\f199'; } /* '' */

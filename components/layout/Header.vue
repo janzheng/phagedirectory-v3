@@ -38,11 +38,11 @@
                   <label for="textSearch" class="_form-label-icon _padding-left-half _padding-bottom-none _height-100">
                     <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg>
                   </label>
-                  <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="header_searchbar" placeholder="Search" @input="search">
+                  <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="header_searchbar" placeholder="Search" @input="doSearch">
                 </div>
               </div>
               <div class="Header-mobile-item _padding-top _padding-bottom">
-                <nuxt-link to="/join" class="Header-join _button --outline _margin-none-i ">
+                <nuxt-link to="/join" class="_button Header-join  --outline _margin-none-i ">
                   Sign Up
                 </nuxt-link>
               </div>
@@ -90,7 +90,7 @@
           <div class="Header-logo _align-vertically">
             <nuxt-link name="Home" to="/" class=" Header-logo-link _border-none-i _padding"><img class="logo-xs" alt="Phage Directory Logo" src="~/static/icon.png"></nuxt-link>
           </div>
-          <div class="Header-container _margin-half _margin-left-none">
+          <div class="Header-container _margin-half _margin-left-none _padding-bottom-half ">
             <div class="Header-inset _flex-row _flex-2 _padding-half _margin-bottom-none">
               <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
                 Phage Hosts
@@ -112,7 +112,7 @@
                 <label for="textSearch" class="_form-label-icon _padding-left-half _padding-bottom-none _height-100">
                   <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg>
                 </label>
-                <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline " type="text" name="header_searchbar" placeholder="Search" @input="search">
+                <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline " type="text" name="header_searchbar" placeholder="Search" @input="doSearch">
               </div>
             </div>
 
@@ -132,6 +132,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import _ from '~/other/lodash.custom.min.js'
 
 export default {
   data: function () {
@@ -192,7 +193,7 @@ export default {
   },
   
   methods: {
-    search() {
+    doSearch: new _.debounce(function() {
       // const url = `/search/${this.searchString}`
 
       // const slug = this.$router.params.slug
@@ -203,26 +204,22 @@ export default {
         base = route.path
 
       const url = `${base}?search=${this.searchString}`
-      console.log("handling search:",this.searchString, 'route:', route)
-      console.log("search url:", url, "?", this.$router.history)
-      // $router history push forces a page reload... use window to replace
-      // store the searchstring into store?
 
       if(this.searchString == "") { // empty string = clearing the search! can't ignore 
-        // console.log('blank search!')
         this.$router.replace(base)
         return true
       }
 
       this.$router.replace(url)
-
       this.$store.dispatch("updateCreate", {
         search: {
           string: this.searchString,
           url: url,
         }
       })
-    },
+    }, 300, {
+      trailing: true
+    }),
     pathMatch(path) {
       // console.log('pathMatch',this.$router.currentRoute.path)
       if(!this.$router.currentRoute.path)

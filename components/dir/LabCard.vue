@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <div :id="lab.fields['Slug']" class="Lab Lab-Card Dir-card _padding _margin-bottom " >
+  <div :id="lab.fields['Slug']" class="Lab Lab-Card Dir-card " >
 
     <div class="Lab-container">
       <!-- <div class="Lab-profile "> -->
@@ -14,7 +14,7 @@
       <!-- </div> -->
       <div class="Lab-info _width-100">
 
-        <div class="Dir-header Dir-section _flex-row _flex-vertically">
+        <div class=" Dir-section _flex-row _flex-vertically">
           <div class="Dir-title _flex-1">
             <!-- <router-link :to="`/labs/${item.fields['Slug']}`">{{ item.fields['Name'] }}</router-link> -->
             <span>{{ lab.fields['Name'] }}</span>
@@ -65,8 +65,8 @@
             </div>
             <div v-for="item of linkedPhageCollections" :key="item.id" class="Dir-miniCard">
               <div class="">
-                <div class="Dir-highlight">{{ item.fields['Name:Nice'] }}</div>
-                <div>
+                <div class="Dir-row">{{ item.fields['Name:Nice'] }}</div>
+                <div class="Dir-row">
                   <router-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</router-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
                 </div>
               </div>

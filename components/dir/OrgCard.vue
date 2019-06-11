@@ -6,23 +6,23 @@
  -->
 
 <template>
-  <div class="Org Org-Card Dir-card _padding _margin-bottom " >
+  <div class="Org Org-Card Dir-card " >
 
     <div class="Org-container">
       <div class="Org-info _width-100" :class="logoUrl ? '_grid-1-3' : ''">
         <div v-if="logoUrl" class="Dir-logo" >
-          <!-- <picture> -->
           <a :href="org.fields['URL']" class="_inline-block"><img :src="logoUrl" class="" :alt="`${org.fields['Name']} Logo`"></a>
-          <!-- </picture> -->
         </div>
-        <div>
-          <h3 class="--title _padding-bottom-none">{{ org.fields['Name'] }}</h3>
-          <h5 v-if="org.fields['AltName']" class="_font-normal _padding-none _margin-bottom-half">{{ org.fields['AltName'] }}</h5>
+        <div class="">
+          <div class="Dir-title">
+            <h3 class="--title _padding-bottom-none">{{ org.fields['Name'] }}</h3>
+            <h5 v-if="org.fields['AltName']" class="_font-normal _padding-none">{{ org.fields['AltName'] }}</h5>
+          </div>
           <div v-if="org.fields['Org:Types']" class="_margin-top-half">
-            <span v-for="item of org.fields['Org:Types']" :key="item" class="Dir-Orgtype">{{ item }}</span>
+            <span v-for="item of org.fields['Org:Types']" :key="item" class="_tag">{{ item }}</span>
           </div>
           <div v-if="org.fields['URL']" class="">
-            <a :href="org.fields['URL']" class="--url">{{ org.fields['URL'] }}</a>
+            <a v-if="org.fields['URL']" :href="org.fields['URL']" class="--url --none">{{ org.fields['URL'] }}</a>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <div><span class="Dir-label">Phage Collections</span></div>
         <div v-for="item of linkedPhageCollections" :key="item.id" class="Dir-miniCard">
           <div class="">
-            <div class="Dir-highlight">{{ item.fields['Name:Nice'] }}</div>
+            <div class="Dir-subtitle">{{ item.fields['Name:Nice'] }}</div>
             <div>
               <router-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</router-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
             </div>

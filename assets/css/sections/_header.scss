@@ -4,6 +4,7 @@ $header: (
   // bg-nav-secondary: usetheme(silver-lighter, $colors_),
   bg-nav: usetheme(mono-30),
   bg-nav-secondary: usetheme(mono-10),
+  bg-nav-links: usetheme(mono-20),
 
   nav-color-home: usetheme(brand-100),
   nav-color-active: usetheme(brand-110),
@@ -54,7 +55,7 @@ $header-item-height: $size-4;
     }
   }
   .Header-links {
-    // background-color: usetheme(bg-nav-secondary, $header);
+    background-color: usetheme(bg-nav-links, $header);
     // padding-left: $size;
 
     a {
@@ -111,7 +112,8 @@ $header-item-height: $size-4;
     // background-color: usetheme(brand-5);
     // color: usetheme(brand-80);
     color: usetheme(brand-bright);
-    border-color: usetheme(brand-5);
+    // border-color: usetheme(brand-5);
+    border-color: usetheme(brand-bright);
     background-color: usetheme(brand-5);
 
     // padding:;
@@ -120,9 +122,6 @@ $header-item-height: $size-4;
     border-color: usetheme(brand-bright);
     background-color: usetheme(brand-bright); //usetheme(pink-0);
     color: usetheme(brand-0);
-      // background-color: usetheme(brand-60);
-      // border-color: usetheme(brand-60);
-      // color: usetheme(brand-20);
     }
   }
 

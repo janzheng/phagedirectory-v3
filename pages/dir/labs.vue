@@ -2,31 +2,51 @@
   <div class="Labs Dir-category">
 
 
-    <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap">
+    <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
       <template #header-container>
         <h1 class="--title"><span class="_color-mono-60">Phage </span>Labs</h1>
-        <h1 v-if="search.string" class="--title" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
-        <div class="">
-          <h5 class="_padding-right"><span class="_font-normal">Number of labs: </span>{{ labs.length }}</h5>
-        </div>
+        <h1 v-if="search.string" class="--title _padding-bottom-half"><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+        <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterLabs.length }}</h2>
       </template>
 
       <template #default>
-        <!-- <div class="_section-article _margin-center"> -->
         <div>
-          <!-- people list -->
-          <!-- {{ people }} -->
+          <div v-if="!search.string" class="Dir-notice _grid-3-1 _grid-gap-large _align-vertically">
+            <div>
+              <p>
+                This is a directory of research labs at universities and institutions that work on phages. (For biotech companies, please refer to the Organizations page) 
+              </p>
+              <p>
+                If you'd like to add your phage lab to this list, please sign up!
+              </p>
+              <p class="_font-small">
+                Number of labs: <strong>{{ labs.length }}</strong>
+                <br>
+                If you'd like your information updated, <a href="mailto:hello@phage.directory" class="--url">please let us know</a>.
+              </p>
+            </div>
+            <div class="_right-sm">
+              <a href="#" class="_button CTA --join _width-100 _center">Sign Up</a>
+            </div>
+          </div>
 
-          <div v-for="item of labs" :key="item.id" class="Labs-list" >
+          <div v-if="search.string && filterLabs.length == 0" class="Dir-notice">
+            <h1 class="" >No results found.</h1>
+          </div>
+
+          <div v-for="item of filterLabs" :key="item.id" class="Labs-list" >
             <Card :lab="item" :phage-collections="phageCollections" class="Labs-list-item" />
           </div>
         </div>
 
       </template>
       <template #context >
-        [join button]
-        [ back to top]
-        [ search ]
+        <div>
+          <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="header_searchbar" placeholder="Search" @input="doSearch">
+        </div>
+        <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
+          Back to top
+        </nuxt-link>
       </template>
     </Template>
 
@@ -71,6 +91,40 @@ export default {
     ...mapState([
       'search',
       ]),
+    searchString: {
+      get: function () {
+        return this.$store.state.search.string
+      },
+      // setter
+      set: function (str) {
+        this.$store.dispatch("updateCreate", {
+          search: {
+            string: str,
+            url: this.$router.currentRoute.fullPath,
+          }
+        })
+        // const url = `/search/${str}`
+      }
+    },
+    filterLabs() {
+      if(!this.search.string)
+        return this.labs
+
+      const str = this.search.string.toLowerCase()
+
+      // inclusive filter:
+      /*
+        {Name} &' - '& {AltName} &' - '& {Org:Types} &' - '& {Location} &' - '& {Location:Parent} &' - '&{PhageCollections:Hosts::Names} &' - '& {Orgs:Parent:Name} &' - '& {People:Supervisors::Names} &' - '& {People:LabMembers::Names} &' - '& {People:OrgMembers::Names}
+      */
+      let labs = []
+      this.labs.map((lab) => {
+        if(lab.fields['Data:Search'].toLowerCase().includes(str)) {
+          labs.push(lab)
+        }
+      })
+
+      return labs //this.holabssts
+    },
   },
 
   watch: {
@@ -92,6 +146,31 @@ export default {
   },
 
   methods: {
+    doSearch() {
+      // const url = `/search/${this.searchString}`
+
+      // const slug = this.$router.params.slug
+      const route = this.$router.currentRoute
+      let base = 'hosts'
+
+      if(route.path == '/orgs' || route.path == '/people' || route.path == '/labs')
+        base = route.path
+
+      const url = `${base}?search=${this.searchString}`
+
+      if(this.searchString == "") { // empty string = clearing the search! can't ignore 
+        this.$router.replace(base)
+        return true
+      }
+
+      this.$router.replace(url)
+      this.$store.dispatch("updateCreate", {
+        search: {
+          string: this.searchString,
+          url: url,
+        }
+      })
+    },
   },
 
 }

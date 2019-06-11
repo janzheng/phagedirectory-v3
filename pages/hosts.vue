@@ -1,22 +1,39 @@
 <template>
   <div class="Hosts Dir-category">
-    <Template sidebar-classes="--sticky --top-1">
+    <Template sidebar-classes="--sticky --top-1" grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap ">
 
       <template #header-container>
         <h1 class="--title"><span class="_color-mono-60">Phage </span>Hosts</h1>
-        <h1 v-if="search.string" class="--title" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
-        <div class="">
-          <h5 class="_padding-right"><span class="_font-normal">Number of genera: </span>{{ genusList.length }}</h5>
-          <h5 class="_padding-right --title"><span class="_font-normal">Number of phage hosts: </span>{{ hosts.length }}</h5>
-        </div>
+        <h1 v-if="search.string" class="--title _padding-bottom-half" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+        <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterHosts.length }}</h2>
       </template>
 
       <template #default>
 
-        <div class="_section-article _margin-center">
+        <div>
+          <div v-if="!search.string" class="Dir-notice _grid-3-1 _align-vertically">
+            <div>
+              <p>
+                This is a directory of bacteriophage host organisms, and the organizations and labs who work with them . 
+              </p>
+              <p>
+                If you'd like us to add a host organism, or if you'd like to add your lab to our directory, please sign up!
+              </p>
+              <p class="_font-small">
+                Number of listed phage hosts: <strong>{{ hosts.length }}</strong>
+                <br>
+                If you'd like your information updated, <a href="mailto:hello@phage.directory" class="--url">please let us know</a>.
+              </p>
+            </div>
+            <div class="_right-sm">
+              <a href="#" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+            </div>
+          </div>
 
-          <!-- people list -->
-          <!-- {{ people }} -->
+          <div v-if="search.string && filterHosts.length == 0" class="Dir-notice">
+            <h1 class="" >No results found.</h1>
+          </div>
+
           <div v-for="item of genusList" :key="item.id" class="Hosts-list" >
             <Card :genus="item" :hosts="getGenusHosts(item)" :phage-collections="phageCollections" class="Hosts-list-item" />
           </div>
@@ -25,10 +42,11 @@
       </template>
       <template #context>
         <div>
-          are you working on a phage that targets hosts that we're missing? Please join Phage Directory so we can gain a complete picture
-          [ back to top]
-          [ search ]
+          <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline _width-full" type="text" name="header_searchbar" placeholder="Search" @input="doSearch">
         </div>
+        <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
+          Back to top
+        </nuxt-link>
       </template>
 
     </Template>
@@ -74,17 +92,53 @@ export default {
     ...mapState([
       'search',
       ]),
+    searchString: {
+      get: function () {
+        return this.$store.state.search.string
+      },
+      // setter
+      set: function (str) {
+        this.$store.dispatch("updateCreate", {
+          search: {
+            string: str,
+            url: this.$router.currentRoute.fullPath,
+          }
+        })
+        // const url = `/search/${str}`
+      }
+    },
 
     genusList() {
-      let genuses = []
-      this.hosts.map((host) => {
+      let genera = []
+      this.filterHosts.map((host) => {
         const genus = host.fields['Genus']
-        if(genuses.findIndex(_genus => _genus == genus ) < 0) {
-          genuses.push(genus)
+        if(genera.findIndex(_genus => _genus == genus ) < 0) {
+          genera.push(genus)
         }
       })
-      return genuses
-    }
+      return genera
+    },
+
+    filterHosts() {
+      if(!this.search.string)
+        return this.hosts
+
+      const str = this.search.string.toLowerCase()
+
+      // inclusive filter:
+      // Data:Search field: host name, collection name, person, org/lab, parent org
+      /*
+        Name & ' ' & {PhageCollections:Owners:Orgs::Names} & ' ' & {PhageCollections:Owners:ParentOrgs::Names} & ' ' & {PhageCollections:Names} & ' ' & {PhageCollections:Owners:People::Names}
+      */
+      let hosts = []
+      this.hosts.map((host) => {
+        if(host.fields['Data:Search'].toLowerCase().includes(str)) {
+          hosts.push(host)
+        }
+      })
+
+      return hosts //this.hosts
+    },
   },
 
   watch: {
@@ -95,8 +149,10 @@ export default {
 
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
+    console.log('Hosts page loading data')
     const slug = route.params.slug
     const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{hosts}', query: 'Hosts-index'})
+    console.log('Hosts page data loaded', data)
 
     return {
       slug,
@@ -110,8 +166,33 @@ export default {
   
   methods: {
     getGenusHosts(genus) {
-      return this.hosts.filter((host) => host.fields['Genus'] == genus)
-    }
+      return this.filterHosts.filter((host) => host.fields['Genus'] == genus)
+    },
+    doSearch() {
+      // const url = `/search/${this.searchString}`
+
+      // const slug = this.$router.params.slug
+      const route = this.$router.currentRoute
+      let base = '/hosts'
+
+      if(route.path == '/orgs' || route.path == '/people' || route.path == '/labs')
+        base = route.path
+
+      const url = `${base}?search=${this.searchString}`
+
+      if(this.searchString == "") { // empty string = clearing the search! can't ignore 
+        this.$router.replace(base)
+        return true
+      }
+
+      this.$router.replace(url)
+      this.$store.dispatch("updateCreate", {
+        search: {
+          string: this.searchString,
+          url: url,
+        }
+      })
+    },
   },
 
 }

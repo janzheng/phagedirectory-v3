@@ -88,6 +88,37 @@ button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionable button; inherits 
     //   padding-left: $size-half;
     // }
   }
+
+  &.--join {
+    margin: 0; 
+    color: usetheme(brand-bright);
+    border-color: usetheme(brand-5);
+    background-color: usetheme(brand--1);
+    @extend ._shadow-1;
+
+    // padding:;
+    &:hover {
+      // border-color: usetheme(brand-80);
+      border-color: usetheme(brand-bright);
+      background-color: usetheme(brand-bright); //usetheme(pink-0);
+      color: usetheme(brand-0);
+    }
+  }
+
+  &.--inverse {
+    margin: 0; 
+    border-color: usetheme(brand-bright);
+    background-color: usetheme(brand-bright); //usetheme(pink-0);
+    color: usetheme(brand-0);
+    @extend ._shadow-1;
+
+    &:hover {
+      color: usetheme(brand-bright);
+      // border-color: usetheme(brand-5);
+      border-color: usetheme(brand-bright);
+      background-color: usetheme(brand--1);
+    }
+  }
 }
   // a.CTA._button {
   //   color: usetheme(bg);

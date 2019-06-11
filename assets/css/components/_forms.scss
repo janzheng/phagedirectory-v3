@@ -2,6 +2,7 @@
 
 $forms: (
   btn-bg: usetheme(pink-50),
+  border-brand: usetheme(mono-40),
 );
 
 
@@ -21,13 +22,13 @@ input, .input, %input {
   &[type="password"],
   &[type="date"],
   &[type="url"] {
-    border: solid $border-thin usetheme(brand-70);
+    border: solid $border-thin usetheme(border-brand, $forms);
     border-top-color: transparent;
     border-left-color: transparent;
     border-right-color: transparent;
 
     &:focus, &:active, &:hover, &:hover:focus {
-      border: solid $border-thin usetheme(brand-70);
+      border: solid $border-thin usetheme(border-brand, $forms);
       background-color: usetheme(purewhite);
     }
   }
@@ -39,12 +40,12 @@ textarea, .textarea {
   border-radius: $radius;
   background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
   border-color: usetheme(brand-10); // grabs attention w/ border color
-  border-bottom-color: usetheme(brand-70);
+  border-bottom-color: usetheme(border-brand, $forms);
 
   @extend %font-sans;
 
   &:focus, &:active, &:hover {
-    border-color: usetheme(brand-70);
+    border-color: usetheme(border-brand, $forms);
     background-color: usetheme(purewhite);
   }
   &:hover {

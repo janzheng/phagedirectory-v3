@@ -67,6 +67,21 @@
     border-color: usetheme(brand-30); // $color-teal-50;
   }
 
+  &.--button { // used on join page, as buttons
+    background: usetheme(mono-0);
+    border-left: solid $border-thick;
+    border-color: usetheme(brand-30);
+    border-radius: $radius;
+
+    &:hover {
+      background: usetheme(brand-5);
+      border-left: solid $border-thick;
+      border-color: usetheme(brand-bright);
+      border-radius: $radius;
+    }
+
+  }
+
 
   &.--shadow {
     //   box-shadow: 0px 4px 8px rgba(70, 70, 70, 0.1);

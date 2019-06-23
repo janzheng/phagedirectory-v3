@@ -16,10 +16,12 @@
         <!-- basic info -->
         <div class="">
 
-          <div class="People-name _flex-row">
+          <div class="People-name People-header-block _flex-row">
             <div class="_flex-1">
               <!-- <router-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</router-link> -->
-              <div class="Dir-title">{{ person.fields['Name'] }}</div>
+              <div class="Dir-title">
+                {{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
+              </div>
 
               <div class="People-orgs Dir-row">
                 <span v-if="roles" class="People-roles _margin-top-half">
@@ -45,23 +47,29 @@
           </div>
 
 
-          <div class="Dir-block">
+          <div class="People-info-block Dir-block">
             <!-- <div><span class="Dir-label">Website</span></div> -->
-            <div v-if="person.fields['Short']" class="Dir-row" >
-              <span class="">{{ person.fields['Short'] }}</span>
+            <div v-if="person.fields['Short']" class="People-short Dir-row" >
+              <span class="_md-pfix" v-html="$md.render( person.fields['Short'] || '')" />
             </div>
             <div v-if="person.fields['Social:Twitter']" class="Dir-row _grid-1-7-xs _align-vertically">
-              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="_wordbreak --url">@{{ person.fields['Social:Twitter'] }}</a>
+              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="_wordbreak --url --none">@{{ person.fields['Social:Twitter'] }}</a>
             </div>
             <div v-if="url" class="Dir-row _grid-1-7-xs _align-vertically">
-              <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url">{{ url }}</a>
+              <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
+            </div>
+          </div>
+
+          <div class="People-desc-block Dir-block">
+            <div v-if="person.fields['Description']" class="People-description Dir-row" >
+              <div class="_md-pfix" v-html="$md.render(person.fields['Description'] || '')" />
             </div>
           </div>
         </div>
 
         <!-- phage hosts -->
 
-        <div v-if="hostNames && hostNames.length > 0" class="Dir-block">
+        <div v-if="hostNames && hostNames.length > 0" class="People-phage-block Dir-block">
           <div class="Dir-label">Phage Hosts</div>
           <div class="Dir-miniCard">
             <div v-for="host of hostNames" :key="host[0]" class="_organism-container">

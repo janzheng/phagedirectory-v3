@@ -135,13 +135,17 @@
               <!-- <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" /> -->
               <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
               <!-- short description / name -->
-              <div v-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
+
+              <Card v-if="author" :person="author" class="Capsid-author-short People-only-header --compact" />
+              <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
+
               <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
             </div>
 
             <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom-2 _padding-xs" message="Tweet this issue!" />
 
-            <div v-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
+            <Card v-if="author" :person="author" class="Capsid-author-full --compact" />
+            <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
             <NodeForm v-if="form" :src="form" class="Capsid-form" />
 
@@ -192,6 +196,8 @@ import CapsidSponsor from '~/components/publications/CapsidSponsor'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
+import { loadQuery } from '~/other/loaders'
+import Card from '~/components/dir/PeopleCard.vue'
 
 import NodeForm from '~/components/render/NodeForm.vue'
 
@@ -204,6 +210,7 @@ export default {
     CapsidJob,
     CapsidCommunity,
     NodeForm,
+    Card,
   },
 
   props: {
@@ -231,9 +238,33 @@ export default {
 
   data: function () {
 
+    // if we're grabbing author info from DB:People
+    const _this = this
+    const getAuthor = async function() {
+      console.log('fetching author:')
+      const data = await loadQuery({
+        _key: process.env.db_api, 
+        _base: process.env.db_base, 
+        store: _this.$store, 
+        routeName: '{Capsid}', 
+        query: 'People-profile',
+        keyword: _this.issue.fields['Data:AuthorSlug'],
+      })
+
+      console.log('fetched a profile:', data)
+      return data.tables.People[0]
+    }
+    
+    if(this.issue.fields['Data:AuthorSlug']) {
+      getAuthor().then((data) => {
+        console.log('result:', data)
+        _this.author = data
+      })
+    }
+
     return {
       path: this.$route.path,
-
+      author: undefined,
       intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       highlight: this.$cytosis.find('Content.capsid-highlight', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],

@@ -3,6 +3,8 @@
 
   Capsid & Tail Signup Card for footer
 
+  // old / unused
+
  -->
 <template>
 

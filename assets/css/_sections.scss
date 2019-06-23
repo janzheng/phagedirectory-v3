@@ -91,8 +91,8 @@ section {
 // Creates margins for content within a page
 ._section-content {
   @extend %width-content-paragraph;
-  margin-top: $size-3;
-  margin-bottom: $size-3;
+  margin-top: $size-2x;
+  margin-bottom: $size-2x;
 
   &.--roomy {
     @extend %roomy;
@@ -137,6 +137,19 @@ $article-width: 60ch;
     // margin-left: auto;
     // margin-right: auto;
   }
+}
+
+
+// for narrow intro sections
+$width-narrow: 44ch;
+._section-narrow {
+  max-width: 100%;
+  @media (min-width: $width-narrow) {
+    max-width: $width-narrow;
+  } 
+
+  margin-top: $size-3;
+  margin-bottom: $size-3;
 }
 
 

@@ -61,18 +61,25 @@ $header-item-height: $size-4;
     a {
       padding-top: $size;
       padding-bottom: $size;
-      padding-left: 0;
-      padding-right: 0;
+      // padding-left: 0;
+      // padding-right: 0;
 
       border-radius: 0;
 
       margin: 0;
-      margin-left: $size-half;
-      margin-right: $size-half;
+      margin-left: $size-quart;
+      margin-right: $size-quart;
 
       font-size: usetheme(nav-size, $header);
       font-weight: normal;
       color: usetheme(nav-color-notactive, $header);
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+      &:last-of-type {
+        margin-right: 0;
+      }
       
       // &.nuxt-link-exact-active {
       &.nuxt-link-active { // can't use exact b/c it'll unhighlight for anchor links

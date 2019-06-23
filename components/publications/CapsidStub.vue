@@ -9,6 +9,7 @@
 
   <div class="Capsid Capsid-Stub ">
     <div v-if="isFeatured" >
+
       <nuxt-link :key="issue.id"
                  :to="`/capsid/${issue.fields.Slug}`"
                  :class="isFeatured ? '--featured' :''"
@@ -20,6 +21,9 @@
           <div class="Capsid-name">{{ issue.fields['Name'] }}</div>
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
         </div> -->
+        <div v-if="showLogo" class="Capsid-logo _margin-bottom">
+          <img src="~/static/cnt.png" width="84">
+        </div>
         <div class="Capsid-header _font--1 _grid-gap-small">
           <span class="Capsid-name _font-bold ">{{ issue.fields['Name'] }}</span> | 
           <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
@@ -57,7 +61,8 @@
 export default {
   props: {
     'issue': Object,
-    'isFeatured': Boolean
+    'isFeatured': Boolean,
+    'showLogo': Boolean,
   },
 
   data: function () {

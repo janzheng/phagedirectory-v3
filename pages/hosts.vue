@@ -62,9 +62,11 @@
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 import Card from '~/components/dir/HostCard.vue'
+import { dirSearch } from '~/other/helpers.js'
 // import Person from '~/components/dir/DirPeopleList.vue'
 
 import Template from '~/templates/context.vue'
+import _ from '~/other/lodash.custom.min.js'
 // import Template from '~/templates/article.vue'
 
 
@@ -168,33 +170,12 @@ export default {
     getGenusHosts(genus) {
       return this.filterHosts.filter((host) => host.fields['Genus'] == genus)
     },
-    doSearch() {
-      // const url = `/search/${this.searchString}`
-
-      // const slug = this.$router.params.slug
-      const route = this.$router.currentRoute
-      let base = '/hosts'
-
-      if(route.path == '/orgs' || route.path == '/people' || route.path == '/labs')
-        base = route.path
-
-      const url = `${base}?search=${this.searchString}`
-
-      if(this.searchString == "") { // empty string = clearing the search! can't ignore 
-        this.$router.replace(base)
-        return true
-      }
-
-      this.$router.replace(url)
-      this.$store.dispatch("updateCreate", {
-        search: {
-          string: this.searchString,
-          url: url,
-        }
-      })
-    },
-  },
-
+    doSearch: new _.debounce(function() {
+      dirSearch(this)
+    }, 300, {
+      trailing: true
+    }),
+  }
 }
 </script>
 

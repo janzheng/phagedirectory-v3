@@ -13,7 +13,7 @@ $footer: (
   alert-border-color: usetheme(pink-5),
   alert-bg-color: usetheme(pink-0),
   alert-cta-color: usetheme(pink-60),
-  alert-cta-active-color: usetheme(brand-active),
+  alert-cta-active-color: usetheme(whiter),
   alert-input-border-color: usetheme(pink-30),
   alert-input-bg-color: usetheme(purewhite),
   alert-input-bg-active-color: usetheme(whiter),
@@ -54,9 +54,9 @@ $footer: (
   ._button {
     font-weight: 700;
     margin: 0;
-    background: usetheme(capsid-cta-bg-color, $footer);
-    border-color: usetheme(capsid-cta-bg-color, $footer);
-    color: usetheme(capsid-cta-color, $footer);
+    background: transparent; //usetheme(capsid-cta-bg-color, $footer);
+    border-color: usetheme(capsid-input-border-color, $footer);
+    color: usetheme(capsid-input-border-color, $footer);
     &:hover {
       background: usetheme(capsid-cta-bg-active-color, $footer);
       border-color: usetheme(capsid-cta-bg-active-color, $footer);
@@ -86,6 +86,7 @@ $footer: (
       border-width: $border-thin;
       border-color: usetheme(alert-input-border-color, $footer);
       background-color: usetheme(alert-input-bg-active-color, $footer) !important;
+      -webkit-font-smoothing: antialiased;
     };
   }
   ._button {
@@ -93,9 +94,12 @@ $footer: (
     margin: 0;
     color: usetheme(alert-cta-color, $footer);
     border-color: usetheme(alert-cta-color, $footer);
+    background: transparent;
     &:hover {
-      border-color: usetheme(alert-cta-active-color, $footer) !important;
+      border-color: usetheme(alert-cta-color, $footer) !important;
+      background: usetheme(alert-cta-color, $footer) !important;
       color: usetheme(alert-cta-active-color, $footer) !important;
+      -webkit-font-smoothing: antialiased;
     };
   }
 }

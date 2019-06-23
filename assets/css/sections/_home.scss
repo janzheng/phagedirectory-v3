@@ -2,7 +2,7 @@
 // Homepage
 .Home {
   .Home-button-tall {
-    line-height: $font-lineheight;
+    // line-height: $font-lineheight;
 
     &:not(.--disabled) {
       background: usetheme(silver-light, $colors_);
@@ -16,13 +16,45 @@
   }
   
   .Home-hero {
-    color: usetheme(white);
-    @extend %gradient-brand;
+    // color: usetheme(white);
+    // @extend %gradient-brand;
     
-    .Home-hero-text {
-      font-weight: 300;
-      letter-spacing: 0.5px;
+    // .Home-hero-text {
+    //   font-weight: 300;
+    //   letter-spacing: 0.5px;
+    // }
+  }
+
+  .Home-img-container {
+    margin-bottom: 0 !important;
+  }
+  .Home-img {
+    width: 250px;
+    display: inline-block;
+    position: relative;
+
+    @include screen-sm {
+      left: 15px;
     }
   }
-  
+  .Home-hero-txt {
+    // padding-left: 75px;
+    margin-top: $size-half;
+    @include screen-xs {
+      br {
+        display: none;
+      }
+    }
+    @include screen-sm {
+      position: relative;
+      left: 80px;
+      line-height: $lineheight-h2;
+    }
+  }
+
 }
+
+
+
+
+

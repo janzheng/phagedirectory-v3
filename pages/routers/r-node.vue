@@ -27,6 +27,9 @@
     <!-- <TemplateDocs :node="node" :route="route" /> -->
     <TemplateDocumentation v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
 
+    <!-- scroll spy alt -->
+    <TemplateScrollDocumentation v-if="node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
+
   </div>
 </template>
 
@@ -41,6 +44,7 @@ import { loadQuery } from '~/other/loaders'
 import TemplateArticle from '~/templates/node-article'
 // import TemplateBasic from '~/templates/node-basic'
 import TemplateDocumentation from '~/templates/node-documentation'
+import TemplateScrollDocumentation from '~/templates/node-scroll-documentation'
 
 
 export default {
@@ -49,6 +53,7 @@ export default {
     TemplateArticle,
     // TemplateBasic,
     TemplateDocumentation,
+    TemplateScrollDocumentation,
   },
 
   layout: 'contentframe',

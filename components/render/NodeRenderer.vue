@@ -6,8 +6,8 @@
 
  -->
 <template>
-
-  <div class="NodeContent" >
+  <div v-scroll-spy class="NodeContent scrollspy" >
+    <div v-if="header" class="header" v-html="$md.render(header || '')" />
     <div v-for="item of nodes" :key="item.id">
       <div v-if="item.fields['Render:Template'] == 'Form'" >
         <NodeForm :src="item"/>
@@ -30,6 +30,7 @@ export default {
   },
 
   props: {
+    header: String,
     nodes: Array,
   },
 

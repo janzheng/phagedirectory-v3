@@ -13,13 +13,28 @@ $capsid_: (
 
 .Capsid {
 	.Capsid-masthead {
-
+    margin-top: $size-7;
+    margin-bottom: $size-6;
 	}
 
 	.Capsid-masthead-title {
 		font-weight: normal;
 		font-style: italic;
 	}
+  .Capsid-latest {
+      margin-top: $size-7;
+      margin-bottom: $size-7;
+
+    // latest stub
+    .Capsid-Stub-item {
+      padding-top: $size-2x;
+      padding-bottom: $size-2x;
+    }
+    .Capsid-lede {
+      font-size: usetheme(font-2);
+      line-height: usetheme(font-2-lh);
+    }
+  }
 }
 
 
@@ -292,8 +307,18 @@ table.Capsid-author-header {
     border-radius: $radius;
 
     h3, h4, h5 {
-      padding-top: 0;
+      padding-top: $size-half;
     }
+  }
+  .Dir-card.Capsid-author-short {
+    padding: $size;
+    border: 0;
+    // padding: 0;
+    // background-color: transparent;
+    // box-shadow: none;
+  }
+  .Capsid-author-full {
+    
   }
 
 

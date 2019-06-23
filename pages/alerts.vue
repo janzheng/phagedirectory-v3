@@ -28,8 +28,6 @@
             </template>
           </Tabbed>
 
-
-          <!-- <Alert v-for="item of alerts" :key="item.id" :atom="item" /> -->
         </div>
       </template>
     </Template>

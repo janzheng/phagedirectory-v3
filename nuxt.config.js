@@ -231,6 +231,13 @@ export default {
     // 'nuxt-purgecss', // purges markdown-based css... womp
   ],
 
+  serverMiddleware: [
+    // these won't work unless running nuxt as a server
+    // Will register file from project api directory to handle /api/* requires
+    // { path: '/feed.xml', handler: '~/api/rss.js' },
+    // { path: '/capsid.xml', handler: '~/api/rss.js' },
+  ],
+
   manifest: {
     name: 'Phage Directory',
     short_name: 'phagedirectory',
@@ -336,7 +343,15 @@ export default {
     extendRoutes (routes, resolve) {
       // capsid should resolve anything from phages
       // to people and orgs; easier w/ a uniform id resolver
+
       routes.push(
+
+        {
+          name: 'join / signup',
+          path: '/signup',
+          component: resolve(__dirname, 'pages/join/index.vue')
+        },
+
         {
           name: 'hosts / phages',
           path: '/phages',
@@ -364,11 +379,6 @@ export default {
             path: '/people/:slug*',
             component: resolve(__dirname, 'pages/dir/peopleProfile.vue')
           },
-          {
-            name: 'people profiles',
-            path: '/profile/:slug*',
-            component: resolve(__dirname, 'pages/dir/peopleProfile.vue')
-          },
 
         {
           name: 'labs list',
@@ -379,13 +389,6 @@ export default {
 
 
 
-
-
-        {
-          name: 'capsid & tail tips',
-          path: '/capsid/tips',
-          component: resolve(__dirname, 'pages/capsidtips.vue')
-        },
         {
           // Dynamic Template Router
           // catches all routes and attempts to find a template

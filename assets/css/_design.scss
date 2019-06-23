@@ -53,19 +53,32 @@ h2 {
 
   &.--large {
     font-size: $size-4;
-    padding-bottom: $size-2;
+    padding-bottom: $size-4 * 3/2;
   }
 }
 
 h3 {
 // used to introduce subtopics, hugs content but still needs to breathe
   padding-top: $size-2;
+
+  &.--large {
+    font-size: $font-h2;
+    line-height: $lineheight-h2;
+    font-weight: normal;
+  }
 }
 
 h4 {
 // used to introduce subtopics, hugs content but still needs to breathe
   // padding-top: $size-2;
   // line-height: $size-3;
+  font-size: $font-h4;
+  line-height: $font-h4 * 3/2;
+
+  &.--large {
+    font-size: $font-h3;
+    line-height: $lineheight-h3;
+  }
 }
 
 h5 {
@@ -165,6 +178,11 @@ p, ul, li, {
   }
 }
 
+
+.ContentFrame-body a {
+  font-weight: bold;
+}
+
 // body links
 a, ._link {
   cursor: pointer;
@@ -203,12 +221,13 @@ a, ._link {
     }
 
   }
-}
 
-  .ContentFrame-body a {
-    font-weight: bold;
+  &.--nolink {
+    font-weight: normal;
+    text-decoration: none;
+    color: usetheme(copy);
   }
-
+}
 
 
 
@@ -245,7 +264,7 @@ a, ._link {
       font-variant: normal;
       text-transform: none;
       // line-height: 1em;
-      font-size: 120% !important;
+      font-size: 125% !important;
      
       position: relative;
       bottom: -.1rem;

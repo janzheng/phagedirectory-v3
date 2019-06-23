@@ -66,6 +66,8 @@
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
 import Card from '~/components/dir/OrgCard.vue'
+import { dirSearch } from '~/other/helpers.js'
+import _ from '~/other/lodash.custom.min.js'
 // import Person from '~/components/dir/DirPeopleList.vue'
 
 import Template from '~/templates/context.vue'
@@ -154,32 +156,12 @@ export default {
   },
 
   methods: {
-    doSearch() {
-      // const url = `/search/${this.searchString}`
-
-      // const slug = this.$router.params.slug
-      const route = this.$router.currentRoute
-      let base = 'hosts'
-
-      if(route.path == '/orgs' || route.path == '/people' || route.path == '/labs')
-        base = route.path
-
-      const url = `${base}?search=${this.searchString}`
-
-      if(this.searchString == "") { // empty string = clearing the search! can't ignore 
-        this.$router.replace(base)
-        return true
-      }
-
-      this.$router.replace(url)
-      this.$store.dispatch("updateCreate", {
-        search: {
-          string: this.searchString,
-          url: url,
-        }
-      })
-    },
-  },
+    doSearch: new _.debounce(function() {
+      dirSearch(this)
+    }, 300, {
+      trailing: true
+    }),
+  }
 
 }
 </script>

@@ -90,7 +90,7 @@
           <div class="Header-logo _align-vertically">
             <nuxt-link name="Home" to="/" class=" Header-logo-link _border-none-i _padding"><img class="logo-xs" alt="Phage Directory Logo" src="~/static/icon.png"></nuxt-link>
           </div>
-          <div class="Header-container _margin-half _margin-left-none _padding-bottom-half ">
+          <div class="Header-container _margin-half _margin-left-none _margin-right-none _padding-bottom-half ">
             <div class="Header-inset _flex-row _flex-2 _padding-half _margin-bottom-none">
               <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
                 Phage Hosts
@@ -104,7 +104,7 @@
               <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                 People
               </nuxt-link>
-              <nuxt-link :to="`/join${searchQuery}`" class="Header-join _button --outline  ">
+              <nuxt-link :to="`/join`" class="Header-join _button --outline  ">
                 Sign Up
               </nuxt-link>
 
@@ -133,6 +133,7 @@
 
 import { mapState } from 'vuex'
 import _ from '~/other/lodash.custom.min.js'
+import { dirSearch } from '~/other/helpers.js'
 
 export default {
   data: function () {
@@ -194,29 +195,7 @@ export default {
   
   methods: {
     doSearch: new _.debounce(function() {
-      // const url = `/search/${this.searchString}`
-
-      // const slug = this.$router.params.slug
-      const route = this.$router.currentRoute
-      let base = 'hosts'
-
-      if(route.path == '/orgs' || route.path == '/people' || route.path == '/labs')
-        base = route.path
-
-      const url = `${base}?search=${this.searchString}`
-
-      if(this.searchString == "") { // empty string = clearing the search! can't ignore 
-        this.$router.replace(base)
-        return true
-      }
-
-      this.$router.replace(url)
-      this.$store.dispatch("updateCreate", {
-        search: {
-          string: this.searchString,
-          url: url,
-        }
-      })
+      dirSearch(this)
     }, 300, {
       trailing: true
     }),

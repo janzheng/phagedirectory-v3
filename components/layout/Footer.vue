@@ -50,10 +50,10 @@
                 <nuxt-link to="/labs">Phage Research Labs</nuxt-link>
               </div>
               <div>
-                <nuxt-link to="/profiles">Phage Researchers</nuxt-link>
+                <nuxt-link to="/orgs">Phage Organizations</nuxt-link>
               </div>
               <div>
-                <nuxt-link to="/companies">Phage Companies</nuxt-link>
+                <nuxt-link to="/profiles">Phage Researchers</nuxt-link>
               </div>
 
             </div>
@@ -61,16 +61,19 @@
             <div class="Footer-column _padding-bottom-2-xs">
               <div class="Footer-title _font-bold _padding-bottom-half _color-brand-light">Community</div>
               <div>
-                <nuxt-link to="/capsid">Capsid &amp; Tail</nuxt-link>
+                <nuxt-link to="/community">Community Board</nuxt-link>
               </div>
               <div>
                 <nuxt-link to="/alerts">Phage Alerts</nuxt-link>
               </div>
               <div>
-                <nuxt-link to="/community">Community Board</nuxt-link>
+                <nuxt-link to="/events">Events</nuxt-link>
               </div>
               <div>
                 <nuxt-link to="/jobs">Phage Jobs</nuxt-link>
+              </div>
+              <div>
+                <nuxt-link to="/capsid">Capsid &amp; Tail</nuxt-link>
               </div>
               <div>
                 <nuxt-link to="/classroom">Classroom Initiative</nuxt-link>
@@ -96,9 +99,9 @@
               <div>
                 <nuxt-link to="/policies">Site Policy</nuxt-link>
               </div>
-              <div>
-                <a target="_blank" href="mailto:hello@phage.directory">Email</a> / <a target="_blank" href="https://twitter.com/phagedirectory">Twitter</a>
-              </div>
+              <a class="_block" target="_blank" href="https://phage.directory/chat">Schedule a call with us</a>
+              <a class="_block" target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a>
+              <a class="_block" target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a>
 
             </div>
           </div>

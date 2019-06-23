@@ -19,19 +19,27 @@
             </div>
           </nuxt-link>
         </div>
-
-        <div class="_margin-center _section-article">
-          <div class="_margin-bottom" v-html="$md.render(intro || '')" />
-          <!-- <div class="" v-html="$md.render(signup || '')" /> -->
-          <CapsidSignup />
-        </div>
+        <!-- 
+          <div class="_margin-center _section-article">
+            <div class="_margin-bottom" v-html="$md.render(writeforus || '')" />
+          </div> 
+        -->
       </div>
     </div>
 
 
 
     <div class="_section-content _margin-center-sm _margin-left-xs _margin-right-xs">
-      <CapsidStub :issue="latest" :is-featured="true" class="" />
+      <CapsidStub :issue="latest" :is-featured="true" class="Capsid-latest" />
+    </div>
+
+    <div class="_section-article _margin-center ">
+      <!-- <div class="" v-html="$md.render(signup || '')" /> -->
+      <CapsidSignup />
+
+      <div class="_margin-center _margin-top-2 _section-article">
+        <div class="_margin-bottom" v-html="$md.render(message || '')" />
+      </div>
     </div>
     
     <div class="_section-content _margin-center">
@@ -68,7 +76,7 @@ export default {
 
   data () {
     return {
-      intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      message: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       // signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
   },

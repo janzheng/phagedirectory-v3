@@ -100,4 +100,19 @@ img {
 
  */
 
+// ._grid-1 {
+//   // works like block but super useful for applying grid template areas
+//   display: grid;
+//   grid-template-rows: 1fr;
+//   grid-template-columns: 1fr;
+// }
+//   ._grid-1-xs {
+//     // works like block but super useful for applying grid template areas
+//     @include screen-xs {
+//       display: grid;
+//       grid-template-rows: 1fr;
+//       grid-template-columns: 1fr;
+//     }
+//   }
+
 

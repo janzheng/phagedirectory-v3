@@ -6,9 +6,7 @@
 
  */
 
-.Dir-category {
-  background-color: usetheme(mono-0);
-
+%url {
   .--url {
     // color: usetheme(copy-gray);
     text-decoration: none;
@@ -30,6 +28,12 @@
   }
 }
 
+
+.Dir-category {
+  background-color: usetheme(mono-0);
+  @extend %url;
+}
+
 .Dir-alternate {
   &:nth-child(2n) {
     background-color: usetheme(mono-0);
@@ -40,8 +44,8 @@
   // margin-bottom: $size; // use margin for folding
 }
 .Dir-block { // a block of smaller content 
-  margin-top: $size; // use margin for folding
-  margin-bottom: $size; // use margin for folding
+  margin-top: $size-half; // use margin for folding
+  margin-bottom: $size-half; // use margin for folding
 
   &:first-of-type {
     margin-top: 0
@@ -88,7 +92,7 @@
 .Dir-title {
   // padding-top: $size-half;
   // padding-bottom: $size;
-  margin-bottom: $size;
+  // margin-bottom: $size-half;
   line-height: $size-5;
   font-weight: 500;
 
@@ -106,6 +110,11 @@
     }
   }
 }
+  .Dir-personTitle { // e.g. Master, PhD, etc.
+    font-size: usetheme(font-small) !important;
+    padding-left: $size-quart;
+    display: inline-block;
+  }
 // .Dir-highlight {
 //   &, * {
 //     font-weight: 500 !important;
@@ -126,7 +135,7 @@
 }
 .Dir-label {
   color: usetheme(copy-light);
-  line-height: usetheme(font-2-lh);
+  line-height: usetheme(font-1-lh);
   // @extend ._label;
 }
 
@@ -147,6 +156,7 @@
   border-width: $border-thin;
   // border-color: usetheme(mono-0);
 
+  @extend %url;
 }
   .Dir-miniCard {
     font-size: usetheme(font--1);
@@ -201,7 +211,10 @@
 
 .Dir-row {
   line-height: $size-2;
-  padding-bottom: $size-half;
+  margin-bottom: $size-quart;
+  span {
+    white-space: pre-line;
+  }
 }
 
 
@@ -215,17 +228,39 @@
 .People {
 
 }
-// .People-roles {
-//  &:after {
-//    content: ' | ';
-//    padding-left: $size-quart;
-//    padding-right: $size-quart;
-//    color: usetheme(mono-40);
-//    font-weight: bold;
-//  }
-// }
-
-
+  // This card is used OUTSIDE of the directory, like in C&T!!
+  .People-card {
+    &.--compact {
+      // used in C&T
+      // .People-container {
+      //   display: block !important;
+      // }
+      .People-name {
+        display: block !important;
+        margin-bottom: $size-2;
+      }
+      .People-roles {
+        span {
+          // display: block;
+        }
+      }
+    }
+  }
+  .People-only-header { // only show basic header info
+    
+    .People-name {
+      margin-bottom: 0 !important;
+    }
+    .People-info-block {
+      display: none;
+    }
+    .People-desc-block {
+      display: none;
+    }
+    .People-phage-block {
+      display: none;
+    }
+  }
 
 
 

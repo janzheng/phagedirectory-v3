@@ -7,8 +7,8 @@
  -->
 <template>
 
-  <div class="Capsid Capsid-Issue ">
-    <div v-if="issue" class="_section-content _margin-center _card _margin-top-none-i" >
+  <div class="Capsid Capsid-Issue _section-article _margin-center">
+    <div v-if="issue" class="_margin-center _card _margin-top-none-i" >
 
       <div v-scroll-spy class="scrollspy" >
         
@@ -241,7 +241,7 @@ export default {
     // if we're grabbing author info from DB:People
     const _this = this
     const getAuthor = async function() {
-      console.log('fetching author:')
+      // console.log('fetching author:')
       const data = await loadQuery({
         _key: process.env.db_api, 
         _base: process.env.db_base, 
@@ -251,13 +251,13 @@ export default {
         keyword: _this.issue.fields['Data:AuthorSlug'],
       })
 
-      console.log('fetched a profile:', data)
+      // console.log('fetched a profile:', data)
       return data.tables.People[0]
     }
     
     if(this.issue.fields['Data:AuthorSlug']) {
       getAuthor().then((data) => {
-        console.log('result:', data)
+        // console.log('result:', data)
         _this.author = data
       })
     }

@@ -12,13 +12,13 @@
     </div>
 
     <div class="_flex-1">
-      <h5 class="" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
-      <div v-if="atom.fields['Data:Source']" v-html="$md.render(atom.fields['Data:Source'] || '')" />
+      <h4 class="" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
+      <div v-if="atom.fields['Data:Source']" class="_md-pfix _font-bold" v-html="$md.render(atom.fields['Data:Source'] || '')" />
       <div v-if="atom.fields['Data:Subtitle']" v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
       <div v-if="atom.fields['Markdown']" v-html="$md.render(atom.fields['Markdown'] || '')" />
     </div>
 
-    <div v-if="atom.fields['Data:Status'] != 'Expired' && atom.fields['URL']" class=" _margin-top-half ">
+    <div v-if="atom.fields['Data:Status'] != 'Expired' && atom.fields['URL']" class=" _margin-top-half _margin-bottom ">
       <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply --outline _button --short _margin-bottom-none-i _margin-right-half" target="_blank">More Details</a>
       <!-- expiration date -->
       <span v-if="atom.fields['Data:DateEnd']" class="Job-expiry _font-small --nowrap">

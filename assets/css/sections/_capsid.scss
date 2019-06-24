@@ -12,10 +12,6 @@ $capsid_: (
 
 
 .Capsid {
-	.Capsid-masthead {
-    margin-top: $size-7;
-    margin-bottom: $size-6;
-	}
 
 	.Capsid-masthead-title {
 		font-weight: normal;
@@ -34,6 +30,16 @@ $capsid_: (
       font-size: usetheme(font-2);
       line-height: usetheme(font-2-lh);
     }
+  }
+  
+  img {
+    max-width: 100%;
+  }
+}
+.Capsid-List {
+  .Capsid-masthead {
+    margin-top: $size-7;
+    margin-bottom: $size-6;
   }
 }
 
@@ -189,6 +195,11 @@ $capsid_: (
   img {
     max-width: 100%;
   }
+
+  &.--featured {
+    border-width: $border-thin;
+    border-color: usetheme(brand);
+  }
 }
 
 .Capsid-article {
@@ -199,7 +210,6 @@ $capsid_: (
     padding-bottom: $size;
   }
 }
-
 
 
 

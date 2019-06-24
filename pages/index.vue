@@ -33,7 +33,11 @@
             </div>
 
             <div class="Home-latest _section-page _margin-center _margin-bottom-2">
-              <Latest :atoms="Atoms" />
+              <Latest :atoms="featuredAtoms" />
+              <Latest :atoms="nonFeaturedAtoms" />
+              <div class="_button --width-full --outline _center CTA --brand _font-bold" @click="getLatestAtoms(numLatest)">
+                Load More 
+              </div>
             </div>
           </div>
         </template>
@@ -58,6 +62,7 @@ import Latest from '~/components/Latest.vue'
 import Twitter from '~/components/Twitter.vue'
 import Template from '~/templates/context.vue'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
+import { loadQuery } from '~/other/loaders'
 
 export default {
 
@@ -72,13 +77,17 @@ export default {
   middleware: 'pageload',
   meta: {
     // tableQuery: "_content"
-    tableQueries: ['_content', 'capsid-previews', 'atoms-latest']
+    tableQueries: ['_content', 'capsid-previews', 'atoms-featured']
   },
 
   data () {
+    const numLatest = 5
+    this.getLatestAtoms(numLatest)
     return {
       // mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
       featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
+      latestAtoms: null, // pulled later
+      numLatest,
     }
   },
   
@@ -86,9 +95,26 @@ export default {
     ...mapState([
       'Content',
       'Manuscripts',
-      'Atoms',
+      'Atoms', 
       ]),
 
+    featuredAtoms() {
+      return this.Atoms.filter(e => {
+      // return this.latestAtoms.filter(e => {
+        return e.fields['Data:Priority'] == 'Featured'
+      })
+    },
+
+    nonFeaturedAtoms() {
+      if(this.latestAtoms) {
+        return this.latestAtoms.filter(e => {
+          return e.fields['Data:Priority'] != 'Featured'
+        })
+      }
+      return undefined
+    }
+
+    
   },
 
   async asyncData({env}) {
@@ -103,6 +129,25 @@ export default {
   },
 
   methods: {
+
+    async getLatestAtoms(numLatest) {
+      const _this = this
+      loadQuery({
+        _key: process.env.airtable_api, 
+        _base: process.env.airtable_base, 
+        store: _this.$store, 
+        routeName: '{Index}', 
+        query: 'atoms-latest',
+        options: {
+          'view': 'Latest:Published',
+          'maxRecords': numLatest,
+        }
+      }).then((data) => {
+        _this.latestAtoms = data.tables.Atoms
+        _this.numLatest = _this.numLatest + 5
+      })
+      return undefined
+    }
   },
 
 

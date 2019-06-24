@@ -45,7 +45,7 @@
     color: usetheme(brand-90);
   }
     &.--border-highlight {
-      border-color: usetheme(highlight); // $color-teal-50;
+      border-color: usetheme(highlight-dark); // $color-teal-50;
       border-width: $border-thin;
     }
     &.--border-active {

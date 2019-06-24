@@ -100,6 +100,16 @@ img {
 
  */
 
+ // ._md-plist {
+ //  // md sometimes adds paragraphs to each list item, which adds paragraph margins
+ //  // this removes paragraph stylings from list items 
+ //  li {
+ //    p {
+ //      margin-bottom: 0;
+ //    }
+ //  }
+ // }
+
 // ._grid-1 {
 //   // works like block but super useful for applying grid template areas
 //   display: grid;

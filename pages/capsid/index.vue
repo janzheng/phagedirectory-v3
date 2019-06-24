@@ -7,7 +7,7 @@
 
 
 <template>
-  <div class="Capsid ">
+  <div class="Capsid Capsid-List">
 
     <div class="_section-page _margin-center">
       <div class="_section-content _margin-center">

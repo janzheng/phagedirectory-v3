@@ -1,5 +1,5 @@
 <template>
-  <div class="Template-Manuscript-Capsid _margin-top-2 _margin-bottom-2 _grid-4-1-sm _grid-gap _center-margin _container _padding _section-content">
+  <div class="Template-Manuscript-Capsid _margin-top-2 _margin-bottom-2 _grid-3-1-sm _grid-gap-small _center-margin _container _padding ">
 
 
     <!-- Side bar / Side menu -->
@@ -12,7 +12,7 @@
     </div>
 
 
-    <div class="Template--Main">
+    <div class="Template--Main ">
 
       <slot name="intro" />
 

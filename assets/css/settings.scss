@@ -289,7 +289,8 @@ $context: (
   hover: usetheme(pink, $colors),
   links-decoration: usetheme(pink, $colors),
   // highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
-  highlight: usetheme(brand-60),
+  highlight: usetheme(brand-40),
+  highlight-dark: usetheme(brand-60),
   
   // highlight-light: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
   // advert: map-get($colorMap, pink-300), //usetheme(phdir, $colors),

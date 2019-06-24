@@ -2,17 +2,22 @@
 <template>
 
   <div class="Latest" >
-
     <div class="Latest-container ">
 
-      <div v-for="item of atoms" :key="item.id" class="_card --img _padding">
-        <h6 class="_padding-none _color-mono-40">{{ item.fields['Atom:Type'] }}</h6>
-        <div v-if="item.fields['Data:Title']" class="_margin-bottom _font-bold">{{ item.fields['Data:Title'] }}</div>
-        <div v-if="item.fields['Markdown']" class="_md-pfix" v-html="$md.render(item.fields['Markdown'] || '')" />
+      <div v-for="item of atoms" :key="item.id" class="--img _margin-bottom">
+        <!-- {{ item.fields }} -->
+        <div v-if="item.fields['Atom:Type'] == 'Update'" class="Latest-update">
+          <CapsidNew :atom="item" />
+        </div>
+        <div v-else-if="item.fields['Atom:Type'] == 'Job'" class="Latest-update">
+          <CapsidJob :atom="item" />
+        </div>
+        <div v-else-if="item.fields['Atom:Type'] == 'Community'" class="Latest-update">
+          <CapsidCommunity :atom="item" />
+        </div>
       </div>
 
     </div>
-
   </div>
 
 </template>
@@ -21,8 +26,17 @@
 <script>
 
 // import { mapState } from 'vuex'
+import CapsidNew from '~/components/publications/CapsidNew'
+import CapsidJob from '~/components/publications/CapsidJob'
+import CapsidCommunity from '~/components/publications/CapsidCommunity'
 
 export default {
+
+  components: {
+    CapsidNew,
+    CapsidJob,
+    CapsidCommunity,
+  },
 
   props: {
     atoms: Array,

@@ -11,7 +11,7 @@
       <div class="_md-p_fix _font-small _margin-bottom-half" >{{ atom.fields['Data:Date'] | niceDate }}</div>
     </div>
     <div class="_flex-1">
-      <h5 class="" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
+      <h4 class="" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
       <div class="" v-html="$md.render(atom.fields['Data:Source'] || '')" />
       <div v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
       <div v-html="$md.render(atom.fields['Markdown'] || '')" />

@@ -159,6 +159,7 @@
         </no-ssr> -->
 
       </div>
+
     </div>
 
     <div class="_section-content _margin-center">
@@ -172,6 +173,11 @@
         </div>
       </div>
 
+      <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related _margin-top-2" >
+        <h6 class="_padding-bottom-none">Related Article</h6>
+        <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
+      </div>
+
       <div class="Capsid-footer _section-content _margin-center _padding">
         <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup)" />
 
@@ -183,6 +189,7 @@
       </div>
 
     </div>
+
   </div>
 
 </template>
@@ -196,6 +203,7 @@ import CapsidSponsor from '~/components/publications/CapsidSponsor'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
+import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import Card from '~/components/dir/PeopleCard.vue'
 
@@ -209,6 +217,7 @@ export default {
     CapsidNew,
     CapsidJob,
     CapsidCommunity,
+    CapsidStub,
     NodeForm,
     Card,
   },
@@ -221,9 +230,10 @@ export default {
   head () {
 
     // strip html from title
-    let div = document.createElement("div")
-    div.innerHTML = this.$md.strip(this.$md.render(this.issue.fields['Data:Title']))
-    const title = div.textContent || div.innerText || ""
+    // let div = document.createElement("div")
+    // div.innerHTML = this.$md.strip(this.$md.render(this.issue.fields['Data:Title']))
+    // const title = div.textContent || div.innerText || ""
+    const title = this.issue.fields['Data:Title']
 
     this.$head.setTitle(title || "Capsid & Tail")
     this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
@@ -295,6 +305,17 @@ export default {
     jobs() {
       return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Jobs'], this.atoms, true).reverse()
       // return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Job')
+    },
+
+    relatedIssue() {
+      return {
+        fields: {
+          'Name': this.issue.fields['Manuscripts:Related:Name'][0],
+          'Data:Title': this.issue.fields['Manuscripts:Related:Title'][0],
+          'Data:Date': this.issue.fields['Manuscripts:Related:Date'][0],
+          'Data:Lede': this.issue.fields['Manuscripts:Related:Lede'][0],
+        }
+      }
     },
 
     updates() {

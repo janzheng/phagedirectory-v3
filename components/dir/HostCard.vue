@@ -49,11 +49,11 @@
                   </div>
 
                   <div class="Dir-row">
-                    <router-link :to="`/people#${ collection.peopleSlug }`" class="--url">{{ collection.people }}</router-link><span>, {{ collection.peopleRole }}</span>
+                    <nuxt-link :to="`/people#${ collection.peopleSlug }`" class="--url">{{ collection.people }}</nuxt-link><span>, {{ collection.peopleRole }}</span>
                   </div>
 
-                  <div class="Dir-row Dir-block">
-                    <router-link :to="`${collection.orgSlugRoot}#${collection.orgSlug}`" class="--url">{{ collection.orgName }}</router-link><span v-if="collection.parent">, {{ collection.parent }}</span>
+                  <div class="Dir-row">
+                    <nuxt-link :to="`${collection.orgSlugRoot}#${collection.orgSlug}`" class="--url">{{ collection.orgName }}</nuxt-link><span v-if="collection.parent">, {{ collection.parent }}</span>
                   </div>
 
                 </div>

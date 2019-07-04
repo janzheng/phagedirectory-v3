@@ -45,7 +45,7 @@ $header-item-height: $size-4;
       font-size: usetheme(nav-size, $header);
       color: usetheme(nav-color-home, $header);
 
-      &:hover {
+      &:hover,&:focus,&:active {
         // color: usetheme(brand-active);
         color: usetheme(brand-bright);
       }
@@ -88,7 +88,7 @@ $header-item-height: $size-4;
         color: usetheme(nav-color-active);
         border-bottom: solid $border-medium usetheme(nav-color-border-active, $header) !important;
       }
-      &:hover {
+      &:hover, &:active, &:focus {
         color: usetheme(brand-bright) !important;
       }
     }
@@ -124,7 +124,7 @@ $header-item-height: $size-4;
     background-color: usetheme(brand-5);
 
     // padding:;
-    &:hover {
+    &:hover, &:active, &:focus {
     // border-color: usetheme(brand-80);
     border-color: usetheme(brand-bright);
     background-color: usetheme(brand-bright); //usetheme(pink-0);

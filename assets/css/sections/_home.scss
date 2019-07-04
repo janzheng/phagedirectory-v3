@@ -23,6 +23,11 @@
     //   font-weight: 300;
     //   letter-spacing: 0.5px;
     // }
+    @include screen-xs {
+      padding-top: 0;
+      padding-left: $size-2x;
+      padding-right: $size-2x;
+    }
   }
 
   .Home-img-container {

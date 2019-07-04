@@ -4,8 +4,11 @@
       <template #container>
 
         <div class="_section-article" >
+
+          <h1 class="_font-normal --title">Phage Banks</h1>
+
           <div class="_margin-bottom">
-            <router-link to="/join" class="_button CTA --join --short ">⬅︎ Go Back</router-link>
+            <nuxt-link to="/join" class="_button CTA --join --short ">⬅︎ Go Back</nuxt-link>
           </div>
           <div class="" v-html="$md.render(content || '')" />
         </div>
@@ -77,7 +80,6 @@ export default {
 
   methods: {
     tabClick(item, key) {
-      // console.log('default tabclick', item, key)
       this.activeTab = key
     },
   },

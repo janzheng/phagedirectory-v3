@@ -11,9 +11,9 @@
     </div>
 
     <div class="_right">
-      <div class="PolicyBanner-btn _button --short _margin-none" @click="acceptPolicy" >
+      <button class="_button CTA --bright --short _margin-none" @click="acceptPolicy" >
         I accept
-      </div>
+      </button>
     </div>
     
   </div>
@@ -49,8 +49,6 @@ export default {
     acceptPolicy: function() {
       this.$policy.updateToLatestPolicy()
       this.$policy.enablePolicyFeatures()
-      
-      // console.log('enable ga (policy.js)', Vue.$ga)
       // Vue.$ga.enable()
     }
   },

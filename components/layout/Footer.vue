@@ -29,15 +29,16 @@
 
         <!-- margin-right is for avoiding the drift box -->
         <div class="Footer-right ">
-          <div class="Footer-top _padding-bottom">
+          <div class="Footer-top _padding-bottom _margin-bottom">
             <!-- <a href="#top"></a> -->
             <nuxt-link
               v-scroll-to="{
                 el: '#top',
                 onDone: (element) => { doneScrolling(element) }
               }"
-              :to="`#top`" >
-              Go back up
+              :to="`#top`" 
+              class="_button CTA --inverse --short ">
+              Scroll back up
             </nuxt-link>
           </div>
           <div class="_grid-3 _grid-gap-small">
@@ -53,7 +54,7 @@
                 <nuxt-link to="/orgs">Phage Organizations</nuxt-link>
               </div>
               <div>
-                <nuxt-link to="/profiles">Phage Researchers</nuxt-link>
+                <nuxt-link to="/profiles">Phage People</nuxt-link>
               </div>
 
             </div>
@@ -99,10 +100,24 @@
               <div>
                 <nuxt-link to="/policies">Site Policy</nuxt-link>
               </div>
-              <a class="_block" target="_blank" href="https://phage.directory/chat">Schedule a call with us</a>
-              <a class="_block" target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a>
-              <a class="_block" target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a>
+              <!-- <a class="_block" target="_blank" href="https://phage.directory/chat">Schedule a call with us</a> -->
+              <!-- <a class="_block" target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a> -->
+              <!-- <a class="_block" target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a> -->
 
+            </div>
+          </div>
+
+          <div class="_grid-3 _grid-gap-small _margin-top-2">
+            <div class="Footer-column _padding-bottom-2-xs">
+              <a class="_block" target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a>
+            </div>
+            
+            <div class="Footer-column _padding-bottom-2-xs">
+              <a class="_block" target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a>
+            </div>
+
+            <div class="Footer-column _padding-bottom-2-xs">
+              <a class="_block" target="_blank" href="https://phage.directory/chat">Schedule a call with us</a>
             </div>
           </div>
 
@@ -140,7 +155,6 @@ export default {
 
   methods: {
     doneScrolling(el) {
-      // console.log('done scrolling', el.id)
       this.$router.push({
         path: this.route.path + '#' + el.id
       })

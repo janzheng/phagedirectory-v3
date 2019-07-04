@@ -18,12 +18,12 @@
         <slot name="left">
           <div v-if="left" class="Tabbed-links Tabbed-left">
             <div v-for="key of Object.keys(left)" :id="key" :key="key" :class="classes(left[key],key)" class="Tabbed-tab _relative" >
-              <router-link
+              <nuxt-link
                 v-if="left[key].link" 
                 :to="left[key].link" 
                 :class="classes(left[key])" 
                 class=" _relative"
-              >{{ key }}</router-link>
+              >{{ key }}</nuxt-link>
               <span v-else 
                     :class="classes(left[key])" 
                     class=" _relative"
@@ -35,12 +35,12 @@
         <slot name="right">
           <div v-if="right" class="Tabbed-links Tabbed-right">
             <div v-for="key of Object.keys(right)" :id="key" :key="key" :class="classes(right[key],key)" class="Tabbed-tab _relative" >
-              <router-link
+              <nuxt-link
                 v-if="right[key].link" 
                 :to="right[key].link" 
                 :class="classes(right[key])" 
                 class=" _relative"
-              >{{ key }}</router-link>
+              >{{ key }}</nuxt-link>
               <span v-else 
                     :class="classes(right[key])" 
                     class=" _relative"
@@ -118,7 +118,6 @@ export default {
   
   methods: {
     clickHandler(item,key) {
-      // console.log(`'emitting: '${key}'`)
       this.$emit(`${key}`, item)
       this.$emit(`tabClick`, item,key)
 
@@ -129,7 +128,6 @@ export default {
       })
     },
     classes(item,key) {
-      // console.log('classes:', item, key)
       let classes = item.attrs
       if (item.active)
         classes += ` --active`

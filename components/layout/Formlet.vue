@@ -150,7 +150,6 @@ export default {
 
     })
 
-    // console.log('fieldData:', fieldData)
     this.initialized = true
 
     return {
@@ -168,7 +167,6 @@ export default {
     },
 
     keyEnterHandler() {
-      console.log('key enter pressed')
     },
 
     // update validation model when inputs change
@@ -187,7 +185,6 @@ export default {
       this.$v.fieldData[fieldName].$touch()
       // this.$v.$touch()
       // console.log('validationUpdate, evt:', _data, input['name'], this.$v)
-      // console.log('vvv:', _data, input['name'], this.$v)
 
       // this.validate()
 

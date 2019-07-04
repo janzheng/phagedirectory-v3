@@ -5,21 +5,21 @@
         <div class="_section-article" v-html="$md.render(intro || '')" />
 
         <div class="_section-article _grid-2">
-          <router-link to="/join/research" class="Join-research _card --button --nolink _padding _margin-none">
+          <nuxt-link to="/join/research" class="Join-research _card --button --nolink _padding _margin-none">
             <div class="" v-html="$md.render(research || '')" />
-          </router-link>
+          </nuxt-link>
 
-          <router-link to="/join/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
+          <nuxt-link to="/join/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
             <div class="" v-html="$md.render(organization || '')" />
-          </router-link>
+          </nuxt-link>
           
-          <router-link to="/join/banks" class="Join-banks _card --button --nolink _padding _margin-none">
+          <nuxt-link to="/join/banks" class="Join-banks _card --button --nolink _padding _margin-none">
             <div class="" v-html="$md.render(banks || '')" />
-          </router-link>
+          </nuxt-link>
 
-          <router-link to="/join/medical" class="Join-medical _card --button --nolink _padding _margin-none">
+          <nuxt-link to="/join/medical" class="Join-medical _card --button --nolink _padding _margin-none">
             <div class="" v-html="$md.render(medical || '')" />
-          </router-link>
+          </nuxt-link>
           
         </div>
 
@@ -103,10 +103,6 @@ export default {
   },
 
   methods: {
-    tabClick(item, key) {
-      // console.log('default tabclick', item, key)
-      this.activeTab = key
-    },
   },
 
 

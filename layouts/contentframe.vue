@@ -127,7 +127,7 @@ export default {
   methods: {
     onClick(evt) {
       evt.preventDefault()
-      console.log('on click evt', evt)
+      // console.log('on click evt', evt)
     },
     handleScroll() {
       if(process.browser) {

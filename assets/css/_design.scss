@@ -324,33 +324,39 @@ a, ._link {
 
 // tmp 
 
-// $typography: (
-//   font--2: $size--1,
-//   font--2-lh: $size--1 * 5/2,
-//   font--1: $size-smaller,
-//   font--1-lh: $size-smaller * 3/2,
-//   font: $size,
-//   font-lh: $size * 3/2,
-//   font-1: $size-1,
-//   font-1-lh: $size-1 * 3/2,
-//   font-2: $size-2,
-//   font-2-lh: $size-2 * 3/2,
-//   font-3: $size-3,
-//   font-3-lh: $size-3 * 4/3,
-//   font-4: $size-4,
-//   font-4-lh: $size-4 * 5/4,
-//   font-5: $size-5,
-//   font-5-lh: $size-5 * 6/5,
-//   font-6: $size-6,
-//   font-6-lh: $size-6 * 6/5,
-//   font-7: $size-7,
-//   font-7-lh: $size-7 * 6/5,
-//   font-8: $size-8,
-//   font-8-lh: $size-8,
-//   font-9: $size-9,
-//   font-9-lh: $size-9,
-// );
-// @include addtheme($typography);
+// PX to REM - Usage: font-size: rem(37px);
+@function rem($px, $size-base: $size) {
+  @return ($px / $size-base) * 1rem;
+}
+
+
+$typography: (
+  rem--2: $size--1,
+  rem--2-lh: $size--1 * 5/2,
+  rem--1: $size-smaller,
+  rem--1-lh: $size-smaller * 3/2,
+  rem: rem($size),
+  rem-lh: rem($size * 3/2),
+  rem-1: rem($size-1),
+  rem-1-lh: rem($size-1 * 3/2),
+  rem-2: rem($size-2),
+  rem-2-lh: rem($size-2 * 3/2),
+  rem-3: $size-3,
+  rem-3-lh: $size-3 * 4/3,
+  rem-4: $size-4,
+  rem-4-lh: $size-4 * 5/4,
+  rem-5: $size-5,
+  rem-5-lh: $size-5 * 6/5,
+  rem-6: $size-6,
+  rem-6-lh: $size-6 * 6/5,
+  rem-7: $size-7,
+  rem-7-lh: $size-7 * 6/5,
+  rem-8: $size-8,
+  rem-8-lh: $size-8,
+  rem-9: $size-9,
+  rem-9-lh: $size-9,
+);
+@include addtheme($typography);
 
 // // these are manual / no mixin b/c we want to be able to tweak+adjust them in the future w/ bold, medium, etc.
 // ._font--2 {

@@ -42,7 +42,7 @@
                 </div>
               </div>
               <div class="Header-mobile-item _padding-top _padding-bottom">
-                <nuxt-link to="/join" class="_button Header-join  --outline _margin-none-i ">
+                <nuxt-link to="/signup" class="_button Header-join  --outline _margin-none-i ">
                   Sign Up
                 </nuxt-link>
               </div>
@@ -104,7 +104,7 @@
               <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                 People
               </nuxt-link>
-              <nuxt-link :to="`/join`" class="Header-join _button --outline  ">
+              <nuxt-link :to="`/signup`" class="Header-join _button --outline  ">
                 Sign Up
               </nuxt-link>
 

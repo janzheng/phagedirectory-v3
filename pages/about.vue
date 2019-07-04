@@ -83,7 +83,6 @@ export default {
 
   watch: {
     $route () {
-      // console.log('route changed', this.$route)
     }
   },
 
@@ -93,7 +92,6 @@ export default {
     const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{about}', query: 'People-PD'})
     // const search = store.state.search.string //route.query.search ? route.query.search : undefined
     // const search = store.state.search ? store.state.search.string : route.query.search
-    // console.log('matched node: ', node, ' @ ', slug)
 
     return {
       slug,

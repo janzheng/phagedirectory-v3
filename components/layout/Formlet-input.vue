@@ -127,7 +127,7 @@ export default {
       }
     },
     keyEnterHandler() {
-      console.log('key enter pressed')
+      // console.log('key enter pressed')
       this.submitHandler()
     },
   },

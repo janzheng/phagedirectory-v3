@@ -76,7 +76,6 @@ export default {
 
     getCover() {
       // currently only works for the first attachment
-      // console.log('attachment', job.fields['Attachment'][0]['url'])
       if(this.atom.fields['Cover'])
         return this.atom.fields['Cover'][0]['url']
       return undefined

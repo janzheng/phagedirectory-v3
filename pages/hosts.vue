@@ -26,7 +26,7 @@
               </p>
             </div>
             <div class="_right-sm">
-              <a href="#" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+              <a href="/signup" class="_button CTA --inverse _width-100 _center">Sign Up</a>
             </div>
           </div>
 
@@ -145,16 +145,15 @@ export default {
 
   watch: {
     $route () {
-      // console.log('route changed', this.$route)
     }
   },
 
   // runs on generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
-    console.log('Hosts page loading data')
+  async asyncData({app, env, store, route}) {
+    app.$sys.log('Hosts page loading data')
     const slug = route.params.slug
     const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{hosts}', query: 'Hosts-index'})
-    console.log('Hosts page data loaded', data)
+    app.$sys.log('Hosts page data loaded', data)
 
     return {
       slug,

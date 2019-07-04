@@ -6,5 +6,8 @@ pages/experiments/*
 # /components/coeur
 templates/*
 pages/routers/*
-pages/coeur/contemplate
-coeur/contemplate
+pages/coeur/contemplate.vue
+coeur/contemplate.vue
+pages/coeur/index.vue
+pages/coeur/test.vue
+pages/coeur/proptester.vue

@@ -213,7 +213,7 @@ export default {
       const windowHeight = window.innerHeight
       const sidebarHeight = this.$refs.sidebar.clientHeight
       if(windowHeight < sidebarHeight) {
-        console.log('Sidenav too short:', windowHeight, sidebarHeight)
+        // console.log('Sidenav too short:', windowHeight, sidebarHeight)
         return {
           position: 'unset !important',
         }

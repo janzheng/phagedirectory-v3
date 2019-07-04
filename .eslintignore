@@ -7,9 +7,6 @@ other/*
 # generated from workbox / PWA
 static/sw.js
 
-# plugins
-plugins/mixpanel.js
-
 # marked unused / old code or temporary code
 unused*
 test*

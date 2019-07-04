@@ -44,8 +44,8 @@
   // margin-bottom: $size; // use margin for folding
 }
 .Dir-block { // a block of smaller content 
-  margin-top: $size-half; // use margin for folding
-  margin-bottom: $size-half; // use margin for folding
+  margin-top: $size; // use margin for folding
+  margin-bottom: $size; // use margin for folding
 
   &:first-of-type {
     margin-top: 0
@@ -140,8 +140,8 @@
 }
 
 .Dir-card {
-  font-size: usetheme(font--1);
-  line-height: usetheme(font--1-lh);
+  font-size: usetheme(rem);
+  line-height: usetheme(rem-lh);
   @extend ._card;
   overflow: initial;
   // padding-top: $size;
@@ -159,8 +159,8 @@
   @extend %url;
 }
   .Dir-miniCard {
-    font-size: usetheme(font--1);
-    line-height: usetheme(font--1-lh);
+    font-size: usetheme(rem);
+    line-height: usetheme(rem-lh);
     @extend ._card;
     margin-bottom: $size;
 
@@ -201,6 +201,8 @@
     height: 120px;
     object-fit: contain;
     border: $border-medium solid usetheme(mono-disabled);
+    border-radius: $radius;
+    background: usetheme(mono-disabled);
   }
 }
 

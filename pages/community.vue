@@ -21,6 +21,9 @@
 
             <template slot="Active Posts">
               <div class="_padding-top">
+                <div>
+                  <p class="_font-small">Showing {{ currentCount }} community posts</p>
+                </div>
                 <CommunityPost v-for="item of current" :key="item.id" :atom="item" />
               </div>
             </template>
@@ -28,6 +31,9 @@
             <template slot="Expired Posts">
               <div class=" _padding-top">
                 <!-- <Event v-for="item of expired" :key="item.id" :atom="item" /> -->
+                <div>
+                  <p class="_font-small">Showing {{ expiredCount }} community posts</p>
+                </div>
                 <CommunityPost v-for="item of expired" :key="item.id" :atom="item" />
               </div>
             </template>
@@ -101,7 +107,6 @@ export default {
 
   // runs on generation and page route (but not on first page load)
   async asyncData({env}) {
-
     return {
       postUrl: env.ext_handler,
     }
@@ -131,6 +136,12 @@ export default {
       // jobs in the future
       return this.community.filter(t => {return t.fields['Data:Status'] !== 'Expired'})
     },
+    currentCount() {
+      return this.current.length
+    },
+    expiredCount() {
+      return this.expired.length
+    }
   },
 
   mounted () {
@@ -144,13 +155,12 @@ export default {
 
   watch: {
     $route () {
-      console.log('route changed', this.$route)
+      this.$sys.log('route changed', this.$route)
     }
   },
 
   methods: {
     tabClick(item, key) {
-      // console.log('default tabclick', item, key)
       this.activeTab = key
     },
   },

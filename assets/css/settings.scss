@@ -115,6 +115,7 @@ $baseline: $sizeline;
 
 
 $colors: (
+  // these are a bit stale (6/25/19)
   phdir: #71eff5,
   teal: #71eff5,
   teal_dull: #90D9DD,
@@ -129,9 +130,6 @@ $colors: (
   orcid: #A6CE39,
   linkedin: #0077B5,
 
-  brand: #71EFF5,
-  brand-active: #FA5486,
-  brand-bright: #0085FF,
   // brand-active: color(#71EFF5, 142),
   brand-dark: #374F6A, //color(#71EFF5, 150), —> //this color appears too greenish!?
   brand-light: #b0c3d8,
@@ -161,10 +159,12 @@ $colors-brand: (
   brand-110: #172640,
   brand-250: #0085FF,
   brand-copy: #172640,
+  brand-active: #FA5486,
   brand-alert: #71EFF5,
-  brand-border: #9EF3FD, // was 71EFF5; too bright?
-  brand-disabled: #E7FBFF,
   brand-background: #F1FBFF,
+  brand-border: #9EF3FD, // was 71EFF5; too bright?
+  brand-bright: #0085FF,
+  brand-disabled: #E7FBFF,
 );
 
 // old

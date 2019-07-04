@@ -26,7 +26,7 @@
               </p>
             </div>
             <div class="_right-sm">
-              <a href="#" class="_button CTA --join _width-100 _center">Sign Up</a>
+              <a href="/signup" class="_button CTA --join _width-100 _center">Sign Up</a>
             </div>
           </div>
 

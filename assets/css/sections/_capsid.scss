@@ -129,6 +129,11 @@ $capsid_: (
     }
 
   }
+
+  &.--related .Capsid-lede {
+    font-size: usetheme(font-size); // force regular font size for stubs that appear in related articles
+    padding-bottom: 0;
+  }
 }
 
 

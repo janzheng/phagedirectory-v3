@@ -298,6 +298,21 @@ export default {
 }
 </script>
 
+<style scoped>
+
+img {
+  max-width: 100% !important;
+} 
+
+.Capsid-content {
+  width: 100%;
+}
+  .Capsid-content img {
+    width: 600px;
+    max-width: 100%;
+  }
+
+</style>
 
 <style lang="scss">
 
@@ -350,6 +365,11 @@ h6 {
 
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
+
+img {
+  max-width: 100% !important;
+} 
+
   .Capsid-item {
     img {
       width: 100%;

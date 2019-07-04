@@ -5,7 +5,7 @@
 
       <template #header-container>
         <h1 class="--title"><span class="_color-mono-60">Phage </span>Organizations</h1>
-        <h1 v-if="search.string" class="--title" _padding-bottom-half><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+        <h1 v-if="search.string" class="--title _padding-bottom-half" _padding-bottom-half><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
         <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterOrgs.length }}</h2>
       </template>
 
@@ -28,7 +28,7 @@
               </p>
             </div>
             <div class="_right-sm">
-              <a href="#" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+              <a href="/signup" class="_button CTA --inverse _width-100 _center">Sign Up</a>
             </div>
           </div>
 

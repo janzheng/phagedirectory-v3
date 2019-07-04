@@ -7,9 +7,9 @@
         <h3 class="Home-hero-txt --title _font-normal">
           We support fundamental phage research <br>
           and the development of safe and effective uses of <br>
-          phages in medicine and industries around the world.
+          phages in medicine and industry around the world.
           <div class="_margin-top">
-            Read about <router-link to="/about#mission">our mission</router-link>.
+            Read about <nuxt-link to="/about#mission">our mission</nuxt-link>.
           </div>
         </h3>
       </div>
@@ -35,9 +35,11 @@
             <div class="Home-latest _section-page _margin-center _margin-bottom-2">
               <Latest :atoms="featuredAtoms" />
               <Latest :atoms="nonFeaturedAtoms" />
-              <div class="_button --width-full --outline _center CTA --brand _font-bold" @click="getLatestAtoms(numLatest)">
-                Load More 
-              </div>
+              <button class="_button --width-full _center CTA --brand _font-bold" @click="getLatestAtoms(numLatest)">
+                <span v-if="!isLoadingMore" class="">Load More</span> 
+                <!-- <div v-else class="_spinner"> </div> -->
+                <div v-else >Loading <span class="_margin-left _spinner" /> </div>
+              </button>
             </div>
           </div>
         </template>
@@ -88,6 +90,7 @@ export default {
       featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
       latestAtoms: null, // pulled later
       numLatest,
+      isLoadingMore: false, // loading more atoms
     }
   },
   
@@ -132,6 +135,7 @@ export default {
 
     async getLatestAtoms(numLatest) {
       const _this = this
+      this.isLoadingMore = true
       loadQuery({
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
@@ -143,6 +147,8 @@ export default {
           'maxRecords': numLatest,
         }
       }).then((data) => {
+        this.isLoadingMore = false
+        _this.$sys.log('latest atoms:', data)
         _this.latestAtoms = data.tables.Atoms
         _this.numLatest = _this.numLatest + 5
       })

@@ -33,7 +33,9 @@
           <span v-for="(item, i) of org.fields['People:OrgMembers::Names']" 
                 :key="item.id" 
                 class="_commas" >
-            <router-link v-if="org.fields['People:OrgMembers::Slugs']" :to="`/people/${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</router-link>
+            <!-- <nuxt-link v-if="org.fields['People:OrgMembers::Slugs']" :to="`/people/${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</nuxt-link> -->
+
+            <nuxt-link v-if="org.fields['People:OrgMembers::Slugs']" :to="`/people#${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</nuxt-link>
             <span v-else>{{ item }}</span>
             <!-- {{ item }} // {{org.fields['People:OrgMembers::Slugs']}} // {{ i }} -->
           </span>
@@ -46,13 +48,13 @@
           <div class="">
             <div class="Dir-subtitle">{{ item.fields['Name:Nice'] }}</div>
             <div>
-              <router-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</router-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
+              <nuxt-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</nuxt-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
             </div>
             <div class="Dir-block">Phage hosts: {{ sortHostNames(item).length }}</div>
           </div>
           <div class="Dir-block">
             <div v-for="host of sortHostNames(item)" :key="host[0]" >
-              <router-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</router-link>
+              <nuxt-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</nuxt-link>
             </div>
           </div>
 

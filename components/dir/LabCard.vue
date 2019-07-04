@@ -16,7 +16,7 @@
 
         <div class=" Dir-section _flex-row _flex-vertically">
           <div class="Dir-title _flex-1">
-            <!-- <router-link :to="`/labs/${item.fields['Slug']}`">{{ item.fields['Name'] }}</router-link> -->
+            <!-- <nuxt-link :to="`/labs/${item.fields['Slug']}`">{{ item.fields['Name'] }}</nuxt-link> -->
             <span>{{ lab.fields['Name'] }}</span>
           </div>
           <div class="Dir-social ">
@@ -67,12 +67,12 @@
               <div class="">
                 <div class="Dir-row">{{ item.fields['Name:Nice'] }}</div>
                 <div class="Dir-row">
-                  <router-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</router-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
+                  <nuxt-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</nuxt-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
                 </div>
               </div>
               <div class="Dir-block">
                 <div v-for="host of sortHostNames(item)" :key="host[0]" >
-                  <router-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</router-link>
+                  <nuxt-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</nuxt-link>
                 </div>
               </div>
               <div class="Dir-block _font-small Dir-disabled">Phage hosts: {{ sortHostNames(item).length }}</div>

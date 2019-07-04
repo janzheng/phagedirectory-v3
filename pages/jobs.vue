@@ -33,6 +33,9 @@
             <template slot="Expired Jobs">
               <div class=" _padding-top">
                 <!-- <Event v-for="item of expired" :key="item.id" :atom="item" /> -->
+                <div>
+                  <p class="_font-small">Showing {{ expiredCount }} jobs</p>
+                </div>
                 <Job v-for="item of expired" :key="item.id" :atom="item" />
               </div>
             </template>
@@ -100,14 +103,17 @@ export default {
     },
     expired() {
       // jobs in the past, w/ newest first
-      return this.jobs.filter(t => {return t.fields['Data:Status'] == 'Expired'})
+      return this.jobs.filter(t => t.fields['Data:Status'] == 'Expired')
     },
     current() {
       // jobs in the future
-      return this.jobs.filter(t => {return t.fields['Data:Status'] !== 'Expired'})
+      return this.jobs.filter(t => t.fields['Data:Status'] !== 'Expired')
     },
     currentCount() {
       return this.current.length
+    },
+    expiredCount() {
+      return this.expired.length
     }
   },
 
@@ -130,7 +136,6 @@ export default {
 
   methods: {
     tabClick(item, key) {
-      // console.log('default tabclick', item, key)
       this.activeTab = key
     },
   },

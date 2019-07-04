@@ -477,12 +477,6 @@
       "src": "fontawesome"
     },
     {
-      "uid": "31562b831ad0016b89ddf9693214041f",
-      "css": "hand-peace-o",
-      "code": 62043,
-      "src": "fontawesome"
-    },
-    {
       "uid": "4a413ef43c364dafa42766e74c31bbca",
       "css": "cc",
       "code": 59401,
@@ -507,12 +501,6 @@
       "src": "entypo"
     },
     {
-      "uid": "91daf8fde1042a363514ca7e42d89570",
-      "css": "github-circled",
-      "code": 62209,
-      "src": "entypo"
-    },
-    {
       "uid": "900851106d63af1bc6076ae118dc543d",
       "css": "cc-sa",
       "code": 59404,
@@ -522,6 +510,36 @@
       "uid": "3d4ea8a78dc34efe891f3a0f3d961274",
       "css": "info",
       "code": 61737,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "de5f0a564ccf8816325330e292e11533",
+      "css": "rss-squared",
+      "code": 61763,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "72b1277834cba5b7944b0a6cac7ddb0d",
+      "css": "rss",
+      "code": 61598,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "91daf8fde1042a363514ca7e42d89570",
+      "css": "github-circled",
+      "code": 62209,
+      "src": "entypo"
+    },
+    {
+      "uid": "0f4cae16f34ae243a6144c18a003f2d8",
+      "css": "cancel-circled",
+      "code": 59405,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "5211af474d3a9848f67f945e2ccaf143",
+      "css": "cancel",
+      "code": 59406,
       "src": "fontawesome"
     },
     {

@@ -18,7 +18,7 @@
 
           <div class="People-name People-header-block _flex-row">
             <div class="_flex-1">
-              <!-- <router-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</router-link> -->
+              <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
               <div class="Dir-title">
                 {{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
               </div>
@@ -29,7 +29,7 @@
                 </span>
 
                 <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
-                  <router-link :to="`/labs#${ labSlugs }`" class="--url">{{ labs }}</router-link><span v-if="isPI" class="_margin-left-half _tag">PI</span>,
+                  <nuxt-link :to="`/labs#${ labSlugs }`" class="--url">{{ labs }}</nuxt-link><span v-if="isPI" class="_margin-left-half _tag">PI</span>,
                 </span>
                 <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
                   {{ item.name +'' }}
@@ -73,7 +73,7 @@
           <div class="Dir-label">Phage Hosts</div>
           <div class="Dir-miniCard">
             <div v-for="host of hostNames" :key="host[0]" class="_organism-container">
-              <router-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</router-link>
+              <nuxt-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</nuxt-link>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ button, ._button {
   color: usetheme(brand-80); //$color-links;
   // @extend ._shadow-1;
 
+
   // declared using overriding default variables in settings
   &.--outline {
     &:hover {
@@ -30,9 +31,14 @@ button, ._button {
   }
 }
 
-button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionable button; inherits from but overrides _button
+button.CTA, button._button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionable button; inherits from but overrides _button
   
   @extend ._button;
+
+  &:focus, &:active {
+    color: usetheme(active);
+    border-color: usetheme(active);
+  }
 
   // font-weight: bold;
   text-decoration: none; // <a>s might have underlines
@@ -89,6 +95,16 @@ button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionable button; inherits 
     // }
   }
 
+  &.--bright {
+    border-color: usetheme(brand-bright);
+    color: usetheme(brand-bright);
+    &:hover {
+      background-color: usetheme(brand-bright);
+      border-color: usetheme(brand-bright);
+      color: usetheme(purewhite);
+    }
+  }
+
   &.--join {
     margin: 0; 
     color: usetheme(brand-bright);
@@ -119,6 +135,7 @@ button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionable button; inherits 
       background-color: usetheme(brand--1);
     }
   }
+
 }
   // a.CTA._button {
   //   color: usetheme(bg);

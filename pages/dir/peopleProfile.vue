@@ -86,13 +86,13 @@ export default {
   },
 
   watch: {
-    $route () {
-      console.log('route changed', this.$route)
+    $route ({}) {
+      // app.$sys.log('route changed', this.$route)
     }
   },
 
   // runs on generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
+  async asyncData({app, env, store, route}) {
     const slug = route.params.slug
     const data = await loadQuery({
       _key: env.db_api, 
@@ -105,7 +105,7 @@ export default {
     // fetches the relevant atoms into the store
     // const data = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})
 
-    console.log('data: ', data)
+    app.$sys.log('data: ', data)
 
 
     return {

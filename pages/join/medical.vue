@@ -5,9 +5,11 @@
 
         <div class="_section-article" >
           <div class="_margin-bottom">
-            <router-link to="/join" class="_button CTA --join --short ">⬅︎ Go Back</router-link>
+            <nuxt-link to="/join" class="_button CTA --join --short ">⬅︎ Go Back</nuxt-link>
           </div>
-          <div class="" v-html="$md.render(content || '')" />
+
+          <h1 class="_font-normal">Medical Professionals</h1>
+          <div class="_margin-top-2" v-html="$md.render(content || '')" />
         </div>
 
         <NodeForm :src="form"/>

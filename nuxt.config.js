@@ -188,10 +188,9 @@ export default {
   */
 
   plugins: [
+    { src: '~/plugins/syslog.js' },
     // '~plugins/filters.js',nuxtjs/google-tag-manager
     // { src: '~/plugins/plugintest.js', ssr: false }
-    // { src: '~/plugins/hotjar.js', ssr: false }, // need to link this to policy
-    // { src: '~/plugins/mixpanel.js', ssr: false },
     // { src: '~/plugins/lazyload.js', ssr: false },
     // { src: '~/plugins/pictureswipe.js', ssr: false },
     // { src: '~/plugins/paypal.js', ssr: false },
@@ -415,9 +414,10 @@ export default {
 
   },
   generate: {
-    interval: 500, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
+    // 250 / 4 = ~5min deploy
+    interval: 250, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
     // fallback: true, // true if you want to use '404.html' — for surge, use false if you want to use 200 spa fallback
-    // concurrency: 1, // reduce server strain
+    concurrency: 4, // reduce server strain
     routes: async function (callback) {
 
       const airKey = airtable_api
@@ -433,13 +433,6 @@ export default {
       })
 
       let routeList = []
-
-      //   // // build pages/templates
-      //   for (let route of template_routes.tables['Content']) {
-      //     if(route.fields['Slug'])
-      //       routeList.push(`/${route.fields['Slug']}`
-      //     )
-      //   }
 
       // routes for C&T article pages
       let manuscripts = _cytosis.tables['Manuscripts'].sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))

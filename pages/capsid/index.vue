@@ -11,7 +11,7 @@
 
     <div class="_section-page _margin-center">
       <div class="_section-content _margin-center">
-        <div class="Capsid-masthead _section-article _margin-center _padding-bottom-3">
+        <div class="Capsid-masthead _margin-center">
           <nuxt-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
             <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail">
             <div class="Capsid-masthead-title _left _font-serif">

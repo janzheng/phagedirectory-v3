@@ -4,7 +4,10 @@
 
   Component for displaying a Capsid issue 
 
+  note: set all images to 564px width for Mailchimp templates
+
  -->
+
 <template>
 
   <div class="Capsid-email-container">
@@ -125,7 +128,8 @@
               <h1 class="Capsid-title _padding-top-half _padding-bottom" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
               <!-- short description / name -->
               <div v-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom-3" v-html="$md.render(issue.fields['Data:Author'] || '')" />
-              <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
+              <div v-if="issue.fields['Data:EmailBody']" class="Capsid-content" v-html="$md.render(issue.fields['Data:EmailBody'] || '')" />
+              <div v-else-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
             </div>
 
 
@@ -376,6 +380,11 @@ img {
     } 
   }
 
+.Capsid-article {
+  img {
+    // width: 100%;
+  }
+}
 
 .Capsid-toc {
 }

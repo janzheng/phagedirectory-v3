@@ -8,6 +8,28 @@
   //   white-space: nowrap;
   // }
 
+  .Footer-grid {
+    grid-template-areas: "leftside" "rightside";
+    @include screen-xs {
+      grid-template-areas: 
+      "rightside"
+      "leftside"
+      ;
+    }
+
+  }
+    .Footer-left {
+      @include screen-xs {
+        grid-area: leftside;
+      }
+    }
+    .Footer-right {
+      @include screen-xs {
+        grid-area: rightside;
+      }
+    }
+
+
   .Footer-column a {
     line-height: $size-2x;
   }

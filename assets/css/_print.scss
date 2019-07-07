@@ -1,0 +1,52 @@
+
+@media print {
+
+	// hide nav
+	.Header,
+	.FooterSignups,
+	.Footer,
+	#drift-widget-container,
+	#drift-widget, {
+		display: none;
+	}
+
+
+
+	// Capsid & Tail
+	.Router-Capsid {
+		.Sidebar,
+		.Capsid-footer,
+		.Capsid-share,
+		.Capsid-section-heading-description, {
+			display: none;
+		}
+		.Capsid-author {
+			img {
+				width: 80px;
+			}
+		}
+		.Capsid {
+			& > ._card {
+				box-shadow: none;
+				border: none;
+			}
+		}
+		.Capsid-section {
+			padding-bottom: $size-half;
+			padding-top: $size-half;
+		}
+
+		.Capsid-item,
+		.Capsid-footer, {
+			page-break-inside: avoid;
+		}
+
+		.Capsid-section-new,
+		.Capsid-section-jobs,
+		.Capsid-section-community,
+		.Capsid-article {
+			page-break-before: always;
+		}
+	}
+
+}

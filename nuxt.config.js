@@ -199,6 +199,7 @@ export default {
     { src: '~/plugins/markdownit.js' },
     { src: '~/plugins/cytosis.js' },
     { src: '~/plugins/date.js' },
+    { src: '~/plugins/readtime.js' },
     { src: '~/plugins/headmatter.js' },
     { src: '~/plugins/slugify.js' },
     { src: '~plugins/vue-scrollto.js' },

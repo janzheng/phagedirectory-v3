@@ -215,7 +215,8 @@
   line-height: $size-2;
   margin-bottom: $size-quart;
   span {
-    white-space: pre-line;
+    // white-space: pre-line;
+    white-space: nowrap;
   }
 }
 
@@ -245,6 +246,12 @@
         span {
           // display: block;
         }
+      }
+      .People-orgs-labs {
+        font-size: usetheme(font-small);
+      }
+      .People-orgs-name {
+        font-size: usetheme(font-small);
       }
     }
   }

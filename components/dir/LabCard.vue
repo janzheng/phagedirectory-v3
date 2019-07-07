@@ -50,7 +50,8 @@
                 <!-- Lab members -->
                 Lab Member<span v-if="members.length>1">s</span>
               </div>
-              <a v-for="item of members" :key="item.name" :href="`/people#${item.slug}`" class="_wordbreak --url _block">{{ item.name }}</a>
+              <a v-for="item of members" :key="item.name" :href="`/people#${item.slug}`" class="_wordbreak --url _block">{{ item.name }}
+              </a>
             </div>
           </div>
 
@@ -134,9 +135,15 @@ export default {
         return undefined
       let arr = []
       this.lab.fields['People:LabMembers::Names'].map((item, i) => {
+        let slug = ""
+        // if (this.lab.fields['People:Supervisors::Slugs'])
+        //   slug = this.lab.fields['People:Supervisors::Slugs'][i]
+        if (this.lab.fields['People:LabMembers::Slugs'])
+          slug = this.lab.fields['People:LabMembers::Slugs'][i]
+
         arr.push({
           name: this.lab.fields['People:LabMembers::Names'][i],
-          slug: this.lab.fields['People:Supervisors::Slugs'] ? this.lab.fields['People:Supervisors::Slugs'][i] : '',
+          slug: slug, 
         })
       })
       return arr

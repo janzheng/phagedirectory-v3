@@ -531,16 +531,16 @@
       "src": "entypo"
     },
     {
-      "uid": "c709da589c923ba3c2ad48d9fc563e93",
-      "css": "cancel",
+      "uid": "0f4cae16f34ae243a6144c18a003f2d8",
+      "css": "cancel-circled",
       "code": 59405,
-      "src": "entypo"
+      "src": "fontawesome"
     },
     {
-      "uid": "7222571caa5c15f83dcfd447c58d68d9",
-      "css": "search",
+      "uid": "5211af474d3a9848f67f945e2ccaf143",
+      "css": "cancel",
       "code": 59406,
-      "src": "entypo"
+      "src": "fontawesome"
     },
     {
       "uid": "395476f691f9678f5a9dfc000bc72569",

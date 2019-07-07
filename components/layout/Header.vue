@@ -35,18 +35,17 @@
             <div class="Header-inset _padding-half">
               <div class="Header-mobile-item">
                 <div class="Header-search-container _form-control _margin-none">
-                  <label for="textSearch" class="_form-label-icon _padding-left-half _padding-bottom-none _height-100">
-                    <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg>
+                  <label for="textSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
+                    <!-- <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg> -->
+                    <span class="_font-phage icon-search"/>
                   </label>
                   <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="header_searchbar" placeholder="Search" @input="doSearch">
+                  <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
+                    <span class="_font-phage icon-cancel"/>
+                  </span>
                 </div>
               </div>
-              <div class="Header-mobile-item _padding-top _padding-bottom">
-                <nuxt-link to="/signup" class="_button Header-join  --outline _margin-none-i ">
-                  Sign Up
-                </nuxt-link>
-              </div>
-              <div class="Header-mobile-item">
+              <div class="Header-mobile-item _margin-top">
                 <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
                   Phage Hosts
                 </nuxt-link>
@@ -64,6 +63,11 @@
               <div class="Header-mobile-item">
                 <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   People
+                </nuxt-link>
+              </div>
+              <div class="Header-mobile-item _padding-top _padding-bottom">
+                <nuxt-link to="/signup" class="_button Header-join  --outline _margin-none-i ">
+                  Sign Up
                 </nuxt-link>
               </div>
 
@@ -109,10 +113,14 @@
               </nuxt-link>
 
               <div class="Header-search-container _form-control _margin-none">
-                <label for="textSearch" class="_form-label-icon _padding-left-half _padding-bottom-none _height-100">
-                  <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg>
+                <label for="textSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
+                  <!-- <svg data-baseweb="icon" viewBox="0 0 24 24" height="100%" width="24"><title>Search</title><path fill-rule="evenodd" clip-rule="evenodd" d="M11 6C8.79086 6 7 7.79086 7 10C7 12.2091 8.79086 14 11 14C13.2091 14 15 12.2091 15 10C15 7.79086 13.2091 6 11 6ZM5 10C5 6.68629 7.68629 4 11 4C14.3137 4 17 6.68629 17 10C17 11.2958 16.5892 12.4957 15.8907 13.4765L19.7071 17.2929C20.0976 17.6834 20.0976 18.3166 19.7071 18.7071C19.3166 19.0976 18.6834 19.0976 18.2929 18.7071L14.4765 14.8907C13.4957 15.5892 12.2958 16 11 16C7.68629 16 5 13.3137 5 10Z" /></svg> -->
+                  <span class="_font-phage icon-search"/>
                 </label>
                 <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline " type="text" name="header_searchbar" placeholder="Search" @input="doSearch">
+                <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
+                  <span class="_font-phage icon-cancel"/>
+                </span>
               </div>
             </div>
 
@@ -199,6 +207,10 @@ export default {
     }, 300, {
       trailing: true
     }),
+    doClear() {
+      this.searchString = ""
+      dirSearch(this)
+    },
     pathMatch(path) {
       // console.log('pathMatch',this.$router.currentRoute.path)
       if(!this.$router.currentRoute.path)

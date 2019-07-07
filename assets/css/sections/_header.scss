@@ -157,11 +157,33 @@ $header-item-height: $size-4;
     flex-basis: auto; /* default value */
     flex-grow: 1;
 
-    ._form-label-icon {
-      left: $size;
-      top: 0; // reset native styling
-      svg {
-        fill: usetheme(nav-color);
+    // ._form-label-icon { // svg (not text) icons
+    //   left: $size;
+    //   top: 0; // reset native styling
+    //   height: 48px; // forces firefox ipad to work  
+    //   svg {
+    //     fill: usetheme(nav-color);
+    //   }
+    // }
+    ._form-label-search {
+      position: absolute;
+      top: 0;
+      left: $size-1;
+      height: 48px;
+      line-height: 44px;
+    }
+    ._form-label-cancel {
+      position: absolute;
+      top: 0;
+      right: $size-1;
+      height: 48px;
+      line-height: 44px;
+      @extend %ease;
+
+      &:hover {
+        color: usetheme(active);
+        cursor: pointer;
+        @extend %ease;
       }
     }
 
@@ -271,10 +293,23 @@ $header-item-height: $size-4;
     a._button {
       font-size: usetheme(size-mobile);
       line-height: usetheme(line-height-mobile);
+      padding-bottom: $size-half;
     }
     a.nuxt-link-exact-active {
       border: 0 !important;
       color: usetheme(brand-70);
+    }
+
+    ._form-label-search {
+      left: $size-half;
+      // search icon is a little higher on the font
+      height: 79px;
+      line-height: 79px;
+    }
+    ._form-label-cancel {
+      // right: $size-half;
+      height: 75px;
+      line-height: 75px;
     }
   }
 }

@@ -4,8 +4,9 @@
 @import 'design.scss';
 @import 'layout'; // typography, basic design & whitespace
 
-// for code highlighting
-@import 'highlightjs';
+
+@import 'highlightjs'; // for code highlighting
+@import 'print'; // print mode / capsid
 
 
 // modular
@@ -66,8 +67,9 @@ img {
     }
 
     &.--medium {
-      width: 65px;
-      height: 65px; 
+      width: usetheme(profile);
+      height: usetheme(profile); 
+      min-width: usetheme(profile);
     }
   }
 }

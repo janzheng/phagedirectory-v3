@@ -9,7 +9,7 @@
           and the development of safe and effective uses of <br>
           phages in medicine and industry around the world.
           <div class="_margin-top">
-            Read about <nuxt-link to="/about#mission">our mission</nuxt-link>.
+            Read <nuxt-link to="/about#mission">our mission</nuxt-link>.
           </div>
         </h3>
       </div>

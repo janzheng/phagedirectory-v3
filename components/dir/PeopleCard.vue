@@ -11,7 +11,8 @@
       <div class="People-profile _margin-right">
         <img :src="profileUrl" class="--profile --medium" >
       </div>
-      <div class="People-info _width-100">
+      <!-- <div class="People-info _width-100"> -->
+      <div class="People-info _flex-1">
 
         <!-- basic info -->
         <div class="">
@@ -29,9 +30,12 @@
                 </span>
 
                 <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
-                  <nuxt-link :to="`/labs#${ labSlugs }`" class="--url">{{ labs }}</nuxt-link><span v-if="isPI" class="_margin-left-half _tag">PI</span>,
+                  <nuxt-link :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
                 </span>
-                <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
+                <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
+                  {{ item.name +'' }}
+                </span> -->
+                <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
                   {{ item.name +'' }}
                 </span>
               </div>

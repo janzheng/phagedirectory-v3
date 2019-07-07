@@ -24,7 +24,6 @@ Vue.filter('dateTo', function(value) {
   }
 })
 
-
 Vue.filter('dateDiffMinutes', function(value) {
   if (value) {
     // return dayjs(String(value)).format('MMMM D, YYYY')
@@ -38,6 +37,15 @@ Vue.filter('isBefore', function(value) {
   }
 })
 
+Vue.filter('today', function() {
+  const today = new Date()
+  return dayjs(today).format('MMMM D, YYYY')
+})
+Vue.filter('todayCitation', function() {
+  // "02 Jan 2013"
+  const today = new Date()
+  return dayjs(today).format('D MMMM, YYYY')
+})
 
 
 // export default ({ app }, inject) => {

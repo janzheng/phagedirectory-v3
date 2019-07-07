@@ -23,8 +23,13 @@
           <div class="Capsid-header Capsid-section _margin-center _padding">
             <div class="_section-content _margin-center">
               <div class="Capsid-meta">
-                <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }}</span> | 
-                <span class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span>
+                <div>
+                  <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }}</span> | 
+                  <span class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span>
+                </div>
+                <div class="_font-small _padding-top-half _padding-bottom">
+                  {{ issue.fields['Data:Body'] | readtime }} min read
+                </div>
               </div>
 
               <nuxt-link :to="`/capsid/${issue.fields['Slug']}`">
@@ -44,9 +49,11 @@
               </div>
 
               <CapsidShare :link="twitterLink" message="Tweet this issue!" />
-
             </div>
+
           </div>
+
+          
 
           <!-- Sponsors — resides within the intro!!-->
           <!-- <div v-if="sponsors.length > 0" class="Capsid-sponsor _section-page _margin-center _padding" >
@@ -75,7 +82,9 @@
         <div id="whats-new" class="Capsid-section Capsid-section-new" >
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >What’s New</h2>
-            Have an idea for us? <a href="/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
+            <div class="Capsid-section-heading-description">
+              Have an idea for us? <a href="/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
+            </div>
           </div>
           <div v-if="updates.length > 0" >
             <div v-for="item of updates" :key="item.id" class="_margin-bottom" >
@@ -89,7 +98,7 @@
         <div id="jobs" class="Capsid-section Capsid-section-jobs" >
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >Latest Jobs</h2>
-            <div class="">
+            <div class="Capsid-section-heading-description">
               <nuxt-link to="/jobs" class="_button --short CTA --outline _margin-right-half-i _margin-bottom-none">View all jobs</nuxt-link>
               <nuxt-link to="/jobs?tab=Post-a-Job" target="_blank" class="_button --short CTA --outline _margin-bottom-none">Post a job for free</nuxt-link>
             </div>
@@ -106,7 +115,7 @@
         <div id="community" class="Capsid-section Capsid-section-community" >
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >Community Board</h2>
-            <div class="">
+            <div class="Capsid-section-heading-description">
               <nuxt-link to="/community" class="_button --short CTA --outline _margin-right-half-i">View all posts</nuxt-link>
               <nuxt-link to="/community?tab=Post-a-Message" class="_button --short CTA --outline">Post a message</nuxt-link>
             </div>
@@ -136,15 +145,18 @@
               <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
               <!-- short description / name -->
 
-              <Card v-if="author" :person="author" class="Capsid-author-short People-only-header --compact" />
+              <div v-if="authors" >
+                <Card v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
+              </div>
               <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
-
               <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
             </div>
 
             <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom-2 _padding-xs" message="Tweet this issue!" />
 
-            <Card v-if="author" :person="author" class="Capsid-author-full --compact" />
+            <div v-if="authors" >
+              <Card v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
+            </div>
             <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
             <NodeForm v-if="form" :src="form" class="Capsid-form" />
@@ -162,7 +174,33 @@
 
     </div>
 
-    <div class="_section-content _margin-center">
+    <div class="Capsid-footer _section-content _margin-center">
+
+      <div class="Capsid-info-container" >
+        <div id="Capsid-info" class="Capsid-info" >
+          <h6 class="--inline">How to Cite</h6>
+          <div v-if="issue.fields['Meta:Citation:Text']" >
+            <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
+          </div>
+
+          <AxiosPost 
+            v-if="citationData"
+            class="Capsid-citations"
+            url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
+            :post="citationData"
+          >
+            <div slot-scope="{ loading, response: data }">
+              <div v-if="loading">Loading...</div>
+              <div v-else>
+                <div class="_font-smaller _padding-bottom-half">To cite us, please use:</div>
+                <div class="capsid-apa _card _padding" v-html="$md.render(data.apa )" />
+                <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
+                <div class="capsid-bibtex _card _padding" v-html="$md.render(data.bibtex)" />
+              </div>
+            </div>
+          </AxiosPost>
+        </div>
+      </div>
 
       <div v-if="!issue || issue === 'undefined'" class="_section-content _margin-center _padding">
         <div >
@@ -178,10 +216,15 @@
         <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
       </div>
 
-      <div class="Capsid-footer _section-content _margin-center _padding">
+      <div class="Capsid-prompt _section-content _margin-center _padding">
         <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup)" />
+        <div class="_section-article _margin-center" v-html="$md.render(tip)" />
+      </div>
 
-        <div class="_section-article _margin-center" v-html="$md.render(highlight)" />
+      <div class="_section-content _margin-center">
+        <div class=" _margin-center _font-small">
+          All diagrams and text in this issue of Capsid & Tail is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution CC-BY 4.0, unless otherwise noted.</a>
+        </div>
       </div>
 
       <div class="_section-content _margin-center">
@@ -207,6 +250,7 @@ import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import Card from '~/components/dir/PeopleCard.vue'
 
+import AxiosPost from '~/components/AxiosPost.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
@@ -220,6 +264,7 @@ export default {
     CapsidStub,
     NodeForm,
     Card,
+    AxiosPost,
   },
 
   props: {
@@ -250,40 +295,58 @@ export default {
 
     // if we're grabbing author info from DB:People
     const _this = this
-    const getAuthor = async function() {
-      // console.log('fetching author:')
-      const data = await loadQuery({
-        _key: process.env.db_api, 
-        _base: process.env.db_base, 
-        store: _this.$store, 
-        routeName: '{Capsid}', 
-        query: 'People-profile',
-        keyword: _this.issue.fields['Data:AuthorSlug'],
-      })
+    const getAuthors = async function() {
+      console.log('fetching authors:')
 
-      // console.log('fetched a profile:', data)
-      return data.tables.People[0]
+      // ensures corr. author is first
+      if(_this.issue.fields['Data:MainAuthorSlug']) {
+        _this.issue.fields['Data:MainAuthorSlug'].map(async function(slug) {
+          const item = await loadQuery({
+            _key: process.env.db_api, 
+            _base: process.env.db_base, 
+            store: _this.$store, 
+            routeName: '{Capsid}', 
+            query: 'People-profile',
+            keyword: slug,
+          })
+          _this.authors.push(item.tables.People[0])
+        })
+      }
+
+      if(_this.issue.fields['Data:AuthorSlugs']) {
+        _this.issue.fields['Data:AuthorSlugs'].map(async function(slug) {
+          const item = await loadQuery({
+            _key: process.env.db_api, 
+            _base: process.env.db_base, 
+            store: _this.$store, 
+            routeName: '{Capsid}', 
+            query: 'People-profile',
+            keyword: slug,
+          })
+          _this.authors.push(item.tables.People[0])
+        })
+      }
     }
     
-    if(this.issue.fields['Data:AuthorSlug']) {
-      getAuthor().then((data) => {
-        // console.log('result:', data)
-        _this.author = data
-      })
+    if(this.issue.fields['Data:MainAuthorSlug'] || this.issue.fields['Data:AuthorSlugs']) {
+      getAuthors() // async; populates this.authors directly when loaded
+      // getAuthors().then((data) => {
+      //   console.log('retrieved authors:', data, this.issue.fields['Data:AuthorSlug'])
+      //   _this.authors = data
+      // })
     }
 
     return {
       path: this.$route.path,
-      author: undefined,
+      authors: [],
       intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      highlight: this.$cytosis.find('Content.capsid-highlight', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      tip: this.$cytosis.find('Content.capsid-tip', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       fineprint: this.$cytosis.find('Content.capsid-fineprint', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
 
       communityDesc: this.$cytosis.findOne('capsid-community-desc', this.$store.state['Content'] ).fields['Markdown'],
       emptyCommunity: this.$cytosis.findOne('capsid-community-empty', this.$store.state['Content'] ).fields['Markdown'],
       emptyJobs: this.$cytosis.findOne('capsid-jobs-empty', this.$store.state['Content'] ).fields['Markdown'],
-
     }
   },
 
@@ -314,6 +377,7 @@ export default {
           'Data:Title': this.issue.fields['Manuscripts:Related:Title'][0],
           'Data:Date': this.issue.fields['Manuscripts:Related:Date'][0],
           'Data:Lede': this.issue.fields['Manuscripts:Related:Lede'][0],
+          'Slug': this.issue.fields['Manuscripts:Related:Slug'][0],
         }
       }
     },
@@ -360,6 +424,34 @@ export default {
 
       return `https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${tags}`
     },
+
+    citationData() {
+      // all author data loaded in async, so need to verify data is complete by using array len
+      // every article will have one corr. author, plus a variable # of authors
+      const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
+      if(this.authors && this.authors.length == authorCount + 1) {
+        const date = new Date(this.issue.fields['Data:Date'])
+
+        let authorNames = []
+        this.authors.map((item) => authorNames.push(item.fields['Name']))
+        console.log('author names:', authorNames.join(' and '))
+
+        return {
+          source: `
+            @article{${this.authors[0].fields['CitationName']}${date.getFullYear()},
+              author = {${authorNames.join(' and ')}},
+              year = {${date.getFullYear()}},
+              title = {{${this.issue.fields['Data:Title:String']}}},
+              journal = {Capsid & Tail},  
+              publisher = {Phage Directory},
+              number = {${this.issue.fields['Data:Issue']}},
+              url = {${this.issue.fields['URL']}},
+            }
+          `
+        }
+      }
+      return undefined
+    }
   },
 
   methods: {

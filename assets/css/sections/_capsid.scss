@@ -245,6 +245,24 @@ $capsid_: (
 
  */
 
+.Capsid-info {
+  // infobox on how to cite, read time, doi, etc.
+  // they may be split up as well
+  @extend ._card;
+  padding: $size;
+  font-size: usetheme(font-small);
+}
+  .Capsid-info-container {
+    // padding: $size;
+  }
+
+
+.Capsid-citations {
+  ul, li { // used for bibtex
+    padding-bottom: 0; 
+    margin-bottom: 0;
+  }
+}
 
 
 .Capsid-card {
@@ -306,13 +324,13 @@ table.Capsid-author-header {
     padding: $size-half;
   }
 }
-.Capsid-author,
+.Capsid-author img,
 .Capsid-authorCard img {
   // margin-right: $size;
   // vertical-align: bottom;
   // display: inline;
   // margin-top: $size/2;
-  // max-width: 80px;
+  max-width: 80px;
 }
   .Capsid-author-card {
     @extend .Capsid-card;
@@ -362,7 +380,7 @@ table.Capsid-author-header {
 
 
 // guest writer prompt + signup
-.Capsid-footer._section-content {
+.Capsid-prompt._section-content {
   background-color: usetheme(bg-silver);
   padding-top: $size;
   padding-bottom: $size;

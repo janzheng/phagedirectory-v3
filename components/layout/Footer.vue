@@ -3,22 +3,43 @@
 
     <div class="_section-page _padding-left _padding-right _padding-top-2 _padding-bottom-2 _margin-center">
 
-      <div class="Footer-left _grid-2-5">
-        <div class="Footer-left _flex-col">
-          <div class="_flex-1">
-            <nuxt-link class="_margin-bottom _inline-block" to="/" aria-label="Phage Directory Footer">
-              <!-- <img class="Footer-logo-sm" src="~/static/ico_rings.png"/> -->
-              <img class="Footer-logo _v-middle" src="/phagedirectory_negative.png" alt="Phage Directory footer" >
-            </nuxt-link>
-            <div class="_padding-top">
-              <!-- <a target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a> -->
-              <a class="_margin-right-half" target="_blank" href="mailto:hello@phage.directory">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z"/></svg>
-              </a>
-              <!-- <a target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a> -->
-              <a target="_blank" href="https://twitter.com/phagedirectory">
-                <svg id="twitter" viewBox="0 0 24 24" width="28" height="28"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.066 9.645c.183 4.04-2.83 8.545-8.164 8.545-1.622 0-3.13-.477-4.402-1.29 1.524.18 3.045-.245 4.252-1.19-1.256-.023-2.317-.854-2.684-1.994.45.086.895.06 1.298-.05-1.38-.278-2.335-1.522-2.304-2.853.388.215.83.344 1.3.36-1.278-.856-1.64-2.545-.888-3.836 1.416 1.737 3.533 2.882 5.92 3-.42-1.796.944-3.526 2.8-3.526.824 0 1.57.35 2.095.91.653-.13 1.27-.37 1.823-.698-.215.67-.67 1.233-1.263 1.59.58-.07 1.135-.225 1.65-.453-.385.574-.87 1.08-1.434 1.485z"/></svg>
-              </a>
+      <div class="Footer-grid _grid-2-5">
+        <div class="Footer-left">
+          <nuxt-link class="_margin-bottom _inline-block" to="/" aria-label="Phage Directory Footer">
+            <!-- <img class="Footer-logo-sm" src="~/static/ico_rings.png"/> -->
+            <img class="Footer-logo _v-middle" src="/phagedirectory_negative.png" alt="Phage Directory footer" >
+          </nuxt-link>
+          <div class="_padding-top _margin-left-half-sm">
+            <!-- <a target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a> -->
+            <a class="_margin-right" target="_blank" href="mailto:hello@phage.directory">
+              <!-- <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M12 .02c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.99 6.98l-6.99 5.666-6.991-5.666h13.981zm.01 10h-14v-8.505l7 5.673 7-5.672v8.504z"/></svg> -->
+              <span class="_font-phage icon-mail"/>
+            </a>
+            <!-- <a target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a> -->
+            <a target="_blank" href="https://twitter.com/phagedirectory">
+              <!-- <svg id="twitter" viewBox="0 0 24 24" width="28" height="28"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.066 9.645c.183 4.04-2.83 8.545-8.164 8.545-1.622 0-3.13-.477-4.402-1.29 1.524.18 3.045-.245 4.252-1.19-1.256-.023-2.317-.854-2.684-1.994.45.086.895.06 1.298-.05-1.38-.278-2.335-1.522-2.304-2.853.388.215.83.344 1.3.36-1.278-.856-1.64-2.545-.888-3.836 1.416 1.737 3.533 2.882 5.92 3-.42-1.796.944-3.526 2.8-3.526.824 0 1.57.35 2.095.91.653-.13 1.27-.37 1.823-.698-.215.67-.67 1.233-1.263 1.59.58-.07 1.135-.225 1.65-.453-.385.574-.87 1.08-1.434 1.485z"/></svg> -->
+              <span class="_font-phage icon-twitter"/>
+            </a>
+            <div class="_margin-top-2 _font-small">
+              <a class="_block" target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a>
+            </div>
+            
+            <div class="_margin-top-half _font-small">
+              <a class="_block" target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a>
+            </div>
+
+            <div class="_margin-top-half _font-small">
+              <a class="_block" target="_blank" href="https://phage.directory/chat">Schedule a call with us</a>
+            </div>
+
+            <div class="_margin-top-2 _font-small">
+              All material on Phage Directory is licensed under <a class="--underline-i" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution CC-BY 4.0, unless otherwise noted.</a>
+            </div>
+            <div class="_padding-top-half">
+              <span class="">
+                <span class="_font-phage icon-cc"/>
+                <span class="_font-phage icon-cc-by"/>
+              </span>
             </div>
           </div>
           <!-- <div class="Footer-textlogo"> 
@@ -107,7 +128,8 @@
             </div>
           </div>
 
-          <div class="_grid-3 _grid-gap-small _margin-top-2">
+
+          <!-- <div class="_grid-3 _grid-gap-small _margin-top-2">
             <div class="Footer-column _padding-bottom-2-xs">
               <a class="_block" target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a>
             </div>
@@ -119,7 +141,7 @@
             <div class="Footer-column _padding-bottom-2-xs">
               <a class="_block" target="_blank" href="https://phage.directory/chat">Schedule a call with us</a>
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>

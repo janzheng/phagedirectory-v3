@@ -3,7 +3,6 @@
 
   <div class="Latest" >
     <div class="Latest-container ">
-
       <div v-for="item of atoms" :key="item.id" class="--img _margin-bottom">
         <!-- {{ item.fields }} -->
         <div v-if="item.fields['Atom:Type'] == 'Update'" class="Latest-update">

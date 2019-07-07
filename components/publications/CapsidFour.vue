@@ -152,15 +152,6 @@
               <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
             </div>
 
-            <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom-2 _padding-xs" message="Tweet this issue!" />
-
-            <div v-if="authors" >
-              <Card v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
-            </div>
-            <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
-
-            <NodeForm v-if="form" :src="form" class="Capsid-form" />
-
           </div>
         </div>
 
@@ -176,29 +167,53 @@
 
     <div class="Capsid-footer _section-content _margin-center">
 
-      <div class="Capsid-info-container" >
-        <div id="Capsid-info" class="Capsid-info" >
-          <h6 class="--inline">How to Cite</h6>
-          <div v-if="issue.fields['Meta:Citation:Text']" >
-            <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
-          </div>
+      <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom-2 _padding-xs" message="Tweet this issue!" />
 
-          <AxiosPost 
-            v-if="citationData"
-            class="Capsid-citations"
-            url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
-            :post="citationData"
-          >
-            <div slot-scope="{ loading, response: data }">
-              <div v-if="loading">Loading...</div>
-              <div v-else>
-                <div class="_font-smaller _padding-bottom-half">To cite us, please use:</div>
-                <div class="capsid-apa _card _padding" v-html="$md.render(data.apa )" />
-                <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
-                <div class="capsid-bibtex _card _padding" v-html="$md.render(data.bibtex)" />
-              </div>
+      <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related Capsid-print-hidden _margin-top-2" >
+        <h6 class="_padding-bottom-none">Related Article</h6>
+        <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
+      </div>
+
+      <NodeForm v-if="form" :src="form" class="Capsid-form" />
+      
+      <div v-if="authors" id="Capsid-authors" class="Capsid-authors" >
+        <Card v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
+      </div>
+      <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
+
+      <div id="Capsid-cite" class="Capsid-cite" >
+        <h6 class="--inline">How to Cite</h6>
+        <div v-if="issue.fields['Meta:Citation:Text']" >
+          <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
+        </div>
+
+        <AxiosPost 
+          v-if="citationData"
+          class="Capsid-citations"
+          url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
+          :post="citationData"
+        >
+          <div slot-scope="{ loading, response: data }">
+            <div v-if="loading">Loading...</div>
+            <div v-else>
+              <div class="_font-smaller _padding-bottom-half">To cite us, please use:</div>
+              <div class="capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
+              <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
+              <div class="capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />
             </div>
-          </AxiosPost>
+          </div>
+        </AxiosPost>
+      </div>
+
+      <div id="Capsid-license" class="_section-content _margin-center">
+        <div class=" _margin-center _font-small">
+          All diagrams and text in this issue of Capsid & Tail is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution CC-BY 4.0, unless otherwise noted.</a>
+          <div class="_padding-top-half">
+            <span class="">
+              <span class="_font-phage icon-cc _margin-right-half"/>
+              <span class="_font-phage icon-cc-by"/>
+            </span>
+          </div>
         </div>
       </div>
 
@@ -211,24 +226,13 @@
         </div>
       </div>
 
-      <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related _margin-top-2" >
-        <h6 class="_padding-bottom-none">Related Article</h6>
-        <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
-      </div>
-
-      <div class="Capsid-prompt _section-content _margin-center _padding">
-        <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup)" />
-        <div class="_section-article _margin-center" v-html="$md.render(tip)" />
-      </div>
-
-      <div class="_section-content _margin-center">
-        <div class=" _margin-center _font-small">
-          All diagrams and text in this issue of Capsid & Tail is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution CC-BY 4.0, unless otherwise noted.</a>
-        </div>
-      </div>
-
       <div class="_section-content _margin-center">
         <div class=" _margin-center _font-small" v-html="$md.render(fineprint || '')" />
+      </div>
+
+      <div class="Capsid-prompt Capsid-print-hidden _section-content _margin-center _padding">
+        <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup)" />
+        <div class="_section-article _margin-center" v-html="$md.render(tip)" />
       </div>
 
     </div>
@@ -440,7 +444,9 @@ export default {
           source: `
             @article{${this.authors[0].fields['CitationName']}${date.getFullYear()},
               author = {${authorNames.join(' and ')}},
-              year = {${date.getFullYear()}},
+              date = {${date.getFullYear()}},
+              day = {${date.getDay()}},
+              month = {${date.getMonth()}},
               title = {{${this.issue.fields['Data:Title:String']}}},
               journal = {Capsid & Tail},  
               publisher = {Phage Directory},

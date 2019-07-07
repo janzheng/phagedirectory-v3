@@ -44,7 +44,7 @@
                 <div v-for="(collection) of hostCollections(host)" 
                      :key="`${host.fields['Genus']}-${host.fields['Species']}-${collection.id}`" class="Host-collection Dir-miniCard">
 
-                  <div class="Dir-row">
+                  <div class="Dir-row _font-small _margin-bottom-i">
                     {{ collection.name }}
                   </div>
 

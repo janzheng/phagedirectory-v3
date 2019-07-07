@@ -6,10 +6,11 @@
       <nuxt @click="onClick($event)" />
 
       <no-ssr>
-        <PolicyBanner/>
+        <PolicyBanner />
       </no-ssr>
       
-      <FooterSignups/>
+      <FooterSignups />
+      <FooterSupport />
     </div>
     <Footer/>
 
@@ -27,6 +28,7 @@ import VueScrollTo from 'vue-scrollto'
 
 import Header from '~/components/layout/Header.vue'
 import Footer from '~/components/layout/Footer.vue'
+import FooterSupport from '~/components/layout/FooterSupport.vue'
 import FooterSignups from '~/components/layout/FooterSignups.vue'
 import PolicyBanner from '~/components/org/PolicyBanner.vue'
 
@@ -40,6 +42,7 @@ export default {
   components: {
     Header,
     Footer,
+    FooterSupport,
     FooterSignups,
     PolicyBanner,
     // SignupAlert,

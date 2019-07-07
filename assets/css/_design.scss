@@ -120,9 +120,12 @@ h6.--tight, %tight {
 
   // prevent scrolling the page when mobile nav is open
   &.--open {
-    overflow: hidden;
-    height: 100%;
-    position: fixed;
+    @include screen-xs {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+    }
   }
 }
 
@@ -272,6 +275,7 @@ a, ._link {
       text-transform: none;
       // line-height: 1em;
       font-size: 125% !important;
+      line-height: $size;
      
       position: relative;
       bottom: -.1rem;

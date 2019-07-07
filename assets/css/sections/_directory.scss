@@ -91,7 +91,7 @@
 
 .Dir-title {
   // padding-top: $size-half;
-  // padding-bottom: $size;
+  padding-bottom: $size;
   // margin-bottom: $size-half;
   line-height: $size-5;
   font-weight: 500;
@@ -157,6 +157,10 @@
   // border-color: usetheme(mono-0);
 
   @extend %url;
+
+  @include screen-xs {
+    padding: $size;
+  }
 }
   .Dir-miniCard {
     font-size: usetheme(rem);
@@ -214,10 +218,12 @@
 .Dir-row {
   line-height: $size-2;
   margin-bottom: $size-quart;
-  span {
-    // white-space: pre-line;
-    white-space: nowrap;
-  }
+  // span {
+  //   @include screen-sm {
+  //     // white-space: pre-line;
+  //     white-space: nowrap;
+  //   }
+  // }
 }
 
 
@@ -233,6 +239,13 @@
 }
   // This card is used OUTSIDE of the directory, like in C&T!!
   .People-card {
+    .People-name-social {
+      // name / social icons row
+      @include screen-xs {
+        display: block !important;
+        padding-bottom: $size;
+      }
+    }
     &.--compact {
       // used in C&T
       // .People-container {
@@ -252,6 +265,21 @@
       }
       .People-orgs-name {
         font-size: usetheme(font-small);
+      }
+    }
+
+    .Dir-row {
+      span {
+        @include screen-sm {
+          // white-space: pre-line;
+          white-space: nowrap;
+        }
+      }
+    }
+    
+    @include screen-xs {
+      .People-container {
+        display: block !important;
       }
     }
   }
@@ -290,5 +318,36 @@
   border-width: $border-thin;
 }
 
+
+// Right sidebar
+
+.Dir-sidebar {
+  .Dir-search {
+    // @include screen-xs {
+    width: 100%;
+    // }
+  }
+  ._form-label-search {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 48px;
+    line-height: 44px;
+  }
+  ._form-label-cancel {
+    position: absolute;
+    top: 0;
+    right: $size;
+    height: 48px;
+    line-height: 44px;
+    @extend %ease;
+
+    &:hover {
+      color: usetheme(active);
+      cursor: pointer;
+      @extend %ease;
+    }
+  }
+}
 
 

@@ -48,21 +48,33 @@
               <div class="Header-mobile-item _margin-top">
                 <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
                   Phage Hosts
+                  <span v-if="searchString" ref="mobilesearch" class="_button CTA --short _margin-none-i _float-right" @click="toggleNav">
+                    Search
+                  </span>
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
                 <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
                   Phage Labs
+                  <span v-if="searchString" class="_button CTA --short _margin-none-i _float-right" @click="toggleNav">
+                    Search
+                  </span>
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
                 <nuxt-link :to="`/orgs${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   Organizations
+                  <span v-if="searchString" class="_button CTA --short _margin-none-i _float-right" @click="toggleNav">
+                    Search
+                  </span>
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item">
                 <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   People
+                  <span v-if="searchString" class="_button CTA --short _margin-none-i _float-right" @click="toggleNav">
+                    Search
+                  </span>
                 </nuxt-link>
               </div>
               <div class="Header-mobile-item _padding-top _padding-bottom">
@@ -232,7 +244,7 @@ export default {
     },
     handleNavClick(el) {
       // nav link clicks should trigger nav close
-      // console.log('handleNavClick', el.target.href)
+      // console.log('handleNavClick', el.target.href, el)
       if(el.target.href) {
         this.toggleNav()
       }

@@ -14,10 +14,32 @@
           <a :href="org.fields['URL']" class="_inline-block"><img :src="logoUrl" class="" :alt="`${org.fields['Name']} Logo`"></a>
         </div>
         <div class="">
-          <div class="Dir-title">
-            <h3 class="--title _padding-bottom-none">{{ org.fields['Name'] }}</h3>
+          <div class="">
+            <div class="Org-name-social _flex-row">
+              <div class="_flex-1">
+                <div class="Dir-title --title _padding-bottom-none-i">{{ org.fields['Name'] }}</div>
+              </div>
+              <div class="Dir-social Dir-title">
+                <a v-if="org.fields['Social:Linkedin']" :href="`${org.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
+                <a v-if="org.fields['Social:Twitter']" :href="`https://twitter.com/${org.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
+              </div>
+            </div>
             <h5 v-if="org.fields['AltName']" class="_font-normal _padding-none">{{ org.fields['AltName'] }}</h5>
           </div>
+
+          <!-- <div class="People-name-social _flex-row">
+            <div class="Dir-title _flex-1">
+              {{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
+            </div>
+            <div class="Dir-social Dir-title">
+              <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
+              <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><span class="_font-phage icon-google-scholar" /></a>
+              <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
+              <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
+              <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
+            </div>
+          </div> -->
+
           <div v-if="org.fields['Org:Types']" class="_margin-top-half">
             <span v-for="item of org.fields['Org:Types']" :key="item" class="_tag">{{ item }}</span>
           </div>

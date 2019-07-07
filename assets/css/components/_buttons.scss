@@ -21,7 +21,8 @@ button, ._button {
   }
 
   &.--short {
-    line-height: $size-half;
+    line-height: $size-half; // doesn't work for policy button
+    // line-height: 0; // works for policy, idk if it breaks anything else
   }
 
   &.--compact {

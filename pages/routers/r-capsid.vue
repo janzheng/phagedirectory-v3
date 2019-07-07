@@ -21,7 +21,7 @@
         </div>
         <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
              v-scroll-spy-link="{selector: 'a._sidebar-item'}"
-             class="scrollspy" 
+             class="scrollspy _card --silver" 
         >
           <nuxt-link to="#intro" class="_sidebar-item _block --active-disabled">
             Intro
@@ -41,6 +41,32 @@
           <!-- <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
             Comments
           </nuxt-link> -->
+        </div>
+        <div clas="_sidebar-footer">
+          <nuxt-link
+            v-scroll-to="{
+              el: '#Capsid-authors'
+            }"
+            to="#Capsid-authors" 
+            class="_font-smaller _block _padding-left --active-disabled ">
+            Author information
+          </nuxt-link>
+          <nuxt-link
+            v-scroll-to="{
+              el: '#Capsid-cite'
+            }"
+            to="#Capsid-cite" 
+            class="_font-smaller _block _padding-left --active-disabled ">
+            How to cite
+          </nuxt-link>
+          <nuxt-link
+            v-scroll-to="{
+              el: '#Capsid-license'
+            }"
+            to="#Capsid-license" 
+            class="_font-smaller _block _padding-left --active-disabled ">
+            License
+          </nuxt-link>
         </div>
       </div>
 

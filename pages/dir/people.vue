@@ -30,12 +30,12 @@
             </div>
           </div>
 
-          <div v-if="search.string && filterPeople.length == 0" class="Dir-notice">
-            <h1 class="" >No results found.</h1>
-          </div>
+          <div id="content-top" class="People-list" >
 
+            <div v-if="search.string && filterPeople.length == 0" class="Dir-notice">
+              <h1 class="" >No results found.</h1>
+            </div>
 
-          <div class="People-list">
             <div v-for="item of filterPeople" :key="item.id" class="" >
               <Card :person="item" class="People-list-item" />
             </div>
@@ -45,9 +45,16 @@
       </template>
 
       <template #context >
-        <div>
-          <input id="header_searchbar" ref="headerSearch" v-model.trim="searchString" class="Header-search _form-input _inline" type="text" name="header_searchbar" placeholder="Search" @input="doSearch">
+        <div class="Dir-sidebar">
+          <label for="dirSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
+            <span class="_font-phage icon-search"/>
+          </label>
+          <input id="Dir-searchbar" ref="dirSearch" v-model.trim="searchString" class="Dir-search _padding-left-2 _form-input " type="text" name="dir_searchbar" placeholder="Search" @input="doSearch">
+          <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
+            <span class="_font-phage icon-cancel"/>
+          </span>
         </div>
+        
         <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
           Back to top
         </nuxt-link>
@@ -142,7 +149,7 @@ export default {
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = route.params.slug
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{people}', query: 'People-test'})
+    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{people}', query: 'People'})
     // const search = store.state.search.string //route.query.search ? route.query.search : undefined
     // const search = store.state.search ? store.state.search.string : route.query.search
     // console.log('matched node: ', node, ' @ ', slug)
@@ -160,9 +167,15 @@ export default {
   methods: {
     doSearch: new _.debounce(function() {
       dirSearch(this)
+      this.$scrollTo("#content-top")
     }, 300, {
       trailing: true
     }),
+
+    doClear() {
+      this.searchString = ""
+      dirSearch(this)
+    },
   }
 }
 </script>

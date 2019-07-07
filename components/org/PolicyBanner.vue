@@ -11,7 +11,7 @@
     </div>
 
     <div class="_right">
-      <button class="_button CTA --bright --short _margin-none" @click="acceptPolicy" >
+      <button class="_button CTA --bright _margin-none-i" @click="acceptPolicy" >
         I accept
       </button>
     </div>

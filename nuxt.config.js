@@ -403,6 +403,16 @@ export default {
           component: resolve(__dirname, 'pages/routers/r-capsid-email.vue')
         },
         {
+          name: 'community router',
+          path: '/community/:slug*',
+          component: resolve(__dirname, 'pages/routers/r-atom.vue')
+        },
+        {
+          name: 'jobs router',
+          path: '/jobs/:slug*',
+          component: resolve(__dirname, 'pages/routers/r-atom.vue')
+        },
+        {
           // Dynamic Template Router
           // catches all routes and attempts to find a template
           // throws error if it can't

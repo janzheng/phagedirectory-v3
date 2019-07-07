@@ -42,7 +42,7 @@
               <div class="Dir-label">Principal Investigator<span v-if="PIs.length>1">s</span></div>
               <span v-for="item of PIs" :key="item.name">
                 <a v-if="item.slug" :href="`/people#${item.slug}`" class="_wordbreak --url _block">{{ item.name }}</a>
-                <span v-else>{{ item.name }}</span>
+                <div v-else>{{ item.name }}</div>
               </span>
             </div>
             <div v-if="members" class="Dir-block">
@@ -50,8 +50,11 @@
                 <!-- Lab members -->
                 Lab Member<span v-if="members.length>1">s</span>
               </div>
-              <a v-for="item of members" :key="item.name" :href="`/people#${item.slug}`" class="_wordbreak --url _block">{{ item.name }}
-              </a>
+              <div v-for="item of members" :key="item.name" >
+                <a v-if="item.slug" :href="`/people#${item.slug}`" class="_wordbreak --url _block">{{ item.name }}
+                </a>
+                <div v-else>{{ item.name }}</div>
+              </div>
             </div>
           </div>
 

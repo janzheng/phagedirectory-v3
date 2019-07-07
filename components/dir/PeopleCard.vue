@@ -17,45 +17,45 @@
         <!-- basic info -->
         <div class="">
 
-          <div class="People-name People-header-block _flex-row">
-            <div class="_flex-1">
-              <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
-              <div class="Dir-title">
+          <div class="People-name People-header-block ">
+            <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
+            <div class="People-name-social _flex-row">
+              <div class="Dir-title _flex-1">
                 {{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
               </div>
-
-              <div class="People-orgs Dir-row">
-                <span v-if="roles" class="People-roles _margin-top-half">
-                  <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
-                </span>
-
-                <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
-                  <nuxt-link :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
-                </span>
-                <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
-                  {{ item.name +'' }}
-                </span> -->
-                <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
-                  {{ item.name +'' }}
-                </span>
+              <div class="Dir-social Dir-title">
+                <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
+                <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><span class="_font-phage icon-google-scholar" /></a>
+                <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
+                <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
+                <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
               </div>
+            </div>
 
+            <div class="People-orgs Dir-row">
+              <span v-if="roles" class="People-roles _margin-top-half">
+                <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
+              </span>
+
+              <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
+                <nuxt-link :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
+              </span>
+              <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
+                {{ item.name +'' }}
+              </span> -->
+              <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
+                {{ item.name +'' }}
+              </span>
             </div>
-            <div class="Dir-social Dir-title">
-              <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
-              <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><span class="_font-phage icon-google-scholar" /></a>
-              <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
-              <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
-              <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
-            </div>
+
           </div>
 
 
           <div class="People-info-block Dir-block">
             <!-- <div><span class="Dir-label">Website</span></div> -->
-            <div v-if="person.fields['Short']" class="People-short Dir-row" >
+            <!-- <div v-if="person.fields['Short']" class="People-short Dir-row" >
               <span class="_md-pfix" v-html="$md.render( person.fields['Short'] || '')" />
-            </div>
+            </div> -->
             <div v-if="person.fields['Social:Twitter']" class="Dir-row _grid-1-7-xs _align-vertically">
               <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="_wordbreak --url --none">@{{ person.fields['Social:Twitter'] }}</a>
             </div>

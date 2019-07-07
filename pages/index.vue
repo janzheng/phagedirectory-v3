@@ -33,6 +33,7 @@
             </div>
 
             <div class="Home-latest _section-page _margin-center _margin-bottom-2">
+              <h6 class="_padding-bottom-half">The Phage Pheed</h6>
               <Latest :atoms="featuredAtoms" />
               <Latest :atoms="nonFeaturedAtoms" />
               <button class="_button --width-full _center CTA --brand _font-bold" @click="getLatestAtoms(numLatest)">
@@ -79,7 +80,7 @@ export default {
   middleware: 'pageload',
   meta: {
     // tableQuery: "_content"
-    tableQueries: ['_content', 'capsid-previews', 'atoms-featured']
+    tableQueries: ['_content', 'capsid-previews', 'atoms-featured', 'atoms-latest']
   },
 
   data () {
@@ -104,14 +105,14 @@ export default {
     featuredAtoms() {
       return this.Atoms.filter(e => {
       // return this.latestAtoms.filter(e => {
-        return e.fields['Data:Priority'] == 'Featured'
+        return e.fields['Status'] == 'FeedFeature'
       })
     },
 
     nonFeaturedAtoms() {
       if(this.latestAtoms) {
         return this.latestAtoms.filter(e => {
-          return e.fields['Data:Priority'] != 'Featured'
+          return e.fields['Status'] != 'FeedFeature'
         })
       }
       return undefined

@@ -38,6 +38,17 @@ export default ({ }, inject) => {
     head['meta'].push({ hid: 'twitter-url', property: 'twitter:url', content: `${payload}` })
   }
 
+  // set author
+  head['setAuthor'] = function (payload) {
+    head['meta'].push({ hid: 'article-author', property: 'article:author', content: `${payload}` })
+  }
+
+  // set twitter author / creator
+  head['setTwitterCreator'] = function (payload) {
+    head['meta'].push({ hid: 'twitter-creator', property: 'twitter:creator', content: `${payload}` })
+  }
+
+
   head['reset'] = function () {
     head['title'] = ''
     head['meta'] = []

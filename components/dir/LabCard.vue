@@ -27,8 +27,8 @@
 
         <div class="Dir-body _grid-1-2 _grid-gap-large"><!-- basic info -->
           <div class="Dir-section Dir-basic">
-            <div v-if="lab.fields['Short']" class="Dir-short Dir-block">
-              {{ lab.fields['Short'] }}
+            <div v-if="lab.fields['Markdown']" class="Dir-description Dir-block">
+              {{ lab.fields['Markdown'] }}
             </div>
             <div class="Lab-parent Dir-block">
               <div class="Dir-label">University</div>

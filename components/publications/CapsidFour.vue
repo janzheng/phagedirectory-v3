@@ -287,6 +287,11 @@ export default {
     this.$head.setTitle(title || "Capsid & Tail")
     this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
 
+    if(this.authors && this.authors.length > 0) {
+      this.$head.setAuthor(this.authors[0].fields['Name'] || "")
+      this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
+    }
+
     if(this.issue.fields['Cover'])
       this.$head.setImage(this.issue.fields['Cover'][0]['url'] || 'https://phage.directory/cnt_twitter_card.png')
     
@@ -300,7 +305,7 @@ export default {
     // if we're grabbing author info from DB:People
     const _this = this
     const getAuthors = async function() {
-      console.log('fetching authors:')
+      // console.log('fetching authors:')
 
       // ensures corr. author is first
       if(_this.issue.fields['Data:MainAuthorSlug']) {
@@ -327,7 +332,8 @@ export default {
             query: 'People-profile',
             keyword: slug,
           })
-          _this.authors.push(item.tables.People[0])
+          // _this.authors.push(item.tables.People[0])
+          _this.authors = [... _this.authors, ... item.tables.People]
         })
       }
     }
@@ -438,7 +444,7 @@ export default {
 
         let authorNames = []
         this.authors.map((item) => authorNames.push(item.fields['Name']))
-        console.log('author names:', authorNames.join(' and '))
+        // console.log('author names:', authorNames.join(' and '))
 
         return {
           source: `

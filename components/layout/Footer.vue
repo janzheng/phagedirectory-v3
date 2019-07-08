@@ -122,6 +122,9 @@
                 <nuxt-link to="/brand">Brand</nuxt-link>
               </div>
               <div>
+                <a href="https://github.com/phage-directory" target="_blank">Github</a>
+              </div>
+              <div>
                 <nuxt-link to="/policies">Site Policy</nuxt-link>
               </div>
               <!-- <a class="_block" target="_blank" href="https://phage.directory/chat">Schedule a call with us</a> -->

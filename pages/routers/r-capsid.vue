@@ -128,10 +128,11 @@ export default {
     // console.log('matched node: ', node, ' @ ', slug)
 
     const manuscript = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-single', keyword: slug})
-    // console.log('matched manuscript: ', manuscript, ' @ ', slug)
 
     // fetches the relevant atoms into the store
     const atoms = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})
+
+    console.log('matched atoms: ', atoms, ' @ ', slug)
 
     return {
       manuscript: manuscript.tables.Manuscripts[0],

@@ -27,7 +27,7 @@ export default {
   },
 
   created() {
-    console.log('Axios fetching', this.url, ' with ', this.post)
+    // console.log('Axios fetching', this.url, ' with ', this.post)
     axios.post(this.url, this.post).then((response) => {
       this.response = response
       this.loaded = true

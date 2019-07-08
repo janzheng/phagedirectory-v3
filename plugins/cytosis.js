@@ -4,7 +4,7 @@
 // 
 
 import Cytosis from 'cytosis'
-// import Cytosis from '~/other/cytosis'
+// import Cytosis from '~/node_modules/cytosis/src/cytosis.js'
 
 // export default ({ app }, inject) => {
 export default ({ }, inject) => {

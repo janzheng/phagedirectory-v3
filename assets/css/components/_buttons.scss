@@ -2,8 +2,9 @@
 // Button Components
 // (reusable)
 
-button, ._button {
+._button {
 
+  display: inline-block;
   background-color: usetheme(brand-background); //$color-links;
   border-color: usetheme(brand-80); //$color-links;
   color: usetheme(brand-80); //$color-links;
@@ -21,8 +22,9 @@ button, ._button {
   }
 
   &.--short {
-    line-height: $size-half; // doesn't work for policy button
-    // line-height: 0; // works for policy, idk if it breaks anything else
+    // ***
+    line-height: $size-half; // doesn't work for policy button // breaks <button>
+    // line-height: 0; // works for policy, idk if it breaks anything else 
   }
 
   &.--compact {
@@ -31,6 +33,14 @@ button, ._button {
     font-size: usetheme(font--1);
   }
 }
+
+  // buttons have different line heights
+  button._button.CTA.--short {
+    line-height: 0; // works better for <button> objects; don't know why
+    padding-top: $size - 2px; // these account for border height
+    padding-bottom: $size - 2px;
+  }
+
 
 button.CTA, button._button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionable button; inherits from but overrides _button
   
@@ -44,6 +54,7 @@ button.CTA, button._button.CTA, .CTA._button, a.CTA._button, a.CTA { // actionab
   // font-weight: bold;
   text-decoration: none; // <a>s might have underlines
   margin-right: $size-half;
+  font-weight: bold;
 
   background-color: usetheme(brand-background); //$color-links;
   border-color: usetheme(brand-80); //$color-links;

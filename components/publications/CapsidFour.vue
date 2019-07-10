@@ -32,9 +32,9 @@
                 </div>
               </div>
 
-              <nuxt-link :to="`/capsid/${issue.fields['Slug']}`">
-                <h1 class="Capsid-title _padding-top" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
-              </nuxt-link>
+              <!-- <nuxt-link :to="`/capsid/${issue.fields['Slug']}`"> -->
+              <h1 class="Capsid-title _padding-top" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
+              <!-- </nuxt-link> -->
               <div class="_section-article">
                 <!-- <div class="Capsid-lede _padding-bottom" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" /> -->
                 <h3 class="Capsid-lede _padding-bottom --normal --title" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />

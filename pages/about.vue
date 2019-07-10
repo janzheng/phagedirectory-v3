@@ -13,27 +13,44 @@
       </template>
 
       <template #default>
-        <div class="About-story" v-html="$md.render(story || '') "/>
-        <div class="About-story-more" v-html="$md.render(morestory || '') "/>
 
-        <div class="About-people">
+        <h2>Our Story</h2>
+
+        <div class="About-story-container _card _padding">
+
+          <div class="About-story" v-html="$md.render(story || '') "/>
+
+          <div class="About-more" v-if="!readMore">
+            <div class="About-story-lead" v-html="$md.render(storylead || '') "/>
+            <button class="_button CTA --short _margin-top-2" @click="readMore = true">Read more</button>
+          </div>
+
+          <div v-if="readMore" class="About-story-more " v-html="$md.render(storymore || '') "/>
+        </div>
+
+        <!-- <div class="About-story-end" v-html="$md.render(storyend || '') "/> -->
+
+        <div class="About-people _divider-top">
+          <h3>Who we are</h3>
           <div v-for="item of people" :key="item.id" class="" >
             <Card :person="item" class="About-person" />
           </div>
         </div>
 
-        <div class="About-opensource" v-html="$md.render(opensource || '') "/>
+        <div class="About-opensource _divider-top _divider-bottom" v-html="$md.render(opensource || '') "/>
 
       </template>
 
       <template #context>
         <div class="About-sidebar">
-          <Recently class="About-Timeline _margin-top-2" header="Timeline" :items="timeline" />
-          <Recently class="About-Behind _margin-top-2" header="Behind the scenes" :items="behind" />
+          <Recently v-if="timeline" class="About-Timeline _margin-top-2" header="Timeline" :items="timeline" />
+          <Recently v-if="behind" class="About-Behind _margin-top-2" header="Behind the scenes" :items="behind" />
         </div>
       </template>
 
     </Template>
+
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
   </div>
 </template>
@@ -68,12 +85,17 @@ export default {
   },
 
   data () {
+
+    // this.$twitter() // load twitter async for the embedded twitter in our story
+
     return {
+      readMore: false,
       intro: this.$cytosis.findOne('about-intro', this.$store.state['Content'] ).fields['Markdown'],
       features: this.$cytosis.findOne('about-features', this.$store.state['Content'] ).fields['Markdown'],
       introend: this.$cytosis.findOne('about-intro-end', this.$store.state['Content'] ).fields['Markdown'],
       story: this.$cytosis.findOne('about-story', this.$store.state['Content'] ).fields['Markdown'],
-      morestory: this.$cytosis.findOne('about-story-more', this.$store.state['Content'] ).fields['Markdown'],
+      storylead: this.$cytosis.findOne('about-story-lead', this.$store.state['Content'] ).fields['Markdown'],
+      storymore: this.$cytosis.findOne('about-story-more', this.$store.state['Content'] ).fields['Markdown'],
       opensource: this.$cytosis.findOne('about-opensource', this.$store.state['Content'] ).fields['Markdown'],
     }
   },

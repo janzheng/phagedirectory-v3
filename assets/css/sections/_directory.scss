@@ -217,7 +217,10 @@
 
 .Dir-row {
   line-height: $size-2;
-  margin-bottom: $size-quart;
+  // margin-bottom: $size-quart;
+  // margin-bottom: $size-half;
+  margin-bottom: $size;
+
   // span {
   //   @include screen-sm {
   //     // white-space: pre-line;

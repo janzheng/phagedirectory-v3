@@ -32,10 +32,10 @@
               </div>
             </div>
 
-            <div class="People-orgs Dir-row">
-              <span v-if="roles" class="People-roles _margin-top-half">
+            <div class="People-orgs Dir-row _font-small">
+              <div v-if="roles" class="People-roles _margin-top-half">
                 <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
-              </span>
+              </div>
 
               <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
                 <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,

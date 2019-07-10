@@ -4,14 +4,14 @@
     <div class="Home-hero _section-page _margin-center _margin-top-2 _margin-bottom-2">
       <div class="Home-img-container _section-content _padding-top-2 ">
         <img class="Home-img" width="250px" src="~/static/phagedirectory_home.png">
-        <h3 class="Home-hero-txt --title _font-normal">
-          We support fundamental phage research <br>
+        <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')">
+          <!-- We support fundamental phage research <br>
           and the development of safe and effective uses of <br>
           phages in medicine and industry around the world.
           <div class="_margin-top">
             Read <nuxt-link to="/about#mission">our mission</nuxt-link>.
-          </div>
-        </h3>
+          </div> -->
+        </div>
       </div>
     </div>
 
@@ -89,7 +89,7 @@ export default {
     const numLatest = 5
     this.getLatestAtoms(numLatest)
     return {
-      // mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
+      mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
       featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
       latestAtoms: null, // pulled later
       numLatest,

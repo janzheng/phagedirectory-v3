@@ -27,6 +27,7 @@ components/svg
 # for internal use anyway
 components/coeur/
 components/experiments
+pages/coeur/*
 
 
 

@@ -15,7 +15,9 @@
 @import 'templates';
 
 
-
+.formFieldAndSubmitContainer {
+  background-color: red !important;
+}
 
 
 .Header-title {
@@ -96,7 +98,12 @@ img {
   font-weight: 500;
 }
 
-
+.phagey {
+  display: inline-block;
+  font-weight: 400;
+  position: relative;
+  bottom: 1px;
+}
 
 
 /* 

@@ -145,8 +145,8 @@
               <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
               <!-- short description / name -->
 
-              <div v-if="authors" >
-                <Card v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
+              <div v-if="authors && authors[0]" >
+                <AuthorCard v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
               </div>
               <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
               <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
@@ -176,12 +176,13 @@
 
       <NodeForm v-if="form" :src="form" class="Capsid-form" />
       
-      <div v-if="authors" id="Capsid-authors" class="Capsid-authors" >
-        <Card v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
+      <div v-if="authors && authors[0]" id="Capsid-authors" class="Capsid-authors" >
+        <AuthorCard v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
       </div>
       <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
-      <div id="Capsid-cite" class="Capsid-cite" >
+      <div id="Capsid-cite" class="Capsid-cite" v-if="citationData">
+        <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
         <h6 class="--inline">How to Cite</h6>
         <div v-if="issue.fields['Meta:Citation:Text']" >
           <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
@@ -252,7 +253,7 @@ import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
-import Card from '~/components/dir/PeopleCard.vue'
+import AuthorCard from '~/components/dir/PeopleCard.vue'
 
 import AxiosPost from '~/components/AxiosPost.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
@@ -267,7 +268,7 @@ export default {
     CapsidCommunity,
     CapsidStub,
     NodeForm,
-    Card,
+    AuthorCard,
     AxiosPost,
   },
 
@@ -287,7 +288,8 @@ export default {
     this.$head.setTitle(title || "Capsid & Tail")
     this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
 
-    if(this.authors && this.authors.length > 0) {
+    if(this.authors && this.authors.length > 0 && this.authors[0]) {
+      console.log('autho:',this.authors)
       this.$head.setAuthor(this.authors[0].fields['Name'] || "")
       this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
     }
@@ -308,6 +310,8 @@ export default {
       // console.log('fetching authors:')
 
       // ensures corr. author is first
+      // REMINDER: Authors always returns as an array; if there are no attached authors
+      // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
       if(_this.issue.fields['Data:MainAuthorSlug']) {
         _this.issue.fields['Data:MainAuthorSlug'].map(async function(slug) {
           const item = await loadQuery({
@@ -439,7 +443,7 @@ export default {
       // all author data loaded in async, so need to verify data is complete by using array len
       // every article will have one corr. author, plus a variable # of authors
       const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
-      if(this.authors && this.authors.length == authorCount + 1) {
+      if(this.authors && this.authors[0] && this.authors.length == authorCount + 1) {
         const date = new Date(this.issue.fields['Data:Date'])
 
         let authorNames = []

@@ -5,22 +5,37 @@
         <div class="_section-article" v-html="$md.render(intro || '')" />
 
         <div class="_section-article _grid-2">
-          <nuxt-link to="/join/research" class="Join-research _card --button --nolink _padding _margin-none">
-            <div class="" v-html="$md.render(research || '')" />
-          </nuxt-link>
+          <!-- <nuxt-link to="/apply/research" class="Join-research _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(research || '')" />
+          </nuxt-link> -->
+          <a href="https://airtable.com/shrbZHMw6R2dCij9v" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(research || '')" />
+          </a>
 
-          <nuxt-link to="/join/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
-            <div class="" v-html="$md.render(organization || '')" />
-          </nuxt-link>
+          <!-- <nuxt-link to="/apply/medical" class="Join-medical _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
+          </nuxt-link> -->
+          <a href="https://airtable.com/shrdIUxOsr411hNwR" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
+          </a>
           
-          <nuxt-link to="/join/banks" class="Join-banks _card --button --nolink _padding _margin-none">
-            <div class="" v-html="$md.render(banks || '')" />
-          </nuxt-link>
+          <!-- <nuxt-link to="/apply/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
+          </nuxt-link> -->
+          <a href="https://airtable.com/shrYdNUwSLMKUvRhz" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
+          </a>
+          
+          
+          <!-- <nuxt-link to="/apply/banks" class="Join-banks _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
+          </nuxt-link> -->
+          <a href="https://airtable.com/shrPtmSf5dxdeBnoy" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
+          </a>
 
-          <nuxt-link to="/join/medical" class="Join-medical _card --button --nolink _padding _margin-none">
-            <div class="" v-html="$md.render(medical || '')" />
-          </nuxt-link>
           
+
         </div>
 
         <div class="_section-article ">

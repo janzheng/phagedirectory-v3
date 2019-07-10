@@ -4,7 +4,7 @@
     <div class="_width-content-max _margin-center _padding-none-xs">
       <!-- <div> -->
 
-      <div class="FooterSupport-content" v-html="$md.render( support || '')" />
+      <div class="FooterSupport-content _padding-top" v-html="$md.render( support || '')" />
       
     </div>
 

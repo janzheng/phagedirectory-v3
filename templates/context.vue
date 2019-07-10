@@ -2,25 +2,25 @@
   <div class="Template-Context _section-page _margin-center _padding-top-2 _padding-bottom-2 " :class="templateClasses">
 
     <slot name="header-container" >
-      <div class="Template--Header _section-content _margin-bottom _margin-center _margin-top-none-i">
+      <div :class="headerClasses" >
         <slot name="header" />
       </div>
     </slot>
 
     <div :class="gridClasses">
       <slot name="sidebar-container">
-        <div class="Template--Sidebar">
-          <nav :class="sidebarClasses" class="_sidebar">
-            <div class="">
-              <slot name="sidebar" />
-              <slot name="context" />
-            </div>
+        <div class="Template--Sidebar" :class="sidebarContainerClasses">
+          <nav :class="sidebarClasses" class="">
+            <!-- <div class=""> uncommented for index/twitter sidebar; dunno consequences -->
+            <slot name="sidebar" />
+            <slot name="context" />
+            <!-- </div> -->
           </nav>
         </div>
       </slot>
       
       <slot name="main-container" >
-        <div class="Template--Main _margin-bottom ">
+        <div class="Template--Main ">
           <slot name="default" />
         </div>
       </slot>
@@ -50,11 +50,22 @@ export default {
 
   props: {
     'templateClasses': String,
-    'sidebarClasses': String,
     'gridClasses': {
       type: String,
       default: 'Template--Main-Sidebar _grid-2-1-sm _grid-gap ',
+    },
+    'headerClasses': {
+      type: String,
+      default: 'Template--Header _section-content _margin-bottom _margin-center _margin-top-none-i',
+    },
+    'sidebarClasses': {
+      type: String,
+      default: '_sidebar',
+    },
+    'sidebarContainerClasses': {
+      type: String,
     }
+    
   },
 
   layout: 'contentframe',

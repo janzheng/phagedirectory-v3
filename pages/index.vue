@@ -17,7 +17,9 @@
 
 
     <no-ssr>
-      <Template class="Home-grid" grid-classes="Template--Main-Sidebar-xs _grid-2-1-sm _grid-1-xs _grid-gap">
+      <Template class="Home-grid _divider-bottom" 
+                grid-classes="Template--Main-Sidebar-xs _grid-2-1-sm _grid-1-xs _grid-gap"
+                sidebar-classes="_sidebar _height-100">
         <template #default>
           <div class="Home-grid-main">
             <div v-if="featured" class="Home-featured _margin-bottom-2">
@@ -32,11 +34,11 @@
               </div>
             </div>
 
-            <div class="Home-latest _section-page _margin-center _margin-bottom-2">
-              <h6 class="_padding-bottom-half">The Phage Pheed</h6>
+            <div class="Home-latest _divider-top _section-page _margin-center ">
+              <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
               <Latest :atoms="featuredAtoms" />
               <Latest :atoms="nonFeaturedAtoms" />
-              <button class="_button --width-full _center CTA --brand _font-bold" @click="getLatestAtoms(numLatest)">
+              <button class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="getLatestAtoms(numLatest)">
                 <span v-if="!isLoadingMore" class="">Load More</span> 
                 <!-- <div v-else class="_spinner"> </div> -->
                 <div v-else >Loading <span class="_margin-left _spinner" /> </div>
@@ -46,7 +48,7 @@
         </template>
 
         <template #context>
-          <Twitter />
+          <Twitter class="_height-100" />
         </template>
       </Template>
     </no-ssr>
@@ -149,7 +151,7 @@ export default {
         }
       }).then((data) => {
         this.isLoadingMore = false
-        _this.$sys.log('latest atoms:', data)
+        // _this.$sys.log('latest atoms:', data)
         _this.latestAtoms = data.tables.Atoms
         _this.numLatest = _this.numLatest + 5
       })

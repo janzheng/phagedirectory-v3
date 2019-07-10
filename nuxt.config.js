@@ -349,8 +349,34 @@ export default {
         {
           name: 'join / signup',
           path: '/signup',
-          component: resolve(__dirname, 'pages/join/index.vue')
+          component: resolve(__dirname, 'pages/apply/index.vue')
         },
+          {
+            name: 'join', // same form as researchers / combined
+            path: '/join',
+            component: resolve(__dirname, 'pages/apply/index.vue')
+          },
+          {
+            name: 'join', // same form as researchers / combined
+            path: '/signup',
+            component: resolve(__dirname, 'pages/apply/index.vue')
+          },
+          {
+            name: 'join / professionals', // same form as researchers / combined
+            path: '/apply/professional',
+            component: resolve(__dirname, 'pages/apply/person.vue')
+          },
+          {
+            name: 'join / researcher', // same form as researchers / combined
+            path: '/apply/researcher',
+            component: resolve(__dirname, 'pages/apply/person.vue')
+          },
+          {
+            name: 'join / research', // same form as researchers / combined
+            path: '/apply/research',
+            component: resolve(__dirname, 'pages/apply/person.vue')
+          },
+
 
         {
           name: 'hosts / phages',

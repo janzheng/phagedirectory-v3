@@ -414,6 +414,13 @@ export default {
 
 
 
+        {
+          name: 'alerts / misspelling',
+          path: '/alert',
+          component: resolve(__dirname, 'pages/alerts.vue')
+        },
+
+
 
         {
           // Dynamic Template Router

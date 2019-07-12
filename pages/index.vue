@@ -15,7 +15,6 @@
       </div>
     </div>
 
-
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
                 grid-classes="Template--Main-Sidebar-xs _grid-2-1-sm _grid-1-xs _grid-gap"

@@ -5,6 +5,10 @@
     <div class="Latest-container ">
       <div v-for="item of atoms" :key="item.id" class="--img _margin-bottom">
         <!-- {{ item.fields }} -->
+        <div v-if="item.fields['Atom:Type'] == 'Alert'" class="Latest-alert">
+          <!-- <CapsidAlert :atom="item" /> -->
+          <Alert :atom="item" />
+        </div>
         <div v-if="item.fields['Atom:Type'] == 'Update'" class="Latest-update">
           <CapsidNew :atom="item" />
         </div>
@@ -25,6 +29,8 @@
 <script>
 
 // import { mapState } from 'vuex'
+import Alert from '~/components/alert.vue'
+// import CapsidAlert from '~/components/publications/CapsidAlert'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
@@ -32,6 +38,8 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 export default {
 
   components: {
+    Alert,
+    // CapsidAlert,
     CapsidNew,
     CapsidJob,
     CapsidCommunity,

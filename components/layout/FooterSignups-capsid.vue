@@ -16,7 +16,7 @@
             <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_a95319e0a6f57b754b11012a8_98ef5d6bca" tabindex="-1" value=""></div>
             <div class="mc-field-group _flex-row-sm">
               <input id="footer-mce-EMAIL" placeholder="Your email" type="email" name="EMAIL" class="required email _form-input _width-100 _radius _margin-bottom-half-xs" required>
-              <input id="mc-embedded-footer-subscribe" class="_button _width-100 --webkit-reset" type="submit" value="Get Capsid &amp; Tail" name="subscribe">
+              <input id="mc-embedded-footer-subscribe" class="_button _flex-1 --webkit-reset" type="submit" value="Get Capsid &amp; Tail" name="subscribe">
             </div>
           </div>
         </form>

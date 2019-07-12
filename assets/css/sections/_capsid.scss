@@ -205,6 +205,11 @@ $capsid_: (
     border-width: $border-thin;
     border-color: usetheme(brand);
   }
+
+  &.--alert {
+    border-width: $border-thin;
+    border-color: usetheme(pink-active);
+  }
 }
 
 .Capsid-article {
@@ -219,7 +224,11 @@ $capsid_: (
 
 
 
-
+.Capsid-citations {
+  .Capsid-bibtex, ul, li {
+    @extend %font-mono;
+  }
+}
 
 
 

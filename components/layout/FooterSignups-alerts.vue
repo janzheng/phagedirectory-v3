@@ -12,7 +12,7 @@
                  class="_width-100 _form-input _radius _margin-bottom-half-xs"
                  placeholder="Your email" required>
           <input type="hidden" value="1" name="embed" >
-          <input class="_button _width-100 --outline _margin-bottom-none " type="submit" value="Receive Alerts" >
+          <input class="_button _flex-1 --outline _margin-bottom-none " type="submit" value="Receive Alerts" >
         </div>
       </form>
     </div>

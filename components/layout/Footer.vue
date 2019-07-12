@@ -16,10 +16,14 @@
               <span class="_font-phage icon-mail"/>
             </a>
             <!-- <a target="_blank" href="https://twitter.com/phagedirectory">@phagedirectory</a> -->
-            <a target="_blank" href="https://twitter.com/phagedirectory">
+            <a class="_margin-right-half" target="_blank" href="https://twitter.com/phagedirectory">
               <!-- <svg id="twitter" viewBox="0 0 24 24" width="28" height="28"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm6.066 9.645c.183 4.04-2.83 8.545-8.164 8.545-1.622 0-3.13-.477-4.402-1.29 1.524.18 3.045-.245 4.252-1.19-1.256-.023-2.317-.854-2.684-1.994.45.086.895.06 1.298-.05-1.38-.278-2.335-1.522-2.304-2.853.388.215.83.344 1.3.36-1.278-.856-1.64-2.545-.888-3.836 1.416 1.737 3.533 2.882 5.92 3-.42-1.796.944-3.526 2.8-3.526.824 0 1.57.35 2.095.91.653-.13 1.27-.37 1.823-.698-.215.67-.67 1.233-1.263 1.59.58-.07 1.135-.225 1.65-.453-.385.574-.87 1.08-1.434 1.485z"/></svg> -->
               <span class="_font-phage icon-twitter"/>
             </a>
+            <a target="_blank" href="https://phage.directory/feed.xml">
+              <span class="_font-phage icon-rss "/>
+            </a>
+
             <div class="_margin-top-2 _font-small">
               <a class="_block" target="_blank" href="mailto:hello@phage.directory">hello@phage.directory</a>
             </div>
@@ -50,7 +54,7 @@
 
         <!-- margin-right is for avoiding the drift box -->
         <div class="Footer-right ">
-          <div class="Footer-top _padding-bottom _margin-bottom">
+          <div class="Footer-top _padding-top-quart _padding-bottom _margin-bottom">
             <!-- <a href="#top"></a> -->
             <nuxt-link
               v-scroll-to="{

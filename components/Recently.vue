@@ -4,11 +4,17 @@
   <div class="Recently" >
 
     <div class="Recently-container ">
-      <div class="_padding-none _margin-bottom-half _color-mono-60 _font-small">{{ header }}</div>
-      <div v-for="item of items" :key="item.id" class="_card _padding _font-small">
-        <div class="_margin-bottom-half _color-mono-60 _font-small">{{ item.fields['Date'] | niceDate }}</div>
-        <div class="_margin-bottom _font-bold">{{ item.fields['Name'] }}</div>
-        <div class="" v-html="$md.render(item.fields['Message'] || '')" />
+      <h3 class="">
+        {{ header }}
+      </h3>
+      <div v-for="item of items" :key="item.id" class=" _font-small">
+        <div class="_grid-1-5 _grid-gap-small _margin-bottom">
+          <div class="_margin-bottom-half _color-mono-60 _font-small">{{ item.fields['Date'] | niceDate }}</div>
+          <div class="">
+            <div class="_margin-bottom-half">{{ item.fields['Name'] }}</div>
+            <div class="" v-html="$md.render(item.fields['Message'] || '')" />
+          </div>
+        </div>
       </div>
     </div>
 

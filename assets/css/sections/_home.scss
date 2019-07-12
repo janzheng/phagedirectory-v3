@@ -53,6 +53,7 @@
     @include screen-sm {
       position: relative;
       left: 80px;
+      width: calc(100% - 80px);
       line-height: $lineheight-h2;
     }
   }

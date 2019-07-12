@@ -105,6 +105,14 @@ img {
   bottom: 1px;
 }
 
+._list-faq {
+  // for faq question lists
+  a {
+    display: inline-block;
+    padding-bottom: $size-half;
+  }
+}
+
 /* 
 
   To be added to Coeur

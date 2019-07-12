@@ -2,9 +2,11 @@
   <div :class="
     templateClasses" class="Template-Article _section-page _margin-center _margin-top-2 _margin-bottom-2 _padding-top-2 _padding-bottom-2 ">
 
-    <div class="Template--Main _section-content _margin-bottom _margin-center _margin-top-none-i">
+    <div 
+      :class="mainClasses" 
+      class="Template--Main _section-content _margin-bottom _margin-center _margin-top-none-i">
       <slot name="container" >
-        <div class="_section-article" >
+        <div :class="articleClasses">
           <slot name="header" />
           <slot name="default" />
           <slot name="footer" />
@@ -31,6 +33,15 @@ export default {
 
   props: {
     'templateClasses': String,
+    'mainClasses': {
+      type: String,
+      default: 'Template--Main ',
+    },
+    'articleClasses': {
+      type: String,
+      default: '_section-article ',
+    },
+    
   },
 
   layout: 'contentframe',

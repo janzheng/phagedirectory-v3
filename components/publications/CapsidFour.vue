@@ -27,7 +27,7 @@
                   <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }}</span> | 
                   <span class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span>
                 </div>
-                <div class="_font-small _padding-top-half _padding-bottom">
+                <div class="Capsid-readtime _font-small _padding-top-half _padding-bottom">
                   {{ issue.fields['Data:Body'] | readtime }} min read
                 </div>
               </div>
@@ -48,7 +48,7 @@
                 <!-- <div v-if="issue.fields['Data:Author']" class="Capsid-author " v-html="$md.render(issue.fields['Data:Author'] || '')" /> -->
               </div>
 
-              <CapsidShare :link="twitterLink" message="Tweet this issue!" />
+              <CapsidShare :link="twitterLink" message="Tweet this issue!" class="_margin-top" />
             </div>
 
           </div>
@@ -73,6 +73,14 @@
             </div>
           </div>
 
+          <!-- leave Alerts ABOVE the whats new area to call it out -->
+          <div v-if="alerts.length>0" class="Capsid-alerts _padding" >
+            <div v-for="item of alerts" :key="item.id" class="_margin-bottom" >
+              <Alert :atom="item" />
+            </div>
+          </div>
+
+
         </div>
 
 
@@ -83,7 +91,7 @@
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >What’s New</h2>
             <div class="Capsid-section-heading-description">
-              Have an idea for us? <a href="/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
+              <span>Have an idea for us?</span> <a href="/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
             </div>
           </div>
           <div v-if="updates.length > 0" >
@@ -128,10 +136,6 @@
           </div>
           <div v-else class="_card _color-bg-white _padding _md-pfix" v-html="$md.render(emptyCommunity || '')" />
         </div>
-
-        <!-- Publications -->
-        <!-- Alerts -->
-        <!-- Events -->
 
         <div id="article" class="Capsid-article" >
           <!-- twitter share on top -->
@@ -181,7 +185,7 @@
       </div>
       <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
-      <div id="Capsid-cite" class="Capsid-cite" v-if="citationData">
+      <div v-if="citationData" id="Capsid-cite" class="Capsid-cite" >
         <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
         <h6 class="--inline">How to Cite</h6>
         <div v-if="issue.fields['Meta:Citation:Text']" >
@@ -198,12 +202,17 @@
             <div v-if="loading">Loading...</div>
             <div v-else>
               <div class="_font-smaller _padding-bottom-half">To cite us, please use:</div>
-              <div class="capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
+              <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
               <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
-              <div class="capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />
+              <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />
             </div>
           </div>
         </AxiosPost>
+      </div>
+
+
+      <div id="Capsid-rss" class="_section-content _margin-center">
+        <span class="_font-phage icon-rss _padding-right"/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
       </div>
 
       <div id="Capsid-license" class="_section-content _margin-center">
@@ -254,6 +263,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCard.vue'
+import Alert from '~/components/alert.vue'
 
 import AxiosPost from '~/components/AxiosPost.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
@@ -261,6 +271,7 @@ import NodeForm from '~/components/render/NodeForm.vue'
 export default {
 
   components: {
+    Alert,
     CapsidSponsor,
     CapsidShare,
     CapsidNew,
@@ -289,7 +300,7 @@ export default {
     this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
 
     if(this.authors && this.authors.length > 0 && this.authors[0]) {
-      console.log('autho:',this.authors)
+      // console.log('autho:',this.authors)
       this.$head.setAuthor(this.authors[0].fields['Name'] || "")
       this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
     }
@@ -377,6 +388,11 @@ export default {
 
     sponsors() {
       return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Sponsors'], this.atoms, true).reverse()
+    },
+
+    alerts() {
+      return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Alerts'], this.atoms, true).reverse()
+      // return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Job')
     },
 
     jobs() {
@@ -471,20 +487,6 @@ export default {
   },
 
   methods: {
-
-    // getSponsors(issue) {
-    //   const sponsors = this.$cytosis.getLinkedRecords(issue.fields['Sponsors'], this['Updates'], true)
-
-    //   // console.log('Sponsors:', sponsors)
-    //   return sponsors.filter(t => t.fields['isPublished']) || undefined
-    // },
-
-    // getUpdates(issue) {
-    //   const updates = this.$cytosis.getLinkedRecords(issue.fields['Updates'], this['Updates'], true)
-    //   // console.log('Updates:', updates)
-    //   return updates || undefined
-    // },
-
 
   }
 

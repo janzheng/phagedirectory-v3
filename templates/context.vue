@@ -20,7 +20,7 @@
       </slot>
       
       <slot name="main-container" >
-        <div class="Template--Main ">
+        <div :class="mainClasses">
           <slot name="default" />
         </div>
       </slot>
@@ -50,6 +50,10 @@ export default {
 
   props: {
     'templateClasses': String,
+    'mainClasses': {
+      type: String,
+      default: 'Template--Main ',
+    },
     'gridClasses': {
       type: String,
       default: 'Template--Main-Sidebar _grid-2-1-sm _grid-gap ',

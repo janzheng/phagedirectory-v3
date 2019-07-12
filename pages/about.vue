@@ -9,48 +9,45 @@
       <template #header>
         <div class="About-intro _section-article _margin-center" v-html="$md.render(intro || '') "/>
         <div class="About-features _divider-top _divider-bottom" v-html="$md.render(features || '') "/>
-        <!-- <div class="About-intro-end _section-article _margin-center" v-html="$md.render(introend || '') "/> -->
+        <div class="_section-article _margin-center">
+          <h2>Our Story</h2>
+
+          <div class="About-story-container">
+
+            <div class="About-story" v-html="$md.render(story || '') "/>
+
+            <div v-if="!readMore" class="About-more" >
+              <div class="About-story-lead" v-html="$md.render(storylead || '') "/>
+              <button class="_button CTA --short _margin-top-2" @click="readMore = true">Read more</button>
+            </div>
+
+            <div v-if="readMore" class="About-story-more " v-html="$md.render(storymore || '') "/>
+          </div>
+
+          <!-- <div class="About-story-end" v-html="$md.render(storyend || '') "/> -->
+          <Recently v-if="timeline" class="About-Timeline _margin-top-2" header="Timeline" :items="timeline" />
+
+          <div class="About-people _divider-top">
+            <h3>Who we are</h3>
+            <div v-for="item of people" :key="item.id" class="" >
+              <Card :person="item" class="About-person" />
+            </div>
+          </div>
+
+          <div class="About-opensource _divider-top _divider-bottom" v-html="$md.render(opensource || '') "/>
+        </div>
+
       </template>
 
       <template #default>
 
-        <h2>Our Story</h2>
+        <!-- <Recently v-if="behind" class="About-Behind _margin-top-2" header="Behind the scenes" :items="behind" /> -->
 
-        <div class="About-story-container _card _padding">
-
-          <div class="About-story" v-html="$md.render(story || '') "/>
-
-          <div class="About-more" v-if="!readMore">
-            <div class="About-story-lead" v-html="$md.render(storylead || '') "/>
-            <button class="_button CTA --short _margin-top-2" @click="readMore = true">Read more</button>
-          </div>
-
-          <div v-if="readMore" class="About-story-more " v-html="$md.render(storymore || '') "/>
-        </div>
-
-        <!-- <div class="About-story-end" v-html="$md.render(storyend || '') "/> -->
-
-        <div class="About-people _divider-top">
-          <h3>Who we are</h3>
-          <div v-for="item of people" :key="item.id" class="" >
-            <Card :person="item" class="About-person" />
-          </div>
-        </div>
-
-        <div class="About-opensource _divider-top _divider-bottom" v-html="$md.render(opensource || '') "/>
-
-      </template>
-
-      <template #context>
-        <div class="About-sidebar">
-          <Recently v-if="timeline" class="About-Timeline _margin-top-2" header="Timeline" :items="timeline" />
-          <Recently v-if="behind" class="About-Behind _margin-top-2" header="Behind the scenes" :items="behind" />
-        </div>
       </template>
 
     </Template>
 
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
 
   </div>
 </template>

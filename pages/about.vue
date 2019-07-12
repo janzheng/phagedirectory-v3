@@ -77,7 +77,7 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content","_recently"],
+    tableQueries: ["_content","_internal"],
     refreshOnLoad: true,
   },
 
@@ -99,13 +99,13 @@ export default {
   
   computed: {
     ...mapState([
-      'Recently',
+      'Internal',
       ]),
     behind() {
-      return this.Recently.filter((item) => item.fields['Type'] == 'Behind')
+      return this.Internal.filter((item) => item.fields['Type'] == 'Behind')
     },
     timeline() {
-      return this.Recently.filter((item) => item.fields['Type'] == 'Timeline')
+      return this.Internal.filter((item) => item.fields['Type'] == 'Timeline')
     },
   },
 

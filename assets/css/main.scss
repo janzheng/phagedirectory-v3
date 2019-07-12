@@ -98,7 +98,7 @@ img {
   font-weight: 500;
 }
 
-.phagey {
+.phagey { // tiny little phage thing in the title for the phage pheed / for fun
   display: inline-block;
   font-weight: 400;
   position: relative;
@@ -106,7 +106,8 @@ img {
 }
 
 ._list-faq {
-  // for faq question lists
+  // for faq question lists with lots of links
+  
   a {
     display: inline-block;
     padding-bottom: $size-half;
@@ -119,29 +120,5 @@ img {
 
  */
 
- // ._md-plist {
- //  // md sometimes adds paragraphs to each list item, which adds paragraph margins
- //  // this removes paragraph stylings from list items 
- //  li {
- //    p {
- //      margin-bottom: 0;
- //    }
- //  }
- // }
-
-// ._grid-1 {
-//   // works like block but super useful for applying grid template areas
-//   display: grid;
-//   grid-template-rows: 1fr;
-//   grid-template-columns: 1fr;
-// }
-//   ._grid-1-xs {
-//     // works like block but super useful for applying grid template areas
-//     @include screen-xs {
-//       display: grid;
-//       grid-template-rows: 1fr;
-//       grid-template-columns: 1fr;
-//     }
-//   }
-
+ 
 

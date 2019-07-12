@@ -18,18 +18,11 @@
           <div class="Capsid-meta">
             <div class="Capsid-name"><strong>{{ issue.fields['Name'] }}</strong></div>
             <div class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</div>
+            <div class="Capsid-readtime">{{ issue.fields['Data:Body'] | readtime }} min read</div>
           </div>
 
           <!-- <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`"> -->
           <h1 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
-          <div class="Capsid-readtime">
-            {{ issue.fields['Data:Body'] | readtime }} min read
-          </div>
-          <div class="_padding-bottom">
-            <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`">
-              Read this issue on Phage Directory
-            </a>
-          </div>
           <!-- </a> -->
           <div class="_section-article">
             <h4 class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
@@ -37,6 +30,12 @@
             <div class="_padding-bottom"  v-if="issue.fields['Data:Abstract']">
               <div class=" _margin-bottom _md-p_fix" 
                    v-html="$md.render(issue.fields['Data:Abstract'] || '')" />
+            </div>
+
+            <div class="_padding-bottom">
+              <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`">
+                <img src="https://phage.directory/icon.png" width="23" style="margin-right: 8px; position: relative; bottom: -5px" >Read this issue on Phage Directory
+              </a>
             </div>
           </div>
 
@@ -187,7 +186,7 @@
 
 
         <div class="Capsid-Email-footer-twitter">
-          <h6>Like this issue?</h6> 
+          <h6 style="padding:0;">Like this issue?</h6> 
           <div style="padding-top: 8px;">
             <CapsidShare :link="twitterLink" message="Tweet this issue!" />
             <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://dl.airtable.com/.attachments/c03b568df726d47bb37e53dbfacbbffd/4fa7ef48/Rss.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>

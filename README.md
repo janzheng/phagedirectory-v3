@@ -1,6 +1,6 @@
 
 
-# Phage Directory v2
+# Phage Directory v3.0
 
 This is the Phage Directory core project as of 7/12/2019
 

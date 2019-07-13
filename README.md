@@ -7,9 +7,9 @@ This is the Phage Directory core project as of 7/12/2019
 Transition from Vue/Nuxt/Airtable to... well more of the same, but this one makes some extensive uses of Airtable as a CMS as an experimental platform for building MVPs.
 
 
-#### Log
+#### Mini Log
 
-- Building in the open: as this project gets more open, there'll be more work documenting the code and making it readable. It's still mostly a "full-time side project". 
+- [7/12/19] Building in the open: as this project gets more open, there'll be more work documenting the code and making it readable. It's still mostly a "full-time side project". Created a new github org "phage-directory" and forked over the v3 branch over, and moving main dev into the org branch instead.
 
 
 

@@ -357,11 +357,6 @@ export default {
             component: resolve(__dirname, 'pages/apply/index.vue')
           },
           {
-            name: 'join', // same form as researchers / combined
-            path: '/signup',
-            component: resolve(__dirname, 'pages/apply/index.vue')
-          },
-          {
             name: 'join / professionals', // same form as researchers / combined
             path: '/apply/professional',
             component: resolve(__dirname, 'pages/apply/person.vue')
@@ -385,7 +380,7 @@ export default {
         },
 
         {
-          name: 'orgs list',
+          name: 'orgs list short',
           path: '/orgs',
           component: resolve(__dirname, 'pages/dir/orgs.vue')
         },

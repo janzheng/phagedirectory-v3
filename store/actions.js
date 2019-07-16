@@ -1,15 +1,12 @@
 
-import Cytosis from 'cytosis'
-// import Cytosis from '~/node_modules/cytosis/src/cytosis.js'
-// import Cytosis from '~/other/cytosis'
 // import _ from 'lodash'
 import _ from '~/other/lodash.custom.min.js'
 
 
 export default {
   // async loadCytosis ({ commit, state }, {env, tableQuery, options, caller}) {
-  async loadCytosis ({ commit }, {env, tableQuery, options, settings, _key, _base}) {
-  // async loadCytosis ({ commit }, {env, tableQuery, options, settings, caller, _key, _base}) {
+  async loadCytosis ({ commit }, {env, tableQuery, options, payloads, _key, _base}) {
+  // async loadCytosis ({ commit }, {env, tableQuery, options, payloads, caller, _key, _base}) {
     const airKey = _key || env.airtable_api
     const airBase = _base || env.airtable_base
 
@@ -22,12 +19,12 @@ export default {
     // if(env.mode == 'universal' && !process.server && env.site_static) 
     //   return Promise.reject(undefined) // static set to true / don't pull data
 
-    let cytosis = await new Cytosis({
+    let cytosis = await new this.$cytosis({
       airKey, 
       airBase, 
       tableQuery, 
       options,
-      settings,
+      payloads,
     })
     commit('setCytosis', cytosis)
 

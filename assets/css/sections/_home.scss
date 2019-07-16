@@ -25,8 +25,8 @@
     // }
     @include screen-xs {
       padding-top: 0;
-      padding-left: $size-2x;
-      padding-right: $size-2x;
+      padding-left: $size;
+      padding-right: $size;
     }
   }
 
@@ -58,6 +58,12 @@
     }
   }
 
+  .Home-grid {
+    @include screen-xs {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
 

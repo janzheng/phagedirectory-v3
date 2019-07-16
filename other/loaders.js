@@ -14,7 +14,7 @@ export async function loadQuery({env, store, routeName, query, options, keyword,
     tableQuery: query,
     caller: routeName,
     options,
-    settings: {
+    payloads: {
       keyword: keyword
     },
   })

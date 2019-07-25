@@ -7,7 +7,7 @@
  -->
 <template>
 
-  <div class="Capsid Capsid-Stub ">
+  <div class="Capsid Capsid-Stub _height-100">
     <div v-if="isFeatured" >
 
       <nuxt-link :key="issue.id"
@@ -30,6 +30,11 @@
         </div>
 
         <h1 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
+        <div v-if="mainAuthor" class="Capsid-author-main _margin-bottom _flex-row">
+          <img v-if="mainAuthor.fields['Profile']" :src="mainAuthor.fields['Profile'][0].thumbnails.small.url" class="--profile">
+          <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
+          <div class="_font-normal _padding-left-half _align-vertically">{{ mainAuthor.fields['Name'] }}</div>
+        </div>
         <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
       </nuxt-link>
     </div>
@@ -38,16 +43,23 @@
       <nuxt-link :key="issue.id"
                  :to="`/capsid/${issue.fields.Slug}`"
                  :class="isFeatured ? '--featured' :''"
-                 class="Capsid-Stub-item _block _card _padding _height-100 _margin-none">
+                 class="Capsid-Stub-item _card _padding _height-100 _margin-none _block">
         <!-- <div class="Capsid-header _font--1 _color-mono-90 _grid-2 _grid-gap-small">
           <div class="Capsid-name">{{ issue.fields['Name'] }}</div>
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
         </div> -->
-        <div class="Capsid-header _font--1 _grid-gap-small">
-          <span class="Capsid-name _font-bold ">{{ issue.fields['Name'] }}</span> | 
-          <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
+        <div class="Capsid-stub-meta _flex-1">
+          <div class="Capsid-header _font--1 _grid-gap-small">
+            <span class="Capsid-name _font-bold ">{{ issue.fields['Name'] }}</span> | 
+            <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
+          </div>
+          <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
+          <div v-if="mainAuthor" class="Capsid-author-main _margin-bottom _flex-row">
+            <img v-if="mainAuthor.fields['Profile']" :src="mainAuthor.fields['Profile'][0].thumbnails.small.url" class="--profile">
+            <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
+            <div class="_font-normal _padding-left-half _align-vertically">{{ mainAuthor.fields['Name'] }}</div>
+          </div>
         </div>
-        <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
         <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
       </nuxt-link>
     </div>
@@ -61,6 +73,7 @@
 export default {
   props: {
     'issue': Object,
+    'authors': Array,
     'isFeatured': Boolean,
     'showLogo': Boolean,
   },
@@ -71,6 +84,12 @@ export default {
   },
 
   computed: {
+    mainAuthor() {
+      if(!this['authors'])
+        return undefined
+
+      return this['authors'][0]
+    }
   },
 
   methods: {

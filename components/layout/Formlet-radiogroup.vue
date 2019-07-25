@@ -1,7 +1,7 @@
 
 <template>
 
-  <div class="Formlet Formlet-radiogroup" >
+  <div class="Formlet Formlet-radiogroup  _form-control" >
 
     <label 
       v-if="input.name" 

@@ -3,7 +3,7 @@
 
   <div class="Latest" >
     <div class="Latest-container ">
-      <div v-for="item of atoms" :key="item.id" class="--img _margin-bottom">
+      <div v-for="item of atoms" :key="item.id" class="Latest-atom --img _margin-bottom">
         <!-- {{ item.fields }} -->
         <div v-if="item.fields['Atom:Type'] == 'Alert'" class="Latest-alert">
           <!-- <CapsidAlert :atom="item" /> -->
@@ -12,10 +12,10 @@
         <div v-if="item.fields['Atom:Type'] == 'Update'" class="Latest-update">
           <CapsidNew :atom="item" />
         </div>
-        <div v-else-if="item.fields['Atom:Type'] == 'Job'" class="Latest-update">
+        <div v-else-if="item.fields['Atom:Type'] == 'Job'" class="Latest-job">
           <CapsidJob :atom="item" />
         </div>
-        <div v-else-if="item.fields['Atom:Type'] == 'Community'" class="Latest-update">
+        <div v-else-if="item.fields['Atom:Type'] == 'Community'" class="Latest-community">
           <CapsidCommunity :atom="item" />
         </div>
       </div>

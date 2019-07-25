@@ -175,7 +175,7 @@
             <div slot-scope="{ loading, response: data }">
               <div v-if="loading">Loading...</div>
               <div v-else>
-                <div class="_font-smaller _padding-bottom-half">To cite us, please use:</div>
+                <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
                 <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
                 <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
                 <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />

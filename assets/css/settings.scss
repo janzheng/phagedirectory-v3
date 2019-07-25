@@ -345,13 +345,13 @@ $context: (
 
   // alert-color-cta: usetheme(teal_dull, $colors),
 
-
   alert: usetheme(brand-20),
   success: usetheme(green, $colors_),
   warning: usetheme(yellow, $colors_),
   info: usetheme(_brown, $colors_),
   danger: usetheme(red, $colors_),
   disabled: usetheme(silver, $colors_),
+  disabled-text: usetheme(mono-80),
   transparent: usetheme(transparent, $colors_),
 );
 

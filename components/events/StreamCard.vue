@@ -11,10 +11,6 @@
     </div>
     <div class="StreamCard-main _margin-bottom" >
       <slot name="main" />
-      <!-- <CapsidStub :issues="latest" :is-featured="true" class="_section-article _margin-center" /> -->
-      <!-- <CapsidBanner /> -->
-      <!-- <CapsidMicroBanner class="CapsidBanner" /> -->
-      <!-- <FormCapsidFeedback class=""/> -->
     </div>
   </div>
 

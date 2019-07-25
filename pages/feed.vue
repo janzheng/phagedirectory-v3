@@ -1,23 +1,9 @@
 <template>
-  <div class="Home">
-
-    <div class="Home-hero _section-page _margin-center _margin-top-2 _margin-bottom-2">
-      <div class="Home-img-container _section-content _padding-top-2 ">
-        <img class="Home-img" width="250px" src="~/static/phagedirectory_home.png">
-        <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')">
-          <!-- We support fundamental phage research <br>
-          and the development of safe and effective uses of <br>
-          phages in medicine and industry around the world.
-          <div class="_margin-top">
-            Read <nuxt-link to="/about#mission">our mission</nuxt-link>.
-          </div> -->
-        </div>
-      </div>
-    </div>
+  <div class="Feed">
 
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
-                grid-classes="Template--Main-Sidebar-xs _grid-3-1 _grid-gap"
+                grid-classes="Template--Main-Sidebar-xs _grid-2-1-sm _grid-1-xs _grid-gap-none"
                 sidebar-classes="_sidebar _height-100">
         <template #default>
           <div class="Home-grid-main">
@@ -25,15 +11,15 @@
               <div class="" v-html="$md.render(featured || '') "/>
             </div>
 
-            <div class="Home-capsid-container _margin-center _margin-bottom-2 _padding-left-xs _padding-right-xs">
+            <!-- <div class="Home-capsid-container _section-page _margin-center _margin-bottom-2">
               <div class="Home-capsid">
                 <div>
                   <CapsidStub :show-logo="true" :issue="Manuscripts[0]" :is-featured="true" class="" />
                 </div>
               </div>
-            </div>
+            </div> -->
 
-            <div class="Home-latest _divider-top _margin-center _padding-left-xs _padding-right-xs">
+            <div class="Home-latest _section-page _margin-center ">
               <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
               <Latest :atoms="featuredAtoms" />
               <NodeForm :src="form"/>
@@ -47,11 +33,6 @@
           </div>
         </template>
 
-        <template #context>
-          <no-ssr>
-            <Twitter class="_height-100" />
-          </no-ssr>
-        </template>
       </Template>
     </no-ssr>
       
@@ -66,9 +47,7 @@
 
 import { mapState } from 'vuex'
 import Latest from '~/components/Latest.vue'
-import Twitter from '~/components/Twitter.vue'
-import Template from '~/templates/context.vue'
-import CapsidStub from '~/components/publications/CapsidStub.vue'
+import Template from '~/templates/article.vue'
 import { loadQuery } from '~/other/loaders'
 import NodeForm from '~/components/render/NodeForm.vue'
 
@@ -77,8 +56,6 @@ export default {
   components: {
     Latest,
     Template,
-    Twitter,
-    CapsidStub,
     NodeForm,
   },
 
@@ -93,8 +70,6 @@ export default {
     const numLatest = 5
     this.getLatestAtoms(numLatest)
     this.getFeaturedAtoms()
-
-
     return {
       mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
       featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],

@@ -7,12 +7,41 @@
       
       <!-- <div>INPUT: {{ input.type }}</div> -->
       <div 
-        v-if="input.type==INPUT_TYPES.TEXT || 
+        v-if="input.type==INPUT_TYPES.FLOAT"
+        class="_form-control" >
+        <FormletInputFloat
+          :class="input.classes"
+          :input="input" 
+          :input-attrs="input.attrs" 
+          :type="input.type.toLowerCase()" 
+          :v="$v.fieldData[input.name]"
+          :on-submit="onSubmit"
+          :submit-handler="submitHandler"
+          @input="(data) => { validationUpdate(data, input) }" 
+        />
+      </div>
+      <!-- <div 
+        v-if="input.type==INPUT_TYPES.FLOATAREA"
+        class="_form-control" >
+        <FormletTextareaFloat
+          :class="input.classes"
+          :input="input" 
+          :input-attrs="input.attrs" 
+          :type="input.type.toLowerCase()" 
+          :v="$v.fieldData[input.name]"
+          :on-submit="onSubmit"
+          :submit-handler="submitHandler"
+          @input="(data) => { validationUpdate(data, input) }" 
+        />
+      </div> -->
+      <div 
+        v-else-if="input.type==INPUT_TYPES.TEXT || 
           input.type==INPUT_TYPES.EMAIL || 
           input.type==INPUT_TYPES.NUMBER || 
-          input.type==INPUT_TYPES.URL" 
+          input.type==INPUT_TYPES.URL"
         class="_form-control" >
         <FormletInput 
+          :class="input.classes"
           :input="input" 
           :input-attrs="input.attrs" 
           :type="input.type.toLowerCase()" 
@@ -25,6 +54,7 @@
 
       <div v-if="input.type==INPUT_TYPES.TEXTAREA" class="_form-control" >
         <FormletTextarea 
+          :class="input.classes" 
           :input="input" 
           :input-attrs="input.attrs" 
           :type="input.type.toLowerCase()" 
@@ -36,6 +66,7 @@
 
       <div v-if="input.type==INPUT_TYPES.RADIO" class="_form-control _form-radiogroup" >
         <FormletRadiogroup 
+          :class="input.classes" 
           :input="input" 
           :input-attrs="input.attrs" 
           :type="input.type.toLowerCase()" 
@@ -47,6 +78,7 @@
 
       <div v-if="input.type==INPUT_TYPES.CHECKBOX" class="_form-control _form-radiogroup" >
         <FormletCheckboxgroup 
+          :class="input.classes" 
           :input="input" 
           :input-attrs="input.attrs" 
           :type="input.type.toLowerCase()" 
@@ -57,7 +89,7 @@
       </div>
 
       <div v-if="input.type==INPUT_TYPES.MARKDOWN" class="_form-markdown" >
-        <div class="_padding-top _padding-bottom _margin-bottom" v-html="$md.render(input.markdown || '')" />
+        <div :class="input.classes" class="_padding-top _padding-bottom _margin-bottom" v-html="$md.render(input.markdown || '')" />
       </div>
 
     </div>
@@ -72,6 +104,8 @@ import _ from '~/other/lodash.custom.min.js'
 
 const INPUT_TYPES = {
   "TEXT":     'TEXT',     // input text, generic; default
+  "FLOAT":    'FLOAT',    // floating input (label shrinks as you focus/hover)
+  "FLOATAREA":'FLOATAREA',// floating text area (label shrinks as you focus/hover)
   "EMAIL":    'EMAIL',    // email input
   "URL":      'URL',      // url input
   "NUMBER":   'NUMBER',   // number input
@@ -85,7 +119,9 @@ const INPUT_TYPES = {
 import { validationMixin } from 'vuelidate'
 import { required, email, numeric, maxLength } from 'vuelidate/lib/validators'
 import FormletInput from '~/components/layout/Formlet-input'
+import FormletInputFloat from '~/components/layout/Formlet-input-float'
 import FormletTextarea from '~/components/layout/Formlet-textarea'
+// import FormletTextareaFloat from '~/components/layout/Formlet-textarea-float'
 import FormletRadiogroup from '~/components/layout/Formlet-radiogroup'
 import FormletCheckboxgroup from '~/components/layout/Formlet-checkboxgroup'
 
@@ -94,7 +130,9 @@ export default {
 
   components: {
     FormletInput,
+    FormletInputFloat,
     FormletTextarea,
+    // FormletTextareaFloat,
     FormletRadiogroup,
     FormletCheckboxgroup,
   },

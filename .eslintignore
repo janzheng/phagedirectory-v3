@@ -22,6 +22,8 @@ proptester.vue
 community.vue
 twitter.js
 
+Timeline.vue
+
 components/svg
 
 # for internal use anyway
@@ -29,6 +31,7 @@ components/coeur/
 components/experiments
 pages/coeur/*
 
+phagefuturestmp.vue
 
 
 # from .gitignore

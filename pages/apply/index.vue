@@ -19,13 +19,6 @@
             <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
           </a>
           
-          <!-- <nuxt-link to="/apply/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
-            <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
-          </nuxt-link> -->
-          <a href="https://airtable.com/shrYdNUwSLMKUvRhz" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
-            <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
-          </a>
-          
           
           <!-- <nuxt-link to="/apply/banks" class="Join-banks _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
@@ -34,6 +27,13 @@
             <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
           </a>
 
+          
+          <!-- <nuxt-link to="/apply/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
+          </nuxt-link> -->
+          <a href="https://airtable.com/shrYdNUwSLMKUvRhz" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
+          </a>
           
 
         </div>

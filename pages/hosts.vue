@@ -13,12 +13,7 @@
         <div>
           <div v-if="!search.string" class="Dir-notice _grid-3-1 _align-vertically">
             <div>
-              <p>
-                This is a directory of bacteriophage host organisms, and the organizations and labs who work with them . 
-              </p>
-              <p>
-                If you'd like us to add a host organism, or if you'd like to add your lab to our directory, please sign up!
-              </p>
+              <div class="" v-html="$md.render(intro || '')" />
               <p class="_font-small">
                 Number of listed phage hosts: <strong>{{ hosts.length }}</strong>
                 <br>
@@ -97,6 +92,7 @@ export default {
 
   data () {
     return {
+      intro: this.$cytosis.findOne('directory-hosts', this.$store.state['Content'] ).fields['Markdown'],
     }
   },
   

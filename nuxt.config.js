@@ -418,6 +418,11 @@ export default {
 
 
         {
+          name: 'capsid & tail tips/ideas',
+          path: '/capsid/tips',
+          component: resolve(__dirname, 'pages/capsid/ideas.vue')
+        },
+        {
           // Dynamic Template Router
           // catches all routes and attempts to find a template
           // throws error if it can't
@@ -454,9 +459,9 @@ export default {
   },
   generate: {
     // 250 / 4 = ~5min deploy
-    interval: 250, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
+    interval: 50, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
     // fallback: true, // true if you want to use '404.html' — for surge, use false if you want to use 200 spa fallback
-    concurrency: 4, // reduce server strain
+    concurrency: 8, // reduce server strain
     routes: async function (callback) {
 
       const airKey = airtable_api
@@ -475,7 +480,7 @@ export default {
 
       // routes for C&T article pages
       let manuscripts = _cytosis.tables['Manuscripts'].sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
-      const latestManuscripts = manuscripts.slice(0,15)
+      const latestManuscripts = manuscripts.slice(0,7)
       // const latestManuscripts = manuscripts // everything
       // console.log('latest Manu:', latestManuscripts.length)
 

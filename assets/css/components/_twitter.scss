@@ -1,12 +1,18 @@
 
 .Twitter {
-  width: 100%;
-  max-width: 100%;
+  width: 100% !important;
+  // max-width: calc(100%-#{$size}*2) !important;
+  max-width: 100% !important;
   // overflow: scroll;
   .twitter-timeline,
   #twitter-widget-0 {
     // max-width: $width-xs-max !important;
-    width: 100% !important;
+    @include screen-xs {
+      padding: $size-2x  !important;
+      width: 100% !important;
+      height: 700px !important;
+      max-width: 520px !important;
+    }
     max-width: 100%;
   	height: 100%;
   }

@@ -36,7 +36,7 @@
                    class="Signup-input _flex-1 _form-input --width-full _margin-none"
                    placeholder="Your email" required
             >
-            <input id="mc-embedded-subscribe" class="Subscribe _margin-top-half _width-full _block _button --outline _v-top _margin-bottom-none" type="submit" value="Get Capsid & Tail" name="subscribe" >
+            <input id="mc-embedded-subscribe" class="Subscribe _margin-top-half _width-full _block _button --outline _v-top _margin-bottom-none" type="submit" value="Subscribe" name="subscribe" >
           </div>
         </div>
       </form>

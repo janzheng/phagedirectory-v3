@@ -18,7 +18,12 @@
       <div v-if="atom.fields['Markdown']" v-html="$md.render(atom.fields['Markdown'] || '')" />
     </div>
 
-    <div v-if="atom.fields['Data:Status'] != 'Expired' && atom.fields['URL']" class=" _margin-top-half _margin-bottom ">
+    <div class="Capsid-item-taglist _margin-top-half" >
+      <span v-if="atom.fields['Data:Categories']" class="_tag --highlight --nowrap" >{{ atom.fields['Data:Categories'][0] }}</span> 
+      <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag --nowrap" >{{ item }}</span>
+    </div>
+    
+    <div v-if="atom.fields['Data:Status'] != 'Expired' && atom.fields['URL']" class="Capsid-cta  _margin-top-half _margin-bottom ">
       <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply --outline _button --short _margin-bottom-none-i _margin-right-half" target="_blank">More Details</a>
       <!-- expiration date -->
       <span v-if="atom.fields['Data:DateEnd']" class="Job-expiry _font-small --nowrap">
@@ -26,10 +31,6 @@
       </span>
     </div>
 
-    <div class="_margin-top-half" >
-      <span v-if="atom.fields['Data:Categories']" class="_tag --highlight --nowrap" >{{ atom.fields['Data:Categories'][0] }}</span> 
-      <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag --nowrap" >{{ item }}</span>
-    </div>
   </div>
 </template>
 

@@ -96,7 +96,7 @@ textarea, .textarea {
   }
 
   .Form-body {
-    padding-top: $size;
+    // padding-top: $size;
   }
 }
 
@@ -160,7 +160,7 @@ textarea, .textarea {
   ._form-label {
     &, p {
       // font-size: $size;
-      @extend h5;
+      // @extend h5;
       padding-top: 0;
       padding-bottom: $size-quart;
       font-weight: bold;
@@ -182,5 +182,24 @@ textarea, .textarea {
   }
 }
 
+
+/* special forms */
+
+// for the feed and quick entry / submits
+
+.Form-Quick {
+  ._form-control {
+    margin-bottom: $size-half;
+  }
+  .Form-privacy {
+    display: none;
+  }
+  .Form-cta {
+    text-align: right;
+  }
+  .Form-btn {
+    @extend .--short;
+  }
+}
 
 

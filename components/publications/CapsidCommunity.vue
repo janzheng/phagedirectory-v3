@@ -16,7 +16,7 @@
       <div v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
       <div v-html="$md.render(atom.fields['Markdown'] || '')" />
     </div>
-    <div v-if="atom.fields['Data:Tags']" class="_margin-top-half" >
+    <div v-if="atom.fields['Data:Tags']" class="Capsid-item-taglist _margin-top-half" >
       <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag" >{{ item }}</span>
     </div>
   </div>

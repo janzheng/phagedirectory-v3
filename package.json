@@ -15,7 +15,7 @@
     "analyze": "nuxt build --a",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "deploy": "cd dist; surge . -d phagedirectory.surge.sh; say 'prod ready'",
+    "deploy": "cd dist; surge . -d phage.directory; say 'prod ready'",
     "stagedeploy": "cd dist; surge . -d phagedirectory.surge.sh; say 'stage ready'",
     "stage": "NODE_ENV=spa npm run generate --spa; npm run stagedeploy",
     "stageprod": "npm run generate; npm run stagedeploy",

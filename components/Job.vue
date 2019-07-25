@@ -9,9 +9,9 @@
         <img :src="getCover" alt="Job logo">
       </div>
 
-      <div class="_grid-1-auto _align-vertically _margin-bottom-half _grid-gap-small">
+      <div class="_grid-1-auto _align-vertically _margin-bottom _grid-gap-small">
         <div>
-          <span v-if="atom.fields['Data:Categories']" class="Job-type _tag --highlight --nowrap">
+          <span v-if="atom.fields['Data:Categories']" class="Job-type _tag --highlight --nowrap _margin-bottom-none-i">
             {{ atom.fields['Data:Categories'][0] }}
           </span>
         </div>

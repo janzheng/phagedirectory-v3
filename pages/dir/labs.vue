@@ -1,63 +1,59 @@
 <template>
   <div class="Labs Dir-category">
+    <no-ssr>
 
+      <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
+        <template #header-container>
+          <h1 class="--title"><span class="_color-mono-60">Phage </span>Labs</h1>
+          <h1 v-if="search.string" class="--title _padding-bottom-half"><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+          <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterLabs.length }}</h2>
+        </template>
 
-    <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
-      <template #header-container>
-        <h1 class="--title"><span class="_color-mono-60">Phage </span>Labs</h1>
-        <h1 v-if="search.string" class="--title _padding-bottom-half"><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
-        <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterLabs.length }}</h2>
-      </template>
-
-      <template #default>
-        <div>
-          <div v-if="!search.string" class="Dir-notice _grid-3-1 _grid-gap-large _align-vertically">
-            <div>
-              <p>
-                This is a directory of research labs at universities and institutions that work on phages. (For biotech companies, please refer to the Organizations page) 
-              </p>
-              <p>
-                If you'd like to add your phage lab to this list, please sign up!
-              </p>
-              <p class="_font-small">
-                Number of labs: <strong>{{ labs.length }}</strong>
-                <br>
-                If you'd like your information updated, <a href="mailto:hello@phage.directory" class="--url">please let us know</a>.
-              </p>
-            </div>
-            <div class="_right-sm">
-              <a href="/signup" class="_button CTA --join _width-100 _center">Sign Up</a>
-            </div>
-          </div>
-
-          <div id="content-top" class="Labs-list" >
-            <div v-if="search.string && filterLabs.length == 0" class="Dir-notice">
-              <h1 class="" >No results found.</h1>
+        <template #default>
+          <div>
+            <div v-if="!search.string" class="Dir-notice _grid-3-1 _grid-gap-large _align-vertically">
+              <div>
+                <div class="" v-html="$md.render(intro || '')" />
+                <p class="_font-small">
+                  Number of labs: <strong>{{ labs.length }}</strong>
+                  <br>
+                  If you'd like your information updated, <a href="mailto:hello@phage.directory" class="--url">please let us know</a>.
+                </p>
+              </div>
+              <div class="_right-sm">
+                <a href="https://airtable.com/shrbZHMw6R2dCij9v" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+              </div>
             </div>
 
-            <div v-for="item of filterLabs" :key="item.id" >
-              <Card :lab="item" :phage-collections="phageCollections" class="Labs-list-item" />
+            <div id="content-top" class="Labs-list" >
+              <div v-if="search.string && filterLabs.length == 0" class="Dir-notice">
+                <h1 class="" >No results found.</h1>
+              </div>
+
+              <div v-for="item of filterLabs" :key="item.id" >
+                <Card :lab="item" :phage-collections="phageCollections" class="Labs-list-item" />
+              </div>
             </div>
           </div>
-        </div>
 
-      </template>
-      <template #context >
-        <div class="Dir-sidebar">
-          <label for="dirSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
-            <span class="_font-phage icon-search"/>
-          </label>
-          <input id="Dir-searchbar" ref="dirSearch" v-model.trim="searchString" class="Dir-search _padding-left-2 _form-input" type="text" name="dir_searchbar" placeholder="Search" @input="doSearch">
-          <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
-            <span class="_font-phage icon-cancel"/>
-          </span>
-        </div>
-        
-        <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
-          Back to top
-        </nuxt-link>
-      </template>
-    </Template>
+        </template>
+        <template #context >
+          <div class="Dir-sidebar">
+            <label for="dirSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
+              <span class="_font-phage icon-search"/>
+            </label>
+            <input id="Dir-searchbar" ref="dirSearch" v-model.trim="searchString" class="Dir-search _padding-left-2 _form-input" type="text" name="dir_searchbar" placeholder="Search" @input="doSearch">
+            <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
+              <span class="_font-phage icon-cancel"/>
+            </span>
+          </div>
+          
+          <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
+            Back to top
+          </nuxt-link>
+        </template>
+      </Template>
+    </no-ssr>
 
   </div>
 </template>
@@ -95,6 +91,7 @@ export default {
 
   data () {
     return {
+      intro: this.$cytosis.findOne('directory-labs', this.$store.state['Content'] ).fields['Markdown'],
     }
   },
   

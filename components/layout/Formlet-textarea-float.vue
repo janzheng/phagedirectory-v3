@@ -1,20 +1,23 @@
+<!--
 
+  not implemented 
+  
 <template>
 
-  <div class="Formlet Formlet-textarea _form-control" >
-
-    <label 
-      v-if="input.name" 
-      :for="input.name" 
-      class="_form-label" 
-      v-html="$md.render(input.label || '')" 
-    />
-    <label 
-      v-if="input.description" 
-      :for="input.name" 
-      class="_form-desc" 
-      v-html="$md.render(input.description || '')" 
-    />
+  <div class="Formlet Formlet-textarea _form-control --float" >
+    <!~~ <input :id="input.name"
+           v-model.trim="data"
+           :class="data ? `--data ${inputAttrs}` : inputAttrs "
+           :name="input.name"
+           :placeholder="input.placeholder"
+           :required="input.required"
+           class="_form-input --width-full" 
+           :type="type"
+           @input="emit"
+           @blur="emit"
+           @change="emit"
+           @keyup.enter="keyEnterHandler"
+    > ~~>
     <textarea :id="input.name"
               v-model.trim="data" 
               :name="input.name"
@@ -23,29 +26,28 @@
               :required="input.required" 
               :rows="input.rows || 4"
               class="_form-input _block" 
-              ref="textarea"
               type="text" 
               @input="emit"
               @blur="emit"
               @change="emit"
     />
-    <label v-if="input.maxLength" class="_font-small _padding-top-half" >
-      <span v-if="v.maxLength != false">Characters: {{ data.length }}</span>
-      <span v-else>Characters: {{ input.maxLength - data.length }} </span>
-    </label>
+    <label  
+      v-if="input.name"
+      :for="input.name" 
+      class="_form-label" 
+      :class="data ? '--data' : '' "
+      v-html="$md.render(input.label || '')" 
+    />
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
-
   </div>
 
 </template>
 
 <script>
 
-
-// used for validation
 import _ from '~/other/lodash.custom.min.js'
-// const touchMap = new WeakMap() 
 
+let _delay = 100
 
 export default {
 
@@ -55,11 +57,12 @@ export default {
     inputAttrs: String, // classes that might be applied to every input
     v: Object, // validation object, for errors and messages
     onSubmit: Boolean, // fires when submit cta is clicked
+    submitHandler: Function, // submit handler to process @keyup handling
   },
 
   data: function () {
     return {
-      data: '' // note that data can't be a prop since it needs to be bound
+      data: '', // note that data can't be a prop since it needs to be bound
       // we're emitting the data back as a @input
     }
   },
@@ -94,14 +97,8 @@ export default {
       return undefined
 
     },
-
   },
 
-  mounted () {
-    this.$nextTick(() => {
-        // this.$el.setAttribute('style', 'height:' + (this.$el.scrollHeight) + 'px;overflow-y:hidden;')
-    })
-  },
 
   methods: {
     // emit(delay = 4500) { // long initial delay
@@ -114,17 +111,10 @@ export default {
     //     'trailing': true
     //   })()
     // }
-    emit: _.debounce(function(event) { // long initial delay
+    emit: _.debounce(function() { // long initial delay
       // slows down error messages
       // console.log('emit')
       this.$emit('input', this.data)
-
-      // https://lorisleiva.com/renderless-resizable-textarea/
-      if(this.input.expand) {
-        event.target.style.height = 'auto'
-        event.target.style.height = (event.target.scrollHeight) + 'px'
-      }
-
       // this.delay = 200
     }, 100, {
       trailing: true
@@ -146,3 +136,4 @@ export default {
 
 </style>
 
+-->

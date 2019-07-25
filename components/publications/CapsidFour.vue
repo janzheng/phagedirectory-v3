@@ -173,7 +173,7 @@
 
       <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom-2 _padding-xs" message="Tweet this issue!" />
 
-      <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related Capsid-print-hidden _margin-top-2" >
+      <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related Capsid-print-hidden _margin-top-2 _margin-bottom" >
         <h6 class="_padding-bottom-none">Related Article</h6>
         <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
       </div>
@@ -201,7 +201,7 @@
           <div slot-scope="{ loading, response: data }">
             <div v-if="loading">Loading...</div>
             <div v-else>
-              <div class="_font-smaller _padding-bottom-half">To cite us, please use:</div>
+              <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
               <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
               <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
               <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />

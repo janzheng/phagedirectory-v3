@@ -1,11 +1,12 @@
 
 <template>
 
-  <div class="Formlet Formlet-input" >
+  <div class="Formlet Formlet-input _form-control" >
     <label  
       v-if="input.name"
       :for="input.name" 
       class="_form-label" 
+      :class="data ? '--data' : '' "
       v-html="$md.render(input.label || '')" 
     />
     <label 

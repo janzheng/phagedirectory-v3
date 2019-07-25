@@ -85,6 +85,11 @@ export default {
     const node = await loadQuery({env, store, routeName: '{node router}', query: 'Node-AbsolutePath', keyword: slug})
     console.log('matched node: ', node, ' @ ', slug)
 
+    // special type of node that redirects to another page
+    if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {
+      window.location.replace(node.tables['Content'][0].fields['Data:String'])
+    }
+
     return {
       slug,
       route,

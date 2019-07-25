@@ -1,66 +1,62 @@
 <template>
   <div class="People Dir-category">
+    <no-ssr>
+      <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
 
-    <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
+        <template #header-container>
+          <h1 class="--title"><span class="_color-mono-60">Phage </span>People</h1>
+          <h1 v-if="search.string" class="--title _padding-bottom-half" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
+          <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterPeople.length }}</h2>
+        </template>
 
-      <template #header-container>
-        <h1 class="--title"><span class="_color-mono-60">Phage </span>People</h1>
-        <h1 v-if="search.string" class="--title _padding-bottom-half" ><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
-        <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterPeople.length }}</h2>
-      </template>
+        <template #default>
+          <div>
 
-      <template #default>
-        <div>
-          <div v-if="!search.string" class="Dir-notice _grid-3-1 _align-vertically">
-            <div>
-              <p>
-                This is a directory of vetted individuals involved in phage research and phage therapy fields, from researchers and doctors to regulators and biotech founders. 
-              </p>
-              <p>
-                This list is opt-in: if you'd like to be on the list, please sign up, and we'll verify your information and add you!
-              </p>
-
-              <p class="_font-small">
-                Number of people listed: <strong>{{ people.length }}</strong>
-                <br>If you'd like your information updated, <a href="mailto:hello@phage.directory" class="--url">please let us know</a>.
-              </p>
+            <div v-if="!search.string" class="Dir-notice _grid-3-1 _align-vertically">
+              <div>
+                <div class="" v-html="$md.render(intro || '')" />
+                <p class="_font-small">
+                  Number of people listed: <strong>{{ people.length }}</strong>
+                  <br>If you'd like your information updated, <a href="mailto:hello@phage.directory" class="--url">please let us know</a>.
+                </p>
+              </div>
+              <div class="_right-sm">
+                <a href="https://airtable.com/shrbZHMw6R2dCij9v" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+              </div>
             </div>
-            <div class="_right-sm">
-              <a href="/apply" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+
+            <div id="content-top" class="People-list" >
+
+              <div v-if="search.string && filterPeople.length == 0" class="Dir-notice">
+                <h1 class="" >No results found.</h1>
+              </div>
+
+              <div v-for="item of filterPeople" :key="item.id" class="" >
+                <Card :person="item" :manuscripts="getManuscriptsOfPerson(item)" class="People-list-item" />
+              </div>
             </div>
+
           </div>
+        </template>
 
-          <div id="content-top" class="People-list" >
-
-            <div v-if="search.string && filterPeople.length == 0" class="Dir-notice">
-              <h1 class="" >No results found.</h1>
-            </div>
-
-            <div v-for="item of filterPeople" :key="item.id" class="" >
-              <Card :person="item" class="People-list-item" />
-            </div>
+        <template #context >
+          <div class="Dir-sidebar">
+            <label for="dirSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
+              <span class="_font-phage icon-search"/>
+            </label>
+            <input id="Dir-searchbar" ref="dirSearch" v-model.trim="searchString" class="Dir-search _padding-left-2 _form-input " type="text" name="dir_searchbar" placeholder="Search" @input="doSearch">
+            <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
+              <span class="_font-phage icon-cancel"/>
+            </span>
           </div>
+          
+          <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
+            Back to top
+          </nuxt-link>
+        </template>
 
-        </div>
-      </template>
-
-      <template #context >
-        <div class="Dir-sidebar">
-          <label for="dirSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
-            <span class="_font-phage icon-search"/>
-          </label>
-          <input id="Dir-searchbar" ref="dirSearch" v-model.trim="searchString" class="Dir-search _padding-left-2 _form-input " type="text" name="dir_searchbar" placeholder="Search" @input="doSearch">
-          <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
-            <span class="_font-phage icon-cancel"/>
-          </span>
-        </div>
-        
-        <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
-          Back to top
-        </nuxt-link>
-      </template>
-
-    </Template>
+      </Template>
+    </no-ssr>
 
   </div>
 </template>
@@ -91,18 +87,20 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content"],
+    tableQueries: ["_content", "capsid-previews"],
     refreshOnLoad: true,
   },
 
   data () {
     return {
+      intro: this.$cytosis.findOne('directory-people', this.$store.state['Content'] ).fields['Markdown'],
     }
   },
   
   computed: {
     ...mapState([
       'search',
+      'Manuscripts',
       ]),
     searchString: {
       get: function () {
@@ -175,6 +173,16 @@ export default {
     doClear() {
       this.searchString = ""
       dirSearch(this)
+    },
+
+    getManuscriptsOfPerson(author) {
+      const authorSlug = author.fields['Slug']
+      return this['Manuscripts'].reduce((total, current) => {
+          if(current.fields['Data:MainAuthorSlug'] == authorSlug) {
+            return [...total, ...[current]]
+          }
+          return [...total]
+        }, [])
     },
   }
 }

@@ -6,7 +6,7 @@
     <div class="Form-body">
       <div v-if="!success && !error">
         <Formlet ref="form" 
-                 :inputs="getForm(payload.JSON)"
+                 :inputs="formJson.inputs"
                  :submit-handler="submitHandler"
                  :on-submit="onSubmit"
                  @onValid="formHandler"
@@ -26,7 +26,7 @@
           </div>
           <!-- privacy moved UNDER cta — really disrupts the tab flow -->
           <div class="Form-privacy _padding-top">
-            <span class=" " v-html="$md.strip($md.render(payload.privacy || ''))" />
+            <span class=" " v-html="$md.strip($md.render(privacyMessage))" />
           </div>
           <div v-if="onSubmit && !isFormValid" class="Form-error _card --alert _padding _margin-top">
             We found a mistake — please scroll back up and check.
@@ -34,7 +34,7 @@
         </div>
       </div>
 
-      <div v-if="success" id="Form--thanks" class="_card --alert _padding _md-pfix" v-html="$md.render(payload.thanks || '')">
+      <div v-if="success" id="Form--thanks" class="_card --alert _padding _md-pfix _margin-bottom-none" v-html="$md.render(thanksMessage || '')">
         <h4>Thank you for sending us feedback!</h4>
       </div>
 
@@ -80,6 +80,17 @@ export default {
   },
 
   computed: {
+    formJson() {
+      return JSON.parse(this.payload.JSON)
+    },
+    thanksMessage() {
+      if (this.formJson.meta)
+          return this.formJson.meta.thanks
+      return this.payload.thanks
+    },
+    privacyMessage() {
+      return this.payload.privacy || ''
+    }
   },
 
   methods: {
@@ -108,7 +119,7 @@ export default {
     },
     submitHandler() {
       const _this = this
-      console.log('Form Handler triggered — valid:', this.isFormValid, 'isSending:', this.isSending )
+      // console.log('Form Handler triggered — valid:', this.isFormValid, 'isSending:', this.isSending )
       this.onSubmit = true
 
       if(this.isFormValid && !this.isSending) {
@@ -123,7 +134,7 @@ export default {
 
         this.isSending = true
 
-        console.log('Submitting data: ', data)
+        // console.log('Submitting data: ', data)
         axios.post(this.payload.handler, data)
         .then(function (response) {
           console.log('Message sent! Status:', response.status)

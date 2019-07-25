@@ -64,8 +64,35 @@
       padding-right: 0;
     }
   }
+
+  // the twitter sidebar tends to blow out 
+  // ._sidebar {
+  //   // max-width: 300px !important;
+  //   @include screen-sm-down {
+  //     min-height: 500px;
+  //     height: 500px;
+  //   }
+  // }
+
+  // // preventing twitter blowout on ipads
+  // .Template--Main-Sidebar-xs {
+  //   @include screen-sm-only {
+  //     grid-template-areas: 
+  //       'main' 
+  //       'sidebar' !important;
+  //   }
+  //   .Template--Sidebar {
+  //     @include screen-sm-only {
+  //       padding: $size-2x;
+  //     }
+  //   }
+  // }
 }
 
+
+.twitter-timeline {
+  // max-width: 160px !important;
+}
 
 
 

@@ -4,7 +4,8 @@
 
   <div class="Twitter" >
     <!-- twitter-test? forced max -->
-    <a class="twitter-timeline" data-width="100%" data-height="100%" href="https://twitter.com/phagedirectory?ref_src=twsrc%5Etfw">Tweets by phagedirectory</a> 
+    <!-- <a class="twitter-timeline" data-width="100%" data-height="100%" href="https://twitter.com/phagedirectory?ref_src=twsrc%5Etfw">Tweets by phagedirectory</a>  -->
+    <a class="twitter-timeline" data-width="300px" data-height="100%" href="https://twitter.com/phagedirectory?ref_src=twsrc%5Etfw">Tweets by phagedirectory</a> 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
   </div>
 

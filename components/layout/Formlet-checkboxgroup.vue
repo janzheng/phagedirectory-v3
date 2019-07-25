@@ -1,7 +1,7 @@
 
 <template>
 
-  <div class="Formlet Formlet-checkboxgroup" >
+  <div class="Formlet Formlet-checkboxgroup  _form-control" >
 
     <label 
       v-if="input.name" 

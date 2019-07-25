@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <div :class="src.fields['Data:Attrs']" class="Node-Form FormCard">
+  <div :class="src.fields['Data:Attrs'] || 'Node-Form FormCard'" class="">
     <Form :payload="payload"
           :target-table="src.fields['Data:Select']"
           :send-email="true"

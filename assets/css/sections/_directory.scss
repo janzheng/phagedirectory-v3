@@ -249,6 +249,13 @@
         padding-bottom: $size;
       }
     }
+
+    .People-name {
+      .Dir-title {
+        padding-bottom: 0;
+      }
+    }
+    
     &.--compact {
       // used in C&T
       // .People-container {
@@ -257,6 +264,7 @@
       .People-name {
         display: block !important;
         margin-bottom: $size-2;
+
       }
       .People-roles {
         span {
@@ -278,7 +286,7 @@
       span {
         @include screen-sm {
           // white-space: pre-line;
-          white-space: nowrap;
+          // white-space: nowrap;
         }
       }
     }

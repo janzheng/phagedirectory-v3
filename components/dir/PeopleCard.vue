@@ -21,7 +21,8 @@
             <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
             <div class="People-name-social _flex-row">
               <div class="Dir-title _flex-1">
-                {{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
+                <!-- link from name is useful for C&T and other places where the card appears -->
+                <nuxt-link :to="`/people#${person.fields['Slug']}`" class="--nolink">{{ person.fields['Name'] }}</nuxt-link> <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
               </div>
               <div class="Dir-social Dir-title">
                 <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
@@ -45,7 +46,7 @@
                 {{ item.name +'' }}
               </span> -->
               <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
-                {{ item.name +'' }}
+                {{ item.name +'' }}<span v-if="item.location">, {{ item.location }}</span>
               </span>
             </div>
 
@@ -83,6 +84,16 @@
           </div>
         </div>
 
+        <div v-if="manuscripts && manuscripts.length > 0" class="People-manuscripts-block Dir-block">
+          <div class="Dir-miniCard">
+            <h6 class="_padding-bottom">Capsid & Tail</h6>
+            <div v-for="item of manuscripts" :key="item.id" class="_manuscripts-container">
+              <nuxt-link :to="`/capsid/${item.fields['Slug']}`" target="_blank" class="_manuscript --nolink _margin-bottom-half _inline-block _font-small" v-html="$md.strip($md.render(item.fields['Data:IssueName'] || ''))" />
+            </div>
+            <div v-if="manuscripts.length > 3" class="Dir-block _font-small Dir-disabled">Number of articles: {{ manuscripts.length }}</div>
+          </div>
+        </div>
+
       </div>
     
     </div>
@@ -95,7 +106,8 @@
 
 export default {
   props: {
-    'person': Object
+    'person': Object,
+    'manuscripts': Array, // array of a person's manuscripts (e.g. Capsid)
   },
   computed: {
     profile() {
@@ -135,6 +147,7 @@ export default {
       this.person.fields['Orgs::Names'].map((item, i) => {
         arr.push({
           name: this.person.fields['Orgs::Names'][i],
+          location: this.person.fields['Orgs::Location'][i],
           slug: this.person.fields['Orgs::Slugs'] ? this.person.fields['Orgs::Slugs'][i] : '',
         })
       })

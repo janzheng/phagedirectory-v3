@@ -8,7 +8,6 @@
 
 <template>
   <div class="Capsid Capsid-List">
-
     <div class="_section-page _margin-center">
       <div class="_section-content _margin-center">
         <div class="Capsid-masthead _margin-center">
@@ -30,7 +29,7 @@
 
 
     <div class="_section-content _margin-center-sm _margin-left-xs _margin-right-xs">
-      <CapsidStub :issue="latest" :is-featured="true" class="Capsid-latest" />
+      <CapsidStub :issue="latest" :authors="getAuthorsOfManuscript(latest)" :is-featured="true" class="Capsid-latest" />
     </div>
 
     <div class="_section-article _margin-center ">
@@ -44,7 +43,10 @@
     
     <div class="_section-content _margin-center">
       <div class="_grid-2 _margin-left-xs _margin-right-xs">
-        <CapsidStub v-for="issue of notLatest" :key="issue.id" :issue="issue" show-lede="true" class="" />
+        
+        <div v-for="issue of notLatest" :key="issue.id" >
+          <CapsidStub :issue="issue" :authors="getAuthorsOfManuscript(issue)" show-lede="true" class="" />
+        </div>
       </div>
 
     </div>
@@ -60,6 +62,7 @@
 import { mapState } from 'vuex'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import CapsidSignup from '~/components/layout/FooterSignups-capsid.vue'
+import { loadQuery } from '~/other/loaders'
 
 export default {
 
@@ -102,10 +105,21 @@ export default {
   },
 
   // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
+  // async asyncData({env}) {
+
+  //   return {
+  //     postUrl: env.ext_handler,
+  //   }
+  // },
+
+  async asyncData({env, store, route}) {
+    const slug = route.params.slug
+    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{people}', query: 'People-index'})
 
     return {
-      postUrl: env.ext_handler,
+      slug,
+      People: data.tables['People'],
+      // search: search
     }
   },
 
@@ -113,6 +127,18 @@ export default {
   },
 
   methods: {
+    getAuthorsOfManuscript(manuscript) {
+      if(!this['People'])
+        return undefined
+
+      const authorSlug = manuscript.fields['Data:MainAuthorSlug']
+      return this['People'].reduce((total, current) => {
+          if(current.fields['Slug'] == authorSlug) {
+            return [...total, ...[current]]
+          }
+          return [...total]
+        }, [])
+    },
   },
 
 

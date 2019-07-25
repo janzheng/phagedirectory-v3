@@ -38,6 +38,7 @@
     }
   }
 
+
   .Template--Sidebar-Main {
     @include screen-sm {
       grid-template-areas: 'sidebar main';

@@ -104,8 +104,8 @@
 
 <script>
 
-// import StreamCard from '~/components/StreamCard.vue'
-import StreamEvent from '~/components/StreamEvent.vue'
+// import StreamCard from '~/components/events/StreamCard.vue'
+import StreamEvent from '~/components/events/StreamEvent.vue'
 
 export default {
 

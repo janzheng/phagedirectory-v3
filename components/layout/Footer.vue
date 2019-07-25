@@ -56,15 +56,23 @@
         <div class="Footer-right ">
           <div class="Footer-top _padding-top-quart _padding-bottom _margin-bottom">
             <!-- <a href="#top"></a> -->
+
+            <nuxt-link
+              to="/apply"
+              class="_button CTA --inverse --short ">
+              Sign Up
+            </nuxt-link>
+
             <nuxt-link
               v-scroll-to="{
                 el: '#top',
                 onDone: (element) => { doneScrolling(element) }
               }"
               :to="`#top`" 
-              class="_button CTA --inverse --short ">
+              class="_button CTA --transparent --shadow-none-i --inverse --short _right ">
               Scroll back up
             </nuxt-link>
+
           </div>
           <div class="_grid-3 _grid-gap-small">
             <div class="Footer-column _padding-bottom-2-xs">
@@ -91,6 +99,9 @@
               </div>
               <div>
                 <nuxt-link to="/alerts">Phage Alerts</nuxt-link>
+              </div>
+              <div>
+                <nuxt-link to="/feed">Phage Feed</nuxt-link>
               </div>
               <div>
                 <nuxt-link to="/events">Events</nuxt-link>
@@ -125,6 +136,11 @@
               <div>
                 <nuxt-link to="/brand">Brand</nuxt-link>
               </div>
+              <div>
+                <nuxt-link to="/slack">Join our Slack</nuxt-link>
+              </div>
+
+              
               <div>
                 <a href="https://github.com/phage-directory" target="_blank">Github</a>
               </div>

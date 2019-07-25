@@ -114,6 +114,32 @@ img {
   }
 }
 
+.--shadow-none-i {
+  box-shadow: none !important;
+}
+
+
+
+
+// circular loading test 
+#nuxt-loading {
+  // background-color: red;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* 
 
   To be added to Coeur
@@ -121,4 +147,60 @@ img {
  */
 
  
+
+._form-control {
+  &.--float {
+    // floating form labels (no descriptions)
+    position: relative;
+    ._form-label {
+      position: absolute;
+      padding-left: $size;
+      z-index: 1;
+      color: usetheme(disabled-text);
+      &, p { // sometimes markdown generates a p
+        line-height: $size-6;
+        top: 0;
+        @extend %ease-fast;
+      }
+    }
+    ._form-input {
+      position: relative;
+      // line-height: $size-3;
+      height: $size-6;
+      padding-top: $size-2;
+    }
+    ._form-input:focus, 
+    ._form-input:active,
+    ._form-input.--data,  {
+      height: $size-8;
+      // padding-bottom: $size-half;
+
+      & + ._form-label {
+        &, p {
+          font-size: usetheme(font-small);
+          line-height: $size;
+          padding-top: $size-quart;
+          @extend %ease-fast;
+        }
+      }
+    }
+  }
+
+  // .Formlet-textarea {
+  //   ._form-input {
+  //     min-height: $size-10;
+  //   }
+  //   &.--float {
+  //     ._form-label {
+  //       &, p {
+  //         padding-top: $size-half;
+  //         color: usetheme(mono-30);
+  //         font-size: usetheme(font-small);
+  //         line-height: usetheme(lineheight-small);
+  //         // line-height: $size;
+  //       }
+  //     }
+  //   }
+  // }
+}
 

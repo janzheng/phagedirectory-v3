@@ -80,15 +80,23 @@ export default {
   },
 
   // runs on generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
+  async asyncData({env, store, route, error}) {
     const slug = '/' + unescape(route.params.slug)
     const node = await loadQuery({env, store, routeName: '{node router}', query: 'Node-AbsolutePath', keyword: slug})
-    console.log('matched node: ', node, ' @ ', slug)
+    console.log('Node Router: ', node, ' @ ', slug)
+
+    // node doesn't exist / bad route, throw a 404
+    if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
+      console.error('Page / URL / Node not found, throwing a 404...')
+      // return this.$nuxt.error({ statusCode: 404, message: "Page not Found" })
+      return error({ statusCode: 404, message: "Page not Found" })
+    }
 
     // special type of node that redirects to another page
     if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {
       window.location.replace(node.tables['Content'][0].fields['Data:String'])
     }
+
 
     return {
       slug,

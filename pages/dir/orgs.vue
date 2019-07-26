@@ -168,7 +168,7 @@ export default {
   },
 
   // runs on generation and page route (but not on first page load)
-  async asyncData({app, env, store, route}) {
+  async asyncData({env, store, route}) {
     const slug = route.params.slug
     const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{orgs}', query: 'Orgs-index'})
     // console.log('matched node: ', node, ' @ ', slug)

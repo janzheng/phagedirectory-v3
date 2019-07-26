@@ -20,7 +20,8 @@
     "stage": "NODE_ENV=spa npm run generate --spa; npm run stagedeploy",
     "stageprod": "npm run generate; npm run stagedeploy",
     "prod": "npm run generate; npm run deploy",
-    "prodspa": "NODE_ENV=spa npm run generate --spa; npm run deploy"
+    "prodspa": "NODE_ENV=spa npm run generate --spa; npm run deploy",
+    "nowprod": "now --target production"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",

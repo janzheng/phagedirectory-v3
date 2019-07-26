@@ -41,7 +41,7 @@
 <script>
 
 import { mapState } from 'vuex'
-import Alert from '~/components/alert.vue'
+import Alert from '~/components/Alert.vue'
 import AlertSignup from '~/components/layout/FooterSignups-alerts.vue'
 import Template from '~/templates/article.vue'
 import Tabbed from '~/components/layout/Tabbed.vue'

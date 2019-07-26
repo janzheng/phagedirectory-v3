@@ -29,7 +29,7 @@
 <script>
 
 // import { mapState } from 'vuex'
-import Alert from '~/components/alert.vue'
+import Alert from '~/components/Alert.vue'
 // import CapsidAlert from '~/components/publications/CapsidAlert'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'

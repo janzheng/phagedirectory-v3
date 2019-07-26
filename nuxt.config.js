@@ -460,7 +460,7 @@ export default {
   generate: {
     // 250 / 4 = ~5min deploy
     interval: 50, // slow down api calls // https://nuxtjs.org/api/configuration-generate/
-    // fallback: true, // true if you want to use '404.html' — for surge, use false if you want to use 200 spa fallback
+    fallback: true, // true if you want to use '404.html' — for surge, use false if you want to use 200 spa fallback
     concurrency: 8, // reduce server strain
     routes: async function (callback) {
 

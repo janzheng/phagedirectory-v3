@@ -2,96 +2,76 @@
 
 <!-- 
 
-  Component for displaying a Capsid issue 
+  Component for displaying a Capsid issue on Email
+
+  note: set all images to 564px width for Mailchimp templates
 
  -->
+
 <template>
 
-  <div class="Capsid Capsid-Issue _section-article _margin-center">
-    <div v-if="issue" class="_margin-center _card _margin-top-none-i" >
+  <div class="Capsid-email-container">
+    <div class="Capsid-email Capsid" id="email">
 
-      <div v-scroll-spy class="scrollspy" >
-        
-        <div id="intro" class="Capsid-intro" >
-          <div class="Capsid-masthead Capsid-section _margin-center _padding _padding-bottom-none-i " >
-            <nuxt-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
-              <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail" >
-              <div class="Capsid-masthead-title _left _font-serif">A weekly phage periodical</div>
-            </nuxt-link>
+      <div class="Capsid-header Capsid-section">
+        <div class="">
+          <div class="Capsid-meta">
+            <div class="Capsid-name"><strong>{{ issue.fields['Name'] }}</strong></div>
+            <div class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</div>
+            <div class="Capsid-readtime">{{ issue.fields['Data:Body'] | readtime }} min read</div>
           </div>
 
-          <div class="Capsid-header Capsid-section _margin-center _padding">
-            <div class="_section-content _margin-center">
-              <div class="Capsid-meta">
-                <div>
-                  <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }}</span> | 
-                  <span class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span>
-                </div>
-                <div class="Capsid-readtime _font-small _padding-top-half _padding-bottom">
-                  {{ issue.fields['Data:Body'] | readtime }} min read
-                </div>
-              </div>
-
-              <!-- <nuxt-link :to="`/capsid/${issue.fields['Slug']}`"> -->
-              <h1 class="Capsid-title _padding-top" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
-              <!-- </nuxt-link> -->
-              <div class="_section-article">
-                <!-- <div class="Capsid-lede _padding-bottom" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" /> -->
-                <h3 class="Capsid-lede _padding-bottom --normal --title" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
-                
-                <div v-if="issue.fields['Data:Abstract']" 
-                     class="_padding-bottom _margin-bottom _md-p_fix" 
-                     v-html="$md.render(issue.fields['Data:Abstract'] || '')" />
-                <!-- <div class="Capsid-skipahead _padding-bottom">
-                  Scroll down to <a class="_font-bold" href="#article">read this week's Featured Article</a>.
-                </div>  -->
-                <!-- <div v-if="issue.fields['Data:Author']" class="Capsid-author " v-html="$md.render(issue.fields['Data:Author'] || '')" /> -->
-              </div>
-
-              <CapsidShare :link="twitterLink" message="Tweet this issue!" class="_margin-top" />
+          <!-- <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`"> -->
+          <h1 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
+          <!-- </a> -->
+          <div class="_section-article">
+            <h4 class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
+            
+            <div class="_padding-bottom"  v-if="issue.fields['Data:Abstract']">
+              <div class=" _margin-bottom _md-p_fix" 
+                   v-html="$md.render(issue.fields['Data:Abstract'] || '')" />
             </div>
 
-          </div>
-
-          
-
-          <!-- Sponsors — resides within the intro!!-->
-          <!-- <div v-if="sponsors.length > 0" class="Capsid-sponsor _section-page _margin-center _padding" >
-            Sponsor
-            <div v-for="item of sponsors" :key="item.id" class="_margin-bottom" >
-              <CapsidSponsor :atom="item" />
-            </div>
-          </div> -->
-
-          <!-- leave Sponsors ABOVE the whats new area to call it out -->
-          <div v-if="sponsors.length>0" class="Capsid-sponsor _padding" >
-            <!-- Don't show Sponsor title, just keep the tag<h4 class="Capsid-sponsors-title">{{'Sponsors'}}</h4> -->
-            <!-- <div class="_padding-left _padding-right"> -->
-            <!-- </div> -->
-            <div v-for="item of sponsors" :key="item.id" class="_margin-bottom" >
-              <CapsidSponsor :atom="item" />
+            <div class="_padding-bottom">
+              <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`">
+                <img src="https://phage.directory/icon.png" width="23" style="margin-right: 8px; position: relative; bottom: -5px" >Read this issue on Phage Directory
+              </a>
             </div>
           </div>
 
-          <!-- leave Alerts ABOVE the whats new area to call it out -->
-          <div v-if="alerts.length>0" class="Capsid-alerts _padding" >
-            <div v-for="item of alerts" :key="item.id" class="_margin-bottom" >
-              <Alert :atom="item" />
-            </div>
-          </div>
-
+          <CapsidShare :link="twitterLink" message="Tweet this issue!" class="_padding-bottom _margin-top" />
 
         </div>
 
+        <div v-if="sponsors.length>0" class="Capsid-sponsor _padding" >
+          <!-- Don't show Sponsor title, just keep the tag<h4 class="Capsid-sponsors-title">{{'Sponsors'}}</h4> -->
+          <!-- <div class="_padding-left _padding-right"> -->
+          <!-- </div> -->
+          <div v-for="item of sponsors" :key="item.id" class="_margin-bottom" >
+            <CapsidSponsor :atom="item" />
+          </div>
+        </div>
+
+        <!-- leave Alerts ABOVE the whats new area to call it out -->
+        <div v-if="alerts.length>0" class="Capsid-alerts " >
+          <div v-for="item of alerts" :key="item.id" class="_margin-bottom" >
+            <Alert :atom="item" />
+          </div>
+        </div>
+      </div>
 
 
+
+
+
+      <div class="Capsid-email-intro _margin-center">
 
         <!-- What's New -->
-        <div id="whats-new" class="Capsid-section Capsid-section-new" >
+        <div id="whats-new" class="Capsid-section Capsid-email-block Capsid-section-new" style="background: #F2F8FD; padding: 16px;">
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >What’s New</h2>
             <div class="Capsid-section-heading-description">
-              <span>Have an idea for us?</span> <a href="/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
+              <span style="padding-right: 16px;">Have an idea for us?</span> <a href="https://phage.directory/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
             </div>
           </div>
           <div v-if="updates.length > 0" >
@@ -103,12 +83,12 @@
         </div>
 
         <!-- Jobs -->
-        <div id="jobs" class="Capsid-section Capsid-section-jobs" >
+        <div id="jobs" class="Capsid-section Capsid-email-block Capsid-section-jobs" style="background: #FFF1F3; padding: 16px;">
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >Latest Jobs</h2>
             <div class="Capsid-section-heading-description">
-              <nuxt-link to="/jobs" class="_button --short CTA --outline _margin-right-half-i _margin-bottom-none">View all jobs</nuxt-link>
-              <nuxt-link to="/jobs?tab=Post-a-Job" target="_blank" class="_button --short CTA --outline _margin-bottom-none">Post a job for free</nuxt-link>
+              <a href="https://phage.directory/jobs" class="_button --short CTA --outline _margin-right-half-i _margin-bottom-none">View all jobs</a>
+              <a href="https://phage.directory/jobs?tab=Post-a-Job" target="_blank" class="_button --short CTA --outline _margin-bottom-none">Post a job for free</a>
             </div>
           </div>
           <div v-if="jobs.length > 0" >
@@ -120,14 +100,16 @@
         </div>
 
         <!-- Community -->
-        <div id="community" class="Capsid-section Capsid-section-community" >
+        <div id="community" class="Capsid-section Capsid-email-block Capsid-section-community" style="background: #FCFAEF; padding: 16px;">
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >Community Board</h2>
             <div class="Capsid-section-heading-description">
-              <nuxt-link to="/community" class="_button --short CTA --outline _margin-right-half-i">View all posts</nuxt-link>
-              <nuxt-link to="/community?tab=Post-a-Message" class="_button --short CTA --outline">Post a message</nuxt-link>
+              <div class="_padding-bottom">
+                <a href="https://phage.directory/community" class="_button --short CTA --outline _margin-right-half-i">View all posts</a>
+                <a href="https://phage.directory/community?tab=Post-a-Message" class="_button --short CTA --outline">Post a message</a>
+              </div>
+              <div v-html="$md.strip($md.render(communityDesc || ''))" />
             </div>
-            <div v-html="$md.render(communityDesc || '')" />
           </div>
           <div v-if="community.length > 0" >
             <div v-for="item of community" :key="item.id" class="_margin-bottom">
@@ -150,7 +132,7 @@
               <!-- short description / name -->
 
               <div v-if="authors && authors[0]" >
-                <AuthorCard v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
+                <AuthorCard v-for="item of authors" :key="item.id" :person="item" :isCompact="true" class="Capsid-author-short People-only-header --compact" />
               </div>
               <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
               <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
@@ -159,90 +141,64 @@
           </div>
         </div>
 
-        <!-- <no-ssr>
-          <div id="comments" class="Capsid-disqus">
-            <vue-disqus :identifier="path" shortname="capsid-tail" url="https://phage.directory" />
-          </div>
-        </no-ssr> -->
-
+        
       </div>
 
-    </div>
 
-    <div class="Capsid-footer _section-content _margin-center">
 
-      <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom-2 _padding-xs" message="Tweet this issue!" />
+      <div class="Capsid-email-footer Capsid-section _padding-top">
 
-      <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related Capsid-print-hidden _margin-top-2 _margin-bottom" >
-        <h6 class="_padding-bottom-none">Related Article</h6>
-        <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
-      </div>
-
-      <NodeForm v-if="form" :src="form" class="Capsid-form" />
-      
-      <div v-if="authors && authors[0]" id="Capsid-authors" class="Capsid-authors" >
-        <AuthorCard v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
-      </div>
-      <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
-
-      <div v-if="citationData" id="Capsid-cite" class="Capsid-cite" >
-        <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
-        <h6 class="--inline">How to Cite</h6>
-        <div v-if="issue.fields['Meta:Citation:Text']" >
-          <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
+        <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related Capsid-print-hidden _margin-top-2" >
+          <h6 class="_padding-bottom-none">Related Article</h6>
+          <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
         </div>
 
-        <AxiosPost 
-          v-if="citationData"
-          class="Capsid-citations"
-          url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
-          :post="citationData"
-        >
-          <div slot-scope="{ loading, response: data }">
-            <div v-if="loading">Loading...</div>
-            <div v-else>
-              <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
-              <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
-              <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
-              <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />
+
+        <div v-if="authors && authors[0]" id="Capsid-authors" class="Capsid-authors" >
+          <AuthorCard v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
+        </div>
+        <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
+
+        <div id="Capsid-cite" class="Capsid-cite" v-if="citationData">
+          <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
+          <h6 class="--inline">How to Cite</h6>
+          <div v-if="issue.fields['Meta:Citation:Text']" >
+            <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
+          </div>
+
+          <AxiosPost 
+            v-if="citationData"
+            class="Capsid-citations"
+            url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
+            :post="citationData"
+          >
+            <div slot-scope="{ loading, response: data }">
+              <div v-if="loading">Loading...</div>
+              <div v-else>
+                <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
+                <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
+                <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
+                <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />
+              </div>
             </div>
-          </div>
-        </AxiosPost>
-      </div>
+          </AxiosPost>
+        </div>
 
 
-      <div id="Capsid-rss" class="_section-content _margin-center">
-        <span class="_font-phage icon-rss _padding-right"/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
-      </div>
-
-      <div id="Capsid-license" class="_section-content _margin-center">
-        <div class=" _margin-center _font-small">
-          All diagrams and text in this issue of Capsid & Tail is licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution CC-BY 4.0, unless otherwise noted.</a>
-          <div class="_padding-top-half">
-            <span class="">
-              <span class="_font-phage icon-cc _margin-right-half"/>
-              <span class="_font-phage icon-cc-by"/>
-            </span>
+        <div class="Capsid-Email-footer-twitter">
+          <h6 style="padding:0;">Like this issue?</h6> 
+          <div style="padding-top: 8px;">
+            <CapsidShare :link="twitterLink" message="Tweet this issue!" />
+            <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://dl.airtable.com/.attachments/c03b568df726d47bb37e53dbfacbbffd/4fa7ef48/Rss.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
           </div>
         </div>
-      </div>
 
-      <div v-if="!issue || issue === 'undefined'" class="_section-content _margin-center _padding">
-        <div >
-          <h4>Sorry, no Capsid & Tail issue was found at this URL</h4>
-          <div>
-            If you think this is a bug, please email us at <a href="mailto:support@phage.directory">support@phage.directory</a>
+        <div class="Capsid-Email-footer-share" style="padding-top: 16px;">
+          <h6>Share this link:</h6>
+          <div class="Capsid-email-footer-share _padding-top">
+            <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`" target="_blank">https://phage.directory/capsid/{{issue.fields['Slug']}}/</a>
           </div>
         </div>
-      </div>
-
-      <div class="_section-content _margin-center">
-        <div class=" _margin-center _font-small" v-html="$md.render(fineprint || '')" />
-      </div>
-
-      <div class="Capsid-prompt Capsid-print-hidden _section-content _margin-center _padding">
-        <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup)" />
-        <div class="_section-article _margin-center" v-html="$md.render(tip)" />
       </div>
 
     </div>
@@ -262,7 +218,7 @@ import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
-import AuthorCard from '~/components/dir/PeopleCard.vue'
+import AuthorCard from '~/components/dir/PeopleCardEmail.vue'
 import Alert from '~/components/Alert.vue'
 
 import AxiosPost from '~/components/AxiosPost.vue'
@@ -300,7 +256,7 @@ export default {
     this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
 
     if(this.authors && this.authors.length > 0 && this.authors[0]) {
-      // console.log('autho:',this.authors)
+      console.log('autho:',this.authors)
       this.$head.setAuthor(this.authors[0].fields['Name'] || "")
       this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
     }
@@ -492,4 +448,338 @@ export default {
 
 }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+
+img {
+  max-width: 100% !important;
+} 
+
+.Capsid-content {
+  width: 100%;
+}
+  .Capsid-content img {
+    width: 600px;
+    max-width: 100%;
+  }
+
+.Capsid-title {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-weight: bold;
+}
+.Capsid-lede {
+  padding-top: 16px;
+  padding-bottom: 32px;
+}
+.Capsid-twitter {
+  font-weight: bold;
+}
+h1 {
+  margin-top: 32px;
+}
+h2 {
+  font-size: 21px;
+  line-height: 48px;
+}
+h3 {
+  padding-top: 32px;
+}
+h4 {
+  padding-top: 32px;
+  padding-bottom: 8px;
+}
+h5 {
+  font-size: 21px;
+  line-height: 26px;
+  padding-top: 24px;
+  padding-bottom: 8px;
+}
+h6 {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 35px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+a {
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 680px) {
+  .People-card-email td {
+    display: block !important;
+  }
+
+  .People-info {
+    padding-top: 0 !important;
+  }
+
+  .Dir-social.Dir-title {
+    text-align: left !important;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+.Capsid-item {
+  padding: 16px;
+
+  border-radius: 4px;
+  background: white;
+  margin-bottom: 16px;
+
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+img {
+  max-width: 100% !important;
+} 
+
+  .Capsid-item img {
+    width: 100%;
+  }
+
+
+
+
+.Capsid-email-block {
+  padding: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+  .Capsid-section-heading {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .Capsid-section-heading-description {
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 16px;
+  }
+  .Capsid-section-new {
+    background: #F2F8FD;
+    padding: 16px;
+  }
+  .Capsid-section-jobs {
+    background: #FFF1F3;
+    padding: 16px;
+  }
+  .Capsid-section-community {
+    background: #FCFAEF;
+    padding: 16px;
+  }
+
+  @media only screen and (max-width: 680px){
+    .Capsid-section-title {
+      padding: 16px;
+    }
+  } 
+
+.Capsid-email-footer-share {
+  background-color: #4C6882;
+  padding: 16px;
+}
+  .Capsid-email-footer-share a { 
+    font-size: 18px !important;
+    color: white !important;
+    font-weight: normal !important;
+  }
+
+.Capsid-cite {
+  font-size: 14px;
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
+.Capsid-bibtex, .Capsid-bibtex .csl-entry, .Capsid-bibtex li {
+  font-family: monospace;
+}
+
+._tag {
+  background-color: #eeeeee;
+  border-radius: 4px;
+  border: 1px solid #eeeeee;
+  color: #000000;
+  display: inline-block;
+  font-size: 14px;
+  outline: none!important;
+  padding: 1px 8px;
+  text-decoration: none;
+  margin-bottom: 8px !important;
+  margin-right: 4px !important;
+}
+  .--highlight {
+    background-color: #D6F9FF;
+  }
+
+._card {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  border: 1px solid #EEEEEE;
+  overflow: auto;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  background-color: #FAFAFA;
+}
+
+._button.--short {
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 16px;
+  line-height: 8px;
+  border-width: 2px;
+  border-style: solid;
+  background-color: #F1FBFF;
+  padding-top: 9.5px;
+  padding-bottom: 9.5px;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border-radius: 4px;
+
+  text-decoration: none;
+  margin-right: 8px;
+  border-color: #2E81AA;
+  color: #2E81AA !important;
+
+  margin-top: 8px;
+  margin-bottom: 8px;
+  font-weight: bold !important;
+  text-decoration: none !important;
+
+}
+._button.--short:hover {
+  border-color: #71EFF5 !important;
+  background-color: #FFF !important;
+}
+
+table.Capsid-author-header td {
+  vertical-align: middle;
+  padding: 8px;
+}
+
+
+ul {
+  padding-inline-start: 18px;
+}
+li {
+  padding-bottom: 8px;
+}
+
+
+.Alert.Urgent {
+  margin-top: 16px;
+  border-top: 2px solid #D43615;
+  border-radius: 4px;
+  padding: 16px;
+}
+  .Alert.Urgent .Alert-status-tag {
+    display: block !important;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background-color: #D43615;
+    color: #FAFAFA;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+
+
+
+._font-small {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+._margin-top-half {
+  margin-top: 8px;
+}
+._margin-right {
+  margin-right: 16px;
+}
+._margin-bottom {
+  margin-bottom: 8px;
+}
+._padding {
+  padding: 16px;
+}
+._padding-left {
+  padding-left: 16px;
+}
+._padding-top {
+  padding-top: 16px;
+}
+._padding-top-2 {
+  padding-top: 32px;
+}
+._padding-bottom {
+  padding-bottom: 16px;
+}
+._padding-bottom-2 {
+  padding-bottom: 32px;
+}
+
+._color-bg-brand-5 {
+  background-color: #F1FBFF;
+}
+
+
+
+
+.--featured {
+  border-width: 2px;
+  border-color: #71EFF5;
+}
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

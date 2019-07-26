@@ -34,7 +34,7 @@
 
             <div class="_padding-bottom">
               <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`">
-                <img src="https://phage.directory/icon.png" width="23" style="margin-right: 8px; position: relative; bottom: -5px" >Read this issue on Phage Directory
+                <img src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/abd04207-4e0b-4cac-976c-e26139ce5239.png" width="23" style="margin-right: 8px; position: relative; bottom: -5px" >Read this issue on Phage Directory
               </a>
             </div>
           </div>
@@ -71,7 +71,7 @@
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >What’s New</h2>
             <div class="Capsid-section-heading-description">
-              <span style="padding-right: 16px;">Have an idea for us?</span> <a href="/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
+              <span style="padding-right: 16px;">Have an idea for us?</span> <a href="https://phage.directory/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
             </div>
           </div>
           <div v-if="updates.length > 0" >
@@ -87,8 +87,8 @@
           <div class="Capsid-section-header">
             <h2 class="Capsid-section-heading" >Latest Jobs</h2>
             <div class="Capsid-section-heading-description">
-              <nuxt-link to="/jobs" class="_button --short CTA --outline _margin-right-half-i _margin-bottom-none">View all jobs</nuxt-link>
-              <nuxt-link to="/jobs?tab=Post-a-Job" target="_blank" class="_button --short CTA --outline _margin-bottom-none">Post a job for free</nuxt-link>
+              <a href="https://phage.directory/jobs" class="_button --short CTA --outline _margin-right-half-i _margin-bottom-none">View all jobs</a>
+              <a href="https://phage.directory/jobs?tab=Post-a-Job" target="_blank" class="_button --short CTA --outline _margin-bottom-none">Post a job for free</a>
             </div>
           </div>
           <div v-if="jobs.length > 0" >
@@ -105,8 +105,8 @@
             <h2 class="Capsid-section-heading" >Community Board</h2>
             <div class="Capsid-section-heading-description">
               <div class="_padding-bottom">
-                <nuxt-link to="/community" class="_button --short CTA --outline _margin-right-half-i">View all posts</nuxt-link>
-                <nuxt-link to="/community?tab=Post-a-Message" class="_button --short CTA --outline">Post a message</nuxt-link>
+                <a href="https://phage.directory/community" class="_button --short CTA --outline _margin-right-half-i">View all posts</a>
+                <a href="https://phage.directory/community?tab=Post-a-Message" class="_button --short CTA --outline">Post a message</a>
               </div>
               <div v-html="$md.strip($md.render(communityDesc || ''))" />
             </div>
@@ -120,17 +120,9 @@
         </div>
 
         <div id="article" class="Capsid-article" >
-          <!-- twitter share on top -->
-          <!-- <div class="_padding-left-2 _padding-right-2">
-            <CapsidShare :link="twitterLink" class="_margin-top-2 _margin-bottom" message="Tweet this issue!" />
-          </div> -->
-
           <div class="Capsid-body Capsid-section _margin-center">
             <div class="_section-article _padding-xs">
-              <!-- <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" /> -->
               <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
-              <!-- short description / name -->
-
               <div v-if="authors && authors[0]" >
                 <AuthorCard v-for="item of authors" :key="item.id" :person="item" :isCompact="true" class="Capsid-author-short People-only-header --compact" />
               </div>
@@ -160,7 +152,6 @@
         <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
         <div id="Capsid-cite" class="Capsid-cite" v-if="citationData">
-          <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
           <h6 class="--inline">How to Cite</h6>
           <div v-if="issue.fields['Meta:Citation:Text']" >
             <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
@@ -189,7 +180,7 @@
           <h6 style="padding:0;">Like this issue?</h6> 
           <div style="padding-top: 8px;">
             <CapsidShare :link="twitterLink" message="Tweet this issue!" />
-            <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://dl.airtable.com/.attachments/c03b568df726d47bb37e53dbfacbbffd/4fa7ef48/Rss.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
+            <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/2811e7ca-2266-4877-9eef-d1b1b32a34c2.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
           </div>
         </div>
 
@@ -199,6 +190,7 @@
             <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`" target="_blank">https://phage.directory/capsid/{{issue.fields['Slug']}}/</a>
           </div>
         </div>
+
       </div>
 
     </div>
@@ -219,7 +211,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCardEmail.vue'
-import Alert from '~/components/alert.vue'
+import Alert from '~/components/Alert.vue'
 
 import AxiosPost from '~/components/AxiosPost.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
@@ -539,6 +531,22 @@ h6 {
 
 a {
   font-weight: bold;
+}
+
+@media only screen and (max-width: 680px) {
+  .People-card-email td {
+    display: block !important;
+  }
+
+  .People-info {
+    padding-top: 0 !important;
+  }
+
+  .Dir-social.Dir-title {
+    text-align: left !important;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
 }
 
 .Capsid-item {

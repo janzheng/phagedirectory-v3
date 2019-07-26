@@ -1,0 +1,36 @@
+
+{
+  "version": 2,
+	"name":"phage-directory-3",
+  "env": {
+    "SLAM_HOST": "REMOVED",
+    "SLAM_API": "REMOVED"
+  },
+  "build": {
+    "env": {
+      "SLAM_HOST": "REMOVED",
+      "SLAM_API": "REMOVED"
+    }
+  },
+  "builds": [
+    {
+      "src": "nuxt.config.js",
+      "use": "@nuxtjs/now-builder",
+      "config": {
+        "serverFiles": [
+          "components/**",
+          "middleware/**",
+          "plugins/**",
+          "other/**",
+          "package.json"
+        ]
+      }
+    }
+  ],
+  "routes": [
+    { "src": "/_nuxt/.+", "headers": { "cache-control": "s-maxage=31536000" } },
+    { "src": "/(.*)", "dest": "/" }
+  ]
+}
+
+

@@ -64,11 +64,11 @@ export default {
     'sidebar': Object, // options for open, closed, off/undefined
   },
 
-  layout: 'contentframe',
-  middleware: 'pageload',
-  meta: {
-    tableQueries: ["_content"]
-  },
+  // layout: 'contentframe',
+  // middleware: 'pageload',
+  // meta: {
+  //   tableQueries: ["_content"]
+  // },
 
   // runs on generation and page route (but not on first page load)
   // async asyncData({env, store, route}) {

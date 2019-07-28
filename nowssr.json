@@ -2,15 +2,15 @@
 {
   "version": 2,
   "alias":["phage.directory", "phagedirectory.org"],
-	"name":"pdv3-SPA",
+	"name":"pdv3-SSR",
   "env": {
-    "NODE_ENV": "spa",
+    "NODE_ENV": "universal",
     "SLAM_HOST": "REMOVED",
     "SLAM_API": "REMOVED"
   },
   "build": {
     "env": {
-      "NODE_ENV": "spa",
+      "NODE_ENV": "universal",
       "SLAM_HOST": "REMOVED",
       "SLAM_API": "REMOVED"
     }

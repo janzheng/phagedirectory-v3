@@ -30,6 +30,7 @@ export default ({app, env, store }, inject) => {
       if(!(store.state.policy == store.state.latestPolicy))
         return false
 
+      console.log('[Project mode]', env.mode)
       console.log('[Running policy-enhanced features]')
       // console.log('[Policy.js] Enable ga', app, Vue.$ga)
       // Vue.$ga.enable()

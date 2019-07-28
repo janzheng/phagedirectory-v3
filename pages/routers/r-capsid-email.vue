@@ -12,7 +12,6 @@
     <!-- the route should match against a slug and only the first matched slug should be relevant -->
     <Capsid :issue="Manuscripts[0]" :atoms="atoms" :route="route" />
 
-
   </div>
 </template>
 
@@ -81,6 +80,7 @@ export default {
   beforeCreate () {
   },
   mounted () {
+    console.log('[Router] Capsid Email')
   },
   beforeDestroy() {
   },

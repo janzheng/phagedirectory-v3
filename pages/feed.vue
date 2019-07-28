@@ -116,7 +116,8 @@ export default {
   },
 
   mounted() {
-    this.$segment.page('PDv3:index')
+    if(this.$segment)
+      this.$segment.page('PDv3:index')
   },
 
   methods: {

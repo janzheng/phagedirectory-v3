@@ -7,29 +7,31 @@
 
 <template>
   <div class="Template-Documentation">
-    <!-- 
-    <div class="_section-page">
-      <h6>[ t-router ] </h6>
-      <div class="_card _padding">Node: {{ node }}</div>
-      <div class="_card _padding">Source: {{ source }}</div>
-    </div> -->
+    <!-- ssr gets screwy with these -->
+    <no-ssr>
+      <!-- 
+      <div class="_section-page">
+        <h6>[ t-router ] </h6>
+        <div class="_card _padding">Node: {{ node }}</div>
+        <div class="_card _padding">Source: {{ source }}</div>
+      </div> -->
 
-    <!-- consider using dynamic loading only after too many templates (> 7) -->
+      <!-- consider using dynamic loading only after too many templates (> 7) -->
 
-    <!-- For landing pages and basic articles -->
-    <TemplateArticle v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
-
-
-    <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
-    <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
+      <!-- For landing pages and basic articles -->
+      <TemplateArticle v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
 
 
-    <!-- <TemplateDocs :node="node" :route="route" /> -->
-    <TemplateDocumentation v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
+      <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
+      <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
 
-    <!-- scroll spy alt -->
-    <TemplateScrollDocumentation v-if="node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
 
+      <!-- <TemplateDocs :node="node" :route="route" /> -->
+      <TemplateDocumentation v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
+
+      <!-- scroll spy alt -->
+      <TemplateScrollDocumentation v-if="node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
+    </no-ssr>
   </div>
 </template>
 
@@ -82,8 +84,8 @@ export default {
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route, error}) {
     const slug = '/' + unescape(route.params.slug)
-    const node = await loadQuery({env, store, routeName: '{node router}', query: 'Node-AbsolutePath', keyword: slug})
     console.log('Node Router: ', node, ' @ ', slug)
+    const node = await loadQuery({env, store, routeName: '{node router}', query: 'Node-AbsolutePath', keyword: slug})
 
     // node doesn't exist / bad route, throw a 404
     if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
@@ -108,6 +110,7 @@ export default {
   beforeCreate () {
   },
   mounted () {
+    console.log('[Node Router]', this.slug)
   },
   beforeDestroy() {
   },

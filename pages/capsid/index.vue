@@ -32,7 +32,7 @@
       <CapsidStub :issue="latest" :authors="getAuthorsOfManuscript(latest)" :is-featured="true" class="Capsid-latest" />
     </div>
 
-    <div class="_section-article _margin-center ">
+    <div class="_section-article _margin-center _padding-xs">
       <!-- <div class="" v-html="$md.render(signup || '')" /> -->
       <CapsidSignup />
 

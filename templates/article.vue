@@ -44,11 +44,11 @@ export default {
     
   },
 
-  layout: 'contentframe',
-  middleware: 'pageload',
-  meta: {
+  // layout: 'contentframe',
+  // middleware: 'pageload',
+  // meta: {
     // tableQueries: ["_content"]
-  },
+  // },
 
   // runs on generation and page route (but not on first page load)
   // async asyncData({env, store, route}) {

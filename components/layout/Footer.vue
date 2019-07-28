@@ -1,5 +1,5 @@
 <template>
-  <div class="Footer --antialiased">
+  <footer class="Footer --antialiased">
 
     <div class="_section-page _padding-left _padding-right _padding-top-2 _padding-bottom-2 _margin-center">
 
@@ -176,7 +176,7 @@
 
     </div>
 
-  </div>
+  </footer>
 </template>
 
 
@@ -190,7 +190,7 @@ export default {
 
   data () {
     return {
-      content: this.$cytosis.findOne('footer', this.$store.state['Content'] ).fields['Markdown']
+      // content: this.$cytosis.findOne('footer', this.$store.state['Content'] ).fields['Markdown']
     }
   },
 

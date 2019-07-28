@@ -1,20 +1,24 @@
 <template>
-  <div id="top" class="ContentFrame Layout" :class="navOpen ? '--open' : ''" >
-    <Header :scroll-y="scrollY" />
-    
-    <div class="ContentFrame-body" >
-      <nuxt @click="onClick($event)" />
-
-      <no-ssr>
-        <PolicyBanner />
-      </no-ssr>
+  <div>
+    <div id="top" class="ContentFrame Layout" :class="navOpen ? '--open' : ''" >
+      <Header :scroll-y="scrollY" />
       
-      <FooterSignups />
-      <FooterSupport />
+      <div class="ContentFrame-body" >
+        <nuxt @click="onClick($event)" />
+
+        <no-ssr>
+          <PolicyBanner />
+        </no-ssr>
+        
+        <FooterSignups />
+        <FooterSupport />
+      </div>
+      
+      <Footer/>
+      <div class="Footer --footer-tmp-element">
+      </div>
+
     </div>
-    <Footer/>
-
-
   </div>
 </template>
 
@@ -53,7 +57,8 @@ export default {
 
   head () {
     return {
-      title: this.$store.state.pageName || 'Phage Directory',
+      // title: this.$store.state.pageName || 'Phage Directory',
+      title: 'Phage Directory',
     }
   },
 
@@ -117,6 +122,8 @@ export default {
   // link intercept idea from: https://github.com/nuxt/nuxtjs.org/blob/master/components/HtmlParser.vue
   created () {
     // this.width = window.outerWidth
+    if(this.$segment)
+      this.$segment.page('v3-template-created')
 
     if(process.browser)
       window.addEventListener('scroll', this.handleScroll)

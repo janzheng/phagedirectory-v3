@@ -74,9 +74,9 @@ export default {
 
   layout: 'contentframe',
   middleware: 'pageload',
-  meta: {
+  // meta: {
     // tableQueries: ["_content"]
-  },
+  // },
 
   // runs on generation and page route (but not on first page load)
   // async asyncData({env, store, route}) {

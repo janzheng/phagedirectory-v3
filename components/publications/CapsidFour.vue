@@ -28,7 +28,7 @@
                   <span class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span>
                 </div>
                 <div class="Capsid-readtime _font-small _padding-top-half _padding-bottom">
-                  {{ issue.fields['Data:Body'] | readtime }} min read
+                  {{ readtimeContent | readtime }} min read
                 </div>
               </div>
 
@@ -410,6 +410,25 @@ export default {
           'Slug': this.issue.fields['Manuscripts:Related:Slug'][0],
         }
       }
+    },
+
+    readtimeContent() {
+      // add up all the lengthy content for read time
+      let content = this.issue.fields['Data:Body']
+
+      this.updates.map((item) => {
+        content += ' ' + item.fields['Markdown']
+      })
+
+      this.community.map((item) => {
+        content += ' ' + item.fields['Markdown']
+      })
+
+      this.jobs.map((item) => {
+        content += ' ' + item.fields['Markdown']
+      })
+
+      return content
     },
 
     updates() {

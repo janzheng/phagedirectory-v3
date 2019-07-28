@@ -45,13 +45,19 @@ const db_base = 'appZBUJQuXSUckq4d'; // PDv3 DB repo
 
 const analyze = false; // analyzer (webpack; turn off for prod)
 const offline = false;
-let mode = 'universal' 
+let mode = 'spa' 
+// let mode = 'spa' // FOR ZEIT: universal/ssr seems broken, but spa mode seems to work like surge
 // 'spa' loads airtable dynamically
 // 'static' only generates once / use npm run generate
 // const mode = 'universal' // loads airtable during build-time only (any changes to airtable won't be reflected live)
 if (process.env.NODE_ENV == 'spa') {
   console.log('RUNNING IN SPA MODE')
   mode = 'spa'
+}
+
+if (process.env.NODE_ENV == 'universal') {
+  console.log('RUNNING IN SSR MODE')
+  mode = 'universal'
 }
 
 const site_static = false; // if set to true, the client will never pull data 
@@ -249,34 +255,34 @@ export default {
     // icons: PWAIcons
   },
 
-  workbox: {
-    globPatterns: ['**/*.{js,css}', '**/img/*'],
-    offlinePage: '/404.html',
-    generate: {
-      fallback: true
-    },
-    // this breaks SPA mode, and is super aggressive, but makes offline mode work really well
-    // runtimeCaching: [
-    //   {
-    //     urlPattern: 'https://api.airtable.com/v0/appSCAap8SWbFRtu0/.*',
-    //     handler: 'cacheFirst',
-    //     method: 'GET',
-    //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
-    //   },
-    //   // {
-    //   //     urlPattern: 'https://fonts.googleapis.com/.*',
-    //   //     handler: 'cacheFirst',
-    //   //     method: 'GET',
-    //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
-    //   // },
-    //   // {
-    //   //     urlPattern: 'https://fonts.gstatic.com/.*',
-    //   //     handler: 'cacheFirst',
-    //   //     method: 'GET',
-    //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
-    //   // },
-    // ]
-  },
+  // workbox: {
+  //   globPatterns: ['**/*.{js,css}', '**/img/*'],
+  //   // offlinePage: '/404.html',
+  //   generate: {
+  //     fallback: true
+  //   },
+  //   // this breaks SPA mode, and is super aggressive, but makes offline mode work really well
+  //   // runtimeCaching: [
+  //   //   {
+  //   //     urlPattern: 'https://api.airtable.com/v0/appSCAap8SWbFRtu0/.*',
+  //   //     handler: 'cacheFirst',
+  //   //     method: 'GET',
+  //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+  //   //   },
+  //   //   // {
+  //   //   //     urlPattern: 'https://fonts.googleapis.com/.*',
+  //   //   //     handler: 'cacheFirst',
+  //   //   //     method: 'GET',
+  //   //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+  //   //   // },
+  //   //   // {
+  //   //   //     urlPattern: 'https://fonts.gstatic.com/.*',
+  //   //   //     handler: 'cacheFirst',
+  //   //   //     method: 'GET',
+  //   //   //     strategyOptions: {cacheableResponse: {statuses: [0, 200]}}
+  //   //   // },
+  //   // ]
+  // },
 
   build: {
     // helps cache busting
@@ -415,8 +421,6 @@ export default {
           component: resolve(__dirname, 'pages/alerts.vue')
         },
 
-
-
         {
           name: 'capsid & tail tips/ideas',
           path: '/capsid/tips',
@@ -432,7 +436,7 @@ export default {
         },
         {
           name: 'capsid & tail email generator',
-          path: '/capsidemail/:slug*',
+          path: '/capsidemail/:slug',
           component: resolve(__dirname, 'pages/routers/r-capsid-email.vue')
         },
         {

@@ -84,7 +84,7 @@ export default {
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route, error}) {
     const slug = '/' + unescape(route.params.slug)
-    console.log('Node Router: ', node, ' @ ', slug)
+    console.log('[Node Router]', slug)
     const node = await loadQuery({env, store, routeName: '{node router}', query: 'Node-AbsolutePath', keyword: slug})
 
     // node doesn't exist / bad route, throw a 404
@@ -93,6 +93,8 @@ export default {
       // return this.$nuxt.error({ statusCode: 404, message: "Page not Found" })
       return error({ statusCode: 404, message: "Page not Found" })
     }
+
+    console.log('[Node Router] node:', node)
 
     // special type of node that redirects to another page
     if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {

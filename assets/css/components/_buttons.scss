@@ -27,6 +27,13 @@
     // line-height: 0; // works for policy, idk if it breaks anything else 
   }
 
+  &.--multiline {
+    // introduces normal body line-height, which makes buttons taller than you want for formatting, 
+    // but great for longer text buttons
+    // line-height: $size-half;
+    line-height: usetheme(font-lh);
+  }
+
   &.--compact {
     padding-left: $size-half;
     padding-right: $size-half;

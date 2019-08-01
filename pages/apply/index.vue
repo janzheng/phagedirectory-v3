@@ -8,14 +8,14 @@
           <!-- <nuxt-link to="/apply/research" class="Join-research _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(research || '')" />
           </nuxt-link> -->
-          <a href="https://airtable.com/shrbZHMw6R2dCij9v" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+          <a href="https://phage.directory/apply/researchers" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(research || '')" />
           </a>
 
           <!-- <nuxt-link to="/apply/medical" class="Join-medical _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
           </nuxt-link> -->
-          <a href="https://airtable.com/shrdIUxOsr411hNwR" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+          <a href="https://phage.directory/apply/medical" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
           </a>
           
@@ -23,7 +23,7 @@
           <!-- <nuxt-link to="/apply/banks" class="Join-banks _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
           </nuxt-link> -->
-          <a href="https://airtable.com/shrPtmSf5dxdeBnoy" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+          <a href="https://phage.directory/apply/phagebanks" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
           </a>
 
@@ -31,7 +31,7 @@
           <!-- <nuxt-link to="/apply/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
           </nuxt-link> -->
-          <a href="https://airtable.com/shrYdNUwSLMKUvRhz" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
+          <a href="https://phage.directory/apply/orgs" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
           </a>
           
@@ -55,31 +55,24 @@
 
 <script>
 
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 import Template from '~/templates/article.vue'
-// import Alert from '~/components/Alert.vue'
-// import AlertSignup from '~/components/layout/FooterSignups-alerts.vue'
-// import Tabbed from '~/components/layout/Tabbed.vue'
 
 export default {
 
   components: {
     Template,
-    // Alert,
-    // AlertSignup,
-    // Tabbed,
   },
 
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-alerts"],
+    tableQueries: ["_content"],
     refreshOnLoad: true,
   },
 
   data () {
     return {
-      activeTab: 'Active',
       intro: this.$cytosis.findOne('join-intro', this.$store.state['Content'] ).fields['Markdown'],
       research: this.$cytosis.findOne('join-researcher', this.$store.state['Content'] ).fields['Markdown'],
       organization: this.$cytosis.findOne('join-organization', this.$store.state['Content'] ).fields['Markdown'],
@@ -92,18 +85,6 @@ export default {
   },
   
   computed: {
-    ...mapState([
-      'Atoms',
-      ]),
-    alerts() {
-      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Alert')
-    },
-    active() {
-      return this.alerts.filter(t => {return t.fields['Data:Status'] !== 'Resolved'})
-    },
-    resolved() {
-      return this.alerts.filter(t => t.fields['Data:Status'] === 'Resolved')
-    }
   },
 
   // runs on generation and page route (but not on first page load)

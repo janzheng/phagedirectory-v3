@@ -2,17 +2,15 @@
 {
   "version": 2,
   "alias":["phage.directory", "phagedirectory.org"],
-	"name":"pdv3-SSR",
+  "name":"pdv3-SSR",
   "env": {
-    "NODE_ENV": "universal",
-    "SLAM_HOST": "REMOVED",
-    "SLAM_API": "REMOVED"
+    "MODE": "universal",
+    "PD_ENV": "stage"
   },
   "build": {
     "env": {
-      "NODE_ENV": "universal",
-      "SLAM_HOST": "REMOVED",
-      "SLAM_API": "REMOVED"
+      "MODE": "universal",
+      "PD_ENV": "stage"
     }
   },
   "builds": [
@@ -41,6 +39,14 @@
     { "src": "/slack", "status": 301, "headers": { "Location": "https://phagedirectory.slack.com/join/shared_invite/enQtNzA2OTI0MTk4Mzc0LTU4Yjg0NTY2NWEyMzUyZDMxMDJjMmEyZGFiNDcyYmIxMzYxYTRkZjBjZGY3YjNlODc2MWFhNTAwNjBmYzQyYmY" }},
     { "src": "/chat", "status": 301, "headers": { "Location": "https://calendly.com/phage/quick-chat" }},
     { "src": "/feed.xml", "status": 301, "dest": "https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-rss" },
+
+    { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrbZHMw6R2dCij9v" } },
+    { "src": "/apply/medical", "status": 301, "headers": { "Location": "https://airtable.com/shrdIUxOsr411hNwR" } },
+    { "src": "/apply/phagebanks", "status": 301, "headers": { "Location": "https://airtable.com/shrPtmSf5dxdeBnoy" } },
+    { "src": "/apply/orgs", "status": 301, "headers": { "Location": "https://airtable.com/shrYdNUwSLMKUvRhz" } },
+
+    { "src": "/staging", "status": 301, "headers": { "Location": "https://pdv3-ssr.yawnxyz.now.sh" } },
+
     { "src": "/(.*)", "dest": "/" }
   ]
 }

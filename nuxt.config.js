@@ -45,20 +45,23 @@ const db_base = 'appZBUJQuXSUckq4d'; // PDv3 DB repo
 
 const analyze = false; // analyzer (webpack; turn off for prod)
 const offline = false;
-let mode = 'spa' 
+let mode = 'spa';
 // let mode = 'spa' // FOR ZEIT: universal/ssr seems broken, but spa mode seems to work like surge
 // 'spa' loads airtable dynamically
 // 'static' only generates once / use npm run generate
 // const mode = 'universal' // loads airtable during build-time only (any changes to airtable won't be reflected live)
-if (process.env.NODE_ENV == 'spa') {
+if (process.env.MODE == 'spa') {
   console.log('RUNNING IN SPA MODE')
   mode = 'spa'
 }
 
-if (process.env.NODE_ENV == 'universal') {
+if (process.env.MODE == 'universal') {
   console.log('RUNNING IN SSR MODE')
   mode = 'universal'
 }
+
+const pd_env = process.env.PD_ENV; // Phage Directory 'stage' or 'prod' environment — stage is used for previewing profiles etc.
+console.log('Phage Directory environment:', pd_env)
 
 const site_static = false; // if set to true, the client will never pull data 
 
@@ -78,6 +81,7 @@ export default {
   mode: mode, // for development, or for real-time airtable changes
   env: {
     mode: mode,
+    pd_env: pd_env, // 'stage' or 'prod'
     site_fb: site_fb,
     airtable_api: airtable_api,  
     airtable_base: airtable_base,

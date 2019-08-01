@@ -17,12 +17,12 @@
     />
     <textarea :id="input.name"
               v-model.trim="data" 
+              ref="textarea"
               :name="input.name"
               :class="inputAttrs" 
               :placeholder="input.placeholder"
               :required="input.required" 
               :rows="input.rows || 4"
-              ref="textarea"
               class="_form-input _block" 
               type="text" 
               @input="emit"

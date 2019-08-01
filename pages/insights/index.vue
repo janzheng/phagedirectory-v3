@@ -1,10 +1,10 @@
 <template>
-  <div class="Orgs Dir-category">
+  <div class="Insights Dir-category">
     <no-ssr>
       <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
 
         <template #header-container>
-          <h1 class="--title"><span class="_color-mono-60">Phage </span>Organizations</h1>
+          <h1 class="--title"><span class="_color-mono-60">Phage </span>Insights</h1>
           <h1 v-if="search.string" class="--title _padding-bottom-half" _padding-bottom-half><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
           <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterOrgs.length }}</h2>
         </template>
@@ -23,23 +23,32 @@
                 </p>
               </div>
               <div class="_right-sm">
-                <a href="https://phage.directory/apply/orgs" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+                <div class="_margin-bottom">
+                  <a href="https://phage.directory/apply/orgs" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+                </div>
+                <div class="_margin-bottom">
+                  <a href="https://phage.directory/apply/orgs" class="_button CTA --multiline --inverse _width-100 _center">Sign Up as a Reviewer</a>
+                </div>
+                <div class="_margin-bottom">
+                  <a href="https://phage.directory/apply/orgs" class="_button CTA --multiline --inverse _width-100 _center">Sign Up as an Editor</a>
+                </div>
               </div>
             </div>
+            <!-- 
+              <div id="content-top" class="Orgs-list" >
+                <div v-if="search.string && filterOrgs.length == 0" class="Dir-notice">
+                  <h1 class="" >No results found.</h1>
+                </div>
 
-            <div id="content-top" class="Orgs-list" >
-              <div v-if="search.string && filterOrgs.length == 0" class="Dir-notice">
-                <h1 class="" >No results found.</h1>
+                <div v-for="item of filterOrgs" :key="item.id" >
+                  <Card :org="item" :phage-collections="phageCollections" class="Hosts-list-item" />
+                </div>
               </div>
-
-              <div v-for="item of filterOrgs" :key="item.id" >
-                <Card :org="item" :phage-collections="phageCollections" class="Hosts-list-item" />
-              </div>
-            </div>
+            -->
           </div>
 
         </template>
-        <template #context>
+        <!-- <template #context>
           <div class="Dir-sidebar">
             <div>
               <label for="dirSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
@@ -64,7 +73,7 @@
           <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
             Back to top
           </nuxt-link>
-        </template>
+        </template> -->
 
       </Template>
     </no-ssr>
@@ -79,7 +88,7 @@
 
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
-import Card from '~/components/dir/OrgCard.vue'
+// import Card from '~/components/dir/OrgCard.vue'
 import { dirSearch } from '~/other/helpers.js'
 import _ from '~/other/lodash.custom.min.js'
 // import Person from '~/components/dir/DirPeopleList.vue'
@@ -92,7 +101,7 @@ export default {
 
   components: {
     Template,
-    Card,
+    // Card,
   },
 
   layout: 'contentframe',
@@ -170,8 +179,7 @@ export default {
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = route.params.slug
-    const query = env.pd_env == 'stage' ? 'Orgs-preview' : 'Orgs-index'
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{orgs}', query: query})
+    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{orgs}', query: 'Orgs-index'})
     // console.log('matched node: ', node, ' @ ', slug)
 
     // const testdata = app.$cytosis.cleanTable( data.tables['PhageCollections'] )
@@ -210,12 +218,6 @@ export default {
     clearOrgTypeFilter() {
       this.orgTypeFilter = false
     },
-    
-    doneScrolling(el) {
-      this.$router.push({
-        path: this.$route.path + '#' + el.id
-      })
-    }
   }
 
 }

@@ -21,7 +21,7 @@
                 </p>
               </div>
               <div class="_right-sm">
-                <a href="https://airtable.com/shrbZHMw6R2dCij9v" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+                <a href="https://phage.directory/apply/researchers" class="_button CTA --inverse _width-100 _center">Sign Up</a>
               </div>
             </div>
 
@@ -141,7 +141,8 @@ export default {
   // runs on generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = route.params.slug
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{labs}', query: 'Labs-index'})
+    const query = env.pd_env == 'stage' ? 'Labs-preview' : 'Labs-index'
+    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{labs}', query: query})
 
     return {
       slug,
@@ -165,6 +166,12 @@ export default {
       this.searchString = ""
       dirSearch(this)
     },
+
+    doneScrolling(el) {
+      this.$router.push({
+        path: this.$route.path + '#' + el.id
+      })
+    }
   },
 
 }

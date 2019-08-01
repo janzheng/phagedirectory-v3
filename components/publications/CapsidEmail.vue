@@ -416,7 +416,7 @@ export default {
 
         return {
           source: `
-            @article{${this.authors[0].fields['CitationName']}${date.getFullYear()},
+            @article{${this.issue.fields['Slug']}${date.getFullYear()},
               author = {${authorNames.join(' and ')}},
               date = {${date.getFullYear()}},
               day = {${date.getDay()}},

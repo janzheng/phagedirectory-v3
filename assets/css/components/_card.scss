@@ -3,7 +3,8 @@
   box-shadow: usetheme(shadow-1, $shadows_);
 
   // adds slightly more visibility
-  border: 1px solid usetheme(card); // $color-silver-lighter;
+  // border: 1px solid usetheme(card); // $color-silver-lighter;
+  border: $border-thin solid usetheme(card); // $color-silver-lighter;
   // color: usetheme(copy);
   overflow: auto;
   @extend %ease;
@@ -41,7 +42,8 @@
   }
   &.--brand {
     background-color: usetheme(brand-background); // $color-teal-50;
-    border-color: usetheme(brand-border); // $color-teal-50;
+    // border-color: usetheme(brand-border); // $color-teal-50;
+    border-color: usetheme(brand); // $color-teal-50;
     color: usetheme(brand-90);
   }
     &.--border-highlight {

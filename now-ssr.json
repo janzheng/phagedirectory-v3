@@ -2,13 +2,13 @@
 {
   "version": 2,
   "alias":["phage.directory", "phagedirectory.org"],
-	"name":"pdv3-SPA",
+	"name":"pdv3-SSR",
   "env": {
-    "MODE": "spa"
+    "MODE": "universal"
   },
   "build": {
     "env": {
-      "MODE": "spa"
+      "MODE": "universal"
     }
   },
   "builds": [

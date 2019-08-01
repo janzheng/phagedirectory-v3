@@ -4,7 +4,7 @@
  -->
 <template>
 
-  <div v-if="event.fields['isPublished']" :class="(isNext || isNow) ? '--upcoming' : '' " class="AgendaEvent" >
+  <div :class="(isNext || isNow) ? '--upcoming' : '' " class="AgendaEvent" >
 
     <!-- these are "meta" type events that break up the day -->
 
@@ -18,25 +18,25 @@
     </div>
 
     <!-- Type: Day -->
-    <div v-if="getAgendaType(event) == 'Day' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --meta-major _grid-2-1 _grid-gap-small _align-vertically">
+    <div v-if="agendaType == 'Day' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --meta-major _grid-2-1 _grid-gap-small _align-vertically">
       <div class="AgendaEvent-item-title" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
-      <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time'] | niceDate }}</div>
+      <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time:Nice'] }}</div>
     </div>
 
     <!-- Type: End of Day -->
-    <div v-else-if="getAgendaType(event) == 'Day End' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --meta-descriptor _grid-3-1 _grid-gap-small _align-vertically">
+    <div v-else-if="agendaType == 'Day End' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --meta-descriptor _grid-3-1 _grid-gap-small _align-vertically">
       <div class="AgendaEvent-item-title" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
-      <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time'] | niceTimeDate }}</div>
+      <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time:Nice'] }}</div>
     </div>
 
     <!-- Type: Event -->
-    <div v-else-if="getAgendaType(event) == 'Event' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --meta-event _grid-2-1 _grid-gap-small _align-vertically">
+    <div v-else-if="agendaType == 'Event' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --meta-event _grid-2-1 _grid-gap-small _align-vertically">
       <div class="AgendaEvent-item-title" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
-      <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time'] | niceTimeDate }}</div>
+      <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time:Nice'] }}</div>
     </div>
 
     <!-- Type: Session -->
-    <div v-else-if="getAgendaType(event) == 'Session' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --meta-session">
+    <div v-else-if="agendaType == 'Session' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --meta-session">
       <div class="AgendaEvent-item-title">
         <div class="--meta-session-header">Session:</div>
         <div v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
@@ -47,52 +47,52 @@
     <!-- remarks is a meta talk w/ no set speakers -->
 
     <!-- Type: Remarks -->
-    <div v-else-if="getAgendaType(event) == 'Remarks' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --speaker">
-      <StreamEvent>
-        <div slot="type">{{ getAgendaType(event) }}</div>
-        <div slot="date">{{ event.fields['Time'] | niceTimeDate }}</div>
+    <div v-else-if="agendaType == 'Remarks' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --speaker">
+      <AgendaCard>
+        <div slot="type">{{ agendaType }}</div>
+        <div slot="date">{{ event.fields['Time:Nice'] }}</div>
         <div slot="main">
           <div class="AgendaEvent-item-name">{{ event.fields['Name'] }}</div>
         </div>
-      </StreamEvent>
+      </AgendaCard>
     </div>
 
     <!-- inviter speaker talks are called "speaker" -->
 
     <!-- Type: Keynote -->
-    <div v-else-if="getAgendaType(event) == 'Keynote' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --speaker">
-      <StreamEvent>
-        <div slot="type">{{ getAgendaType(event) }}</div>
-        <div slot="date">{{ event.fields['Time'] | niceTimeDate }}</div>
+    <div v-else-if="agendaType == 'Keynote' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --speaker">
+      <AgendaCard>
+        <div slot="type">{{ agendaType }}</div>
+        <div slot="date">{{ event.fields['Time:Nice'] }}</div>
         <div slot="main">
           <div class="AgendaEvent-item-name" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
           <div class="AgendaEvent-item-speakers" v-html="$md.strip($md.render( event.fields['Speakers'] || ''))" />
         </div>
-      </StreamEvent>
+      </AgendaCard>
     </div>
 
     <!-- Type: Speaker -->
-    <div v-else-if="getAgendaType(event) == 'Speaker' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --speaker">
-      <StreamEvent>
-        <div slot="type">{{ getAgendaType(event) }}</div>
-        <div slot="date">{{ event.fields['Time'] | niceTimeDate }}</div>
+    <div v-else-if="agendaType == 'Speaker' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --speaker">
+      <AgendaCard>
+        <div slot="type">{{ agendaType }}</div>
+        <div slot="date">{{ event.fields['Time:Nice'] }}</div>
         <div slot="main">
           <div class="AgendaEvent-item-name" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
           <div class="AgendaEvent-item-speakers" v-html="$md.strip($md.render( event.fields['Speakers'] || ''))" />
         </div>
-      </StreamEvent>
+      </AgendaCard>
     </div>
 
     <!-- Type: Panel -->
-    <div v-else-if="getAgendaType(event) == 'Panel' " :class="[getAgendaType(event), getExpiredClass(event)]" class="AgendaEvent-item --speaker">
-      <StreamEvent>
-        <div slot="type">{{ getAgendaType(event) }}</div>
-        <div slot="date">{{ event.fields['Time'] | niceTimeDate }}</div>
+    <div v-else-if="agendaType == 'Panel' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --speaker">
+      <AgendaCard>
+        <div slot="type">{{ agendaType }}</div>
+        <div slot="date">{{ event.fields['Time:Nice'] }}</div>
         <div slot="main">
           <div class="AgendaEvent-item-name" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
           <div class="AgendaEvent-item-speakers" v-html="$md.render( event.fields['Speakers'] || '')" />
         </div>
-      </StreamEvent>
+      </AgendaCard>
     </div>
 
   </div>
@@ -105,13 +105,13 @@
 <script>
 
 // import StreamCard from '~/components/events/StreamCard.vue'
-import StreamEvent from '~/components/events/StreamEvent.vue'
+import AgendaCard from '~/components/events/AgendaCard.vue'
 
 export default {
 
   components: {
     // StreamCard,
-    StreamEvent,
+    AgendaCard,
   },
 
   props: {
@@ -122,21 +122,14 @@ export default {
 
   data: function () {
     return {
-      // intro: this.$cytosis.find('Content.capsid-intro', this.$store.state.cytosis.tables)[0]['fields']['Markdown'],
-      // banner: this.$cytosis.find('Content.capsid-banner', this.$store.state.cytosis.tables)[0]['fields']['Markdown'],
-      // placeholder: this.$cytosis.find('Content.capsid-placeholder', this.$store.state.cytosis.tables)[0]['fields']['Markdown'],
     }
   },
 
-  methods: {
-    handleSubmit() {
-      // todo: use axios w/ the mailchimp API instead of default mailchimp
-      return false
-    },
+  computed: {
 
-    getAgendaType(event) {
+    agendaType() {
       // edit this later w/ triggers etc.
-      return event.fields['Type']
+      return this.event.fields['Type']
       // if (agenda.fields['Type'] == 'Day' ) { return 'Day' } 
       // else if (agenda.fields['Type'] == 'Event' ) { return 'Event' } 
       // else if (agenda.fields['Type'] == 'Session' ) { return 'Session' } 
@@ -147,13 +140,22 @@ export default {
       // else if (agenda.fields['Type'] == 'Panel' ) { return 'Panel' } 
     },
 
-    getExpiredClass(event) {
+    expiredClass() {
+      if(this.isNow)
+        return undefined
+      
       const nowDate = new Date
       const now = nowDate.toISOString()
 
-      if (now > event.fields['Time'])
+      if (now > this.event.fields['Time:Raw'])
         return '--expired'
+
+      return undefined
     }
+  },
+
+  methods: {
+
   }
 
 }

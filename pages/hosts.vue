@@ -186,6 +186,12 @@ export default {
       this.searchString = ""
       dirSearch(this)
     },
+    
+    doneScrolling(el) {
+      this.$router.push({
+        path: this.$route.path + '#' + el.id
+      })
+    }
   }
 }
 </script>

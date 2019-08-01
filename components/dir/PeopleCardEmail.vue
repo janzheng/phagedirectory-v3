@@ -41,8 +41,9 @@
               </div>
 
               <div class="People-orgs Dir-row _font-small">
-                <div v-if="roles" class="People-roles _margin-top-half">
+                <div v-if="roles || jobTitle" class="People-roles _margin-top-half">
                   <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
+                  <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
                 </div>
 
                 <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
@@ -165,12 +166,9 @@ export default {
     },
     roles() {
       return this.person.fields['Roles']
-      // let string = this.person.fields['Roles']
-
-      // if(!string)
-      //   return undefined
-
-      // return string.join(', ')
+    },
+    jobTitle() {
+      return this.person.fields['JobTitle']
     },
     isPI() {
       if (this.person.fields['Orgs:Labs:isPI'])

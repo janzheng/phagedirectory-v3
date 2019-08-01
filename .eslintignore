@@ -32,6 +32,7 @@ components/coeur/
 components/experiments
 pages/coeur/*
 
+phagefutures.vue
 phagefuturestmp.vue
 
 

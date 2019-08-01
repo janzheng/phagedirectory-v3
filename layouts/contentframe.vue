@@ -15,8 +15,6 @@
       </div>
       
       <Footer/>
-      <div class="Footer --footer-tmp-element">
-      </div>
 
     </div>
   </div>

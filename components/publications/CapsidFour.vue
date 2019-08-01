@@ -33,7 +33,7 @@
               </div>
 
               <!-- <nuxt-link :to="`/capsid/${issue.fields['Slug']}`"> -->
-              <h1 class="Capsid-title _padding-top" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
+              <h1 class="Capsid-title _padding-top" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
               <!-- </nuxt-link> -->
               <div class="_section-article">
                 <!-- <div class="Capsid-lede _padding-bottom" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" /> -->
@@ -146,7 +146,7 @@
           <div class="Capsid-body Capsid-section _margin-center">
             <div class="_section-article _padding-xs">
               <!-- <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" /> -->
-              <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
+              <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
               <!-- short description / name -->
 
               <div v-if="authors && authors[0]" >
@@ -202,9 +202,9 @@
             <div v-if="loading">Loading...</div>
             <div v-else>
               <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
-              <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
+              <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa || '' )" />
               <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
-              <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" />
+              <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex || '' )" />
             </div>
           </div>
         </AxiosPost>
@@ -241,8 +241,8 @@
       </div>
 
       <div class="Capsid-prompt Capsid-print-hidden _section-content _margin-center _padding">
-        <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup)" />
-        <div class="_section-article _margin-center" v-html="$md.render(tip)" />
+        <div class="_section-article _margin-center _margin-bottom" v-html="$md.render(signup || '')" />
+        <div class="_section-article _margin-center" v-html="$md.render(tip || '')" />
       </div>
 
     </div>
@@ -317,53 +317,65 @@ export default {
 
     // if we're grabbing author info from DB:People
     const _this = this
+    let authors = []
     const getAuthors = async function() {
       // console.log('fetching authors:')
 
       // ensures corr. author is first
       // REMINDER: Authors always returns as an array; if there are no attached authors
       // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
-      if(_this.issue.fields['Data:MainAuthorSlug']) {
-        _this.issue.fields['Data:MainAuthorSlug'].map(async function(slug) {
-          const item = await loadQuery({
-            _key: process.env.db_api, 
-            _base: process.env.db_base, 
-            store: _this.$store, 
-            routeName: '{Capsid}', 
-            query: 'People-profile',
-            keyword: slug,
-          })
-          _this.authors.push(item.tables.People[0])
-        })
-      }
+      return new Promise(function(resolve) {
 
-      if(_this.issue.fields['Data:AuthorSlugs']) {
-        _this.issue.fields['Data:AuthorSlugs'].map(async function(slug) {
-          const item = await loadQuery({
-            _key: process.env.db_api, 
-            _base: process.env.db_base, 
-            store: _this.$store, 
-            routeName: '{Capsid}', 
-            query: 'People-profile',
-            keyword: slug,
+        if(_this.issue.fields['Data:MainAuthorSlug']) {
+          _this.issue.fields['Data:MainAuthorSlug'].map(async function(slug) {
+            const item = await loadQuery({
+              _key: process.env.db_api, 
+              _base: process.env.db_base, 
+              store: _this.$store, 
+              routeName: '{Capsid}', 
+              query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
+              keyword: slug,
+            })
+            authors.push(item.tables.People[0])
+            // resolve(authors)
+            
           })
-          // _this.authors.push(item.tables.People[0])
-          _this.authors = [... _this.authors, ... item.tables.People]
-        })
-      }
+        }
+
+        if(_this.issue.fields['Data:AuthorSlugs']) {
+          _this.issue.fields['Data:AuthorSlugs'].map(async function(slug) {
+            const item = await loadQuery({
+              _key: process.env.db_api, 
+              _base: process.env.db_base, 
+              store: _this.$store, 
+              routeName: '{Capsid}', 
+              query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
+              keyword: slug,
+            })
+            // _this.authors.push(item.tables.People[0])
+            // authors = [... authors, ... item.tables.People]
+            _this.authors = [... _this.authors, ... item.tables.People]
+            // console.log('retrieved secondary authors:', authors)
+            // resolve(authors)
+          })
+        }
+
+        resolve(authors)
+
+      })
     }
     
     if(this.issue.fields['Data:MainAuthorSlug'] || this.issue.fields['Data:AuthorSlugs']) {
-      getAuthors() // async; populates this.authors directly when loaded
-      // getAuthors().then((data) => {
-      //   console.log('retrieved authors:', data, this.issue.fields['Data:AuthorSlug'])
-      //   _this.authors = data
-      // })
+      // getAuthors() // async; populates this.authors directly when loaded
+      getAuthors().then(() => {
+        // console.log('retrieved all authors:', authors)
+        _this.authors = authors
+      })
     }
 
     return {
       path: this.$route.path,
-      authors: [],
+      authors: authors,
       intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       tip: this.$cytosis.find('Content.capsid-tip', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
@@ -477,28 +489,48 @@ export default {
     citationData() {
       // all author data loaded in async, so need to verify data is complete by using array len
       // every article will have one corr. author, plus a variable # of authors
+      const mainAuthorCount = this.issue.fields['Data:MainAuthorSlug'] ? this.issue.fields['Data:MainAuthorSlug'].length : 0
       const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
-      if(this.authors && this.authors[0] && this.authors.length == authorCount + 1) {
+      
+      // console.log('citationDta authCount', this.authors.length, mainAuthorCount, authorCount)
+      if(this.authors && this.authors[0] && this.authors.length == mainAuthorCount + authorCount) {
+      // const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
+      // if(this.authors && this.authors.length > 0) {
         const date = new Date(this.issue.fields['Data:Date'])
 
         let authorNames = []
-        this.authors.map((item) => authorNames.push(item.fields['Name']))
+        this.authors.map((item) => authorNames.push(`${item.fields['FamilyName']}, ${item.fields['FirstName']}`))
         // console.log('author names:', authorNames.join(' and '))
 
+        // const source =  `
+        //   @article{${this.authors[0].fields['FamilyName']}${date.getFullYear()},
+        //     author = {${authorNames.join(' and ')}},
+        //     date = {${date.getFullYear()}},
+        //     day = {${date.getDay()}},
+        //     month = {${date.getMonth()}},
+        //     title = {{${this.issue.fields['Data:Title:String']}}},
+        //     journal = {Capsid & Tail},  
+        //     publisher = {Phage Directory},
+        //     number = {${this.issue.fields['Data:Issue']}},
+        //     url = {${this.issue.fields['URL']}},
+        //   }
+        // `
+        const source =  `
+          @article{${this.issue.fields['Slug']}${date.getFullYear()},
+            author = {${authorNames.join(' and ')}},
+            date = {${date.getFullYear()}},
+            day = {${date.getDay()}},
+            month = {${date.getMonth()}},
+            title = {{${this.issue.fields['Data:Title:String']}}},
+            journal = {Capsid & Tail},  
+            publisher = {Phage Directory},
+            number = {${this.issue.fields['Data:Issue']}},
+            url = {${this.issue.fields['URL']}},
+          }
+        `
+
         return {
-          source: `
-            @article{${this.authors[0].fields['CitationName']}${date.getFullYear()},
-              author = {${authorNames.join(' and ')}},
-              date = {${date.getFullYear()}},
-              day = {${date.getDay()}},
-              month = {${date.getMonth()}},
-              title = {{${this.issue.fields['Data:Title:String']}}},
-              journal = {Capsid & Tail},  
-              publisher = {Phage Directory},
-              number = {${this.issue.fields['Data:Issue']}},
-              url = {${this.issue.fields['URL']}},
-            }
-          `
+          source
         }
       }
       return undefined

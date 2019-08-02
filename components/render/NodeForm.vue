@@ -7,7 +7,18 @@
 
 <template>
   <div :class="src.fields['Data:Attrs'] || 'Node-Form FormCard'" class="">
-    <Form :payload="payload"
+
+
+    <SimpleForm v-if="src.fields['Data:List'] == 'SimpleForm'"
+                :payload="payload"
+                :target-table="src.fields['Data:Select']"
+                :send-email="true"
+                :validate="true"
+                :form-name="src.fields['Name']"
+                class=""
+    />
+    <Form v-else
+          :payload="payload"
           :target-table="src.fields['Data:Select']"
           :send-email="true"
           :validate="true"
@@ -19,6 +30,7 @@
 
 <script>
 
+import SimpleForm from '~/components/layout/SimpleForm.vue'
 import Form from '~/components/layout/Form.vue'
 import { mapState } from 'vuex'
 
@@ -26,6 +38,7 @@ export default {
 
   components: {
     Form,
+    SimpleForm,
   },
 
   props: {

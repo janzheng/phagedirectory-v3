@@ -1,53 +1,40 @@
 
 <template>
 
-  <div class="Formlet Formlet-input _form-control --float" >
+  <!-- refer to formlet-input and using an "action" to add an action - that's probably better  -->
+  <div class="Formlet Formlet-input Formlet-input-cta _form-control" >
+    <label  
+      v-if="input.name"
+      :for="input.name" 
+      class="_form-label" 
+      :class="data ? '--data' : '' "
+      v-html="$md.render(input.label || '')" 
+    />
+    <label 
+      v-if="input.description" 
+      :for="input.name" 
+      class="_form-desc" 
+      v-html="$md.render(input.description || '')" 
+    />
 
-    <div v-if="input.action" class="_flex-row-sm">
+    <div class="_flex-row-sm">
       <input :id="input.name"
-             v-model.trim="data"
-             :class="data ? `--data ${inputAttrs}` : inputAttrs "
+             v-model.trim="data" 
+             :class="inputAttrs" 
              :name="input.name"
              :placeholder="input.placeholder"
              :required="input.required"
              class="_form-input --width-full" 
-             type="text"
+             :type="type"
              @input="emit"
              @blur="emit"
              @change="emit"
              @keyup.enter="keyEnterHandler"
       >
-      <label  
-        v-if="input.name"
-        :for="input.name" 
-        class="_form-label" 
-        :class="data ? '--data' : '' "
-        v-html="$md.render(input.label || '')" 
-      />
-      <input class="_button _flex-1 --outline _margin-bottom-none " type="submit" :value="input.action" style="height: auto" @click="keyEnterHandler">
+      <input class="_button _flex-1 --outline _margin-bottom-none " type="submit" :value="input.action" @click="keyEnterHandler">
     </div>
-    <div v-else>
-      <input :id="input.name"
-             v-model.trim="data"
-             :class="data ? `--data ${inputAttrs}` : inputAttrs "
-             :name="input.name"
-             :placeholder="input.placeholder"
-             :required="input.required"
-             class="_form-input --width-full" 
-             type="text"
-             @input="emit"
-             @blur="emit"
-             @change="emit"
-             @keyup.enter="keyEnterHandler"
-      >
-      <label  
-        v-if="input.name"
-        :for="input.name" 
-        class="_form-label" 
-        :class="data ? '--data' : '' "
-        v-html="$md.render(input.label || '')" 
-      />
-    </div>
+
+
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
   </div>
 
@@ -148,6 +135,7 @@ export default {
       }
     },
     keyEnterHandler() {
+      // console.log('key enter pressed')
       this.submitHandler()
     },
   },

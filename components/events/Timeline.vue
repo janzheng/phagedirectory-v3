@@ -28,8 +28,6 @@
 
     <div v-for="item of timelineAgenda" :key="item.id" class="Timeline-posts">
       
-      <!-- timeline post -->
-      <!-- item: {{ item }} -->
       <TimelineCard 
         :post="item"
         :author="getAuthor(item)"
@@ -101,7 +99,7 @@ export default {
     },
     postCount: { // only show the latest posts
       type: Number,
-      default: 100000,
+      default: 10,
     },
     timeline: Array,
     agenda: Array,
@@ -151,8 +149,11 @@ export default {
       // }
 
       // sort timeline by Time / newest first (like Twitter)
-      if(this.order == 'desc')
+      if(this.order == 'desc') {
         timeline = this.$cytosis.sort(timeline, 'Time:Raw').reverse()
+      } else {
+        timeline = this.$cytosis.sort(timeline, 'Time:Raw')
+      }
 
       // get rid of items that haven't happened yet
       const nowDate = new Date

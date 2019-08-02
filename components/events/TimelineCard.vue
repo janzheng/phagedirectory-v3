@@ -39,7 +39,7 @@
         <div v-if="post.fields['Data:Markdown']" class="TimelineCard-markdown" v-html="$md.render(post.fields['Data:Markdown'] || '')" />
 
         <div v-if="post.fields['Data:Twitter']" class="TimelineCard-twitter" >
-          <blockquote class="twitter-tweet" data-lang="en">
+          <blockquote class="twitter-tweet" data-width="100%" data-lang="en">
             <a :href="post.fields['Data:Twitter']">Twitter content loading...</a>
           </blockquote>
         </div>

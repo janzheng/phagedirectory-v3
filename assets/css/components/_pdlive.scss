@@ -2,6 +2,8 @@
 // Specific for Kisaco / Phage Futures prototype
 // $phagefutures-maxwidth: 100%; // 566.89px;
 // $phagefutures-post-maxwidth: 100%; // 479.05px;
+$timeline-sidebar: 70px; // 566.89px;
+$timeline-post-width: 100%; // 479.05px;
 
 .PhageFutures-menu {
   position: relative;
@@ -76,12 +78,16 @@
 }
 
 .TimelineCard-sidebar {
-  width: 75px;
+  width: $timeline-sidebar;
   @include screen-xs {
     img {
       margin-left: 0;
     }
   }
+}
+
+.timelineCard-main {
+  width: $timeline-post-width;
 }
 
 .TimelineCard-images {
@@ -223,7 +229,7 @@ a.TimelineCard-author {
       font-weight: bold;
     }
     .AgendaEvent-item-speakers {
-      margin-top: $size;
+      margin-top: $size-half;
       font-size: $font-small;
       line-height: $font-small * 1.5;
     }

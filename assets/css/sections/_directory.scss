@@ -257,6 +257,10 @@
     }
     
     &.--compact {
+      margin-bottom: $size-half;
+      &:last-of-type {
+        margin-bottom: $size;
+      }
       // used in C&T
       // .People-container {
       //   display: block !important;
@@ -270,9 +274,11 @@
         span {
           // display: block;
         }
+        margin-top: 0;
       }
       .People-orgs {
         font-size: usetheme(font-small);
+        margin-bottom: $size-half;
       }
       .People-orgs-labs {
         font-size: usetheme(font-small);
@@ -280,6 +286,7 @@
       .People-orgs-name {
         font-size: usetheme(font-small);
       }
+
     }
 
     .Dir-row {

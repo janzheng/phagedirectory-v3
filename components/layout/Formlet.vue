@@ -20,6 +20,21 @@
           @input="(data) => { validationUpdate(data, input) }" 
         />
       </div>
+
+      <div 
+        v-if="input.type==INPUT_TYPES.CTA"
+        class="_form-control" >
+        <FormletInputCTA
+          :class="input.classes"
+          :input="input" 
+          :input-attrs="input.attrs" 
+          :type="input.type.toLowerCase()" 
+          :v="$v.fieldData[input.name]"
+          :on-submit="onSubmit"
+          :submit-handler="submitHandler"
+          @input="(data) => { validationUpdate(data, input) }" 
+        />
+      </div>
       <!-- <div 
         v-if="input.type==INPUT_TYPES.FLOATAREA"
         class="_form-control" >
@@ -76,6 +91,20 @@
         />
       </div>
 
+      <div 
+        v-if="input.type==INPUT_TYPES.DATALIST"
+        class="_form-control" >
+        <FormletDatalist
+          :class="input.classes"
+          :input="input" 
+          :input-attrs="input.attrs" 
+          :type="input.type.toLowerCase()" 
+          :v="$v.fieldData[input.name]"
+          :on-submit="onSubmit"
+          @input="(data) => { validationUpdate(data, input) }" 
+        />
+      </div>
+
       <div v-if="input.type==INPUT_TYPES.CHECKBOX" class="_form-control _form-radiogroup" >
         <FormletCheckboxgroup 
           :class="input.classes" 
@@ -105,14 +134,16 @@ import _ from '~/other/lodash.custom.min.js'
 const INPUT_TYPES = {
   "TEXT":     'TEXT',     // input text, generic; default
   "FLOAT":    'FLOAT',    // floating input (label shrinks as you focus/hover)
-  "FLOATAREA":'FLOATAREA',// floating text area (label shrinks as you focus/hover)
+  // "FLOATAREA":'FLOATAREA',// floating text area (label shrinks as you focus/hover)
   "EMAIL":    'EMAIL',    // email input
   "URL":      'URL',      // url input
   "NUMBER":   'NUMBER',   // number input
   "TEXTAREA": 'TEXTAREA', // text area
   "RADIO":    'RADIO',    // radio button group
   "CHECKBOX": 'CHECKBOX', // checkbox group        
-  "MARKDOWN": 'MARKDOWN', // random markdown comments        
+  "MARKDOWN": 'MARKDOWN', // random markdown comments    
+  "DATALIST": 'DATALIST', // https://css-tricks.com/datalist-is-for-suggesting-values-without-enforcing-values/  
+  "CTA":      'CTA',      // text box with CTA on the right that submits the form       
 }
 
 // used for validation
@@ -124,6 +155,8 @@ import FormletTextarea from '~/components/layout/Formlet-textarea'
 // import FormletTextareaFloat from '~/components/layout/Formlet-textarea-float'
 import FormletRadiogroup from '~/components/layout/Formlet-radiogroup'
 import FormletCheckboxgroup from '~/components/layout/Formlet-checkboxgroup'
+import FormletInputCTA from '~/components/layout/Formlet-input-cta'
+import FormletDatalist from '~/components/layout/Formlet-datalist'
 
 
 export default {
@@ -132,6 +165,8 @@ export default {
     FormletInput,
     FormletInputFloat,
     FormletTextarea,
+    FormletInputCTA,
+    FormletDatalist,
     // FormletTextareaFloat,
     FormletRadiogroup,
     FormletCheckboxgroup,

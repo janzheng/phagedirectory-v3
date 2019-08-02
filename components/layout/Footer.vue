@@ -107,7 +107,13 @@
                 <nuxt-link to="/events">Events</nuxt-link>
               </div>
               <div>
-                <nuxt-link to="/jobs">Phage Jobs</nuxt-link>
+                <nuxt-link to="/groups">Groups</nuxt-link>
+              </div>
+              <div>
+                <nuxt-link to="/tools">Tools</nuxt-link>
+              </div>
+              <div>
+                <nuxt-link to="/jobs">Jobs</nuxt-link>
               </div>
               <div>
                 <nuxt-link to="/capsid">Capsid &amp; Tail</nuxt-link>

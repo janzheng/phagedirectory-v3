@@ -83,6 +83,16 @@ textarea, .textarea {
         background-color: usetheme(brand-background);
       }
     }
+
+  }
+
+  &.--simple {
+    ._form-control {
+      margin-bottom: 0; // $size-quart;
+    }
+    .item--field + .item--field {
+      margin-top: $size;
+    }
   }
 
   // broken in coeur

@@ -15,11 +15,14 @@ import { loadQuery } from '~/other/loaders'
 export default {
 
   props: {
-    'tableQuery': String,
-    'tableQueries': Array,
-    'refreshOnLoad': Boolean,
+    // 'tableQuery': String,
+    // 'tableQueries': Array,
+    // 'refreshOnLoad': Boolean,
+    'base': String,
+    'apikey': String,
     'env': Object,
-    'keyword': String,
+    'routeName': String, 
+    'query': String
   },
 
   data() {
@@ -41,7 +44,7 @@ export default {
 
       return this.$scopedSlots.default({
         loading: false,
-        response: this.response[0][0],
+        response: this.response,
       })
     }
   },
@@ -57,37 +60,50 @@ export default {
     const keyword = this.keyword
     const refreshOnLoad = this.refreshOnLoad
 
-    if(refreshOnLoad) {
-      // console.log('refresh — clear out the store', tableQuery, tableQueries)
-      // store.cache.delete('loadCytosis')
-      this.$store.dispatch('clear', "Atoms")
-    }
+    const event = await loadQuery({
+      _key: this.apikey, // Live Public DB
+      _base: this.base, // Live Public DB
+      store: this.$store, 
+      routeName: this.routeName, 
+      query: this.query
+    })
 
-    if (tableQuery) {
-      // loads data from airtable based on a partial query
-      this.response = this.loadQueryData(routeName, this.$store, env, tableQuery, keyword)
-      this.loaded = true
-    } else if (tableQueries) {
-      // in this case, we have multiple linked queries in airtable
-      const getData = async function() {
-        // console.log('tableQueries... ', tableQueries)
-        let queryData = tableQueries.map( (query) => {
-          return _this.loadQueryData(routeName, _this.$store, env, query, keyword)
-        })
-        return Promise.all(queryData)
-      }
+    let data = event
 
-      const data = await getData()
-      // console.log('finally', data.flat(2))
-      // return data
-      this.response = data
-      this.loaded = true
+    this.response = data
+    this.loaded = true
 
-    } else {
-      // return loadData(routeName, store, env)
-      this.response = loadData(routeName, this.$store, env)
-      this.loaded = true
-    }
+    // if(refreshOnLoad) {
+    //   // console.log('refresh — clear out the store', tableQuery, tableQueries)
+    //   // store.cache.delete('loadCytosis')
+    //   this.$store.dispatch('clear', "Atoms")
+    // }
+
+    // if (tableQuery) {
+    //   // loads data from airtable based on a partial query
+    //   this.response = this.loadQueryData(routeName, this.$store, env, tableQuery, keyword)
+    //   this.loaded = true
+    // } else if (tableQueries) {
+    //   // in this case, we have multiple linked queries in airtable
+    //   const getData = async function() {
+    //     // console.log('tableQueries... ', tableQueries)
+    //     let queryData = tableQueries.map( (query) => {
+    //       return _this.loadQueryData(routeName, _this.$store, env, query, keyword)
+    //     })
+    //     return Promise.all(queryData)
+    //   }
+
+    //   const data = await getData()
+    //   // console.log('finally', data.flat(2))
+    //   // return data
+    //   this.response = data
+    //   this.loaded = true
+
+    // } else {
+    //   // return loadData(routeName, store, env)
+    //   this.response = loadData(routeName, this.$store, env)
+    //   this.loaded = true
+    // }
   },
 
   methods: {

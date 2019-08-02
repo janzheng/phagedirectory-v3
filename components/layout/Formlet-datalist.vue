@@ -1,51 +1,72 @@
 
 <template>
 
-  <div class="Formlet Formlet-input _form-control" >
-    <label  
-      v-if="input.name"
+  <!-- TODO: https://css-tricks.com/datalist-is-for-suggesting-values-without-enforcing-values/ -->
+  
+  <div class="Formlet Formlet-datalist  _form-control" >
+
+    <label 
+      v-if="input.name" 
       :for="input.name" 
       class="_form-label" 
-      :class="data ? '--data' : '' "
       v-html="$md.render(input.label || '')" 
     />
     <label 
       v-if="input.description" 
       :for="input.name" 
-      class="_form-desc" 
-      v-html="$md.render(input.description || '')"  
+      class="_form-label _form-desc" 
+      v-html="$md.render(input.description || '')" 
     />
 
-    <div v-if="input.action" class="_flex-row-sm">
-      <input :id="input.name"
-             v-model.trim="data" 
-             :class="inputAttrs" 
-             :name="input.name"
-             :placeholder="input.placeholder"
-             :required="input.required"
-             class="_form-input --width-full" 
-             :type="type"
-             @input="emit"
-             @blur="emit"
-             @change="emit"
-             @keyup.enter="keyEnterHandler"
-      >
-      <input class="_button _flex-1 --outline _margin-bottom-none " type="submit" :value="input.action" @click="keyEnterHandler">
-    </div>
-    <input v-else
-           :id="input.name"
+    <!-- <label v-if="isFieldInvalid(input)" class="_error" >{{ errorMessage(input) }}</label> -->
+
+    <!-- 
+
+      <label for="color">What's the name of your favorite color?</label>
+      <input type="text" id="color" list="colors_data">
+      <datalist id="colors_data">
+        <option value="red"></option>
+        <option value="orange"></option>
+        <option value="green"></option>
+        <option value="blue">The color of the sky</option>
+      </datalist>
+
+     -->
+
+    <!-- <input type="text" :id="input.name" list="datalist"> -->
+
+    
+    <input :id="input.name"
            v-model.trim="data" 
            :class="inputAttrs" 
            :name="input.name"
            :placeholder="input.placeholder"
            :required="input.required"
            class="_form-input --width-full" 
-           :type="type"
+           list="datalist"
+
+           type="text" 
            @input="emit"
            @blur="emit"
            @change="emit"
            @keyup.enter="keyEnterHandler"
     >
+    <datalist id="datalist">
+      <option v-for="item of input.options" :key="item.value" :value="item.value">{{ item.label }}</option>
+    </datalist>
+    <!-- <div v-for="option in input.options" :key="option.value" class="_form-radio --inline" >
+      <label :for="option.value" class="_form-radio-label"> 
+        <input :id="option.value"
+               v-model.trim="data" 
+               :name="option.value" 
+               :value="option.value"
+               type="radio" 
+               @change="$emit('change', data)"
+        >
+        <span :for="option.value">{{ option.label }}</span>
+      </label>
+    </div> -->
+
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
   </div>
 
@@ -65,12 +86,11 @@ export default {
     inputAttrs: String, // classes that might be applied to every input
     v: Object, // validation object, for errors and messages
     onSubmit: Boolean, // fires when submit cta is clicked
-    submitHandler: Function, // submit handler to process @keyup handling
   },
 
   data: function () {
     return {
-      data: '', // note that data can't be a prop since it needs to be bound
+      data: '' // note that data can't be a prop since it needs to be bound
       // we're emitting the data back as a @input
     }
   },
@@ -84,17 +104,16 @@ export default {
       return undefined
     },
     errorMessage () {
+      // some errors only show AFTER user clicks CTA
+      if(this.onSubmit) {
+        // only error for these types is if you've clicked or not clicked
+        if(this.input.error && typeof(this.input.error) == 'string')
+          return this.input.error
 
-      // UX update — don't show error messages until user hits submit
-      if(!this.onSubmit)
-        return
-
-      // let message
-      if(this.input.error && typeof(this.input.error) == 'string')
-        return this.input.error
-
-      if(this.input.type == 'EMAIL' && !this.v.email)
-        return 'Please enter a valid email'
+        // if(!this.v.required)
+          // return 'This field is required'
+      }
+      return undefined
 
       // NOT SUPPORTED YET — if input is an object 
       // e.g. error.$email, error.$required, etc. — would match the v model
@@ -104,16 +123,14 @@ export default {
       // if (!message && this.$v.fieldData[input.name].$required)
       //   message = "This field is required"
 
-
       // leave required as the catchall 
       // some errors only show AFTER user clicks CTA
-      if(this.onSubmit) {
-        if(!this.v.required)
-          return 'This field is required'
-      }
+      // if(this.onSubmit) {
+      //   if(!this.v.required)
+      //     return 'This field is required'
+      // }
 
       // return message
-      return undefined
     },
   },
 
@@ -150,13 +167,6 @@ export default {
       this.submitHandler()
     },
   },
-
-  // watch: {
-  //   data: function (newData, oldData) {
-  //     console.log('watcher running on data change', newData)
-  //     this.emit()
-  //   }
-  // },
 
 }
 </script>

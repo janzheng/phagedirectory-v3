@@ -85,6 +85,14 @@
                   </span>
                 </nuxt-link>
               </div>
+              <!-- <div class="Header-mobile-item">
+                <nuxt-link :to="`/groups`" class="_button --text  _padding-none _margin-none-i --border-none">
+                  Groups
+                  <span v-if="searchString" class="_button CTA --short _margin-none-i _float-right" @click="toggleNav">
+                    Search
+                  </span>
+                </nuxt-link>
+              </div> -->
               <div class="Header-mobile-item _padding-top _padding-bottom">
                 <nuxt-link to="/apply" class="_button Header-join  --outline _margin-none-i ">
                   Apply
@@ -139,9 +147,12 @@
                 <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   People
                 </nuxt-link>
-                <nuxt-link :to="`/insights`" class="_button --text  _padding-none _margin-none-i --border-none">
+                <nuxt-link :to="`/insights${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
                   Insights
                 </nuxt-link>
+                <!-- <nuxt-link :to="`/groups`" class="_button --text  _padding-none _margin-none-i --border-none">
+                  Groups
+                </nuxt-link> -->
                 <nuxt-link :to="`/apply`" class="Header-join _button --outline  ">
                   Sign Up
                 </nuxt-link>

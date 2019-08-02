@@ -23,21 +23,15 @@
 
               <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
               <div class="People-name-social">
-                <table style="width: 100%">
-                  <tr>
-                    <td class="Dir-title ">
-                      <h3 style="padding: 0 !important;">{{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span></h3>
-                    </td>
-                    <td class="Dir-social Dir-title" style="text-align: right;">
-                      <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/f72e244f-f5c8-40f1-b91a-4cca385411d7.png"></a>
-                      <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/9cc74a05-860e-481f-8cab-6cac012dd0d2.png"></a>
-                      <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/19d367ed-ddce-4bb4-ad41-a53439520ae1.png"></a>
-                      <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/6c0c221a-b8da-4357-8036-f35f85d39c79.png"></a>
-                      <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/e3408eaf-acf6-4250-b6fd-594e7ce23907.png"></a>
-                      <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/8ca05bda-914f-45d8-962c-8e34debb1412.png"></a>
-                    </td>
-                  </tr>
-                </table>
+                <h3 style="padding: 0 !important; padding-right: 8px !important; margin-right: 8px; display: inline-block">{{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span></h3>
+                <div v-if="hasSocial" class="Dir-social Dir-title">
+                  <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/f72e244f-f5c8-40f1-b91a-4cca385411d7.png"></a>
+                  <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/9cc74a05-860e-481f-8cab-6cac012dd0d2.png"></a>
+                  <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/19d367ed-ddce-4bb4-ad41-a53439520ae1.png"></a>
+                  <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/6c0c221a-b8da-4357-8036-f35f85d39c79.png"></a>
+                  <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/e3408eaf-acf6-4250-b6fd-594e7ce23907.png"></a>
+                  <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/8ca05bda-914f-45d8-962c-8e34debb1412.png"></a>
+                </div>
               </div>
 
               <div class="People-orgs Dir-row _font-small">
@@ -62,7 +56,7 @@
             <div v-if="isCompact == false ">
               <hr style="border-top: 2px #f0f0f0 solid; margin-top: 16px; margin-top: 16px;"> 
 
-              <div class="People-info-block Dir-block">
+              <div v-if="person.fields['Social:Twitter'] || url" class="People-info-block Dir-block">
                 <!-- <div><span class="Dir-label">Website</span></div> -->
                 <!-- <div v-if="person.fields['Short']" class="People-short Dir-row" >
                   <span class="_md-pfix" v-html="$md.render( person.fields['Short'] || '')" />
@@ -111,6 +105,16 @@ export default {
     'isCompact': Boolean,
   },
   computed: {
+    hasSocial() {
+      return (this.person.fields['Social:Linkedin'] || 
+              this.person.fields['Social:GoogleScholar'] ||
+              this.person.fields['Social:ResearchGate'] ||
+              this.person.fields['Social:ORCID'] ||
+              this.person.fields['Social:Twitter'] ||
+              this.person.fields['Social:Twitter'] ||
+              this.person.fields['Social:Github']
+              )
+    },
     profile() {
       if(this.person.fields['Profile'])
         return this.person.fields['Profile'][0]

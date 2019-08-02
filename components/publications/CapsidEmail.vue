@@ -18,7 +18,7 @@
           <div class="Capsid-meta">
             <div class="Capsid-name"><strong>{{ issue.fields['Name'] }}</strong></div>
             <div class="Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</div>
-            <div class="Capsid-readtime">{{ issue.fields['Data:Body'] | readtime }} min read</div>
+            <div class="Capsid-readtime">{{ readtimeContent | readtime }} min read</div>
           </div>
 
           <!-- <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`"> -->
@@ -142,7 +142,17 @@
 
         <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related Capsid-print-hidden _margin-top-2" >
           <h6 class="_padding-bottom-none">Related Article</h6>
-          <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" />
+          <div class="_card _margin-bottom _padding">
+            <div class="Capsid-Stub">
+              <div class="Capsid-header _font--1 _grid-gap-small">
+                <span class="Capsid-name _font-bold ">{{ relatedIssue.fields['Name'] }}</span> | 
+                <span class="Capsid-date _right-sm">{{ relatedIssue.fields['Data:Date'] | niceDate }}</span>
+              </div>
+            </div>
+            <h1 style="margin-top: 8px; padding-top: 0; padding-bottom: 4px" v-html="$md.strip($md.render(relatedIssue.fields['Data:Title'] || ''))" />
+            <a :href="`httsp://phage.directory/capsid/${relatedIssue.fields.Slug}`" v-html="$md.strip($md.render(relatedIssue.fields['Data:Lede'] || ''))" />
+          </div>
+          <!-- <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" /> -->
         </div>
 
 
@@ -360,6 +370,25 @@ export default {
       }
     },
 
+    readtimeContent() {
+      // add up all the lengthy content for read time
+      let content = this.issue.fields['Data:Body']
+
+      this.updates.map((item) => {
+        content += ' ' + item.fields['Markdown']
+      })
+
+      this.community.map((item) => {
+        content += ' ' + item.fields['Markdown']
+      })
+
+      this.jobs.map((item) => {
+        content += ' ' + item.fields['Markdown']
+      })
+
+      return content
+    },
+
     updates() {
       // console.log(this.issue.fields['Atoms:Updates'])
       // reverse() is called b/c airtable returns them in reverse order w/r to how they're sorted
@@ -533,13 +562,29 @@ a {
   font-weight: bold;
 }
 
-@media only screen and (max-width: 680px) {
+._block {
+  display: block;
+}
+
+.Dir-title {
+  /*white-space: pre-line;*/
+}
+
+@media only screen and (max-width: 480px) {
   .People-card-email td {
     display: block !important;
   }
 
+  .People-profile {
+    padding-bottom: 0 !important;
+    /*margin-bottom: 16px;*/
+  }
+
   .People-info {
+    /*
     padding-top: 0 !important;
+    margin-top: 16px;
+    */
   }
 
   .Dir-social.Dir-title {
@@ -597,7 +642,7 @@ img {
     padding: 16px;
   }
 
-  @media only screen and (max-width: 680px){
+  @media only screen and (max-width: 480px){
     .Capsid-section-title {
       padding: 16px;
     }

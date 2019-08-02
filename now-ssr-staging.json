@@ -36,9 +36,12 @@
   ],
   "routes": [
     { "src": "/_nuxt/.+", "headers": { "cache-control": "s-maxage=31536000" } },
+
+    { "src": "/feed.xml", "status": 301, "dest": "https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-rss" },
+    { "src": "/evergreen", "status": 301, "dest": "/events/evergreen" },
+
     { "src": "/slack", "status": 301, "headers": { "Location": "https://phagedirectory.slack.com/join/shared_invite/enQtNzA2OTI0MTk4Mzc0LTU4Yjg0NTY2NWEyMzUyZDMxMDJjMmEyZGFiNDcyYmIxMzYxYTRkZjBjZGY3YjNlODc2MWFhNTAwNjBmYzQyYmY" }},
     { "src": "/chat", "status": 301, "headers": { "Location": "https://calendly.com/phage/quick-chat" }},
-    { "src": "/feed.xml", "status": 301, "dest": "https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-rss" },
 
     { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrbZHMw6R2dCij9v" } },
     { "src": "/apply/medical", "status": 301, "headers": { "Location": "https://airtable.com/shrdIUxOsr411hNwR" } },

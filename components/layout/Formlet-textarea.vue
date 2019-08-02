@@ -16,8 +16,8 @@
       v-html="$md.render(input.description || '')" 
     />
     <textarea :id="input.name"
-              v-model.trim="data" 
               ref="textarea"
+              v-model.trim="data" 
               :name="input.name"
               :class="inputAttrs" 
               :placeholder="input.placeholder"

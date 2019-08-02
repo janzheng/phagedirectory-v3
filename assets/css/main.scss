@@ -154,7 +154,7 @@ img {
     position: relative;
     ._form-label {
       position: absolute;
-      padding-left: $size;
+      padding-left: $size +2px;
       z-index: 1;
       color: usetheme(disabled-text);
       &, p { // sometimes markdown generates a p

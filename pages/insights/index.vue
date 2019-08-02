@@ -4,7 +4,9 @@
       <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
 
         <template #header-container>
-          <h1 class="--title"><span class="_color-mono-60">Phage </span>Insights</h1>
+          <h1 class="_padding-bottom-half"><span class="_color-mono-60">Phage </span>Insights</h1>
+          <h2 class="--title _padding-bottom-2">a phage preprint and micropublication <br> for and by the community.</h2>
+
           <h1 v-if="search.string" class="--title _padding-bottom-half" _padding-bottom-half><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
           <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterOrgs.length }}</h2>
         </template>
@@ -13,38 +15,52 @@
         <template #default>
 
           <div>
-            <div v-if="!search.string" class="Dir-notice _grid-3-1 _align-vertically">
-              <div>
-                <div class="" v-html="$md.render(intro || '')" />
-                <p class="_font-small">
-                  Number of organizations: <strong>{{ orgs.length }}</strong>
-                  <br>
-                  If you'd like your information updated, <a href="mailto:hello@phage.directory" class="--url">please let us know</a>.
-                </p>
-              </div>
-              <div class="_right-sm">
-                <div class="_margin-bottom">
-                  <a href="https://phage.directory/apply/orgs" class="_button CTA --inverse _width-100 _center">Sign Up</a>
-                </div>
-                <div class="_margin-bottom">
-                  <a href="https://phage.directory/apply/orgs" class="_button CTA --multiline --inverse _width-100 _center">Sign Up as a Reviewer</a>
-                </div>
-                <div class="_margin-bottom">
-                  <a href="https://phage.directory/apply/orgs" class="_button CTA --multiline --inverse _width-100 _center">Sign Up as an Editor</a>
-                </div>
-              </div>
+            <!-- intro -->
+            <div class=" _margin-bottom ">
+              <div class="" v-html="$md.render(intro || '')" />
             </div>
-            <!-- 
-              <div id="content-top" class="Orgs-list" >
-                <div v-if="search.string && filterOrgs.length == 0" class="Dir-notice">
-                  <h1 class="" >No results found.</h1>
-                </div>
 
-                <div v-for="item of filterOrgs" :key="item.id" >
-                  <Card :org="item" :phage-collections="phageCollections" class="Hosts-list-item" />
+            <!-- Early CTA form -->
+            <!-- <NodeForm :src="formTest"/> -->
+
+            <!-- Early CTA form -->
+            <Signup :intro="cta" :form-beta="formBeta" 
+                    :form-one="formOne" :form-two="formTwo" :form-three="formThree" />
+
+            <!-- List of signed up people — they're in the PD Live DB -->
+            <Cytosis
+              apikey="keyAe6M1KoPfg25aO"
+              base="appEuZLle3bAy2g2g"
+              route-name="{Insights:index}"
+              query="evergreen-2019-signups"
+            >
+              <template #default="{ response }">
+                <div v-if="response && response.tables && response.tables['Signups'].length > 0" >
+                  <div class="Insights-commits _card _padding">
+                    <h3 class="--title">Commitments</h3>
+                    <div v-for="item of response.tables['Signups']" :key="item.id">
+                      <span>{{ item.fields['Name'] }}</span> <span v-for="tag of item.fields['Tags']" :key="tag.id" class="_tag" >{{ tag }}</span>
+                    </div>
+                  </div>
+                  <!-- Response: {{ response.tables['Signups'] }} -->
                 </div>
-              </div>
-            -->
+              </template>
+            </Cytosis>
+
+            <!-- EVG shoutout -->
+            <div v-if="evg" class="_card _padding _margin-bottom ">
+              <div class="" v-html="$md.render(evg || '')" />
+            </div>
+
+            <!-- Main content body -->
+            <div v-if="body" class="_margin-bottom ">
+              <div class="" v-html="$md.render(body || '')" />
+            </div>
+
+            <!-- Early CTA form -->
+            <Signup :intro="cta" :form-beta="formBeta" 
+                    :form-one="formOne" :form-two="formTwo" :form-three="formThree" />
+
           </div>
 
         </template>
@@ -88,6 +104,11 @@
 
 import { mapState } from 'vuex'
 import { loadQuery } from '~/other/loaders'
+// import NodeForm from '~/components/render/NodeForm.vue'
+
+import Cytosis from '~/components/experiments/Cytosis.vue'
+import Signup from '~/components/InsightsSignup.vue'
+
 // import Card from '~/components/dir/OrgCard.vue'
 import { dirSearch } from '~/other/helpers.js'
 import _ from '~/other/lodash.custom.min.js'
@@ -102,6 +123,9 @@ export default {
   components: {
     Template,
     // Card,
+    // NodeForm,
+    Cytosis,
+    Signup,
   },
 
   layout: 'contentframe',
@@ -114,7 +138,16 @@ export default {
   data () {
     return {
       orgTypeFilter: false, // Biotechs, Nonprofits, etc.
-      intro: this.$cytosis.findOne('directory-orgs', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findOne('directory-insights', this.$store.state['Content'] ).fields['Markdown'],
+      evg: this.$cytosis.findOne('insights-evg', this.$store.state['Content'] ).fields['Markdown'],
+      cta: this.$cytosis.findOne('insights-cta', this.$store.state['Content'] ).fields['Markdown'],
+      body: this.$cytosis.findOne('insights-body', this.$store.state['Content'] ).fields['Markdown'],
+      form: this.$cytosis.findOne('form-insights-early', this.$store.state['Content'] ),
+      formTest: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
+      formBeta: this.$cytosis.findOne('form-insights-beta', this.$store.state['Content'] ),
+      formOne: this.$cytosis.findOne('form-insights-one', this.$store.state['Content'] ),
+      formTwo: this.$cytosis.findOne('form-insights-two', this.$store.state['Content'] ),
+      formThree: this.$cytosis.findOne('form-insights-three', this.$store.state['Content'] ),
     }
   },
   
@@ -187,6 +220,7 @@ export default {
 
     return {
       slug,
+      env,
       orgs: data.tables['Organizations'],
       phageCollections: data.tables['PhageCollections'],
     }

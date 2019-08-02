@@ -52,6 +52,11 @@ $header-item-height: $size-4;
       &.nuxt-link-active {
         color: usetheme(brand-bright);
       }
+
+      @include screen-sm {
+        padding-left: $size-quart;
+        padding-right: $size-quart;
+      }
     }
   }
   .Header-links {
@@ -67,8 +72,8 @@ $header-item-height: $size-4;
       border-radius: 0;
 
       margin: 0;
-      margin-left: $size-quart;
-      margin-right: $size-quart;
+      // margin-left: $size-quart;
+      // margin-right: $size-quart;
 
       font-size: usetheme(nav-size, $header);
       font-weight: normal;
@@ -109,7 +114,9 @@ $header-item-height: $size-4;
 
   .Header-join.--outline {
     margin: 0;
-    margin-left: $size;
+    margin-left: $size-half;
+    padding-left: $size;
+    padding-right: $size;
     background: transparent;
     // border-color: usetheme(brand-100);
     // border-color: usetheme(pink-40);
@@ -237,7 +244,17 @@ $header-item-height: $size-4;
 
 }
 
+/* 
 
+  Desktop Specific
+
+ */
+.Header-desktop {
+  @include screen-sm-only {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
 
 
 

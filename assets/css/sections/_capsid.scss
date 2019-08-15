@@ -418,6 +418,12 @@ table.Capsid-author-header {
 
 
 
+// ads in Capsid (e.g. signup / leave a note)
+.Capsid-insert {
+  padding-top: $size-2x;
+  padding-bottom: $size;
+  background-color: white; // usetheme(mono-0);
+}
 
 
 

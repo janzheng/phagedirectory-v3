@@ -318,59 +318,49 @@ export default {
     // if we're grabbing author info from DB:People
     const _this = this
     let authors = []
-    const getAuthors = async function() {
+    let authorPromises = []
+    let authorSlugs = []
+    let authorObj = {} // need to use an obj instead of array, since authors don't return in order from server; need to track order w/ obj
+
+    const getAuthor = function() {
       // console.log('fetching authors:')
 
       // ensures corr. author is first
       // REMINDER: Authors always returns as an array; if there are no attached authors
       // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
-      return new Promise(function(resolve) {
+      authorSlugs = [... _this.issue.fields['Data:MainAuthorSlug'], ... _this.issue.fields['Data:AuthorSlugs']]
 
-        if(_this.issue.fields['Data:MainAuthorSlug']) {
-          _this.issue.fields['Data:MainAuthorSlug'].map(async function(slug) {
-            const item = await loadQuery({
-              _key: process.env.db_api, 
-              _base: process.env.db_base, 
-              store: _this.$store, 
-              routeName: '{Capsid}', 
-              query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-              keyword: slug,
-            })
-            authors.push(item.tables.People[0])
-            // resolve(authors)
-            
+      if(authorSlugs) {
+        authorSlugs.map(function(slug) {
+          const item = loadQuery({
+            _key: process.env.db_api, 
+            _base: process.env.db_base, 
+            store: _this.$store, 
+            routeName: '{Capsid}', 
+            query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
+            keyword: slug,
           })
-        }
+          authorPromises.push(item)
+        })
+      }
 
-        if(_this.issue.fields['Data:AuthorSlugs']) {
-          _this.issue.fields['Data:AuthorSlugs'].map(async function(slug) {
-            const item = await loadQuery({
-              _key: process.env.db_api, 
-              _base: process.env.db_base, 
-              store: _this.$store, 
-              routeName: '{Capsid}', 
-              query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-              keyword: slug,
-            })
-            // _this.authors.push(item.tables.People[0])
-            // authors = [... authors, ... item.tables.People]
-            _this.authors = [... _this.authors, ... item.tables.People]
-            // console.log('retrieved secondary authors:', authors)
-            // resolve(authors)
-          })
-        }
-
-        resolve(authors)
-
-      })
     }
     
     if(this.issue.fields['Data:MainAuthorSlug'] || this.issue.fields['Data:AuthorSlugs']) {
-      // getAuthors() // async; populates this.authors directly when loaded
-      getAuthors().then(() => {
-        // console.log('retrieved all authors:', authors)
-        _this.authors = authors
+      getAuthor() // async; populates this.authors directly when loaded
+
+      Promise.all(authorPromises).then(function(data) {
+        data.map((cytosis) => {
+          const author = cytosis.tables['People'][0]
+          authorObj[author.fields['Slug']] = author
+        })
+
+        // add them in order
+        authorSlugs.map((slug) => {
+          authors.push(authorObj[slug])
+        })
       })
+
     }
 
     return {

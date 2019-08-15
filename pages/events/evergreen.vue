@@ -28,9 +28,9 @@
               :show-next="false"
             />
 
-            <div class="post">
+            <!-- <div class="post">
               <a target="_blank" class="_button _width-full CTA _margin-bottom-none-i _center" href="https://airtable.com/shrqc7FzTrk8pRHS3">Post to our Evergreen feed!</a>
-            </div>
+            </div> -->
 
             <!--<Toggle class="_pointer" :no-close-allowed="true">
               <template #off>
@@ -60,7 +60,7 @@
 
           <EvgPromo class="_hidden-sm-up" />
 
-          <div class="_card _padding --silver">
+          <!-- <div class="_card _padding --silver">
             <h6 class="_padding-none">Agenda</h6>
             <Agenda 
               :show-now="false"
@@ -72,29 +72,27 @@
               :agenda="agenda"
               count="-1"
             />
-          </div>
+          </div> -->
 
-          <Posters :posters="posters" class="_card _padding">
+          <!-- <Posters :posters="posters" class="_card _padding">
             <h6>Evergreen Posters</h6>
             <NodeForm class="_margin-bottom-2" :src="formPosters"/>
-          </Posters>
+          </Posters> -->
 
         </template>
 
 
         <!-- sidebar -->
         <template #context>
-
+          
           <!-- just now and what's next -->
-          <Agenda 
+          <!-- <Agenda 
             :agenda="agenda"
             :show-now="true"
             :show-next="true"
             :show-all="false"
-          />
-
+          /> -->
           <EvgPromo class="_hidden-xs" />
-
         </template>
 
       </Template>
@@ -110,11 +108,11 @@
 
 import Template from '~/templates/context.vue'
 import Timeline from '~/components/events/Timeline.vue'
-import Agenda from '~/components/events/Agenda.vue'
-import Posters from '~/components/events/Posters.vue'
+// import Agenda from '~/components/events/Agenda.vue'
+// import Posters from '~/components/events/Posters.vue'
 import EvgPromo from '~/components/events/EvergreenPromo.vue'
 import { loadQuery } from '~/other/loaders'
-import NodeForm from '~/components/render/NodeForm.vue'
+// import NodeForm from '~/components/render/NodeForm.vue'
 // import Toggle from '~/components/Toggle.vue'
 
 export default {
@@ -129,10 +127,10 @@ export default {
   components: {
     Template,
     Timeline,
-    Posters,
-    Agenda,
+    // Posters,
+    // Agenda,
     EvgPromo,
-    NodeForm,
+    // NodeForm,
     // Toggle,
   },
 

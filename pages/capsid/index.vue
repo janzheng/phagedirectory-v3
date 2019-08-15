@@ -32,12 +32,14 @@
       <CapsidStub :issue="latest" :authors="getAuthorsOfManuscript(latest)" :is-featured="true" class="Capsid-latest" />
     </div>
 
-    <div class="_section-article _margin-center _padding-xs">
-      <!-- <div class="" v-html="$md.render(signup || '')" /> -->
-      <CapsidSignup />
+    <div class="Capsid-insert">
+      <div class="_section-article _margin-center _padding-xs">
+        <!-- <div class="" v-html="$md.render(signup || '')" /> -->
+        <CapsidSignup />
 
-      <div class="_margin-center _margin-top-2 _section-article">
-        <div class="_margin-bottom" v-html="$md.render(message || '')" />
+        <div class="_margin-center _margin-top-2 _section-article">
+          <div class="" v-html="$md.render(message || '')" />
+        </div>
       </div>
     </div>
     

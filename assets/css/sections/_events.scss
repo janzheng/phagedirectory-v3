@@ -1,0 +1,35 @@
+
+/* 
+
+	Special file for events like Evergreen
+
+ */
+
+
+
+.Evergreen {
+
+
+
+}
+
+	.EvergreenPromo {
+		
+
+		@include screen-xs {
+			h6 {
+				padding-bottom: 0;
+			}
+			.poster {
+				display: none;
+			}
+			img {
+				width: 160px;
+			// 	float:left;
+			}
+			.footer {
+				margin-top: $size;
+				clear: both;
+			}
+		}
+	}

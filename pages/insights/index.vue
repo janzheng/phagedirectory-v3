@@ -1,33 +1,46 @@
 <template>
   <div class="Insights Dir-category">
     <no-ssr>
-      <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
-
-        <template #header-container>
+      <!-- <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1"> -->
+      <!-- <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1"> -->
+      <Template main-classes="Template--Main _section-content _margin-bottom _margin-center _margin-top-none-i"
+                article-classes="">
+        <!--  <template #header-container>
           <h1 class="_padding-bottom-half"><span class="_color-mono-60">Phage </span>Insights</h1>
           <h2 class="--title _padding-bottom-2">a phage preprint and micropublication <br> for and by the community.</h2>
 
           <h1 v-if="search.string" class="--title _padding-bottom-half" _padding-bottom-half><span class="_color-mono-60">Search: </span>{{ search.string }}</h1>
           <h2 v-if="search.string" class="--title _padding-bottom-2" ><span class="_color-mono-60">Results: </span>{{ filterOrgs.length }}</h2>
         </template>
-
+ -->
 
         <template #default>
 
-          <div>
-            <!-- intro -->
-            <div class=" _margin-bottom ">
-              <div class="" v-html="$md.render(intro || '')" />
-            </div>
+          <!-- intro -->
+          <div class="_section-article">
+            <div class="" v-html="$md.render(intro || '')" />
+            <!-- <div class="" v-html="$md.render(intro || '')" /> -->
 
+            <Toggle class="_pointer" :no-close-allowed="true">
+              <template #off>
+                <div class="_padding _card" v-html="$md.render(cta || '')" />
+              </template>
+              <template #on>
+                <Signup :form="formBeta" />
+              </template>
+            </Toggle>
+
+          </div>
+          
+          <div class="" v-html="$md.render(abstract || '')" />
+
+          <!-- Early CTA form -->
+          <!-- <NodeForm :src="formTest"/> -->
+
+          <div class="_section-article">
             <!-- Early CTA form -->
-            <!-- <NodeForm :src="formTest"/> -->
+            <Signup class="_divider-top _divider-bottom" :form="formBeta" />
 
-            <!-- Early CTA form -->
-            <Signup :intro="cta" :form-beta="formBeta" 
-                    :form-one="formOne" :form-two="formTwo" :form-three="formThree" />
-
-            <!-- List of signed up people — they're in the PD Live DB -->
             <Cytosis
               apikey="keyAe6M1KoPfg25aO"
               base="appEuZLle3bAy2g2g"
@@ -37,12 +50,13 @@
               <template #default="{ response }">
                 <div v-if="response && response.tables && response.tables['Signups'].length > 0" >
                   <div class="Insights-commits _card _padding">
-                    <h3 class="--title">Commitments</h3>
+                    <h3 class="--title">Signups</h3>
                     <div v-for="item of response.tables['Signups']" :key="item.id">
-                      <span>{{ item.fields['Name'] }}</span> <span v-for="tag of item.fields['Tags']" :key="tag.id" class="_tag" >{{ tag }}</span>
+                      <div v-if="item.fields['Type'] == 'Insights'">
+                        <span>{{ item.fields['Name'] }}</span> <span v-for="tag of item.fields['Tags']" :key="tag.id" class="_tag" >{{ tag }}</span>
+                      </div>
                     </div>
                   </div>
-                  <!-- Response: {{ response.tables['Signups'] }} -->
                 </div>
               </template>
             </Cytosis>
@@ -50,17 +64,17 @@
             <!-- EVG shoutout -->
             <div v-if="evg" class="_card _padding _margin-bottom ">
               <div class="" v-html="$md.render(evg || '')" />
+              <!-- <EvgPromo /> -->
             </div>
 
             <!-- Main content body -->
-            <div v-if="body" class="_margin-bottom ">
+            <!-- author guidelines etc -->
+            <div v-if="body" class="_divider-top _divider-bottom _margin-bottom ">
               <div class="" v-html="$md.render(body || '')" />
             </div>
 
             <!-- Early CTA form -->
-            <Signup :intro="cta" :form-beta="formBeta" 
-                    :form-one="formOne" :form-two="formTwo" :form-three="formThree" />
-
+            <Signup class="_divider-top _divider-bottom" :form="formBeta" />
           </div>
 
         </template>
@@ -108,14 +122,16 @@ import { loadQuery } from '~/other/loaders'
 
 import Cytosis from '~/components/experiments/Cytosis.vue'
 import Signup from '~/components/InsightsSignup.vue'
+import Toggle from '~/components/Toggle.vue'
+// import EvgPromo from '~/components/events/EvergreenPromo.vue'
 
 // import Card from '~/components/dir/OrgCard.vue'
 import { dirSearch } from '~/other/helpers.js'
 import _ from '~/other/lodash.custom.min.js'
 // import Person from '~/components/dir/DirPeopleList.vue'
 
-import Template from '~/templates/context.vue'
-// import Template from '~/templates/article.vue'
+// import Template from '~/templates/context.vue'
+import Template from '~/templates/article.vue'
 
 
 export default {
@@ -126,6 +142,8 @@ export default {
     // NodeForm,
     Cytosis,
     Signup,
+    Toggle,
+    // EvgPromo,
   },
 
   layout: 'contentframe',
@@ -138,16 +156,17 @@ export default {
   data () {
     return {
       orgTypeFilter: false, // Biotechs, Nonprofits, etc.
-      intro: this.$cytosis.findOne('directory-insights', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findOne('insights-intro', this.$store.state['Content'] ).fields['Markdown'],
+      abstract: this.$cytosis.findOne('insights-abstract', this.$store.state['Content'] ).fields['Markdown'],
       evg: this.$cytosis.findOne('insights-evg', this.$store.state['Content'] ).fields['Markdown'],
       cta: this.$cytosis.findOne('insights-cta', this.$store.state['Content'] ).fields['Markdown'],
       body: this.$cytosis.findOne('insights-body', this.$store.state['Content'] ).fields['Markdown'],
       form: this.$cytosis.findOne('form-insights-early', this.$store.state['Content'] ),
-      formTest: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
+      // formTest: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
       formBeta: this.$cytosis.findOne('form-insights-beta', this.$store.state['Content'] ),
-      formOne: this.$cytosis.findOne('form-insights-one', this.$store.state['Content'] ),
-      formTwo: this.$cytosis.findOne('form-insights-two', this.$store.state['Content'] ),
-      formThree: this.$cytosis.findOne('form-insights-three', this.$store.state['Content'] ),
+      // formOne: this.$cytosis.findOne('form-insights-one', this.$store.state['Content'] ),
+      // formTwo: this.$cytosis.findOne('form-insights-two', this.$store.state['Content'] ),
+      // formThree: this.$cytosis.findOne('form-insights-three', this.$store.state['Content'] ),
     }
   },
   

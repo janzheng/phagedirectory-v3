@@ -16,13 +16,15 @@
 
         <template #default>
 
-          <Timeline 
-            :timeline="timeline"
-            :agenda="agenda"
-            :authors="authors"
-            :show-now="true"
-            :show-next="true"
-          />
+          <div class="_card _padding-2" >
+            <Timeline 
+              :timeline="timeline"
+              :agenda="agenda"
+              :authors="authors"
+              :show-now="true"
+              :show-next="true"
+            />
+          </div>
 
           <!-- <Agenda 
             :show-now="true"
@@ -85,6 +87,7 @@ export default {
       store, 
       routeName: '{live:pfdc-2019}', 
       query: 'pfdc-2019'
+      // query: 'evergreen-2019'
     })
 
     return {

@@ -89,6 +89,9 @@
               <div>
                 <nuxt-link to="/profiles">Phage People</nuxt-link>
               </div>
+              <div>
+                <nuxt-link to="/insights">Phage Insights</nuxt-link>
+              </div>
 
             </div>
             

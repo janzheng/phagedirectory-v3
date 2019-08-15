@@ -8,6 +8,10 @@ export default {
   search: {},
   cytosis: {},
 
+  config: {
+    // 'basename': {cytosis config object}
+  },
+
   pageName: '',
   diffTopHeader: false, // auto to true
   navHeight: 100, // height of nav header, calculated in Header and used for better ux

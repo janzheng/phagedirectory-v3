@@ -1,7 +1,7 @@
 <template>
   <div class="Groups">
 
-    <Template :template-classes="'_margin-center'">
+    <Template >
 
       <template #container>
 

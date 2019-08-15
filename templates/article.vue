@@ -1,10 +1,12 @@
 <template>
-  <div :class="
-    templateClasses" class="Template-Article _section-page _margin-center _margin-top-2 _margin-bottom-2 _padding-top-2 _padding-bottom-2 ">
+  <!-- <div :class="
+    templateClasses" class="Template-Article _section-page _margin-center _margin-top-2 _margin-bottom-2 _padding-top-2 _padding-bottom-2 "> -->
+  <div :class="templateClasses">
 
-    <div 
+    <!-- <div 
       :class="mainClasses" 
-      class="Template--Main _section-content _margin-bottom _margin-center _margin-top-none-i">
+      class="Template--Main _section-content _margin-bottom _margin-center _margin-top-none-i"> -->
+    <div :class="mainClasses">
       <slot name="container" >
         <div :class="articleClasses">
           <slot name="header" />
@@ -32,10 +34,13 @@ export default {
   },
 
   props: {
-    'templateClasses': String,
+    'templateClasses': {
+      type: String,
+      default: 'Template-Article _section-page _margin-center _margin-top-2 _margin-bottom-2 _padding-top-2 _padding-bottom-2  ',
+    },
     'mainClasses': {
       type: String,
-      default: 'Template--Main ',
+      default: 'Template--Main _section-content _margin-bottom _margin-center ',
     },
     'articleClasses': {
       type: String,

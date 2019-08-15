@@ -183,6 +183,15 @@ textarea, .textarea {
     }
   }
 
+  ._action {
+    ._button {
+      @include screen-xs {
+        margin-top: $size-half;
+        width: 100%;
+      }
+    }
+  }
+
   ._error {
     @extend ._card;
     padding: $size-half $size;

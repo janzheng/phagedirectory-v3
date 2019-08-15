@@ -111,6 +111,10 @@ export default {
     // cytosis.tables is actually an object of all the tables, w/ each table name as keys
     // console.log('setCyt before:', cytosis.tables)
 
+    // set the config object
+    // console.log('[setCytosis]', cytosis)
+    state['config'][cytosis.airBase.id] = cytosis.config
+
     // clean up the cytosis table by only keeping id and fields
     let cleanTable = {}
     Object.keys(cytosis.tables).map(key => {

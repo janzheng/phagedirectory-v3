@@ -417,7 +417,11 @@ export default {
           component: resolve(__dirname, 'pages/dir/labs.vue')
         },
 
-
+        {
+          name: 'evergreen temp router',
+          path: '/evergreen',
+          component: resolve(__dirname, 'pages/events/evergreen.vue')
+        },
 
         {
           name: 'alerts / misspelling',
@@ -453,6 +457,18 @@ export default {
           path: '/jobs/:slug*',
           component: resolve(__dirname, 'pages/routers/r-atom.vue')
         },
+
+
+
+        {
+          // Insights publication router
+          name: 'insights router',
+          path: '/insights/:slug',
+          component: resolve(__dirname, 'pages/routers/r-insights.vue')
+        },
+
+
+
         {
           // Dynamic Template Router
           // catches all routes and attempts to find a template

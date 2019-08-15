@@ -2,19 +2,21 @@
   <div class="Home">
 
     <div class="Home-hero _section-page _margin-center _margin-top-2 _margin-bottom-2">
-      <div class="Home-img-container _section-content _padding-top-2 ">
+      <!-- <div class="Home-img-container _section-content _padding-top-2 "> -->
+      <div class="Home-img-container _padding-top-2  ">
         <img class="Home-img" width="250px" src="~/static/phagedirectory_home.png">
-        <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')">
-          <!-- We support fundamental phage research <br>
-          and the development of safe and effective uses of <br>
-          phages in medicine and industry around the world.
-          <div class="_margin-top">
-            Read <nuxt-link to="/about#mission">our mission</nuxt-link>.
-          </div> -->
-        </div>
+        <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')" />
       </div>
     </div>
-
+    
+    <!-- 
+        <div>
+          <EvergreenHome class="_margin-top-2 _divider-bottom">
+            <img class="" width="250px" src="~/static/phagedirectory_home.png">
+            <div class="" v-html="$md.render(more || '') "/>
+          </EvergreenHome>
+        </div>
+     -->
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
                 grid-classes="Template--Main-Sidebar-xs _grid-3-1 _grid-gap"
@@ -72,6 +74,9 @@ import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import NodeForm from '~/components/render/NodeForm.vue'
 
+// import EvergreenHome from '~/components/events/EvergreenHome.vue'
+
+
 export default {
 
   components: {
@@ -80,6 +85,7 @@ export default {
     Twitter,
     CapsidStub,
     NodeForm,
+    // EvergreenHome,
   },
 
   layout: 'contentframe',
@@ -98,6 +104,7 @@ export default {
     return {
       mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
       featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
+      more: this.$cytosis.findOne('home-more', this.$store.state['Content'] ).fields['Markdown'],
       form: this.$cytosis.findOne('form-feed', this.$store.state['Content'] ),
       latestAtoms: null, // pulled later
       featuredAtoms: null, // use this if you want to pull featured atoms manually

@@ -153,6 +153,7 @@ img {
     // floating form labels (no descriptions)
     position: relative;
     ._form-label {
+      cursor: text;
       position: absolute;
       padding-left: $size +2px;
       z-index: 1;

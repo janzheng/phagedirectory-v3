@@ -30,6 +30,10 @@
     }
   }
 
+  &.--white {
+    background-color: white; // usetheme(secondary-0); // $color-teal-50;
+    border-color: white; // usetheme(secondary-0);
+  }
   &.--silver {
     background-color: usetheme(silver-lighter); // $color-teal-50;
     border-color: usetheme(silver-light);
@@ -44,6 +48,12 @@
     background-color: usetheme(brand-background); // $color-teal-50;
     // border-color: usetheme(brand-border); // $color-teal-50;
     border-color: usetheme(brand); // $color-teal-50;
+    color: usetheme(brand-90);
+  }
+  &.--brand-bright {
+    background-color: usetheme(brand-background); // $color-teal-50;
+    // border-color: usetheme(brand-border); // $color-teal-50;
+    border-color: usetheme(brand-bright); // $color-teal-50;
     color: usetheme(brand-90);
   }
     &.--border-highlight {

@@ -1,20 +1,21 @@
 
 <!--  
 
-  Router for Capsid & Tail issues
-  // basis for other manuscript routers
+  Router for Insights publicataions
+  // built on top of r-capsid
 
 -->
 
 <template>
-  <div class="Router-Capsid">
+  <div class="Router-Insights">
 
     <!-- the route should match against a slug and only the first matched slug should be relevant -->
 
     <Template class="_section-page _margin-center">
       
       <div slot="sidebar" >
-        <div class="_sidebar-content-group">
+        Right sidebar: {{ manuscript.fields['Name'] }}
+        <!-- <div class="_sidebar-content-group">
           <div class="_sidebar-item _sidebar-heading _sidebar-label">
             {{ manuscript.fields['Name'] }}
           </div>
@@ -37,11 +38,8 @@
           </nuxt-link>
           <nuxt-link to="#article" class="_sidebar-item _block --active-disabled">
             Article
-          </nuxt-link>
-          <!-- <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
-            Comments
-          </nuxt-link> -->
-        </div>
+          </nuxt-link> 
+        </div>-->
         <div clas="_sidebar-footer">
           <nuxt-link
             v-scroll-to="{
@@ -72,7 +70,8 @@
 
       <!-- <a href="/capsid" class="--quiet _inline-block _padding-bottom">Browse all issues of Capsid &amp; Tail</a> -->
 
-      <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" />
+      <!-- <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" /> -->
+      Main content here {{ manuscript.fields['Data:Body'] }}
     </Template>
 
   </div>
@@ -87,13 +86,13 @@
 import { loadQuery } from '~/other/loaders'
 
 import Template from '~/templates/manuscript-capsid.vue'
-import Capsid from '~/components/publications/CapsidFour.vue'
+// import Capsid from '~/components/publications/CapsidFour.vue'
 
 
 export default {
 
   components: {
-    Capsid,
+    // Capsid,
     Template,
   },
 
@@ -127,16 +126,15 @@ export default {
     // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
     // console.log('matched node: ', node, ' @ ', slug)
 
-    const manuscript = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-single', keyword: slug})
+    const manuscript = await loadQuery({env, store, routeName:'{capsid router}', query:'insights-single', keyword: slug})
 
     // fetches the relevant atoms into the store
-    const atoms = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})
+    // const atoms = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})
 
-    // console.log('manuscript:', manuscript, 'matched atoms: ', atoms, ' @ ', slug)
+    console.log('manuscript:', manuscript, ' @ ', slug)
 
     return {
       manuscript: manuscript.tables.Manuscripts[0],
-      atoms: atoms.tables.Atoms,
     }
   },
 

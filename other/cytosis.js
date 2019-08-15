@@ -233,6 +233,7 @@ class Cytosis {
     // If constructing without arguments,
     // then initialize "this" with either pre-configured values, or blanks
     if (arguments.length === 0) {
+      _this.config = Cytosis.config || '';
       _this.airKey = Cytosis.airKey || '';
       _this.airBase = Cytosis.airBase || '';
       _this.airBase.tables = Cytosis.tables || [];
@@ -240,6 +241,7 @@ class Cytosis {
       _this.airBase.options = Cytosis.options || {view: "Grid view"};
       _this.airBase.payloads = Cytosis.payloads; // used for keyword or other payloads
     } else {
+      _this.config = opts.config;
       _this.airKey = opts.airKey;
       _this.airBase = { id: opts.airBase || opts.airBaseId };
       _this.airBase.tables = opts.tables || []
@@ -280,7 +282,16 @@ class Cytosis {
 
 
 
-
+/**
+ * @license
+ * Lodash (Custom Build) lodash.com/license | Underscore.js 1.8.3 underscorejs.org/LICENSE
+ * Build: `lodash include="throttle"`
+ */
+// ;(function(){function t(){}function e(t){return null==t?t===l?d:y:I&&I in Object(t)?n(t):r(t)}function n(t){var e=$.call(t,I),n=t[I];try{t[I]=l;var r=true}catch(t){}var o=_.call(t);return r&&(e?t[I]=n:delete t[I]),o}function r(t){return _.call(t)}function o(t,e,n){function r(e){var n=d,r=g;return d=g=l,x=e,v=t.apply(r,n)}function o(t){return x=t,O=setTimeout(c,e),T?r(t):v}function i(t){var n=t-h,r=t-x,o=e-n;return w?k(o,j-r):o}function f(t){var n=t-h,r=t-x;return h===l||n>=e||n<0||w&&r>=j}function c(){
+// var t=D();return f(t)?p(t):(O=setTimeout(c,i(t)),l)}function p(t){return O=l,S&&d?r(t):(d=g=l,v)}function s(){O!==l&&clearTimeout(O),x=0,d=h=g=O=l}function y(){return O===l?v:p(D())}function m(){var t=D(),n=f(t);if(d=arguments,g=this,h=t,n){if(O===l)return o(h);if(w)return O=setTimeout(c,e),r(h)}return O===l&&(O=setTimeout(c,e)),v}var d,g,j,v,O,h,x=0,T=false,w=false,S=true;if(typeof t!="function")throw new TypeError(b);return e=a(e)||0,u(n)&&(T=!!n.leading,w="maxWait"in n,j=w?M(a(n.maxWait)||0,e):j,S="trailing"in n?!!n.trailing:S),
+// m.cancel=s,m.flush=y,m}function i(t,e,n){var r=true,i=true;if(typeof t!="function")throw new TypeError(b);return u(n)&&(r="leading"in n?!!n.leading:r,i="trailing"in n?!!n.trailing:i),o(t,e,{leading:r,maxWait:e,trailing:i})}function u(t){var e=typeof t;return null!=t&&("object"==e||"function"==e)}function f(t){return null!=t&&typeof t=="object"}function c(t){return typeof t=="symbol"||f(t)&&e(t)==m}function a(t){if(typeof t=="number")return t;if(c(t))return s;if(u(t)){var e=typeof t.valueOf=="function"?t.valueOf():t;
+// t=u(e)?e+"":e}if(typeof t!="string")return 0===t?t:+t;t=t.replace(g,"");var n=v.test(t);return n||O.test(t)?h(t.slice(2),n?2:8):j.test(t)?s:+t}var l,p="4.17.5",b="Expected a function",s=NaN,y="[object Null]",m="[object Symbol]",d="[object Undefined]",g=/^\s+|\s+$/g,j=/^[-+]0x[0-9a-f]+$/i,v=/^0b[01]+$/i,O=/^0o[0-7]+$/i,h=parseInt,x=typeof global=="object"&&global&&global.Object===Object&&global,T=typeof self=="object"&&self&&self.Object===Object&&self,w=x||T||Function("return this")(),S=typeof exports=="object"&&exports&&!exports.nodeType&&exports,N=S&&typeof module=="object"&&module&&!module.nodeType&&module,E=Object.prototype,$=E.hasOwnProperty,_=E.toString,W=w.Symbol,I=W?W.toStringTag:l,M=Math.max,k=Math.min,D=function(){
+// return w.Date.now()};t.debounce=o,t.throttle=i,t.isObject=u,t.isObjectLike=f,t.isSymbol=c,t.now=D,t.toNumber=a,t.VERSION=p,typeof define=="function"&&typeof define.amd=="object"&&define.amd?(w._=t, define(function(){return t})):N?((N.exports=t)._=t,S._=t):w._=t}).call(this);
 
 
 
@@ -323,76 +334,84 @@ class Cytosis {
       if(_this.airBase.tables && _this.airBase.tables.length > 0)
         resolve(_this)
 
+      if(_this.config) {
+        setup(_this.config)
+        resolve(_this)
+      }
+
+      const setup = function(_config) {
+        _this['config'] = _config
+
+        // this requires a table named '_cytosis' with a row (tableQuery) that indicates where the information is coming from
+        // need column 'Tables' with a Multiple Select of all the table names in the base
+        // (this is required b/c Airtable API won't let you get all table names)
+        // init tables from config if they don't exist
+        if ( !_this.airBase.tables || _this.airBase.tables.length == 0 ) {
+          for(let config of _config._cytosis) {
+            // Option 1: find all the options in the Tables list
+            if ( config.fields['Name'] == tableQuery && config.fields['Tables']) {
+
+              // some queries can contain options like fields, sort, maxRecords etc.
+              // these can drastically cut back the amount of retrieved data
+              const options = {
+                fields: config.fields['fields'], // fields to retrieve in the results
+                filter: config.fields['filterByFormula'],
+                maxRecords: config.fields['maxRecords'],
+                pageSize: config.fields['pageSize'],
+                sort: config.fields['sort'] ? JSON.parse(config.fields['sort'])['sort'] : undefined, // needs to be of format : "{sort: [blahblah]}"
+                view: config.fields['view'],
+                matchKeywordWithField: config.fields['matchKeywordWithField'],
+                matchStyle: config.fields['matchStyle'], // how are keywords matched?
+              }
+
+              // tables is an array of strings that say which tables (tabs) in Airtable to pull from
+              _this.airBase['tables'] = config.fields['Tables']
+              _this.airBase['options'] = options
+            } 
+
+            // Option 2: find all the tableQueries in the linkedQueryNames (generated lookup) list
+            else if ( config.fields['Name'] == tableQuery && config.fields['LinkedQueryNames']) {
+              const linkedQueries = config.fields['LinkedQueryNames']
+              // console.log('Linked Query Names: ', linkedQueries)
+
+              // this is a special case where instead of an array of strings, it's an
+              // array of objects {query (string), tables (array of strings), options (object)}
+              let tables = []
+              // for each linked query, find and store the correct query
+              linkedQueries.map((linkedquery) => {
+                _config._cytosis.map((query) => {
+                  if(linkedquery == query.fields['Name']) {
+                    // console.log('match:', linkedquery, query)
+
+                    const options = {
+                      fields: query.fields['fields'], // fields to retrieve in the results
+                      filter: query.fields['filterByFormula'],
+                      maxRecords: query.fields['maxRecords'],
+                      pageSize: query.fields['pageSize'],
+                      sort: query.fields['sort'] ? JSON.parse(query.fields['sort'])['sort'] : undefined, // needs to be of format : "{sort: [blahblah]}"
+                      view: query.fields['view'],
+                    }
+
+                    tables.push({
+                      query: linkedquery,
+                      tables: query.fields['Tables'],
+                      options: options
+                    })
+                  }
+                })
+              })
+
+              _this.airBase['tables'] = tables
+            }
+          }
+        }
+      }
 
       // if no table names are provided, it looked for a special '_cytosis' tab
       // this is required to initialize the Cytosis object
       Cytosis.getTables({options: {}, cytosis: _this, tables: ['_cytosis']}).then( (_config) => {
         if(_config) {
-          _this['config'] = _config
-
-          // this requires a table named '_cytosis' with a row (tableQuery) that indicates where the information is coming from
-          // need column 'Tables' with a Multiple Select of all the table names in the base
-          // (this is required b/c Airtable API won't let you get all table names)
-          // init tables from config if they don't exist
-          if ( !_this.airBase.tables || _this.airBase.tables.length == 0 ) {
-            for(let config of _config._cytosis) {
-              // Option 1: find all the options in the Tables list
-              if ( config.fields['Name'] == tableQuery && config.fields['Tables']) {
-
-                // some queries can contain options like fields, sort, maxRecords etc.
-                // these can drastically cut back the amount of retrieved data
-                const options = {
-                  fields: config.fields['fields'], // fields to retrieve in the results
-                  filter: config.fields['filterByFormula'],
-                  maxRecords: config.fields['maxRecords'],
-                  pageSize: config.fields['pageSize'],
-                  sort: config.fields['sort'] ? JSON.parse(config.fields['sort'])['sort'] : undefined, // needs to be of format : "{sort: [blahblah]}"
-                  view: config.fields['view'],
-                  matchKeywordWithField: config.fields['matchKeywordWithField'],
-                  matchStyle: config.fields['matchStyle'], // how are keywords matched?
-                }
-
-                // tables is an array of strings that say which tables (tabs) in Airtable to pull from
-                _this.airBase['tables'] = config.fields['Tables']
-                _this.airBase['options'] = options
-              } 
-
-              // Option 2: find all the tableQueries in the linkedQueryNames (generated lookup) list
-              else if ( config.fields['Name'] == tableQuery && config.fields['LinkedQueryNames']) {
-                const linkedQueries = config.fields['LinkedQueryNames']
-                // console.log('Linked Query Names: ', linkedQueries)
-
-                // this is a special case where instead of an array of strings, it's an
-                // array of objects {query (string), tables (array of strings), options (object)}
-                let tables = []
-                // for each linked query, find and store the correct query
-                linkedQueries.map((linkedquery) => {
-                  _config._cytosis.map((query) => {
-                    if(linkedquery == query.fields['Name']) {
-                      // console.log('match:', linkedquery, query)
-
-                      const options = {
-                        fields: query.fields['fields'], // fields to retrieve in the results
-                        filter: query.fields['filterByFormula'],
-                        maxRecords: query.fields['maxRecords'],
-                        pageSize: query.fields['pageSize'],
-                        sort: query.fields['sort'] ? JSON.parse(query.fields['sort'])['sort'] : undefined, // needs to be of format : "{sort: [blahblah]}"
-                        view: query.fields['view'],
-                      }
-
-                      tables.push({
-                        query: linkedquery,
-                        tables: query.fields['Tables'],
-                        options: options
-                      })
-                    }
-                  })
-                })
-
-                _this.airBase['tables'] = tables
-              }
-            }
-          }
+          setup(_config)
         }
 
         if(!_config || !_this.airBase.tables || _this.airBase.tables.length == 0) {
@@ -541,6 +560,8 @@ class Cytosis {
         }
 
         for (let table of tables) {
+
+          // console.log('cytosis tables:', tables.length, tables)
           let list = []
 
           const filterObj = {
@@ -566,28 +587,37 @@ class Cytosis {
             filterObj['fields'] = fields
           }
 
-          const promise = new Promise(function(resolve, reject) {
-            const base = Cytosis.getBase(cytosis.airBase.id) // airtable base object
-            base(table).select(
-              filterObj
-            ).eachPage(function page(records, fetchNextPage) {
-              // This function (`page`) will get called for each page of records.
-              records.forEach(function(record) {list.push(record)})
-              // To fetch the next page of records, call `fetchNextPage`.
-              // If there are more records, `page` will get called again.
-              // If there are no more records, `done` will get called.
-              fetchNextPage();
-            }, function done(err) {
-              if (err) { 
-                console.error('Airtable error: ', err)
-                reject(err)
-                return
-              }
-              resolve({[table]: list})
-            })
+          // returns a promise from airtable
+          const airtableFetch = function() {
+            // console.log('[Cytosis] fetching table:', table, 'from', cytosis.airBase.id)
+            return new Promise(function(resolve, reject) {
+              const base = Cytosis.getBase(cytosis.airBase.id) // airtable base object
+              base(table).select(
+                filterObj
+              ).eachPage(function page(records, fetchNextPage) {
+                // This function (`page`) will get called for each page of records.
+                records.forEach(function(record) {list.push(record)})
+                // To fetch the next page of records, call `fetchNextPage`.
+                // If there are more records, `page` will get called again.
+                // If there are no more records, `done` will get called.
+                fetchNextPage()
+              }, function done(err) {
+                if (err) { 
+                  console.error('Airtable error: ', err)
+                  reject(err)
+                  return
+                }
+                resolve({[table]: list})
+              })
 
-          })
-          pTables.push(promise)
+            })
+          }
+
+          // if()
+          // const throttleAirtableFetch = _.throttle(updatePosition, 300)
+          
+          // table of promises
+          pTables.push(airtableFetch())
         }
 
       } catch(e) {

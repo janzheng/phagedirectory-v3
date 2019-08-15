@@ -26,6 +26,14 @@
         />
     </div>
 
+
+    <div v-if="order =='asc' " class="Timeline-more _margin-bottom-2">
+      <button v-if="postCount < timeline.length "
+              class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="showMore()">
+        <span class="">Show Earlier Posts</span>
+      </button>
+    </div>
+
     <div v-for="item of timelineAgenda" :key="item.id" class="Timeline-posts">
       
       <TimelineCard 
@@ -76,8 +84,13 @@
 
     </div>
 
-    <!-- required to render twitter embeds properly -->
-    <script async v-if="timeline.length > 0" src="https://platform.twitter.com/widgets.js" charset="utf-8" />
+
+    <div v-if="order =='desc' " class="Timeline-more _margin-top _margin-bottom-2">
+      <button v-if="postCount < timeline.length "
+              class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="showMore()">
+        <span class="">Show Earlier Posts</span>
+      </button>
+    </div>
 
   </div>
 
@@ -97,9 +110,9 @@ export default {
       type: String,
       default: 'asc',
     },
-    postCount: { // only show the latest posts
+    count: { // only show the latest posts
       type: Number,
-      default: 10,
+      default: 8,
     },
     timeline: Array,
     agenda: Array,
@@ -122,6 +135,7 @@ export default {
 
   data: function () {
     return {
+      postCount: this.count,
     }
   },
 
@@ -149,11 +163,12 @@ export default {
       // }
 
       // sort timeline by Time / newest first (like Twitter)
-      if(this.order == 'desc') {
-        timeline = this.$cytosis.sort(timeline, 'Time:Raw').reverse()
-      } else {
-        timeline = this.$cytosis.sort(timeline, 'Time:Raw')
-      }
+      // if(this.order == 'desc') {
+      //   timeline = this.$cytosis.sort(timeline, 'Time:Raw').reverse()
+      // } else {
+      //   timeline = this.$cytosis.sort(timeline, 'Time:Raw')
+      // }
+      timeline = this.$cytosis.sort(timeline, 'Time:Raw')
 
       // get rid of items that haven't happened yet
       const nowDate = new Date
@@ -167,7 +182,11 @@ export default {
 
       // only show by postCount number of posts
       if(timeline.length-this.postCount >= 0)
-        return timeline.slice(timeline.length-this.postCount, timeline.length)
+        timeline = timeline.slice(timeline.length-this.postCount, timeline.length)
+
+
+      if(this.order == 'desc') // reverse for newest first
+        return timeline.reverse()
       
       return timeline
 
@@ -184,8 +203,8 @@ export default {
     showMore() {
       this.postCount = this.postCount + 6
 
-      if(this.postCount >= 24)
-        this.postCount = this['timeline'].length
+      // if(this.postCount >= 24)
+      //   this.postCount = this['timeline'].length
     },
     getAuthor(post) {
       if (post.fields['Author'])

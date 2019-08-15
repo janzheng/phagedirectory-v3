@@ -68,6 +68,11 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    count: { // show a total count of agenda items
+      type: Number,
+      default: 6, // use -1 for infinite
+    },
   },
 
   data: function () {
@@ -78,6 +83,10 @@ export default {
 
   computed: {
 
+    now() {
+      const nowDate = new Date
+      return this.$dayjs(nowDate)
+    },
     nowEvent() {
       // shows any event that is currently happening / has been happening for 15 minutes
       // after 15 minute mark it goes away
@@ -120,9 +129,11 @@ export default {
         if (now < event.fields['Time:Raw'] && 
           // event.fields['Type'] != 'Day' && 
           event.fields['Type'] != 'Session') {
+          // console.log('now:', now, '<?', event.fields['Time:Raw')
           return event
         }
       }
+
       return false // no more items in the agenda
     },
 
@@ -136,13 +147,17 @@ export default {
       const nowDate = new Date
       const now = nowDate.toISOString()
 
-      return agenda.reduce((total, current) => {
+      const final = agenda.reduce((total, current) => {
         if (now >= current.fields['Time:Raw'] && 
           current.fields['Type'] != 'Session') {
           total.push(current)
         }
         return total
       }, [])
+
+      if(this.count>0)
+        return final.slice(0,this.count)
+      return final
     },
 
     futureEvents() {
@@ -155,13 +170,25 @@ export default {
       const nowDate = new Date
       const now = nowDate.toISOString()
 
-      return agenda.reduce((total, current) => {
+      const final = agenda.reduce((total, current) => {
         if (now < current.fields['Time:Raw'] && 
           current.fields['Type'] != 'Session') {
           total.push(current)
         }
         return total
       }, [])
+
+      if(this.count>0)
+        return final.slice(0,this.count)
+      return final
+    },
+
+    events() {
+      let agenda = this['agenda']
+
+      if(this.count>0)
+        return agenda.slice(0,this.count)
+      return agenda
     }
   },
 

@@ -10,6 +10,9 @@
 // import _ from 'lodash'
 
 import {loadQuery} from '~/other/loaders'
+// import _ from '~/other/lodash.custom.min.js'
+// import rateLimit from '~/other/rate_limit.lodash.js'
+
 // import {loadStatic, loadDynamic, loadNews} from '~/other/loaders'
 
 // async function loadData(routeName, store, env) {
@@ -38,13 +41,32 @@ import {loadQuery} from '~/other/loaders'
 
 async function loadQueryData(routeName, store, env, tableQuery, keyword) {
   let data
-  data = await loadQuery({env, store, routeName, query: tableQuery, keyword})
-  // console.log('[loadQueryData] data', data)
+  // console.log('[PageLoad] Loading Query:', `[route: ${routeName}]`, `> ${tableQuery}`, 'store config:', store.state.config, ' store env base:', env.airtable_base)
+  // console.time(`[PageLoad] /${routeName} > ${tableQuery}`)
+  if(store.config && store.state.config[env.airtable_base]) {
+    // console.time(`[PageLoad] Config exists:`, store.state.config[env.airtable_base])
+    data = await loadQuery({env, store, routeName, query: tableQuery, keyword, config: store.state.config[env.airtable_base]})
+  }
+  else
+    data = await loadQuery({env, store, routeName, query: tableQuery, keyword})
+
+  // console.log('[PageLoad] Query Loaded:', `/${routeName}`, `> ${tableQuery}`)
+  // console.timeEnd(`[PageLoad] /${routeName} > ${tableQuery}`)
 
   return Promise.all([data])
 }
 
 export default async function ({route, env, store}) {
+
+
+  // function showStatus(i) {
+  //   console.log(i);
+  // }
+  // var showStatusRateLimited = _.rateLimit(showStatus, 200);
+  // for (var i = 0; i < 10; i++) {
+  //   showStatusRateLimited(i);
+  // }
+
 
   const routeName = route.name || route.path
 
@@ -94,8 +116,9 @@ export default async function ({route, env, store}) {
     // in this case, we have multiple linked queries in airtable
     const getData = async function() {
       // console.log('tableQueries... ', tableQueries)
-      let queryData = tableQueries.map( (query) => {
-        return loadQueryData(routeName, store, env, query, keyword)
+      let queryData = tableQueries.map( async function(query) {
+        console.log('[Pageload](loadQueryData) Fetch Query:', routeName)
+        return await loadQueryData(routeName, store, env, query, keyword)
       })
       return Promise.all(queryData)
     }

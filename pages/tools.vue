@@ -1,7 +1,7 @@
 <template>
-  <div class="Groups">
+  <div class="Tools">
 
-    <Template :template-classes="'_margin-center'">
+    <Template >
 
       <template #container>
 
@@ -15,9 +15,26 @@
             New:
               - islander p204 evergreen abstract
               - comparator p204 evergreen abstract
-             
 
-           -->
+          -->
+
+          <div class="Tools-list">
+            <div v-for="item of tools" :key="item.id" class="Tools-item _card _padding">
+              <h5 class="Tools-name">{{ item.fields['Name'] }}</h5>
+              <div v-if="item.fields['Data:Subtitle']" class="Tools-subtitle">{{ item.fields['Data:Subtitle'] }}</div>
+              <div class="_margin-top">
+                <div v-if="item.fields['URL']" class="Tools-url">URL: <a :href="item.fields['URL']" target="_blank">{{ item.fields['URL'] }}</a></div>
+                <div v-if="item.fields['Data:Content']" class="Tools-creator">Organization: {{ item.fields['Data:Content'] }}</div>
+                <div v-if="item.fields['Markdown']" class="Tools-creator _margin-top" >
+                  <div>Description:</div>
+                  <div v-html="$md.render( item.fields['Markdown'] ||'')" />
+                </div>
+                <div class="Tools-tags _margin-bottom-half">
+                  <span v-for="tag of item.fields['Data:Tags']" :key="tag" class="_tag">{{ tag }}</span>
+                </div> 
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -51,28 +68,14 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-events"],
+    tableQueries: ["_content", "atoms-tools"],
     refreshOnLoad: true,
   },
 
   data () {
     return {
-      activeTab: 'Upcoming Events',
-      leftData: {
-        'Upcoming Events': {
-          // link: 'about',
-          // attrs: '_pointer',
-          // active: true,
-        },
-        'Past Events':{},
-      },
-      rightData: {
-        'Add an Event':{},
-      },
       intro: this.$cytosis.find('Content.tools-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       form: this.$cytosis.find('Content.form-tools', {'Content': this.$store.state['Content']} )[0],
-      // content: this.$cytosis.find('Content.events-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
   },
   
@@ -80,30 +83,30 @@ export default {
     ...mapState([
       'Atoms',
       ]),
-    events() {
-      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
+    tools() {
+      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Tool')
     },
 
-    featured() {
-      // events in the past, w/ newest first
-      return this.events.filter(item => {
-        return item.fields['Data:Date']
-      }).reverse()
-    },
-    past() {
-      // events in the past, w/ newest first
-      return this.events.filter(item => {
-        const date = item.fields['Data:Date']
-        return !this.$dayjs().isBefore(this.$dayjs(String(date)))
-      }).reverse()
-    },
-    upcoming() {
-      // events in the future
-      return this.events.filter(item => {
-        const date = item.fields['Data:Date']
-        return this.$dayjs().isBefore(this.$dayjs(String(date)))
-      })
-    }
+    // featured() {
+    //   // events in the past, w/ newest first
+    //   return this.events.filter(item => {
+    //     return item.fields['Data:Date']
+    //   }).reverse()
+    // },
+    // past() {
+    //   // events in the past, w/ newest first
+    //   return this.events.filter(item => {
+    //     const date = item.fields['Data:Date']
+    //     return !this.$dayjs().isBefore(this.$dayjs(String(date)))
+    //   }).reverse()
+    // },
+    // upcoming() {
+    //   // events in the future
+    //   return this.events.filter(item => {
+    //     const date = item.fields['Data:Date']
+    //     return this.$dayjs().isBefore(this.$dayjs(String(date)))
+    //   })
+    // }
   },
 
   // runs on generation and page route (but not on first page load)

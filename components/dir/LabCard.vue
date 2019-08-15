@@ -65,7 +65,7 @@
             </div>
             <div v-if="linkedPhageCollections.length == 0" class="Dir-miniCard">
               <!-- empty state -->
-              No phage collections yet
+              No phages added yet
             </div>
             <div v-for="item of linkedPhageCollections" :key="item.id" class="Dir-miniCard">
               <div class="">

@@ -32,6 +32,10 @@ export default {
       type: String,
       default: ''
     },
+    noCloseAllowed: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data: function () {
@@ -54,10 +58,16 @@ export default {
   methods: {
 
     toggle() {
-      if(this.on)
+      if(this.on && !this.noCloseAllowed) 
         this.on = false
       else
         this.on = true
+    },
+    open() {
+      this.on = true
+    },
+    close() {
+      this.on = false
     },
 
   }

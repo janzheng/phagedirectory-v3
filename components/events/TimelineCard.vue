@@ -11,8 +11,7 @@
     <div class="TimelineCard-sidebar" >
       <!-- <slot name="sidebar" /> -->
       <div v-if="author" class="TimelineCard-sidebar _margin-bottom-half-xs" >
-        <!-- <a v-if="author.fields['Twitter'] && profile" :href="'https://twitter.com/'+author.fields['Twitter']" target="_blank"><img v-if="profile" :src="profile" class="cnt _block _left _margin-center" style="border-radius: 100%" width="70" height="70"></a> -->
-        <img v-if="profile" :src="profile" class="cnt _block _left _margin-center" style="border-radius: 100%" width="70" height="70">
+        <img v-if="profile" :src="profile" class="_block _left _margin-center --profile" style="border-radius: 100%" >
       </div>
     </div>
 
@@ -20,7 +19,7 @@
     <div class="TimelineCard-main" >
       <!-- <slot name="main" /> -->
       <div v-if="author" class="TimelineCard-header _margin-bottom-half" >
-        <div class="TimelineCard-post-meta _grid-3-2-xs _grid-gap-small">
+        <div class="TimelineCard-post-meta _grid-3-2 _grid-gap-small">
           <div>
             <span v-if="author.fields['Twitter']">
               <span class="TimelineCard-author" target="_blank">{{ author.fields['Name'] }}</span>
@@ -29,7 +28,7 @@
             
             <span v-else class="TimelineCard-author">{{ author.fields['Name'] }}</span>
           </div>
-          <div class="_right">
+          <div class="_right-sm">
             <span class="TimelineCard-header-meta">{{ post.fields['Time:Nice'] }} </span>
           </div>
         </div>
@@ -41,7 +40,9 @@
         <div v-if="post.fields['Data:Twitter']" class="TimelineCard-twitter" >
           <blockquote class="twitter-tweet" data-width="100%" data-lang="en">
             <a :href="post.fields['Data:Twitter']">Twitter content loading...</a>
+            <!-- required to render twitter embeds properly -->
           </blockquote>
+          <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
         </div>
 
         <div v-if="post.fields['Data:Attachments']" class="TimelineCard-images" >

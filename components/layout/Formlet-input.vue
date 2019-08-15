@@ -16,7 +16,7 @@
       v-html="$md.render(input.description || '')"  
     />
 
-    <div v-if="input.action" class="_flex-row-sm">
+    <div v-if="input.action" class="_action _flex-row-sm">
       <input :id="input.name"
              v-model.trim="data" 
              :class="inputAttrs" 

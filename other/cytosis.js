@@ -1,9 +1,9 @@
 
 /*
 
-	EXPERIMENTAL CYTOSIS
+  EXPERIMENTAL CYTOSIS
 
-	- switch the plugin to this one if you're testing shit out
+  - switch the plugin to this one if you're testing shit out
 
 */
 
@@ -41,10 +41,17 @@
     - added partial matching; set the single select field matchStyle to "partial" to partially match a keyword 
     - changed the poorly named "settings" attribute to "payloads" so it's less confusing between options and settings 
 
-	- 7/21/2019
-		- added some experimental (nonfunctional) code for introspecting / finding empty fields
-		- added a static cleanTable transformation function that takes a table and only keeps fields and id
+  - 7/21/2019
+    - added some experimental (nonfunctional) code for introspecting / finding empty fields
+    - added a static cleanTable transformation function that takes a table and only keeps fields and id
 
+  - 8/14/2019
+    - added setup() to compartmentalize initialization;
+    - added a way to send a config object to bypass hitting airtable for _config so much
+    - added airtableFetch to add throttling for fetching, but holding off
+
+  - 8/16/2019
+    - added error for find/findOne fields not being an array
 */
 
 /*
@@ -279,21 +286,6 @@ class Cytosis {
       })
     })
   }
-
-
-
-/**
- * @license
- * Lodash (Custom Build) lodash.com/license | Underscore.js 1.8.3 underscorejs.org/LICENSE
- * Build: `lodash include="throttle"`
- */
-// ;(function(){function t(){}function e(t){return null==t?t===l?d:y:I&&I in Object(t)?n(t):r(t)}function n(t){var e=$.call(t,I),n=t[I];try{t[I]=l;var r=true}catch(t){}var o=_.call(t);return r&&(e?t[I]=n:delete t[I]),o}function r(t){return _.call(t)}function o(t,e,n){function r(e){var n=d,r=g;return d=g=l,x=e,v=t.apply(r,n)}function o(t){return x=t,O=setTimeout(c,e),T?r(t):v}function i(t){var n=t-h,r=t-x,o=e-n;return w?k(o,j-r):o}function f(t){var n=t-h,r=t-x;return h===l||n>=e||n<0||w&&r>=j}function c(){
-// var t=D();return f(t)?p(t):(O=setTimeout(c,i(t)),l)}function p(t){return O=l,S&&d?r(t):(d=g=l,v)}function s(){O!==l&&clearTimeout(O),x=0,d=h=g=O=l}function y(){return O===l?v:p(D())}function m(){var t=D(),n=f(t);if(d=arguments,g=this,h=t,n){if(O===l)return o(h);if(w)return O=setTimeout(c,e),r(h)}return O===l&&(O=setTimeout(c,e)),v}var d,g,j,v,O,h,x=0,T=false,w=false,S=true;if(typeof t!="function")throw new TypeError(b);return e=a(e)||0,u(n)&&(T=!!n.leading,w="maxWait"in n,j=w?M(a(n.maxWait)||0,e):j,S="trailing"in n?!!n.trailing:S),
-// m.cancel=s,m.flush=y,m}function i(t,e,n){var r=true,i=true;if(typeof t!="function")throw new TypeError(b);return u(n)&&(r="leading"in n?!!n.leading:r,i="trailing"in n?!!n.trailing:i),o(t,e,{leading:r,maxWait:e,trailing:i})}function u(t){var e=typeof t;return null!=t&&("object"==e||"function"==e)}function f(t){return null!=t&&typeof t=="object"}function c(t){return typeof t=="symbol"||f(t)&&e(t)==m}function a(t){if(typeof t=="number")return t;if(c(t))return s;if(u(t)){var e=typeof t.valueOf=="function"?t.valueOf():t;
-// t=u(e)?e+"":e}if(typeof t!="string")return 0===t?t:+t;t=t.replace(g,"");var n=v.test(t);return n||O.test(t)?h(t.slice(2),n?2:8):j.test(t)?s:+t}var l,p="4.17.5",b="Expected a function",s=NaN,y="[object Null]",m="[object Symbol]",d="[object Undefined]",g=/^\s+|\s+$/g,j=/^[-+]0x[0-9a-f]+$/i,v=/^0b[01]+$/i,O=/^0o[0-7]+$/i,h=parseInt,x=typeof global=="object"&&global&&global.Object===Object&&global,T=typeof self=="object"&&self&&self.Object===Object&&self,w=x||T||Function("return this")(),S=typeof exports=="object"&&exports&&!exports.nodeType&&exports,N=S&&typeof module=="object"&&module&&!module.nodeType&&module,E=Object.prototype,$=E.hasOwnProperty,_=E.toString,W=w.Symbol,I=W?W.toStringTag:l,M=Math.max,k=Math.min,D=function(){
-// return w.Date.now()};t.debounce=o,t.throttle=i,t.isObject=u,t.isObjectLike=f,t.isSymbol=c,t.now=D,t.toNumber=a,t.VERSION=p,typeof define=="function"&&typeof define.amd=="object"&&define.amd?(w._=t, define(function(){return t})):N?((N.exports=t)._=t,S._=t):w._=t}).call(this);
-
-
 
 
   /*
@@ -612,9 +604,6 @@ class Cytosis {
 
             })
           }
-
-          // if()
-          // const throttleAirtableFetch = _.throttle(updatePosition, 300)
           
           // table of promises
           pTables.push(airtableFetch())
@@ -733,6 +722,11 @@ class Cytosis {
     if(!findStr || !tables)
       return []
 
+    if (typeof(fields) == "string") {
+      console.error('[Cytosis] find "fields" argument must be an array')
+      return undefined
+    }
+
     // match a single string against all columns (fields) in all objects
     function matchField(str, tables, fields) {
       let results = []
@@ -814,6 +808,12 @@ class Cytosis {
   // - is just a wrapper for Find
   // takes: 
   static findOne (findStr, table, fields=['Name']) {
+
+    if (typeof(fields) == "string") {
+      console.error('[Cytosis] find "fields" argument must be an array')
+      return undefined
+    }
+
     // the key has to match the source of the findStr
     // if it's in the form 'Content.something' then 'Content' is the key
     // otherwise if it doesn't have the structure, key doesn't matter
@@ -962,9 +962,9 @@ class Cytosis {
   // really useful for storing data w/o all the other airtable stuff
   // -- note, this does NOT iterate through all the returned tables
   // Input: 
-  // 		a table array (e.g. Content: [...])
+  //    a table array (e.g. Content: [...])
   // Output: 
-  // 		a table array where each object only has id and fields, no helpers
+  //    a table array where each object only has id and fields, no helpers
   static cleanTable (table) {
 
     // clean up the cytosis table by only keeping id and fields
@@ -982,52 +982,52 @@ class Cytosis {
   // he's apparently created his own API, so this isn't super useful, but it shows how introspection works!
   // https://gist.github.com/hightide2020/d6a73b35958da1b26078344a26588fb8?fbclid=IwAR0qak04ksgMn3ta_G04xnZ3APVshw2Odg3m4GnZBOj3Hz6GqTcc57ump50
   /* get _blankFields
-	 * Returns a key-value Object of empty Fields.
+   * Returns a key-value Object of empty Fields.
 
-		 	Introspection usage:
+      Introspection usage:
 
-	    const test = this.$cytosis.findOne('home-mission', this.$store.state['Content'] );
+      const test = this.$cytosis.findOne('home-mission', this.$store.state['Content'] );
 
-	    let _this = this
-	    Object.defineProperty(test, 'blankFields', {
-	      get: _this.$cytosis.blankFields
-	    });
+      let _this = this
+      Object.defineProperty(test, 'blankFields', {
+        get: _this.$cytosis.blankFields
+      });
 
-	*/
-	static blankFields () {
-		if (typeof this.fields !== 'object' || this.fields === null)
-			return {};
-			
-		const entries = Object.entries(this.fields);
-		const blankFields = {};
-			
-		for (const [key, settings] of entries) {
-			console.log('entries:', entries, key, settings)
-			if (settings === undefined) {
-				const error = new Error(
-					`Improper Field Definition in Table '${this.name}'.\n` +
-					`Received: ${settings}`
-				);
-				error.name = 'TableError';
-				throw error;
-			}
-			if (typeof settings.name !== 'string') {
-				const error = new Error(
-					`Improper Field Definition in Table '${this.name}'.\n` +
-					`Expected 'name' to be a string.\n` +
-					`Received: ${settings}`
-				);
+  */
+  static blankFields () {
+    if (typeof this.fields !== 'object' || this.fields === null)
+      return {};
+      
+    const entries = Object.entries(this.fields);
+    const blankFields = {};
+      
+    for (const [key, settings] of entries) {
+      console.log('entries:', entries, key, settings)
+      if (settings === undefined) {
+        const error = new Error(
+          `Improper Field Definition in Table '${this.name}'.\n` +
+          `Received: ${settings}`
+        );
+        error.name = 'TableError';
+        throw error;
+      }
+      if (typeof settings.name !== 'string') {
+        const error = new Error(
+          `Improper Field Definition in Table '${this.name}'.\n` +
+          `Expected 'name' to be a string.\n` +
+          `Received: ${settings}`
+        );
 
-				error.name = 'TableError';
-				throw error;
-			}
-			const args = [settings.name, undefined, { ...settings }];
-			const blankField = typeof settings.type !== 'function' ? new UnknownField(...args) : new settings.type(...args);
-			blankFields[key] = blankField;
-		}
+        error.name = 'TableError';
+        throw error;
+      }
+      const args = [settings.name, undefined, { ...settings }];
+      const blankField = typeof settings.type !== 'function' ? new UnknownField(...args) : new settings.type(...args);
+      blankFields[key] = blankField;
+    }
 
-		return blankFields;
-	}
+    return blankFields;
+  }
 
 
 

@@ -305,8 +305,9 @@ export default {
       this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
     }
 
-    if(this.issue.fields['Cover'])
-      this.$head.setImage(this.issue.fields['Cover'][0]['url'] || 'https://phage.directory/cnt_twitter_card.png')
+    const cover_img = this.issue.fields['Cover'] ? this.issue.fields['Cover'][0]['url'] : 'https://phage.directory/cnt_twitter_card.png'
+    // if(this.issue.fields['Cover'])
+    this.$head.setImage(cover_img)
     
     return this.$head.get()
   },
@@ -328,7 +329,10 @@ export default {
       // ensures corr. author is first
       // REMINDER: Authors always returns as an array; if there are no attached authors
       // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
-      authorSlugs = [... _this.issue.fields['Data:MainAuthorSlug'], ... _this.issue.fields['Data:AuthorSlugs']]
+      authorSlugs = _this.issue.fields['Data:MainAuthorSlug']
+
+      if (_this.issue.fields['Data:AuthorSlugs'])
+        authorSlugs = [... _this.issue.fields['Data:MainAuthorSlug'], ... _this.issue.fields['Data:AuthorSlugs']]
 
       if(authorSlugs) {
         authorSlugs.map(function(slug) {
@@ -360,7 +364,6 @@ export default {
           authors.push(authorObj[slug])
         })
       })
-
     }
 
     return {

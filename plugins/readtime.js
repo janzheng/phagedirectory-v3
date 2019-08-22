@@ -12,7 +12,7 @@ const readtime = {
   count: (words) => {
     if(words && words.length>0) {
       const arr = words.split(' ')
-      return Math.round(arr.length / 210) // use 250 instead of 265 b/c of technical content
+      return Math.round(arr.length / 150) // use 250 instead of 265 b/c of technical content
     }
   }
 }

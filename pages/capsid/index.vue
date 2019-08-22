@@ -134,12 +134,21 @@ export default {
         return undefined
 
       const authorSlug = manuscript.fields['Data:MainAuthorSlug']
-      return this['People'].reduce((total, current) => {
-          if(current.fields['Slug'] == authorSlug) {
-            return [...total, ...[current]]
-          }
-          return [...total]
-        }, [])
+      let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
+
+      // const authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]
+      if(manuscript.fields['Data:AuthorSlugs'])
+        authorSlugs = [... authorSlugs, ... manuscript.fields['Data:AuthorSlugs']]
+
+      const _this = this
+      let authors = []
+
+      authorSlugs.map((slug) => {
+      // console.log('authorSlugs.map', slug, _this.$cytosis.findOne(slug, _this['People'], 'Slug'))
+        authors.push(_this.$cytosis.findOne(slug, _this['People'], ['Slug'] ))
+      })
+
+      return authors
     },
   },
 

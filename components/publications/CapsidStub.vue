@@ -30,10 +30,14 @@
         </div>
 
         <h1 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
-        <div v-if="mainAuthor" class="Capsid-author-main _margin-bottom _flex-row">
-          <img v-if="mainAuthor.fields['Profile']" :src="mainAuthor.fields['Profile'][0].thumbnails.small.url" class="--profile">
-          <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
-          <div class="_font-normal _padding-left-half _align-vertically">{{ mainAuthor.fields['Name'] }}</div>
+        <div v-if="authors" class="Capsid-author-main _margin-bottom ">
+          <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
+            <span class="_flex-row">
+              <img v-if="item.fields['Profile']" :src="item.fields['Profile'][0].thumbnails.small.url" class="--profile">
+              <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
+              <div class="_font-normal _padding-left-half _align-vertically">{{ item.fields['Name'] }}</div>
+            </span>
+          </div>
         </div>
         <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
       </nuxt-link>
@@ -54,10 +58,14 @@
             <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
           </div>
           <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
-          <div v-if="mainAuthor" class="Capsid-author-main _margin-bottom _flex-row">
-            <img v-if="mainAuthor.fields['Profile']" :src="mainAuthor.fields['Profile'][0].thumbnails.small.url" class="--profile">
-            <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
-            <div class="_font-normal _padding-left-half _align-vertically">{{ mainAuthor.fields['Name'] }}</div>
+          <div v-if="authors" class="Capsid-author-main _margin-bottom ">
+            <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
+              <span class="_flex-row">
+                <img v-if="item.fields['Profile']" :src="item.fields['Profile'][0].thumbnails.small.url" class="--profile">
+                <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
+                <div class="_font-normal _padding-left-half _align-vertically">{{ item.fields['Name'] }}</div>
+              </span>
+            </div>
           </div>
         </div>
         <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
@@ -89,7 +97,7 @@ export default {
         return undefined
 
       return this['authors'][0]
-    }
+    },
   },
 
   methods: {

@@ -155,7 +155,6 @@
           <!-- <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" /> -->
         </div>
 
-
         <div v-if="authors && authors[0]" id="Capsid-authors" class="Capsid-authors" >
           <AuthorCard v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-full --compact" />
         </div>
@@ -275,53 +274,58 @@ export default {
 
     // if we're grabbing author info from DB:People
     const _this = this
-    const getAuthors = async function() {
+    let authors = []
+    let authorPromises = []
+    let authorSlugs = []
+    let authorObj = {} // need to use an obj instead of array, since authors don't return in order from server; need to track order w/ obj
+
+    const getAuthor = function() {
       // console.log('fetching authors:')
 
       // ensures corr. author is first
       // REMINDER: Authors always returns as an array; if there are no attached authors
       // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
-      if(_this.issue.fields['Data:MainAuthorSlug']) {
-        _this.issue.fields['Data:MainAuthorSlug'].map(async function(slug) {
-          const item = await loadQuery({
+      authorSlugs = _this.issue.fields['Data:MainAuthorSlug']
+
+      if (_this.issue.fields['Data:AuthorSlugs'])
+        authorSlugs = [... _this.issue.fields['Data:MainAuthorSlug'], ... _this.issue.fields['Data:AuthorSlugs']]
+
+      if(authorSlugs) {
+        authorSlugs.map(function(slug) {
+          const item = loadQuery({
             _key: process.env.db_api, 
             _base: process.env.db_base, 
             store: _this.$store, 
             routeName: '{Capsid}', 
-            query: 'People-profile',
+            query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
             keyword: slug,
           })
-          _this.authors.push(item.tables.People[0])
+          authorPromises.push(item)
         })
       }
 
-      if(_this.issue.fields['Data:AuthorSlugs']) {
-        _this.issue.fields['Data:AuthorSlugs'].map(async function(slug) {
-          const item = await loadQuery({
-            _key: process.env.db_api, 
-            _base: process.env.db_base, 
-            store: _this.$store, 
-            routeName: '{Capsid}', 
-            query: 'People-profile',
-            keyword: slug,
-          })
-          // _this.authors.push(item.tables.People[0])
-          _this.authors = [... _this.authors, ... item.tables.People]
-        })
-      }
     }
     
     if(this.issue.fields['Data:MainAuthorSlug'] || this.issue.fields['Data:AuthorSlugs']) {
-      getAuthors() // async; populates this.authors directly when loaded
-      // getAuthors().then((data) => {
-      //   console.log('retrieved authors:', data, this.issue.fields['Data:AuthorSlug'])
-      //   _this.authors = data
-      // })
+      getAuthor() // async; populates this.authors directly when loaded
+
+      Promise.all(authorPromises).then(function(data) {
+        data.map((cytosis) => {
+          const author = cytosis.tables['People'][0]
+          authorObj[author.fields['Slug']] = author
+        })
+
+
+        // add them in order
+        authorSlugs.map((slug) => {
+          authors.push(authorObj[slug])
+        })
+      })
     }
 
     return {
       path: this.$route.path,
-      authors: [],
+      authors: authors,
       intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       tip: this.$cytosis.find('Content.capsid-tip', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],

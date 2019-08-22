@@ -8,7 +8,7 @@
 <template>
   <div class="Template-Documentation">
     <!-- ssr gets screwy with these -->
-    <no-ssr>
+    <client-only>
       <!-- 
       <div class="_section-page">
         <h6>[ t-router ] </h6>
@@ -31,7 +31,7 @@
 
       <!-- scroll spy alt -->
       <TemplateScrollDocumentation v-if="node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
-    </no-ssr>
+    </client-only>
   </div>
 </template>
 

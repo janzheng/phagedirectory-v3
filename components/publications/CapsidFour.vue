@@ -159,11 +159,11 @@
           </div>
         </div>
 
-        <!-- <no-ssr>
+        <!-- <client-only>
           <div id="comments" class="Capsid-disqus">
             <vue-disqus :identifier="path" shortname="capsid-tail" url="https://phage.directory" />
           </div>
-        </no-ssr> -->
+        </client-only> -->
 
       </div>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="People Dir-category">
-    <no-ssr>
+    <client-only>
       <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
 
         <template #header-container>
@@ -56,7 +56,7 @@
         </template>
 
       </Template>
-    </no-ssr>
+    </client-only>
 
   </div>
 </template>

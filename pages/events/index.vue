@@ -18,7 +18,7 @@
             <template slot="Upcoming Events">
               <div class="_padding-top">
                 <div id="map-wrap" class="Leaflet _hidden-xs _margin-bottom" style="height: 50vh">
-                  <!-- <no-ssr> ssr breaks inside the template lol.. -->
+                  <!-- <client-only> ssr breaks inside the template lol.. -->
                   <l-map :zoom="1" :center="[47.413220, -1.219482]" class="Leaflet-map" >
                     <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                                   attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
@@ -38,7 +38,7 @@
                     </l-marker>
                     <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
                   </l-map>
-                  <!-- </no-ssr> -->
+                  <!-- </client-only> -->
                 </div>
 
                 <Event v-for="item of upcoming" :key="item.id" :atom="item" />

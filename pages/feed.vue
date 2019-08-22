@@ -1,7 +1,7 @@
 <template>
   <div class="Feed">
 
-    <no-ssr>
+    <client-only>
       <Template class="Home-grid _divider-bottom" 
                 grid-classes="Template--Main-Sidebar-xs _grid-2-1-sm _grid-1-xs _grid-gap-none"
                 sidebar-classes="_sidebar _height-100">
@@ -34,7 +34,7 @@
         </template>
 
       </Template>
-    </no-ssr>
+    </client-only>
       
   </div>
 </template>

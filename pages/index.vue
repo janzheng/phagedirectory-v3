@@ -17,7 +17,7 @@
           </EvergreenHome>
         </div>
      -->
-    <no-ssr>
+    <client-only>
       <Template class="Home-grid _divider-bottom" 
                 grid-classes="Template--Main-Sidebar-xs _grid-3-1 _grid-gap"
                 sidebar-classes="_sidebar _height-100">
@@ -50,12 +50,12 @@
         </template>
 
         <template #context>
-          <no-ssr>
+          <client-only>
             <Twitter class="_height-100" />
-          </no-ssr>
+          </client-only>
         </template>
       </Template>
-    </no-ssr>
+    </client-only>
       
   </div>
 </template>

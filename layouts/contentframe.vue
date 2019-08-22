@@ -6,9 +6,9 @@
       <div class="ContentFrame-body" >
         <nuxt @click="onClick($event)" />
 
-        <no-ssr>
+        <client-only>
           <PolicyBanner />
-        </no-ssr>
+        </client-only>
         
         <FooterSignups />
         <FooterSupport />

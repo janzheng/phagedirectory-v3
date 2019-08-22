@@ -2,7 +2,7 @@
 
   <div class="PhageFutures _section-page _margin-center">
 
-    <no-ssr>
+    <client-only>
     
       <div class="_section-content _margin-center">
 
@@ -150,7 +150,7 @@
 
       </div>
 
-    </no-ssr>
+    </client-only>
     
     <!-- required to render twitter embeds properly -->
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />

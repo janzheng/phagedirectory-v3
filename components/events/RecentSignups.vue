@@ -4,7 +4,7 @@
 
     <slot />
 
-    <no-ssr>
+    <client-only>
 
       <Cytosis
         apikey="keyAe6M1KoPfg25aO"
@@ -45,7 +45,7 @@
         </template>
       </Cytosis>
 
-    </no-ssr>
+    </client-only>
   </div>
 </template>
 

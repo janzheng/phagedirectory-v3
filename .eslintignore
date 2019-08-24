@@ -4,6 +4,8 @@ nuxt.config.js
 other/*
 
 
+api/*
+
 # generated from workbox / PWA
 static/sw.js
 

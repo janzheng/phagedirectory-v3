@@ -155,7 +155,7 @@ export default {
     numLatest = 8
 
     function getFeaturedAtoms() {
-      const _this = this
+      // const _this = this
       loadQuery({
         _key: env.airtable_api, 
         _base: env.airtable_base,
@@ -267,7 +267,7 @@ export default {
     // },
     getAuthorsOfManuscript(manuscript) {
       if(this['People'] && this['People'].length > 0) {
-        const authorSlug = manuscript.fields['Data:MainAuthorSlug']
+        // const authorSlug = manuscript.fields['Data:MainAuthorSlug']
         let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
 
         // const authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]

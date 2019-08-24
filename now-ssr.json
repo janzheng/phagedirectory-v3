@@ -1,7 +1,7 @@
 
 {
   "version": 2,
-  "alias":["phage.directory", "phagedirectory.org"],
+  "alias":["phage.directory", "phagedirectory.org", "www.phage.directory"],
 	"name":"pdv3-SSR",
   "env": {
     "MODE": "universal"

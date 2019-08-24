@@ -14,7 +14,7 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
     routeName,
     options,
     // grab the config / _cytosis from store if it's already been loaded
-    config: store.state.config[_base] || undefined,
+    config: store.state.config[_base || process.env.airtable_base] || undefined,
     payloads: {
       keyword: keyword
     },

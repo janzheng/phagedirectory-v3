@@ -12,7 +12,6 @@ export default {
     // async loadCytosis ({ commit }, {env, tableQuery, options, payloads, caller, _key, _base}) {
     const airKey = _key || process.env.airtable_api
     const airBase = _base || process.env.airtable_base
-
     const cytosisLimit = process.env.cytosisLimit
     const cytosisTime = process.env.cytosisTime
 
@@ -20,15 +19,10 @@ export default {
       // console.log(`[actions/loadCytosis loading from:${routeName}]: query/options:`, tableQuery, options)
       // console.log(`[actions/loadCytosis loading from:${routeName}]: isServer:`, process.server)
     
-    // if generated, not server, and static is true
-    // we DON'T want to pull data to the client
-    // if(env.mode == 'universal' && !process.server && env.site_static) 
-    //   return Promise.reject(undefined) // static set to true / don't pull data
-    // console.log(`[action/loadCytosis] !!!!!!!!! Spinning up another Cytosis object (${routeName}/${tableQuery})`, )
-
     const _this = this
 
     const data = {
+      routeName,
       airKey, 
       airBase, 
       tableQuery, 
@@ -38,16 +32,7 @@ export default {
     }
 
     const cytosisRequest = limit(function(data, callback) {
-      // console.log('cytosisRequest', data)
-      // console.log('requesting :: <><><<BANANAAANA>><><><', airKey, tableQuery)
-      let cytosis = new _this.$cytosis({
-        airKey, 
-        airBase, 
-        tableQuery, 
-        options,
-        config,
-        payloads,
-      })
+      let cytosis = new _this.$cytosis(data)
       callback(cytosis)
     }).to(cytosisLimit).per(cytosisTime)
 

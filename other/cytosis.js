@@ -55,6 +55,11 @@
 
   - 8/23/2019
     - added a delay to fetchnextpage to reduce hitting limits
+    - added some better error output; testing silent error for fetch
+    - added a "routeName" component, for routeName, tracing bugs etc.
+
+
+
 */
 
 /*
@@ -243,6 +248,7 @@ class Cytosis {
     // If constructing without arguments,
     // then initialize "this" with either pre-configured values, or blanks
     if (arguments.length === 0) {
+      _this.routeName = Cytosis.routeName || '';
       _this.config = Cytosis.config || '';
       _this.airKey = Cytosis.airKey || '';
       _this.airBase = Cytosis.airBase || '';
@@ -251,6 +257,7 @@ class Cytosis {
       _this.airBase.options = Cytosis.options || {view: "Grid view"};
       _this.airBase.payloads = Cytosis.payloads; // used for keyword or other payloads
     } else {
+      _this.routeName = opts.routeName; // "routeName" or other kind of identifier. Helps w/ debugging
       _this.config = opts.config;
       _this.airKey = opts.airKey;
       _this.airBase = { id: opts.airBase || opts.airBaseId };
@@ -276,7 +283,7 @@ class Cytosis {
         if(result) {
           // console.log('[Cytosis] _cytosis initiated:', result)
           // then retrieve the actual data
-          Cytosis.getTables({options: opts.options, payloads: opts.payloads, cytosis: _this, tables: _this.airBase.tables}).then((_result) => {
+          Cytosis.getTables({options: opts.options, payloads: opts.payloads, cytosis: _this, tables: _this.airBase.tables, routeName: _this.routeName}).then((_result) => {
             _this.tables = _result
             resolve(_this)
           })
@@ -405,7 +412,7 @@ class Cytosis {
       } else {
         // if no table names are provided, it looked for a special '_cytosis' tab
         // this is required to initialize the Cytosis object
-        Cytosis.getTables({options: {}, cytosis: _this, tables: ['_cytosis']}).then( (_config) => {
+        Cytosis.getTables({options: {}, cytosis: _this, tables: ['_cytosis'], routeName: _this.routeName}).then( (_config) => {
 
           if(_config) {
             setup(_config)
@@ -515,7 +522,7 @@ class Cytosis {
   //    }
   // getTables (options={}, tables=this.airBase.tables ) {
   // static getTables ({options, tables=this.airBase.tables}) {
-  static getTables ({options, payloads, cytosis, tables}) {
+  static getTables ({options, payloads, cytosis, tables, routeName}) {
 
     options = options || cytosis.airBase.options || {}
     tables = tables || cytosis.airBase.tables
@@ -590,9 +597,13 @@ class Cytosis {
             // console.log('[Cytosis] fetching table:', table, 'from', cytosis.airBase.id)
             return new Promise(function(resolve, reject) {
               const base = Cytosis.getBase(cytosis.airBase.id) // airtable base object
+              let pageCount = 1
               base(table).select(
                 filterObj
               ).eachPage(function page(records, fetchNextPage) {
+                console.log('[Cytosis] Page Fetch for:', table, 'routeName:', routeName, 'page:', pageCount)
+                pageCount += 1
+
                 // This function (`page`) will get called for each page of records.
                 records.forEach(function(record) {list.push(record)})
                 // To fetch the next page of records, call `fetchNextPage`.
@@ -605,9 +616,13 @@ class Cytosis {
                 // fetchNextPage()
               }, function done(err) {
                 if (err) { 
-                  console.error('Airtable error: ', err)
-                  reject(err)
-                  return
+                  console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error: ', err)
+                  console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error [2]', 'Errored on table:', table, 'tablesLen:', tables.length, 'tables:',tables)
+                  console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error [3]', 'Data list:', list)
+                  
+                  // experiment with erroring silently
+                  // reject(err)
+                  // return
                 }
                 resolve({[table]: list})
               })
@@ -620,7 +635,7 @@ class Cytosis {
         }
 
       } catch(e) {
-        console.error('Airtable async err', e) // return; 
+        console.error('[Cytosis/getTables/getTablePromise] Airtable caught general error', e) // return; 
       }
     }
 
@@ -656,13 +671,11 @@ class Cytosis {
       }
       // _this.airtable = finalObj
       // _this.tables = finalObj
-
       // console.log('getTables final object:', finalObj)
 
       return finalObj // return as a one promise object
     }, function (reason) {
-      console.error("Airtable data retrieval error", reason);
-      // console.log(reason);
+      console.error("[Cytosis/getTables] A table errored out or timed out", reason);
       return undefined
     })
   }

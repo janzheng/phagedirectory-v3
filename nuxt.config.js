@@ -472,7 +472,7 @@ export default {
           // Dynamic Template Router
           // catches all routes and attempts to find a template
           // throws error if it can't
-          name: 'template router',
+          name: 'node router',
           path: '/:slug',
           component: resolve(__dirname, 'pages/routers/r-node.vue')
         },

@@ -2,15 +2,14 @@
 {
   "version": 2,
   "alias":["phage.directory", "phagedirectory.org", "www.phage.directory"],
-	"name":"phagedirectory",
+  "name":"phagedirectory-spa",
   "public":false,
   "env": {
     "PD_AIRTABLE_PUBLIC_API": "@pd-airtable-public-api",
     "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
     "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
     "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
-    "MODE": "universal",
-    "PD_ENV": "prod",
+    "MODE": "spa",
     "API_URL": "https://phage.directory"
   },
   "build": {
@@ -19,8 +18,7 @@
       "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
       "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
       "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
-      "MODE": "universal",
-      "PD_ENV": "prod",
+      "MODE": "spa",
       "API_URL": "https://phage.directory"
     }
   },

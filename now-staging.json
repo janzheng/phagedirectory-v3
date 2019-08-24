@@ -2,16 +2,33 @@
 {
   "version": 2,
   "alias":["phage.directory", "phagedirectory.org", "www.phage.directory"],
-	"name":"pdv3-SSR",
+	"name":"phagedirectory",
+  "public":false,
   "env": {
-    "MODE": "universal"
+    "PD_AIRTABLE_PUBLIC_API": "@pd-airtable-public-api",
+    "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
+    "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
+    "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
+    "MODE": "universal",
+    "PD_ENV": "prod",
+    "API_URL": "https://phagedirectory.yawnxyz.now.sh"
   },
   "build": {
     "env": {
-      "MODE": "universal"
+      "PD_AIRTABLE_PUBLIC_API": "@pd-airtable-public-api",
+      "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
+      "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
+      "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
+      "MODE": "universal",
+      "PD_ENV": "prod",
+      "API_URL": "https://phagedirectory.yawnxyz.now.sh"
     }
   },
   "builds": [
+    {
+      "src": "api/routes/**/*.js",
+      "use": "@now/node"
+    },
     {
       "src": "nuxt.config.js",
       "use": "@nuxtjs/now-builder",
@@ -33,6 +50,20 @@
     }
   ],
   "routes": [
+    { "src": "/api/hello(.*)", "dest": "api/routes/hello" },
+    { "src": "/api/users(.*)", "dest": "api/routes/hello" },
+    { "src": "/api/allusers(.*)", "dest": "api/routes/hello" },
+
+    { "src": "/api/getconfig(.*)", "dest": "api/routes/exocytosis.js" },
+    { "src": "/api/exocytosis(.*)", "dest": "api/routes/exocytosis.js" },
+
+    { "src": "/api/(.*)", "dest": "api/routes/$1" },
+    { "src": "/api", "dest": "api/routes/index.js" },
+
+
+
+
+
     { "src": "/_nuxt/.+", "headers": { "cache-control": "s-maxage=31536000" } },
 
     { "src": "/feed.xml", "dest": "https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-rss" },
@@ -47,7 +78,7 @@
     { "src": "/apply/phagebanks", "status": 301, "headers": { "Location": "https://airtable.com/shrPtmSf5dxdeBnoy" } },
     { "src": "/apply/orgs", "status": 301, "headers": { "Location": "https://airtable.com/shrYdNUwSLMKUvRhz" } },
 
-    { "src": "/staging", "status": 301, "headers": { "Location": "https://pdv3-ssr.yawnxyz.now.sh" } },
+    { "src": "/staging", "status": 301, "headers": { "Location": "https://phagedirectory.yawnxyz.now.sh" } },
 
     { "src": "/(.*)", "dest": "/" }
   ]

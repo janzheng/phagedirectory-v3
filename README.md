@@ -34,3 +34,18 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+
+
+#### Zeit Now / Lambda / Production mixup
+
+- Hydrate the config: 
+	- https://phage.directory/api/exocytosis/cacheconfig?appYvj7j9Ta5I15ks&tableQuery=_content
+	- Setup on EasyCron
+- Standard production (now --prod):
+	- now.json
+		- SSR / Universal mode
+		- [now-ssr-staging] should be moved under here; use package.json for node envs instead
+	- now-spa.json
+		- SPA mode; as backup in case SSR fails
+
+

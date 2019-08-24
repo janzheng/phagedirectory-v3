@@ -1,0 +1,32 @@
+
+{
+  "version": 2,
+  "name":"pdv3-dev",
+  "env": {
+    "MODE": "universal"
+  },
+  "builds": [
+    {
+      "src": "api/routes/**/*.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    { "src": "/api/hello(.*)", "dest": "api/routes/hello" },
+    { "src": "/api/users(.*)", "dest": "api/routes/hello" },
+    { "src": "/api/allusers(.*)", "dest": "api/routes/hello" },
+
+    { "src": "/api/getconfig(.*)", "dest": "api/routes/exocytosis.js" },
+    { "src": "/api/exocytosis(.*)", "dest": "api/routes/exocytosis.js" },
+
+    { "src": "/api/(.*)", "dest": "api/routes/$1" },
+    { "src": "/api", "dest": "api/routes/index.js" },
+    
+    { "src": "/_nuxt/.+", "headers": { "cache-control": "s-maxage=31536000" } },
+    { "src": "/(.*)", "dest": "/" }
+  ]
+}
+
+
+
+

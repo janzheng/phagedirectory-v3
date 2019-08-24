@@ -2,6 +2,7 @@
 // import _ from 'lodash'
 import _ from '~/other/lodash.custom.min.js'
 import limit from 'simple-rate-limiter'
+import axios from 'axios'
 
 
 export default {
@@ -15,11 +16,20 @@ export default {
     const cytosisLimit = process.env.cytosisLimit
     const cytosisTime = process.env.cytosisTime
 
-    // if(!process.server)
-      // console.log(`[actions/loadCytosis loading from:${routeName}]: query/options:`, tableQuery, options)
-      // console.log(`[actions/loadCytosis loading from:${routeName}]: isServer:`, process.server)
-    
     const _this = this
+
+    // populate config with cache on first hit; once it's loaded it'll end up in the store
+    if(process.env.useCytosisCacheConfig && !config) {
+      const config_cached = await axios.get(`${process.env.api_url}/api/exocytosis/config`)
+
+      if(config_cached && config_cached.data && config_cached.data[airBase]) {
+        config = config_cached.data[airBase]
+        // console.log('pulled config data:', config_cached.data, process.env.airtable_base)
+      } else {
+        // refresh the cache if it's stale
+        axios.get(`${process.env.api_url}/api/exocytosis/cacheconfig?airBase=${airBase}&tableQuery=${tableQuery}`)
+      }
+    }
 
     const data = {
       routeName,

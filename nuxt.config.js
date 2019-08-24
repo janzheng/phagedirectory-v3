@@ -11,7 +11,8 @@ process.env.NUXT_ENV_DEVALUE_LOG_LEVEL = 'silent' // default is 'warn'
 
 import Cytosis from 'cytosis'
 
-// const pkg = require('./package')
+const pkg = require('./package')
+const env = require('dotenv').config()
 
 // note: nuxt requires Node 8+ to run properly 
 // these are the default social sharing items
@@ -37,11 +38,15 @@ const page_name = ''; // placeholder for the copy+paste
 
 const site_fb = ''; // buildAtl fb id
 
-const airtable_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
-const airtable_base = 'appYvj7j9Ta5I15ks'; // PDv3 repo
+// const airtable_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
+// const airtable_base = 'appYvj7j9Ta5I15ks'; // PDv3 repo
+const airtable_api = process.env.PD_AIRTABLE_PUBLIC_API; 
+const airtable_base = process.env.PD_AIRTABLE_PUBLIC_BASE;
 
-const db_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
-const db_base = 'appZBUJQuXSUckq4d'; // PDv3 DB repo
+// const db_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
+// const db_base = 'appZBUJQuXSUckq4d'; // PDv3 DB repo
+const db_api = process.env.PD_AIRTABLE_DB_API; 
+const db_base = process.env.PD_AIRTABLE_DB_BASE;
 
 const analyze = false; // analyzer (webpack; turn off for prod)
 const offline = false;
@@ -51,21 +56,19 @@ let mode = 'spa';
 // 'static' only generates once / use npm run generate
 // const mode = 'universal' // loads airtable during build-time only (any changes to airtable won't be reflected live)
 if (process.env.MODE == 'spa') {
-  console.log('RUNNING IN SPA MODE')
+  console.log('[Config] Mode: SPA')
   mode = 'spa'
-}
-
-if (process.env.MODE == 'universal') {
-  console.log('RUNNING IN SSR MODE')
+} else if (process.env.MODE == 'universal') {
+  console.log('[Config] Mode: SSR / Universal')
   mode = 'universal'
 }
 
-const pd_env = process.env.PD_ENV; // Phage Directory 'stage' or 'prod' environment — stage is used for previewing profiles etc.
-console.log('Phage Directory environment:', pd_env)
+const pd_env = process.env.PD_ENV || 'prod'; // Phage Directory 'stage' or 'prod' environment — stage is used for previewing profiles etc.
+console.log('[Config] Environment:', pd_env)
 
 const site_static = false; // if set to true, the client will never pull data 
-
 let site_routes; // used for the generate process to save on airtable pulls
+const api_url = process.env.API_URL;
 
 // export default (async function() {
 export default {
@@ -83,13 +86,15 @@ export default {
     mode: mode,
     pd_env: pd_env, // 'stage' or 'prod'
     site_fb: site_fb,
+    api_url: api_url,
     airtable_api: airtable_api,  
     airtable_base: airtable_base,
     db_api: db_api,  
     db_base: db_base,
 
     cytosisLimit: 1,    // limiter for hitting airtable (connections)
-    cytosisTime: 200,  // limiter for hitting airtable (time) [limit = connections/time; 4/1000 or 1/250]
+    cytosisTime: 200,   // limiter for hitting airtable (time) [limit = connections/time; 4/1000 or 1/250]
+    useCytosisCacheConfig: true, // pulls a cached version off lambda if it exists; pushes a cached version if it doesn't
 
     site_policy: site_policy,
     site_segment: site_segment,
@@ -236,6 +241,8 @@ export default {
     // ['@nuxtjs/google-tag-manager', { 
     //   id: 'GTM-WCR3X43' 
     // }],
+
+    '@nuxtjs/dotenv',
     ['@nuxtjs/pwa'],
     ['nuxt-leaflet', { /* module options */ }],
 

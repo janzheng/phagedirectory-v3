@@ -52,6 +52,9 @@
 
   - 8/16/2019
     - added error for find/findOne fields not being an array
+
+  - 8/23/2019
+    - added a delay to fetchnextpage to reduce hitting limits
 */
 
 /*
@@ -326,11 +329,6 @@ class Cytosis {
       if(_this.airBase.tables && _this.airBase.tables.length > 0)
         resolve(_this)
 
-      if(_this.config) {
-        setup(_this.config)
-        resolve(_this)
-      }
-
       const setup = function(_config) {
         _this['config'] = _config
 
@@ -399,21 +397,29 @@ class Cytosis {
         }
       }
 
-      // if no table names are provided, it looked for a special '_cytosis' tab
-      // this is required to initialize the Cytosis object
-      Cytosis.getTables({options: {}, cytosis: _this, tables: ['_cytosis']}).then( (_config) => {
-        if(_config) {
-          setup(_config)
-        }
-
-        if(!_config || !_this.airBase.tables || _this.airBase.tables.length == 0) {
-          throw new Error(`[Cytosis] — couldn’t find a '_cytosis' table with row ${tableQuery} or 'tables' filled out with the names of tables to load`)
-          reject(_this)
-        }
-        // console.log('Cytosis tables: ', _this.airBase, _this.airBase.tables)
-        // return the initiated cytosis object on completion
+      // if config exists, we skip retrieving _cytosis and go right to setup; this saves some fetches
+      if(_this.config) {
+        // console.log('config found! skipping _cytosis', _this.config)
+        setup(_this.config)
         resolve(_this)
-      })
+      } else {
+        // if no table names are provided, it looked for a special '_cytosis' tab
+        // this is required to initialize the Cytosis object
+        Cytosis.getTables({options: {}, cytosis: _this, tables: ['_cytosis']}).then( (_config) => {
+
+          if(_config) {
+            setup(_config)
+          }
+
+          if(!_config || !_this.airBase.tables || _this.airBase.tables.length == 0) {
+            throw new Error(`[Cytosis] — couldn’t find a '_cytosis' table with row [query:${tableQuery}] or 'tables' filled out with the names of tables to load`)
+            reject(_this)
+          }
+          // console.log('Cytosis tables: ', _this.airBase, _this.airBase.tables)
+          // return the initiated cytosis object on completion
+          resolve(_this)
+        })
+      }
 
     })
   }
@@ -592,7 +598,11 @@ class Cytosis {
                 // To fetch the next page of records, call `fetchNextPage`.
                 // If there are more records, `page` will get called again.
                 // If there are no more records, `done` will get called.
-                fetchNextPage()
+
+                // really easy to hit limits, so adding a delay
+                const delay = 250;
+                setTimeout(fetchNextPage, delay);
+                // fetchNextPage()
               }, function done(err) {
                 if (err) { 
                   console.error('Airtable error: ', err)
@@ -738,7 +748,7 @@ class Cytosis {
         // console.log('Current object format:', tables)
 
         if(!tables[table])
-          throw new Error(`[Cytosis] — Couldn’t find a match. Make sure you're looking in the right place. Reference table/string: (${tables[table]} / ${findStr}). Required Format was probably wrong: { Content: [ row, row, row], Tags: [ row, row, row ] }. `)
+          throw new Error(`[Cytosis/Find] — Couldn’t find a match. Make sure you're looking in the right place. Reference table/string: (${tables[table]} / ${findStr}). Required Format was probably wrong: { Content: [ row, row, row], Tags: [ row, row, row ] }. `)
         // each airtable record
         for (let record of tables[table]) {
           for (let field of fields) {

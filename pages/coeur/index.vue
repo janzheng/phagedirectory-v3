@@ -77,29 +77,6 @@ export default {
     tableQueries: ["_content"],
   },
 
-  data () {
-    return {
-    }
-  },
-  
-  computed: {
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
-  },
-
-  mounted () {
-  },
-
-  methods: {
-  },
-
-
 }
 </script>
 

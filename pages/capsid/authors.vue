@@ -76,14 +76,6 @@ export default {
     }
   },
 
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
-  },
-
   mounted () {
     // if(this.$router.currentRoute.hash) {
     if(this.$router.currentRoute.query && this.$router.currentRoute.query.tab) {
@@ -92,13 +84,6 @@ export default {
       this.activeTab = this.$router.currentRoute.query.tab.replace(/[-]/g, ' ')
     }
   },
-
-  methods: {
-    tabClick(item, key) {
-      this.activeTab = key
-    },
-  },
-
 
 }
 </script>

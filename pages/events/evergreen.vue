@@ -1,7 +1,7 @@
 <template>
 
   <div class="Evergreen">
-    <client-only>
+    <no-ssr>
 
       <Template 
         grid-classes="Template--Main-Sidebar _grid-2-1-sm _grid-gap"
@@ -96,7 +96,7 @@
         </template>
 
       </Template>
-    </client-only>
+    </no-ssr>
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
 

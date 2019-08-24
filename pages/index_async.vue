@@ -1,3 +1,11 @@
+
+<!-- 
+
+  Async version of the homepage; really slow b/c of Airtable throttling, so slows
+  down painting process; would be faster if cache was in place
+
+ -->
+
 <template>
   <div class="Home">
 
@@ -97,10 +105,10 @@ export default {
 
   data () {
 
-    const numLatest = 5
-    this.getLatestAtoms(numLatest)
-    this.getFeaturedAtoms()
-    this.getPeople()
+    // const numLatest = 5
+    // this.getLatestAtoms(numLatest)
+    // this.getFeaturedAtoms()
+    // this.getPeople()
 
     return {
       mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
@@ -109,7 +117,7 @@ export default {
       form: this.$cytosis.findOne('form-feed', this.$store.state['Content'] ),
       latestAtoms: null, // pulled later
       featuredAtoms: null, // use this if you want to pull featured atoms manually
-      numLatest,
+      numLatest: 5,
       isLoadingMore: false, // loading more atoms
       People: null,
     }
@@ -142,21 +150,86 @@ export default {
     
   },
 
-  methods: {
+  async asyncData({store, env}) {
+    let featuredAtoms, latestAtoms, numLatest, People
+    numLatest = 8
 
-    getFeaturedAtoms() {
+    function getFeaturedAtoms() {
       const _this = this
       loadQuery({
-        _key: process.env.airtable_api, 
-        _base: process.env.airtable_base, 
-        store: _this.$store, 
-        routeName: '{index/getFeaturedAtoms}', 
+        _key: env.airtable_api, 
+        _base: env.airtable_base,
+        store: store, 
+        routeName: '{index/getFeaturedAtoms [async]}', 
         query: 'atoms-featured',
       }).then((data) => {
-        _this.featuredAtoms = data.tables.Atoms
+        featuredAtoms = data.tables.Atoms
       })
       return undefined
-    },
+    }
+    function getLatestAtoms(numLatest) {
+      loadQuery({
+        _key: env.airtable_api, 
+        _base: env.airtable_base,
+        store: store, 
+        routeName: '{index/getLatestAtoms [async]}', 
+        query: 'atoms-latest',
+        options: {
+          'view': 'Latest:Published',
+          'maxRecords': numLatest,
+        }
+      }).then((data) => {
+        // _this.$sys.log('latest atoms:', data)
+        latestAtoms = data.tables.Atoms
+        numLatest = numLatest + 5
+      })
+      return undefined
+    }
+    function getPeople() {
+      loadQuery({
+        _key: env.db_api, 
+        _base: env.db_base,
+        store: store, 
+        routeName: '{index/getPeople [async]}', 
+        query: 'People-index',
+      }).then((data) => {
+        People = data.tables['People']
+      })
+      return undefined
+    }
+
+    getLatestAtoms(numLatest)
+    getFeaturedAtoms()
+    getPeople()
+
+    return {
+      featuredAtoms,
+      latestAtoms,
+      numLatest,
+      People,
+    }
+  },
+
+  mounted() {
+    // if(this.$segment)
+    //   this.$segment.page('PDv3:index')
+  },
+
+  methods: {
+
+    // getFeaturedAtoms() {
+    //   const _this = this
+    //   loadQuery({
+    //     _key: process.env.airtable_api, 
+    //     _base: process.env.airtable_base, 
+    //     store: _this.$store, 
+    //     routeName: '{index/getFeaturedAtoms}', 
+    //     query: 'atoms-featured',
+    //   }).then((data) => {
+    //     _this.featuredAtoms = data.tables.Atoms
+    //   })
+    //   return undefined
+    // },
     getLatestAtoms(numLatest) {
       const _this = this
       this.isLoadingMore = true
@@ -178,23 +251,23 @@ export default {
       })
       return undefined
     },
-    getPeople() {
-      const _this = this
-      loadQuery({
-        _key: process.env.db_api, 
-        _base: process.env.db_base, 
-        store: _this.$store,
-        routeName: '{index/getPeople}', 
-        query: 'People-index',
-      }).then((data) => {
-        const People = data.tables['People']
-        _this['People'] = People
-      })
-      return undefined
-    },
+    // getPeople() {
+    //   const _this = this
+    //   loadQuery({
+    //     _key: process.env.db_api, 
+    //     _base: process.env.db_base, 
+    //     store: _this.$store, 
+    //     routeName: '{index/getPeople}', 
+    //     query: 'People-index',
+    //   }).then((data) => {
+    //     const People = data.tables['People']
+    //     _this['People'] = People
+    //   })
+    //   return undefined
+    // },
     getAuthorsOfManuscript(manuscript) {
       if(this['People'] && this['People'].length > 0) {
-        // const authorSlug = manuscript.fields['Data:MainAuthorSlug']
+        const authorSlug = manuscript.fields['Data:MainAuthorSlug']
         let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
 
         // const authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]

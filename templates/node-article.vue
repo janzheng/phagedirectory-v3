@@ -35,16 +35,6 @@ export default {
     'route': Object,
   },
 
-  // layout: 'contentframe',
-  // middleware: 'pageload',
-  // meta: {
-  //   tableQueries: ["_content"]
-  // },
-
-  // runs on generation and page route (but not on first page load)
-  // async asyncData({env, store, route}) {
-  // },
-
   head () {
     return {
       title: this.node.fields['Node:Name'] || 'Phage Directory',

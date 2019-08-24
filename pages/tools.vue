@@ -87,34 +87,6 @@ export default {
       return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Tool')
     },
 
-    // featured() {
-    //   // events in the past, w/ newest first
-    //   return this.events.filter(item => {
-    //     return item.fields['Data:Date']
-    //   }).reverse()
-    // },
-    // past() {
-    //   // events in the past, w/ newest first
-    //   return this.events.filter(item => {
-    //     const date = item.fields['Data:Date']
-    //     return !this.$dayjs().isBefore(this.$dayjs(String(date)))
-    //   }).reverse()
-    // },
-    // upcoming() {
-    //   // events in the future
-    //   return this.events.filter(item => {
-    //     const date = item.fields['Data:Date']
-    //     return this.$dayjs().isBefore(this.$dayjs(String(date)))
-    //   })
-    // }
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
   },
 
   mounted () {
@@ -125,13 +97,6 @@ export default {
       this.activeTab = this.$router.currentRoute.query.tab.replace(/[-]/g, ' ')
     }
   },
-
-  methods: {
-    tabClick(item, key) {
-      this.activeTab = key
-    },
-  },
-
 
 }
 </script>

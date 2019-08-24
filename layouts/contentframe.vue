@@ -6,9 +6,9 @@
       <div class="ContentFrame-body" >
         <nuxt @click="onClick($event)" />
 
-        <client-only>
+        <no-ssr>
           <PolicyBanner />
-        </client-only>
+        </no-ssr>
         
         <FooterSignups />
         <FooterSupport />
@@ -58,9 +58,6 @@ export default {
       // title: this.$store.state.pageName || 'Phage Directory',
       title: 'Phage Directory',
     }
-  },
-
-  async asyncdata () {
   },
 
   data () {

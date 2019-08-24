@@ -88,6 +88,9 @@ export default {
     db_api: db_api,  
     db_base: db_base,
 
+    cytosisLimit: 1,    // limiter for hitting airtable (connections)
+    cytosisTime: 200,  // limiter for hitting airtable (time) [limit = connections/time; 4/1000 or 1/250]
+
     site_policy: site_policy,
     site_segment: site_segment,
     ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-basic',
@@ -458,8 +461,6 @@ export default {
           component: resolve(__dirname, 'pages/routers/r-atom.vue')
         },
 
-
-
         {
           // Insights publication router
           name: 'insights router',
@@ -467,14 +468,12 @@ export default {
           component: resolve(__dirname, 'pages/routers/r-insights.vue')
         },
 
-
-
         {
           // Dynamic Template Router
           // catches all routes and attempts to find a template
           // throws error if it can't
           name: 'template router',
-          path: '/:slug*',
+          path: '/:slug',
           component: resolve(__dirname, 'pages/routers/r-node.vue')
         },
       )

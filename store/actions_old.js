@@ -1,20 +1,15 @@
 
 // import _ from 'lodash'
 import _ from '~/other/lodash.custom.min.js'
-import limit from 'simple-rate-limiter'
 
 
 export default {
   // async loadCytosis ({ commit, state }, {env, tableQuery, options, caller}) {
-  // async loadCytosis ({ commit }, {routeName, env, tableQuery, options, payloads, config, _key, _base}) {
-  async loadCytosis ({ commit }, {routeName, tableQuery, options, payloads, config, _key, _base}) {
+  async loadCytosis ({ commit }, {routeName, env, tableQuery, options, payloads, config, _key, _base}) {
 
     // async loadCytosis ({ commit }, {env, tableQuery, options, payloads, caller, _key, _base}) {
-    const airKey = _key || process.env.airtable_api
-    const airBase = _base || process.env.airtable_base
-
-    const cytosisLimit = process.env.cytosisLimit
-    const cytosisTime = process.env.cytosisTime
+    const airKey = _key || env.airtable_api
+    const airBase = _base || env.airtable_base
 
     // if(!process.server)
       // console.log(`[actions/loadCytosis loading from:${routeName}]: query/options:`, tableQuery, options)
@@ -24,47 +19,26 @@ export default {
     // we DON'T want to pull data to the client
     // if(env.mode == 'universal' && !process.server && env.site_static) 
     //   return Promise.reject(undefined) // static set to true / don't pull data
-    // console.log(`[action/loadCytosis] !!!!!!!!! Spinning up another Cytosis object (${routeName}/${tableQuery})`, )
+    console.log(`[action/loadCytosis] Spinning up another Cytosis object (${routeName}/${tableQuery})`, )
 
-    const _this = this
-
-    const data = {
+    let cytosis = await new this.$cytosis({
       airKey, 
       airBase, 
       tableQuery, 
       options,
       config,
       payloads,
-    }
-
-    const cytosisRequest = limit(function(data, callback) {
-      // console.log('cytosisRequest', data)
-      // console.log('requesting :: <><><<BANANAAANA>><><><', airKey, tableQuery)
-      let cytosis = new _this.$cytosis({
-        airKey, 
-        airBase, 
-        tableQuery, 
-        options,
-        config,
-        payloads,
-      })
-      callback(cytosis)
-    }).to(cytosisLimit).per(cytosisTime)
-
-    const cytosis = await new Promise(function(resolve, reject) {
-      cytosisRequest(data, function(cytosisPromise) {
-        cytosisPromise.then((_cytosis, err) => {
-          if (err) {
-            reject(err)
-          }
-          resolve(_cytosis)
-        })
-      })
     })
-
+    
     commit('setCytosis', cytosis)
-    return cytosis
 
+    console.log(`[action/loadCytosis] Retrieved Cytosis object (${routeName}/${tableQuery})`, )
+
+    // if(!process.server)
+    // console.log(`[actions/loadCytosis from:${routeName}]: done.`)
+
+    return Promise.resolve(cytosis)
+  
   },
 
 

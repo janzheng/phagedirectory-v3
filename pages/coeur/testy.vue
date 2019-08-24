@@ -8,7 +8,7 @@
       <h2>Map of Events</h2>
 
       <div class="Leaflet" id="map-wrap" style="height: 40vh">
-        <client-only>
+        <no-ssr>
           <l-map :zoom=1 :center="[47.413220, -1.219482]" class="Leaflet-map" >
             <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
               attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
@@ -24,7 +24,7 @@
             </l-marker>
             <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
           </l-map>
-        </client-only>
+        </no-ssr>
       </div>
 
       <h2>Form</h2>
@@ -86,22 +86,6 @@ export default {
       return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
     },
   },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-      env,
-    }
-  },
-
-  mounted () {
-  },
-
-  methods: {
-  },
-
 
 }
 </script>

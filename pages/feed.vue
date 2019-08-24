@@ -1,7 +1,7 @@
 <template>
   <div class="Feed">
 
-    <client-only>
+    <no-ssr>
       <Template class="Home-grid _divider-bottom" 
                 grid-classes="Template--Main-Sidebar-xs _grid-2-1-sm _grid-1-xs _grid-gap-none"
                 sidebar-classes="_sidebar _height-100">
@@ -34,7 +34,7 @@
         </template>
 
       </Template>
-    </client-only>
+    </no-ssr>
       
   </div>
 </template>
@@ -106,13 +106,6 @@ export default {
     }
 
     
-  },
-
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
   },
 
   mounted() {

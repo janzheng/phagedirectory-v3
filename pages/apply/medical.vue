@@ -77,14 +77,6 @@ export default {
   mounted () {
   },
 
-  methods: {
-    tabClick(item, key) {
-      // console.log('default tabclick', item, key)
-      this.activeTab = key
-    },
-  },
-
-
 }
 </script>
 

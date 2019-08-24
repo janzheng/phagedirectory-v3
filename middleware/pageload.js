@@ -117,7 +117,7 @@ export default async function ({route, env, store}) {
     const getData = async function() {
       // console.log('tableQueries... ', tableQueries)
       let queryData = tableQueries.map( async function(query) {
-        console.log('[Pageload](loadQueryData) Fetch Query:', routeName)
+        console.log('[Pageload](loadQueryData) Fetch Query:', `${routeName}/${query}`)
         return await loadQueryData(routeName, store, env, query, keyword)
       })
       return Promise.all(queryData)

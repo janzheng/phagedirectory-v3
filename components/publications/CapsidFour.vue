@@ -159,11 +159,11 @@
           </div>
         </div>
 
-        <!-- <client-only>
+        <!-- <no-ssr>
           <div id="comments" class="Capsid-disqus">
             <vue-disqus :identifier="path" shortname="capsid-tail" url="https://phage.directory" />
           </div>
-        </client-only> -->
+        </no-ssr> -->
 
       </div>
 
@@ -305,7 +305,7 @@ export default {
       this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
     }
 
-    const cover_img = this.issue.fields['Cover'] ? this.issue.fields['Cover'][0]['url'] : 'https://phage.directory/cnt_twitter_card.png'
+    const cover_img = this.issue.fields['Cover:url'] || 'https://phage.directory/cnt_twitter_card.png'
     // if(this.issue.fields['Cover'])
     this.$head.setImage(cover_img)
     

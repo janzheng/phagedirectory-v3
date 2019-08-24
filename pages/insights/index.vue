@@ -161,7 +161,7 @@ export default {
       evg: this.$cytosis.findOne('insights-evg', this.$store.state['Content'] ).fields['Markdown'],
       cta: this.$cytosis.findOne('insights-cta', this.$store.state['Content'] ).fields['Markdown'],
       body: this.$cytosis.findOne('insights-body', this.$store.state['Content'] ).fields['Markdown'],
-      form: this.$cytosis.findOne('form-insights-early', this.$store.state['Content'] ),
+      // form: this.$cytosis.findOne('form-insights-early', this.$store.state['Content'] ),
       // formTest: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
       formBeta: this.$cytosis.findOne('form-insights-beta', this.$store.state['Content'] ),
       // formOne: this.$cytosis.findOne('form-insights-one', this.$store.state['Content'] ),

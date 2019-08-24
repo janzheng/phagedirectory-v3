@@ -5,7 +5,7 @@
 
  -->
 <template>
-  <client-only>
+  <no-ssr>
     <div class="Contemplate _section-page _margin-center _padding-left-2 _padding-right-2">
 
       <div class="_section-content">
@@ -22,7 +22,7 @@
       </div>
 
     </div>
-  </client-only>
+  </no-ssr>
 </template>
 
 

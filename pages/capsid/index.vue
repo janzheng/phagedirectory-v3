@@ -106,22 +106,11 @@ export default {
 
   },
 
-  // runs on generation and page route (but not on first page load)
-  // async asyncData({env}) {
-
-  //   return {
-  //     postUrl: env.ext_handler,
-  //   }
-  // },
-
-  async asyncData({env, store, route}) {
-    const slug = route.params.slug
+  async asyncData({env, store}) {
     const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{people}', query: 'People-index'})
 
     return {
-      slug,
       People: data.tables['People'],
-      // search: search
     }
   },
 
@@ -133,7 +122,7 @@ export default {
       if(!this['People'])
         return undefined
 
-      const authorSlug = manuscript.fields['Data:MainAuthorSlug']
+      // const authorSlug = manuscript.fields['Data:MainAuthorSlug']
       let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
 
       // const authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]

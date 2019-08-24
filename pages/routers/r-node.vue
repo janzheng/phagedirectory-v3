@@ -8,7 +8,7 @@
 <template>
   <div class="Template-Documentation">
     <!-- ssr gets screwy with these -->
-    <client-only>
+    <no-ssr>
       <!-- 
       <div class="_section-page">
         <h6>[ t-router ] </h6>
@@ -17,21 +17,23 @@
       </div> -->
 
       <!-- consider using dynamic loading only after too many templates (> 7) -->
+      <div v-if="node">
 
-      <!-- For landing pages and basic articles -->
-      <TemplateArticle v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
+        <!-- For landing pages and basic articles -->
+        <TemplateArticle v-if="node && node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
+
+        <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
+        <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
+
+        <!-- <TemplateDocs :node="node" :route="route" /> -->
+        <TemplateDocumentation v-if="node && node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
+
+        <!-- scroll spy alt -->
+        <TemplateScrollDocumentation v-if="node && node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
+      </div>
 
 
-      <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
-      <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
-
-
-      <!-- <TemplateDocs :node="node" :route="route" /> -->
-      <TemplateDocumentation v-if="node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
-
-      <!-- scroll spy alt -->
-      <TemplateScrollDocumentation v-if="node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
-    </client-only>
+    </no-ssr>
   </div>
 </template>
 
@@ -65,8 +67,13 @@ export default {
   },
 
   data () {
+    // const _this = this
+    // const slug = '/' + unescape(this.$router.history.current.params.slug)
+    // console.log('[Node Router] (data)', slug)
+    // this.getNode(slug)
 
     return {
+      route: this.$router.history.current
     }
   },
 
@@ -82,42 +89,82 @@ export default {
   },
 
   // runs on generation and page route (but not on first page load)
-  async asyncData({env, store, route, error}) {
+  async asyncData({store, route, error}) {
+
     const slug = '/' + unescape(route.params.slug)
-    console.log('[Node Router]', slug)
-    const node = await loadQuery({env, store, routeName: '{node router}', query: 'Node-AbsolutePath', keyword: slug})
+    // const slug = '/' + unescape(this.$router.history.current.params.slug)
+    console.log('[Node Router] (data)', slug)
 
-    // node doesn't exist / bad route, throw a 404
-    if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
-      console.error('Page / URL / Node not found, throwing a 404...')
-      // return this.$nuxt.error({ statusCode: 404, message: "Page not Found" })
-      return error({ statusCode: 404, message: "Page not Found" })
-    }
+    const _this = this
 
-    console.log('[Node Router] node:', node)
+    const node = await loadQuery({
+      _key: process.env.airtable_api, 
+      _base: process.env.airtable_base, 
+      store: store, 
+      routeName: '{index/getNode}', 
+      query: 'Node-AbsolutePath',
+      keyword: slug,
+    })
+
+    if(node.tables['Content'][0])
+      _this.node = node.tables['Content'][0]
 
     // special type of node that redirects to another page
     if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {
       window.location.replace(node.tables['Content'][0].fields['Data:String'])
     }
 
+    if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
+      console.error('[Node Router] Node not found for slug:', slug)
+      error({ statusCode: 404, message: "Page not Found" })
+    }
 
     return {
-      slug,
-      route,
-      node: node.tables['Content'][0],
+      node: node.tables['Content'][0]
     }
+
   },
   
   beforeCreate () {
   },
+
   mounted () {
-    console.log('[Node Router]', this.slug)
+    // console.log('[Node Router] (mounted)', this.slug)
   },
   beforeDestroy() {
   },
 
   methods: {
+    // getNode(slug) {
+    //   const _this = this
+    //   // console.log('Getting node ...')
+    //   loadQuery({
+    //     _key: process.env.airtable_api, 
+    //     _base: process.env.airtable_base, 
+    //     store: _this.$store, 
+    //     routeName: '{index/getNode}', 
+    //     query: 'Node-AbsolutePath',
+    //     keyword: slug,
+    //   }).then((node) => {
+    //     console.log('Node gotten:', node.tables['Content'][0])
+
+    //     if(node.tables['Content'][0])
+    //       _this.node = node.tables['Content'][0]
+
+    //     // special type of node that redirects to another page
+    //     if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {
+    //       window.location.replace(node.tables['Content'][0].fields['Data:String'])
+    //     }
+
+    //     if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
+    //       console.error('[Node Router] Node not found for slug:', slug)
+    //       _this.$nuxt.error({ statusCode: 404, message: "Page not Found" })
+    //     }
+
+    //   })
+    //   return undefined
+    // },
+
     pathMatch(path) {
       // console.log('pathMatch',this.route.path)
       if(!this.route.path)

@@ -1,6 +1,6 @@
 <template>
   <div class="Labs Dir-category">
-    <client-only>
+    <no-ssr>
 
       <Template grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap" sidebar-classes="Dir-sidebar --sticky _top-1">
         <template #header-container>
@@ -53,7 +53,7 @@
           </nuxt-link>
         </template>
       </Template>
-    </client-only>
+    </no-ssr>
 
   </div>
 </template>

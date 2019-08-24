@@ -40,10 +40,9 @@
     { "src": "/slack", "status": 301, "headers": { "Location": "https://phagedirectory.slack.com/join/shared_invite/enQtNzA2OTI0MTk4Mzc0LTU4Yjg0NTY2NWEyMzUyZDMxMDJjMmEyZGFiNDcyYmIxMzYxYTRkZjBjZGY3YjNlODc2MWFhNTAwNjBmYzQyYmY" }},
     { "src": "/chat", "status": 301, "headers": { "Location": "https://calendly.com/phage/quick-chat" }},
 
-    { "src": "/apply/evergreen", "status": 301, "headers": { "Location": "https://airtable.com/shrJzoZ7LocbmuTNP" } },
+    { "src": "/apply/profile", "status": 301, "headers": { "Location": "https://airtable.com/shrbZHMw6R2dCij9v" } },
     { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrJzoZ7LocbmuTNP" } },
-    { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrbZHMw6R2dCij9v" } },
-    { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrJzoZ7LocbmuTNP" } },
+    { "src": "/apply/labs", "status": 301, "headers": { "Location": "https://airtable.com/shrRZfnjvaKOx3eeK" } },
     { "src": "/apply/medical", "status": 301, "headers": { "Location": "https://airtable.com/shrdIUxOsr411hNwR" } },
     { "src": "/apply/phagebanks", "status": 301, "headers": { "Location": "https://airtable.com/shrPtmSf5dxdeBnoy" } },
     { "src": "/apply/orgs", "status": 301, "headers": { "Location": "https://airtable.com/shrYdNUwSLMKUvRhz" } },

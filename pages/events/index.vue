@@ -18,7 +18,7 @@
             <template slot="Upcoming Events">
               <div class="_padding-top">
                 <div id="map-wrap" class="Leaflet _hidden-xs _margin-bottom" style="height: 50vh">
-                  <!-- <client-only> ssr breaks inside the template lol.. -->
+                  <!-- <no-ssr> ssr breaks inside the template lol.. -->
                   <l-map :zoom="1" :center="[47.413220, -1.219482]" class="Leaflet-map" >
                     <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
                                   attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
@@ -38,7 +38,7 @@
                     </l-marker>
                     <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
                   </l-map>
-                  <!-- </client-only> -->
+                  <!-- </no-ssr> -->
                 </div>
 
                 <Event v-for="item of upcoming" :key="item.id" :atom="item" />
@@ -143,14 +143,6 @@ export default {
         const date = item.fields['Data:Date']
         return this.$dayjs().isBefore(this.$dayjs(String(date)))
       })
-    }
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
     }
   },
 

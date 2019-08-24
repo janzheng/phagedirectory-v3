@@ -16,7 +16,7 @@ Transition from Vue/Nuxt/Airtable to... well more of the same, but this one make
 ## Running Locally
 
 Check out `package.json` for commands. This is a basic mirror of how Nuxt works.
-Don't forget to use a newer npm: `nvm use 8.11.2` or `nvm use 8.12.0`
+Don't forget to use a newer npm: `nvm use 8.10.0` or `nvm use 10.x` — Zeit only supports 8.10 and there's a now/nuxt-builder bug
 
 ``` bash
 # install dependencies

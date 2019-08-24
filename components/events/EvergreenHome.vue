@@ -1,7 +1,7 @@
 <template>
 
   <div class="Evergreen-Home">
-    <client-only>
+    <no-ssr>
 
       <Template 
         grid-classes="Template--Main-Sidebar _grid-2-1-sm _grid-gap"
@@ -80,7 +80,7 @@
         </template>
 
       </Template>
-    </client-only>
+    </no-ssr>
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
 
@@ -164,15 +164,6 @@ export default {
       announcements: '',
 
       formPosters: '',
-    }
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({app, env, store}) {
-    return {
-      app,
-      env,
-      store,
     }
   },
 

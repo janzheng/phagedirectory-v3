@@ -9,40 +9,45 @@
             <div class="_flex-col _height-100" v-html="$md.render(research || '')" />
           </nuxt-link> -->
           <a href="https://phage.directory/apply/researchers" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
-            <div class="_flex-col _height-100" v-html="$md.render(research || '')" />
+            <div class="" v-html="$md.render(research || '')" />
           </a>
 
-          <!-- <nuxt-link to="/apply/medical" class="Join-medical _card --button --nolink _padding _margin-none">
-            <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
-          </nuxt-link> -->
-          <a href="https://phage.directory/apply/medical" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
-            <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
+          <a href="https://phage.directory/apply/labs" target="_blank" class="Join-lab _card --button --nolink _padding _margin-none">
+            <div class="" v-html="$md.render(lab || '')" />
           </a>
-          
-          
+
           <!-- <nuxt-link to="/apply/banks" class="Join-banks _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
           </nuxt-link> -->
-          <a href="https://phage.directory/apply/phagebanks" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
-            <div class="_flex-col _height-100" v-html="$md.render(banks || '')" />
+          <a href="https://phage.directory/apply/phagebanks" target="_blank" class="Join-banks _card --button --nolink _padding _margin-none">
+            <div class="" v-html="$md.render(banks || '')" />
           </a>
 
-          
           <!-- <nuxt-link to="/apply/orgs" class="Join-organization _card --button --nolink _padding _margin-none">
             <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
           </nuxt-link> -->
-          <a href="https://phage.directory/apply/orgs" target="_blank" class="Join-research _card --button --nolink _padding _margin-none">
-            <div class="_flex-col _height-100" v-html="$md.render(organization || '')" />
+          <a href="https://phage.directory/apply/orgs" target="_blank" class="Join-org _card --button --nolink _padding _margin-none">
+            <div class="" v-html="$md.render(organization || '')" />
           </a>
           
-
-        </div>
-
-        <div class="_section-article ">
-          <div class="Join-other _card --button _padding _margin-top">
+          <!-- <nuxt-link to="/apply/medical" class="Join-medical _card --button --nolink _padding _margin-none">
+            <div class="_flex-col _height-100" v-html="$md.render(medical || '')" />
+          </nuxt-link> -->
+          <a href="https://phage.directory/apply/medical" target="_blank" class="Join-medical _card --button --nolink _padding _margin-none">
+            <div class="" v-html="$md.render(medical || '')" />
+          </a>
+          
+          <span class="Join-other _card --button --nolink _padding _margin-none">
             <div class="" v-html="$md.render(other || '')" />
-          </div>
+          </span>
+
         </div>
+        <!-- 
+          <div class="_section-article ">
+            <div class="Join-other _card --button _padding _margin-top">
+              <div class="" v-html="$md.render(other || '')" />
+            </div>
+          </div> -->
 
       </template>
     </Template>
@@ -75,6 +80,7 @@ export default {
     return {
       intro: this.$cytosis.findOne('join-intro', this.$store.state['Content'] ).fields['Markdown'],
       research: this.$cytosis.findOne('join-researcher', this.$store.state['Content'] ).fields['Markdown'],
+      lab: this.$cytosis.findOne('join-lab', this.$store.state['Content'] ).fields['Markdown'],
       organization: this.$cytosis.findOne('join-organization', this.$store.state['Content'] ).fields['Markdown'],
       banks: this.$cytosis.findOne('join-banks', this.$store.state['Content'] ).fields['Markdown'],
       medical: this.$cytosis.findOne('join-medical', this.$store.state['Content'] ).fields['Markdown'],
@@ -83,24 +89,6 @@ export default {
       // alertSignup: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }
   },
-  
-  computed: {
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env}) {
-
-    return {
-      postUrl: env.ext_handler,
-    }
-  },
-
-  mounted () {
-  },
-
-  methods: {
-  },
-
 
 }
 </script>

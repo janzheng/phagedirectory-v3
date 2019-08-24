@@ -23,7 +23,7 @@
 <script>
 
 import { mapState } from 'vuex'
-import { loadQuery } from '~/other/loaders'
+// import { loadQuery } from '~/other/loaders'
 import Recently from '~/components/Recently.vue'
 
 import Template from '~/templates/context.vue'
@@ -65,20 +65,6 @@ export default {
 
   watch: {
     $route () {
-    }
-  },
-
-  // runs on generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
-    const slug = route.params.slug
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{about}', query: 'People-PD'})
-    // const search = store.state.search.string //route.query.search ? route.query.search : undefined
-    // const search = store.state.search ? store.state.search.string : route.query.search
-
-    return {
-      slug,
-      people: data.tables['People'],
-      // search: search
     }
   },
 

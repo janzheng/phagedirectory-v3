@@ -82,9 +82,10 @@ export default {
             } else {
               // if we don't want to wait for the server, just wait a bit and cache (so it doesn't interfere with client's cytosis / hitting Airtable limits)
               // and return empty
-              setTimeout(
+              const sendCache = function() {
                 axios.get(`${process.env.api_url}/api/exocytosis/cache/data?airBase=${airBase}&tableQuery=${tableQuery}&payloads=${_payloads}`)
-                , 1500)
+              }
+              setTimeout(sendCache, 1500)
               return undefined
             }
           }
@@ -145,6 +146,8 @@ export default {
     // LOAD CYTOSIS THROUGH CLIENT
     // 
 
+    // console.log('::: shape of cytosis:', cytosis)
+
     if(!cytosis) {
       // only load from client if caching didn't work,
       // and cytosis is empty
@@ -179,7 +182,8 @@ export default {
       }
     }
 
-
+    // banana! breaking the site to test errors
+    // cytosis = undefined
 
     if(cytosis) {
       commit('setCytosis', cytosis)

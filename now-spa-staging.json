@@ -60,8 +60,6 @@
 
 
 
-
-
     { "src": "/_nuxt/.+", "headers": { "cache-control": "s-maxage=31536000" } },
 
     { "src": "/feed.xml", "dest": "https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-rss" },
@@ -78,7 +76,9 @@
 
     { "src": "/staging", "status": 301, "headers": { "Location": "https://phagedirectory.yawnxyz.now.sh" } },
 
-    { "src": "/(.*)", "dest": "/" }
+    { "src": "/(.*)", "dest": "/$1" },
+    { "handle": "filesystem" },
+    { "src": "/.*", "status": 404, "dest": "/error" }
   ]
 }
 

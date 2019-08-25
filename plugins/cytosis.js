@@ -10,7 +10,7 @@ import Cytosis from '~/other/cytosis.js'
 // export default ({ app }, inject) => {
 export default ({ error }, inject) => {
 
-  Cytosis['check'] = function(tableArray, message = 'The database is currently offline.') {
+  Cytosis['check'] = function(tableArray, message = 'An unexplained error has occurred, please try refreshing...') {
     // returns true when there's an error
     // used on a page; helper that checks if a given table exists (or is an array), if not, throw an error page
     // the data most likely fails when the data doesn't exist / hasn't been loaded
@@ -22,14 +22,21 @@ export default ({ error }, inject) => {
     */
 
     let hasErrors
+    // console.log('tableArray:', tableArray)
     tableArray.map((table) => {
       if(!table || !table.length) {
         hasErrors = true
       }
     })
     if(hasErrors) {
-      error({statusCode: 'Cytosis', message})
-      return true
+      // console.error('[Cytosis/check] Cytosis has errors!')
+      // if(process.client) {
+        error({statusCode: 'Cytosis', message})
+      // }
+      // if(process.server) {
+      //   throw new Error('[Cytosis/check] Cytosis has errors!')
+      // }
+
     }
   }
 

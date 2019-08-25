@@ -50,7 +50,7 @@ const db_base = process.env.PD_AIRTABLE_DB_BASE;
 
 const analyze = false; // analyzer (webpack; turn off for prod)
 const offline = false;
-let mode = 'spa';
+let mode = 'universal';
 // let mode = 'spa' // FOR ZEIT: universal/ssr seems broken, but spa mode seems to work like surge
 // 'spa' loads airtable dynamically
 // 'static' only generates once / use npm run generate
@@ -349,6 +349,26 @@ export default {
     // }
   },
 
+
+  // error messages for the Nuxt error page
+  // note: Zeit Now replaces with its own error page
+  // messages: {
+  //   loading: 'Loading...',
+  //   error_404: 'This page could not be found',
+  //   server_error: 'Server error',
+  //   nuxtjs: 'Nuxt.js',
+  //   back_to_home: 'Back to the home page',
+  //   server_error_details:
+  //     'An error occurred in the application and your page could not be served. If you are the application owner, check your logs for details.',
+  //   client_error: 'Error',
+  //   client_error_details:
+  //     'An error occurred while rendering the page. Check developer tools console for details.',
+
+  //   server_error: 'Oh no! Server error',
+  //   nuxtjs: 'Is this Nuxt.js?',
+  //   back_to_home: 'Cmon, back home!',
+  //   server_error_details: 'Uh uh :| Server errorrrrr',
+  // },
 
   css: [
     // coeur style guide

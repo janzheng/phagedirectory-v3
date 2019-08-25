@@ -278,6 +278,7 @@ app.get('/api/exocytosis/get/data', (req, res) => {
   });
 })
 
+// example: http://localhost:2929/api/exocytosis/get/file?name=appYvj7j9Ta5I15ks-Node-AbsolutePath-keyword.json
 app.get('/api/exocytosis/get/file', (req, res) => {
   console.log('[exocytosis] grabbing data:', req.query.name)
 
@@ -318,16 +319,21 @@ app.get('/api/exocytosis/cache/data', (req, res) => {
       console.error("[exocytosis] cache/data went wrong", req.query)
       res.status(500).send()
     }
-    
-    writeData({
-      fileName: dataName + '.json',
-      key: req.query.airBase,
-      payload: data,
-    })
 
-    console.log('[exocytosis] data cache generated data for:', dataName)
+    // check if there's actually any data 
+    console.error("[exocytosis] retrieved data:")
+    if(Object.keys(data.tables).length>0 && Object.keys(data.tables)[0].length > 0) {
+      writeData({
+        fileName: dataName + '.json',
+        key: req.query.airBase,
+        payload: data,
+      })
+    } else {
+      console.error("[exocytosis] cache/data didn't find any data; canceling cache process", data.tables)
+      // TODO/FIX: Note: the current cache strategy generates cache files for pages that don't exist, which can lead to DDOS
+    }
+    // send back the data regardless
     res.status(200).send(data)
-
   })
 })
 

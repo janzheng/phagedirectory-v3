@@ -63,6 +63,19 @@ export default {
   },
 
   data () {
+    // console.log('content frame ugh', this.$nuxt.error)
+    // this.$nuxt.error({statusCode: 'Cytosis', message: 'banana'})
+    // console.log('ughhhh')
+    if (this.$cytosis.check([
+      this.$store.state['Content']
+    ])) {
+      this.$nuxt.error({statusCode: 'Cytosis', message: 'The database is currently unavailable.'})
+      if (process.server) {
+        throw new Error(404)
+      }
+      return {}
+    }
+
     return {
       scrollY: 0,
       route: '',

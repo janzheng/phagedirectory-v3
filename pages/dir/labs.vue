@@ -142,7 +142,14 @@ export default {
   async asyncData({env, store, route}) {
     const slug = route.params.slug
     const query = env.pd_env == 'stage' ? 'Labs-preview' : 'Labs-index'
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{labs}', query: query})
+    const data = await loadQuery({
+      useDataCache: true,
+      _key: env.db_api, 
+      _base: env.db_base, 
+      store, 
+      routeName: '{labs}', 
+      query: query
+    })
 
     return {
       slug,

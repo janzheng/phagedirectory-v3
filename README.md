@@ -41,6 +41,7 @@ For detailed explanation on how things work, checkout the [Nuxt.js docs](https:/
 - Hydrate the config: 
 	- https://phage.directory/api/exocytosis/cacheconfig?appYvj7j9Ta5I15ks&tableQuery=_content
 	- Setup on EasyCron
+	- use `/api/exocytosis/delete/all` to clear the cache
 - Standard production (now --prod):
 	- now.json
 		- SSR / Universal mode

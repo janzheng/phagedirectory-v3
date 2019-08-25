@@ -6,7 +6,7 @@
   <!-- <ContentFrame class="About"> -->
   <div class="Error _section-page _margin-center">
     <div class="_section-content _margin-center">
-      <h6>404 Error</h6>
+      <h6>{{ error.statusCode }} Error</h6>
       <h1 class="Error-title title">
         We apologize... we couldn’t find what you were looking for, or something went wrong.
       </h1>
@@ -15,6 +15,12 @@
         <br><br>
         We really appreciate your help!
       </h3>
+
+      <div v-if="error.message" class="_card _padding">
+        <h6>Error message</h6>
+        <p>{{ error.message }}</p>
+      </div>
+
     </div>
   </div>
 </template>
@@ -23,7 +29,16 @@
 
 export default {
 
-  components: {
+  props: {
+    'error': Object
+  },
+  
+  created() {
+    if(this.$segment) {
+      this.$segment.track('Error Hit', { error: this.error.statusCode, message: this.error.message })
+      console.log('Error logged...')
+      // this.$segment.page('Error Page')
+    }
   },
 
   layout: 'contentframe',

@@ -180,6 +180,11 @@ import { dirSearch } from '~/other/helpers.js'
 
 export default {
   data: function () {
+    
+    if (this.$cytosis.check([
+      this.$store.state['Content']
+    ])) return {}
+
     return {
       // searchString: this.$store.state.search.string,
       links: JSON.parse(this.$cytosis.findOne('header-subnav', this.$store.state['Content'] ).fields['Data:JSON'])['links'],

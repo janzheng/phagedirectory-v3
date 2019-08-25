@@ -1,6 +1,8 @@
 <template>
   <div>
     <div id="top" class="ContentFrame Layout" :class="navOpen ? '--open' : ''" >
+      
+      <!-- note: if Cytosis goes down, header has a cytosis.check guard that will throw an error if cytosis.Content doesn't exist -->
       <Header :scroll-y="scrollY" />
       
       <div class="ContentFrame-body" >
@@ -70,7 +72,6 @@ export default {
     }
   },
 
-
   computed: {
     ...mapState([
       'searchString',
@@ -117,8 +118,8 @@ export default {
   // link intercept idea from: https://github.com/nuxt/nuxtjs.org/blob/master/components/HtmlParser.vue
   created () {
     // this.width = window.outerWidth
-    if(this.$segment)
-      this.$segment.page('v3-template-created')
+    // if(this.$segment)
+    //   this.$segment.page('v3-template-created')
 
     if(process.browser)
       window.addEventListener('scroll', this.handleScroll)

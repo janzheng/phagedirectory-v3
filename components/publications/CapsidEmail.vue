@@ -293,6 +293,7 @@ export default {
       if(authorSlugs) {
         authorSlugs.map(function(slug) {
           const item = loadQuery({
+            useDataCache: true,
             _key: process.env.db_api, 
             _base: process.env.db_base, 
             store: _this.$store, 

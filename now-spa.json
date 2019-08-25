@@ -10,6 +10,7 @@
     "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
     "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
     "MODE": "spa",
+    "PD_ENV": "prod",
     "API_URL": "https://phage.directory"
   },
   "build": {
@@ -19,6 +20,7 @@
       "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
       "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
       "MODE": "spa",
+      "PD_ENV": "prod",
       "API_URL": "https://phage.directory"
     }
   },

@@ -45,10 +45,10 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword) {
   // console.time(`[PageLoad] /${routeName} > ${tableQuery}`)
   if(store.config && store.state.config[env.airtable_base]) {
     // console.time(`[PageLoad] Config exists:`, store.state.config[env.airtable_base])
-    data = await loadQuery({env, store, routeName, query: tableQuery, keyword, config: store.state.config[env.airtable_base]})
+    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword, config: store.state.config[env.airtable_base]})
   }
   else
-    data = await loadQuery({env, store, routeName, query: tableQuery, keyword})
+    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword})
 
   // console.log('[PageLoad] Query Loaded:', `/${routeName}`, `> ${tableQuery}`)
   // console.timeEnd(`[PageLoad] /${routeName} > ${tableQuery}`)
@@ -56,8 +56,8 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword) {
   return Promise.all([data])
 }
 
-export default async function ({route, env, store}) {
-
+// export default async function ({route, env, store, error}) {
+export default function ({route, env, store}) {
 
   // function showStatus(i) {
   //   console.log(i);
@@ -117,13 +117,13 @@ export default async function ({route, env, store}) {
     const getData = async function() {
       // console.log('tableQueries... ', tableQueries)
       let queryData = tableQueries.map( async function(query) {
-        console.log('[Pageload](loadQueryData) Fetch Query:', `${routeName}/${query}`)
         return await loadQueryData(routeName, store, env, query, keyword)
       })
       return Promise.all(queryData)
     }
 
-    const data = await getData()
+    // const data = await getData()
+    const data = getData()
     // console.log('finally', data.flat(2))
     return data
   }

@@ -95,6 +95,7 @@ export default {
   async asyncData({app, env, store, route}) {
     const slug = route.params.slug
     const data = await loadQuery({
+      useDataCache: true,
       _key: env.db_api, 
       _base: env.db_base, store, 
       routeName: '{people profile}', 

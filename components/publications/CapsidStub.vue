@@ -32,10 +32,15 @@
         <h1 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
         <div v-if="authors" class="Capsid-author-main _margin-bottom ">
           <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
-            <span class="_flex-row">
+            <!-- <span class="_flex-row">
               <img v-if="item.fields['Profile']" :src="item.fields['Profile'][0].thumbnails.small.url" class="--profile">
               <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
               <div class="_font-normal _padding-left-half _align-vertically">{{ item.fields['Name'] }}</div>
+            </span> -->
+            <span>
+              <img v-if="item.fields['Profile']" :src="item.fields['Profile'][0].thumbnails.small.url" class="--profile _v-middle">
+              <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile _v-middle" height="42" width="42">
+              <span class="_font-normal _padding-left-half _v-middle">{{ item.fields['Name'] }}</span>
             </span>
           </div>
         </div>

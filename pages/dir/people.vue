@@ -148,7 +148,14 @@ export default {
   async asyncData({env, store, route}) {
     const slug = route.params.slug
     const query = env.pd_env == 'stage' ? 'People-preview' : 'People'
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{people}', query: query})
+    const data = await loadQuery({
+      useDataCache: true,
+      _key: env.db_api, 
+      _base: env.db_base, 
+      store, 
+      routeName: '{people}', 
+      query: query
+    })
 
     return {
       slug,

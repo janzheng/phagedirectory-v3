@@ -92,9 +92,10 @@ export default {
     db_api: db_api,  
     db_base: db_base,
 
-    cytosisLimit: 1,    // limiter for hitting airtable (connections)
-    cytosisTime: 200,   // limiter for hitting airtable (time) [limit = connections/time; 4/1000 or 1/250]
-    useCytosisCacheConfig: true, // pulls a cached version off lambda if it exists; pushes a cached version if it doesn't
+    useCytosisConfigCache: true, // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
+    useCytosisDataCache: true,   // works like config caching but for airtable requests
+    keepCytosisDataCache: false,  // [default if FALSE!] if true, we're using data cache, this waits for server and uses the response's cytosis (instead of doing it from client)
+    cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 
 
     site_policy: site_policy,
     site_segment: site_segment,
@@ -262,7 +263,7 @@ export default {
     name: 'Phage Directory',
     short_name: 'phagedirectory',
     display: 'standalone',
-    start_url: 'https://phage.directory/',
+    // start_url: 'https://phage.directory',
     theme_color: site_color,
     background_color: '#FFFFFF',
     lang: 'en',

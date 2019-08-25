@@ -60,6 +60,7 @@
 
 
 
+
 */
 
 /*
@@ -243,22 +244,25 @@ class Cytosis {
   // (getting tables is expensive, and might not always be required on init)
   // options is a temporary view for initializing the table
   constructor (opts) {
-    const _this = this
 
+    const _this = this
     // If constructing without arguments,
     // then initialize "this" with either pre-configured values, or blanks
     if (arguments.length === 0) {
       _this.routeName = Cytosis.routeName || '';
       _this.config = Cytosis.config || '';
+      _this.endpointUrl = Cytosis.endpointUrl || '';
       _this.airKey = Cytosis.airKey || '';
       _this.airBase = Cytosis.airBase || '';
       _this.airBase.tables = Cytosis.tables || [];
       _this.airBase.tableQuery = Cytosis.tableQuery || 'tables';
       _this.airBase.options = Cytosis.options || {view: "Grid view"};
       _this.airBase.payloads = Cytosis.payloads; // used for keyword or other payloads
+      _this.airBase.endpointUrl = Cytosis.endpointUrl;
     } else {
       _this.routeName = opts.routeName; // "routeName" or other kind of identifier. Helps w/ debugging
       _this.config = opts.config;
+      _this.endpointUrl = opts.endpointUrl;
       _this.airKey = opts.airKey;
       _this.airBase = { id: opts.airBase || opts.airBaseId };
       _this.airBase.tables = opts.tables || []
@@ -268,7 +272,7 @@ class Cytosis {
     }
 
     Airtable.configure({
-      endpointUrl: `https://api.airtable.com`,
+      endpointUrl: _this.endpointUrl || `https://api.airtable.com`,
       apiKey: _this.airKey
     })
 
@@ -283,9 +287,17 @@ class Cytosis {
         if(result) {
           // console.log('[Cytosis] _cytosis initiated:', result)
           // then retrieve the actual data
-          Cytosis.getTables({options: opts.options, payloads: opts.payloads, cytosis: _this, tables: _this.airBase.tables, routeName: _this.routeName}).then((_result) => {
+          Cytosis.getTables({
+            options: opts.options, 
+            payloads: opts.payloads, 
+            cytosis: _this, 
+            tables: _this.airBase.tables, 
+            routeName: _this.routeName
+          }).then((_result) => {
             _this.tables = _result
             resolve(_this)
+          }, (err) => {
+            reject(new Error(`[Cytosis] Cytosis initialization error: Couldn't retrieve all tables from Airtable!`, err))
           })
         } else {
           if(!result)
@@ -293,6 +305,8 @@ class Cytosis {
 
           resolve(result)
         }
+      }, (err) => {
+        reject(new Error(`[Cytosis] Cytosis initialization error: Couldn't setup Config (_cytosis)!`, err))
       })
     })
   }
@@ -336,8 +350,9 @@ class Cytosis {
       if(_this.airBase.tables && _this.airBase.tables.length > 0)
         resolve(_this)
 
+
       const setup = function(_config) {
-        _this['config'] = _config
+        _this['config'] = _config // this needs to be the _cytosis array
 
         // this requires a table named '_cytosis' with a row (tableQuery) that indicates where the information is coming from
         // need column 'Tables' with a Multiple Select of all the table names in the base
@@ -412,19 +427,25 @@ class Cytosis {
       } else {
         // if no table names are provided, it looked for a special '_cytosis' tab
         // this is required to initialize the Cytosis object
-        Cytosis.getTables({options: {}, cytosis: _this, tables: ['_cytosis'], routeName: _this.routeName}).then( (_config) => {
+        Cytosis.getTables({
+          options: {}, 
+          cytosis: _this, 
+          tables: ['_cytosis'], 
+          routeName: _this.routeName
+        }).then( (_config) => {
 
           if(_config) {
             setup(_config)
           }
 
           if(!_config || !_this.airBase.tables || _this.airBase.tables.length == 0) {
-            throw new Error(`[Cytosis] — couldn’t find a '_cytosis' table with row [query:${tableQuery}] or 'tables' filled out with the names of tables to load`)
-            reject(_this)
+            reject(new Error(`[Cytosis] — couldn’t find a '_cytosis' table with row [query:${tableQuery}] or 'tables' filled out with the names of tables to load`))
           }
           // console.log('Cytosis tables: ', _this.airBase, _this.airBase.tables)
           // return the initiated cytosis object on completion
           resolve(_this)
+        }, (err) => {
+          reject(new Error(`[Cytosis] Couldn't retrieve Config object from Airtable`, err))
         })
       }
 
@@ -616,12 +637,13 @@ class Cytosis {
                 // fetchNextPage()
               }, function done(err) {
                 if (err) { 
-                  console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error: ', err)
+                  console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error @routeName:', routeName)
                   console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error [2]', 'Errored on table:', table, 'tablesLen:', tables.length, 'tables:',tables)
-                  console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error [3]', 'Data list:', list)
+                  console.error('[Cytosis/getTablePromise/airtableFetch] Airtable Fetch Error >> error message:', err)
                   
                   // experiment with erroring silently
                   // reject(err)
+                  reject(new Error("[Cytosis/getTablePromise/airtableFetch] No response from Airtable"));
                   // return
                 }
                 resolve({[table]: list})
@@ -664,20 +686,26 @@ class Cytosis {
       })
     }
 
-    return Promise.all(pTables).then(function(tables) {
-      let finalObj = {}
-      for (let t of tables) {
-        finalObj = { ...finalObj, ...t, ...cytosis.data }
-      }
-      // _this.airtable = finalObj
-      // _this.tables = finalObj
-      // console.log('getTables final object:', finalObj)
+    try {
+      return Promise.all(pTables).then((tables) => {
+        let finalObj = {}
 
-      return finalObj // return as a one promise object
-    }, function (reason) {
-      console.error("[Cytosis/getTables] A table errored out or timed out", reason);
-      return undefined
-    })
+        for (let t of tables) {
+          finalObj = { ...finalObj, ...t, ...cytosis.data }
+        }
+        // _this.airtable = finalObj
+        // _this.tables = finalObj
+        // console.log('getTables final object:', finalObj)
+
+        return finalObj // return as a one promise object
+      }, (err) => {
+        console.error("[Cytosis/getTables] A table errored out or timed out: ", err);
+        // return Error("[Cytosis/getTables] Fetch Error")
+        return Promise.reject(new Error("[Cytosis/getTables] Fetch Error"));
+      })
+    } catch (err) {
+      console.error("[Cytosis/getTables/pTablesPromiseHandling] An Airtable table errored out", err);
+    }
   }
 
   // Retrieves a single record from the stored tables object
@@ -831,6 +859,9 @@ class Cytosis {
   // - is just a wrapper for Find
   // takes: 
   static findOne (findStr, table, fields=['Name']) {
+
+    if(!table)
+      return undefined
 
     if (typeof(fields) == "string") {
       console.error('[Cytosis] find "fields" argument must be an array')

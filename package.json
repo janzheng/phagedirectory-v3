@@ -8,6 +8,7 @@
     "node": "8.10.0"
   },
   "scripts": {
+    "compat-nvm": "nvm use 8.10.0",
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
     "precommit": "npm run lint",
@@ -15,7 +16,7 @@
     "dirty": "git add . -A ; git commit ; git push origin master ",
     "dev": "concurrently \"npm:dev-api\" \"npm:dev-nuxt\"",
     "dev-api": "NODE_ENV=dev now dev --port 2929 --local-config=now-dev.json",
-    "dev-nuxt": "MODE=spa PD_ENV=stage API_URL=http://localhost:2929 nuxt",
+    "dev-nuxt": "MODE=universal PD_ENV=stage API_URL=http://localhost:2929 nuxt",
     "dev-prod": "PD_ENV=prod MODE=spa nuxt",
     "build": "nuxt build",
     "analyze": "nuxt build --a",
@@ -33,8 +34,7 @@
     "prod-now": "now --env PD_ENV=prod --target production; say 'now ready'",
     "prod-now-spa": "now --env PD_ENV=prod --target production --local-config=now-spa.json; say 'now ready' ",
     "prod-both": "yarn prod-now; yarn prod-surge-spa",
-    "now-build": "if test \"$NODE_ENV\" != \"dev\" ; then PD_ENV=prod nuxt generate ; fi",
-    "now-dev": "nuxt"
+    "now-dev": "MODE=universal nuxt"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
@@ -47,6 +47,7 @@
     "@nuxtjs/markdownit": "^1.2.4",
     "@nuxtjs/pwa": "^3.0.0-beta.14",
     "@nuxtjs/workbox": "^3.0.0-beta.14",
+    "async-limiter": "^1.0.1",
     "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
     "coeur": "^0.2.28",
@@ -65,8 +66,8 @@
     "nuxt": "2.8.1",
     "nuxt-leaflet": "^0.0.18",
     "nuxt-purgecss": "^0.2.1",
+    "oibackoff": "^1.0.1",
     "sass-loader": "^7.0.3",
-    "simple-rate-limiter": "^0.2.3",
     "slugify": "^1.3.4",
     "vue": "^2.6.10",
     "vue-scrollto": "^2.15.0",

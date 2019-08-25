@@ -171,7 +171,14 @@ export default {
   async asyncData({env, store, route}) {
     const slug = route.params.slug
     const query = env.pd_env == 'stage' ? 'Orgs-preview' : 'Orgs-index'
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{orgs}', query: query})
+    const data = await loadQuery({
+      useDataCache: true,
+      _key: env.db_api, 
+      _base: env.db_base,
+       store, 
+       routeName: '{orgs}', 
+       query: query
+     })
     // console.log('matched node: ', node, ' @ ', slug)
 
     // const testdata = app.$cytosis.cleanTable( data.tables['PhageCollections'] )

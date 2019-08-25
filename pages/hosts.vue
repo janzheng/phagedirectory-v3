@@ -158,7 +158,15 @@ export default {
   async asyncData({app, env, store, route}) {
     app.$sys.log('Hosts page loading data')
     const slug = route.params.slug
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{hosts}', query: 'Hosts-index'})
+    const data = await loadQuery({
+      useDataCache: true,
+      _key: env.db_api, 
+      _base: env.db_base, 
+      store, 
+      routeName: '{hosts}', 
+      query: 'Hosts-index'
+    })
+    
     app.$sys.log('Hosts page data loaded', data)
 
     return {

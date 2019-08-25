@@ -107,7 +107,14 @@ export default {
   },
 
   async asyncData({env, store}) {
-    const data = await loadQuery({_key: env.db_api, _base: env.db_base, store, routeName: '{people}', query: 'People-index'})
+    const data = await loadQuery({
+      useDataCache: true,
+      _key: env.db_api, 
+      _base: env.db_base, 
+      store, 
+      routeName: '{people}', 
+      query: 'People-index'
+    })
 
     return {
       People: data.tables['People'],

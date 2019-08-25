@@ -91,13 +91,15 @@ export default {
   // runs on generation and page route (but not on first page load)
   async asyncData({store, route, error}) {
 
-    const slug = '/' + unescape(route.params.slug)
+    // const slug = '/' + unescape(route.params.slug)
+    const slug = unescape(route.params.slug)
     // const slug = '/' + unescape(this.$router.history.current.params.slug)
     console.log('[Node Router] (data)', slug)
 
     const _this = this
 
     const node = await loadQuery({
+      useDataCache: true,
       _key: process.env.airtable_api, 
       _base: process.env.airtable_base, 
       store: store, 

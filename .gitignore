@@ -13,4 +13,6 @@ npm-debug.log
 .nuxt
 dist
 
+notes.md
+
 .env

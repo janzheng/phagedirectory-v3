@@ -131,6 +131,7 @@ export default {
 
     const _this = this
     const event = loadQuery({
+      useDataCache: true,
       _key: 'keyAe6M1KoPfg25aO', // Live Public DB
       _base: 'appEuZLle3bAy2g2g', // Live Public DB
       store: _this.$store, 

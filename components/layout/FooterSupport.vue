@@ -20,6 +20,11 @@ export default {
   },
 
   data () {
+    
+    if (this.$cytosis.check([
+      this.$store.state['Content']
+    ])) return {}
+
     return {
       support: this.$cytosis.findOne('footer-support', this.$store.state['Content'] ).fields['Markdown'],
     }

@@ -10,7 +10,7 @@
     "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
     "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
     "MODE": "universal",
-    "PD_ENV": "prod",
+    "PD_ENV": "stage",
     "API_URL": "https://phagedirectory.yawnxyz.now.sh"
   },
   "build": {
@@ -20,7 +20,7 @@
       "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
       "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
       "MODE": "universal",
-      "PD_ENV": "prod",
+      "PD_ENV": "stage",
       "API_URL": "https://phagedirectory.yawnxyz.now.sh"
     }
   },

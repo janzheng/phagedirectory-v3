@@ -29,6 +29,56 @@ export default {
 
     console.log('[action/loadCytosis] Loading Cytosis [routeName]:[tableQuery]:',`[${routeName}]:[${tableQuery}]`,`[useDataCache: ${useDataCache}]`)
 
+
+
+    // console.log('TEST GETTING CONFIG')
+    // _this.$cytosis.getConfig({airKey, airBase, routeName:'[loadCytosis/configFetcher]'}).then((data) => {
+    //   console.log('GETCONFIG TEST ::' , data)
+    // }, (err) => {
+    //   console.log('GETCONFIG ERROR ::' , err)
+    // })
+
+    // function loadDummy({routeName, tableQuery, options, payloads, config, _key, _base}) {
+    //   const airKey = _key || process.env.PD_AIRTABLE_PUBLIC_API
+    //   const airBase = _base || process.env.PD_AIRTABLE_PUBLIC_BASE
+
+    //   console.log('[DUMMY] loading Cytosis w/ ', airKey, ' /// ', airBase )
+
+    //   try {
+    //     const _cytosis = new _this.$cytosis({
+    //       airKey: airKey,
+    //       airBase: airBase,
+    //       tableQuery,
+    //       options,
+    //       config,
+    //       payloads,
+    //     });
+    //     return _cytosis;
+    //   } catch(err) {
+    //     console.error('[DUMMY] Failed to load Cytosis! Failing silently', err)
+    //     return Promise.reject(undefined)
+    //   }
+    // }
+
+
+    // loadDummy({
+    //   routeName: routeName,
+    //   tableQuery: "bollocks", //req.query.tableQuery,
+    //   // _key: req.query.airKey,
+    //   _base: airBase,
+    // }).then((data) => {
+    //   console.log('[DUMMY] LOADING DUMMY:',data)
+    // }, (err) => {
+    //     console.error('[DUMMY] Dummy not loaded', err)
+    // })
+
+
+
+
+
+
+
+
     async function fetchConfigCache(_config) {
       // Cache the config w/ zeit now lambda
       // populate config with cache on first hit; once it's loaded it'll end up in the store
@@ -40,7 +90,7 @@ export default {
 
           if(config_cached && config_cached.data && config_cached.data[airBase]) {
             _config = config_cached.data[airBase].config
-            console.log('[action/loadCytosis] Config cache loaded', )
+            console.log('[action/loadCytosis] Config cache loaded', `[${routeName}]:[${tableQuery}]`)
           } else { 
           // refresh the cache if it's stale; also pull the config internally 
           /// don't rely on cache to get the config data, so no need for timeout here
@@ -61,6 +111,7 @@ export default {
       try {
         if(process.env.useCytosisDataCache && useDataCache) {
           const _payloads = JSON.stringify(payloads)
+
           result_data = await axios.get(`${process.env.api_url}/api/exocytosis/get/data?airBase=${airBase}&tableQuery=${tableQuery}&payloads=${_payloads}`, {timeout: process.env.cache_timeout})
 
           if(result_data && result_data.data) {
@@ -83,8 +134,14 @@ export default {
               // if we don't want to wait for the server, just wait a bit and cache (so it doesn't interfere with client's cytosis / hitting Airtable limits)
               // and return empty
               const sendCache = function() {
-                axios.get(`${process.env.api_url}/api/exocytosis/cache/data?airBase=${airBase}&tableQuery=${tableQuery}&payloads=${_payloads}`)
+                try {
+                  axios.get(`${process.env.api_url}/api/exocytosis/cache/data?airBase=${airBase}&tableQuery=${tableQuery}&payloads=${_payloads}`)
+                } catch (err) {
+                  console.log('[action/loadCytosis] Data was unable to be cached. Erroring silently')
+                }
+
               }
+
               setTimeout(sendCache, 3500)
               return undefined
             }
@@ -99,6 +156,7 @@ export default {
 
     function fetchCytosis(result_data, callback) {
 
+      console.log('Fetch cytosis cache config:', `[${routeName}]:[${tableQuery}]`, !!config)
       // if no cached data or integrity is bad
       if(!result_data) {
         const data = {
@@ -109,7 +167,6 @@ export default {
           options,
           config,
           payloads,
-          // endpointUrl: "https://bananararararama.net"
         }
 
         let results, err
@@ -164,7 +221,7 @@ export default {
       }
       
       try { // this is really messy but we're wrapping a Promise around oibackoff and limit
-        const getBackoff = function() { 
+        const getCytosis = function() { 
           return new Promise((resolve, reject) => {
             backoff(fetchCytosis, cytosis, intermediate, function(err, data) {
               // console.log('backoff callback:', err, data)
@@ -175,15 +232,13 @@ export default {
             })
           })
         }
-        cytosis = await getBackoff()
+
+        cytosis = await getCytosis()
       } catch(err) {
         // no need to throw; cytosis will just remain undefined
         // console.log('bwhadsad',err)
       }
     }
-
-    // banana! breaking the site to test errors
-    // cytosis = undefined
 
     if(cytosis) {
       commit('setCytosis', cytosis)

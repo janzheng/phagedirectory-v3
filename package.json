@@ -56,7 +56,7 @@
     "core-js": "2",
     "cors": "^2.8.5",
     "cross-env": "^5.2.0",
-    "cytosis": "^0.0.332",
+    "cytosis": "^0.0.337",
     "dayjs": "^1.8.13",
     "markdown-it": "^8.4.2",
     "markdown-it-attrs": "^2.3.3",

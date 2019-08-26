@@ -156,7 +156,6 @@ export default {
 
   // runs on server+generation and page route (but not on first page load)
   async asyncData({app, env, store, route}) {
-    app.$sys.log('Hosts page loading data')
     const slug = route.params.slug
     const data = await loadQuery({
       useDataCache: true,
@@ -166,8 +165,6 @@ export default {
       routeName: '{hosts}', 
       query: 'Hosts-index'
     })
-    
-    app.$sys.log('Hosts page data loaded', data)
 
     return {
       slug,

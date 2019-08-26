@@ -30,7 +30,7 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
       error({statusCode: 500, message: process.env.error_cytosis})
     }
     if(process.server) {
-      throw new Error("[loadQuery] Cytosis failed to load >>>>>>>>>>>>>>>>> ")
+      throw new Error("[loadQuery] Database failed to load. Shutting down app. ")
     }
     console.error("Cytosis error:", routeName, err)
     return undefined

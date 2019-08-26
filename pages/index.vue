@@ -92,7 +92,7 @@ export default {
   middleware: 'pageload',
   meta: {
     // tableQuery: "_content"
-    tableQueries: ['_content', 'capsid-previews', 'atoms-latest']
+    tableQueries: ['_content', 'capsid-previews']
   },
 
   data () {
@@ -181,6 +181,7 @@ export default {
     getPeople() {
       const _this = this
       loadQuery({
+        useDataCache: true,
         _key: process.env.db_api, 
         _base: process.env.db_base, 
         store: _this.$store,

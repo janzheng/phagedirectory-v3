@@ -57,7 +57,10 @@
     - added a delay to fetchnextpage to reduce hitting limits
     - added some better error output; testing silent error for fetch
     - added a "routeName" component, for routeName, tracing bugs etc.
+    - added a helper method to just retrieve cytosis configs
 
+  - 8/26/2019
+    - added getConfig to only get the _cytosis config data
 
 
 
@@ -521,7 +524,6 @@ class Cytosis {
     return false
   }
 
-
   // Get an object of airtable objects
   // NOTE: this is the ONLY function that pulls from Airtable API!
   // 
@@ -707,6 +709,35 @@ class Cytosis {
       console.error("[Cytosis/getTables/pTablesPromiseHandling] An Airtable table errored out", err);
     }
   }
+
+
+  // helper to only get the config files
+  // doesn't need the rest of the object to be configured
+  // returns a promise
+  static getConfig({airKey, airBase, routeName, endpointUrl}) {
+
+    Airtable.configure({
+      endpointUrl: endpointUrl || `https://api.airtable.com`,
+      apiKey: airKey
+    })
+    
+    const configP = Cytosis.getTables({
+      cytosis: {
+        'airKey': airKey,
+        'airBase': {'id': airBase},
+      }, 
+      tables: ['_cytosis'], 
+      routeName: '[_getConfig] '+routeName
+    })
+    return configP
+  }
+
+
+
+
+
+
+
 
   // Retrieves a single record from the stored tables object
   // Note: this only searches locally

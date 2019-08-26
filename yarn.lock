@@ -3128,10 +3128,10 @@ cyclist@~0.2.2:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-0.2.2.tgz#1b33792e11e914a2fd6d6ed6447464444e5fa640"
   integrity sha1-GzN5LhHpFKL9bW7WRHRkRE5fpkA=
 
-cytosis@^0.0.332:
-  version "0.0.332"
-  resolved "https://registry.yarnpkg.com/cytosis/-/cytosis-0.0.332.tgz#c0d16690629e55dda13a6e98c33a3e132a183eea"
-  integrity sha512-O0POU2+736fkPvx4soHydHVrLqiYPqvuzO/Kfj7e4QBWNwE2x3XN/n6lDA6tSJwJbYuZARRzSLVW6Y38YzL+uQ==
+cytosis@^0.0.337:
+  version "0.0.337"
+  resolved "https://registry.yarnpkg.com/cytosis/-/cytosis-0.0.337.tgz#e8921876f4050d0ee22c5f25aaada7d5e6b13525"
+  integrity sha512-XvVKO7Y3N2WHtzZu0eDSlUySDzGf6ij2SDtX8YTOqWCZaZjOZb+qlS3Fv0FiHj8RQdsmyOXdyO5HGGy77zCBGA==
   dependencies:
     airtable "^0.5.6"
 

@@ -138,7 +138,7 @@ export default {
   watch: {
   },
 
-  // runs on generation and page route (but not on first page load)
+  // runs on server+generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = route.params.slug
     const query = env.pd_env == 'stage' ? 'Labs-preview' : 'Labs-index'

@@ -10,7 +10,7 @@ import Cytosis from '~/other/cytosis.js'
 // export default ({ app }, inject) => {
 export default ({ error }, inject) => {
 
-  Cytosis['check'] = function(tableArray, message = 'An unexplained error has occurred, please try refreshing...') {
+  Cytosis['check'] = function(tableArray, message = process.env.error_unknown) {
     // returns true when there's an error
     // used on a page; helper that checks if a given table exists (or is an array), if not, throw an error page
     // the data most likely fails when the data doesn't exist / hasn't been loaded

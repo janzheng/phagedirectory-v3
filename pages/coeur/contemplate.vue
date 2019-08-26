@@ -70,7 +70,7 @@ export default {
     },
   },
 
-  // runs on generation and page route (but not on first page load)
+  // runs on server+generation and page route (but not on first page load)
   asyncData({route}) {
     const slug = unescape(route.params.slug)
     return {

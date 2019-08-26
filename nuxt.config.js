@@ -102,6 +102,9 @@ export default {
     ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-basic',
     // site_data: site_data,
     site_static: site_static,
+  
+    error_cytosis: 'The database is currently unavailable',
+    error_unknown: 'An unexplained error has occurred, please try refreshing...',
   },
 
   server: {
@@ -244,7 +247,7 @@ export default {
     // }],
 
     '@nuxtjs/dotenv',
-    ['@nuxtjs/pwa'],
+    // ['@nuxtjs/pwa'],
     ['nuxt-leaflet', { /* module options */ }],
 
     // segment handles all analytics — use the plugin instead!!
@@ -257,6 +260,7 @@ export default {
     // Will register file from project api directory to handle /api/* requires
     // { path: '/feed.xml', handler: '~/api/rss.js' },
     // { path: '/capsid.xml', handler: '~/api/rss.js' },
+    // '~serverMiddleware/override404.js' // https://medium.com/finn-no/hacking-nuxts-404-logic-for-maximum-awesome-and-easy-proxying-e4efaeb03d66
   ],
 
   manifest: {

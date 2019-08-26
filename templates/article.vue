@@ -55,7 +55,7 @@ export default {
     // tableQueries: ["_content"]
   // },
 
-  // runs on generation and page route (but not on first page load)
+  // runs on server+generation and page route (but not on first page load)
   // async asyncData({env, store, route}) {
   // },
 

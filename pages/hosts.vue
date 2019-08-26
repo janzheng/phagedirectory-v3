@@ -154,7 +154,7 @@ export default {
     }
   },
 
-  // runs on generation and page route (but not on first page load)
+  // runs on server+generation and page route (but not on first page load)
   async asyncData({app, env, store, route}) {
     app.$sys.log('Hosts page loading data')
     const slug = route.params.slug

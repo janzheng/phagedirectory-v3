@@ -79,7 +79,7 @@ export default {
     // tableQueries: ['_content', 'capsid-previews', 'atoms-featured', 'atoms-latest']
   },
   
-  // runs on generation and page route (but not on first page load)
+  // runs on server+generation and page route (but not on first page load)
   async asyncData({env, store}) {
     const event = await loadQuery({
       _key: 'keyAe6M1KoPfg25aO', // Live Public DB

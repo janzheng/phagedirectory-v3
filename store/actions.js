@@ -85,7 +85,7 @@ export default {
               const sendCache = function() {
                 axios.get(`${process.env.api_url}/api/exocytosis/cache/data?airBase=${airBase}&tableQuery=${tableQuery}&payloads=${_payloads}`)
               }
-              setTimeout(sendCache, 1500)
+              setTimeout(sendCache, 3500)
               return undefined
             }
           }

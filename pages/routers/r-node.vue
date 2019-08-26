@@ -88,7 +88,7 @@ export default {
     },
   },
 
-  // runs on generation and page route (but not on first page load)
+  // runs on server+generation and page route (but not on first page load)
   async asyncData({store, route, error}) {
 
     // const slug = '/' + unescape(route.params.slug)
@@ -106,7 +106,11 @@ export default {
       routeName: '{index/getNode}', 
       query: 'Node-AbsolutePath',
       keyword: slug,
+      error,
     })
+
+    if(!node)
+      return {}
 
     if(node.tables['Content'][0])
       _this.node = node.tables['Content'][0]
@@ -127,15 +131,6 @@ export default {
 
   },
   
-  beforeCreate () {
-  },
-
-  mounted () {
-    // console.log('[Node Router] (mounted)', this.slug)
-  },
-  beforeDestroy() {
-  },
-
   methods: {
     // getNode(slug) {
     //   const _this = this
@@ -201,6 +196,5 @@ export default {
 }
 </script>
 
-<style>
-</style>
+
 

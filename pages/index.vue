@@ -147,6 +147,7 @@ export default {
     getFeaturedAtoms() {
       const _this = this
       loadQuery({
+        useDataCache: true,
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
         store: _this.$store, 
@@ -161,6 +162,7 @@ export default {
       const _this = this
       this.isLoadingMore = true
       loadQuery({
+        // don't cache data here! that defeats the point of refreshing :)
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
         store: _this.$store, 

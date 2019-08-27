@@ -211,12 +211,12 @@ export default {
 
       var intermediate = function(err, tries, delay) {
         if(process.server) {
-          console.error('[action/loadCytosis] Backoff is running ------')
+          console.error('[action/loadCytosis] >>>>> Airtable Retrying >>>>>> ')
           console.log(err)   // last error
           console.log(tries) // total number of tries performed thus far
           console.log(delay) // the delay for the next attempt
           // return false;       // this will cancel additional tries
-          console.log('[action/loadCytosis] Backoff ------')
+          console.log('[action/loadCytosis] >>>>>>')
         }
       }
       

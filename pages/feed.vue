@@ -63,7 +63,7 @@ export default {
   middleware: 'pageload',
   meta: {
     // tableQuery: "_content"
-    tableQueries: ['_content', 'capsid-previews', 'atoms-latest']
+    tableQueries: ['_content', 'capsid-previews']
   },
 
   data () {

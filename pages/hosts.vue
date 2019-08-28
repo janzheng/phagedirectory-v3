@@ -149,13 +149,8 @@ export default {
     },
   },
 
-  watch: {
-    $route () {
-    }
-  },
-
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({app, env, store, route}) {
+  async asyncData({app, env, store }) {
 
     // this is a MASSIVE pull
     const data = await loadQuery({

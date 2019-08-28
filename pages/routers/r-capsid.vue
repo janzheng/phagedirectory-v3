@@ -124,7 +124,7 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({env, store, route, error}) {
+  async asyncData({env, store, route }) {
     const slug = unescape(route.params.slug)
     // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
     // console.log('matched node: ', node, ' @ ', slug)

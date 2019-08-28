@@ -112,8 +112,6 @@ export default {
       error,
     })
 
-    console.log(' NODE ::: ', node)
-
     if(node) {
       if(node.tables['Content'][0])
         _this.node = node.tables['Content'][0]

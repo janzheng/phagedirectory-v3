@@ -92,8 +92,8 @@ export default {
     db_api: db_api,  
     db_base: db_base,
 
-    useCytosisConfigCache: false, // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
-    useCytosisDataCache: false,   // works like config caching but for airtable requests
+    useCytosisConfigCache: true, // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
+    useCytosisDataCache: true,   // works like config caching but for airtable requests
     keepCytosisDataCache: false,  // [default if FALSE!] if true, we're using data cache, this waits for server and uses the response's cytosis (instead of doing it from client)
     cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 
 
@@ -133,6 +133,9 @@ export default {
   */
   head: {
     title: site_title,
+    htmlAttrs: {
+      lang: 'en-US',
+    },
     meta: [
 
       { charset: 'utf-8' },

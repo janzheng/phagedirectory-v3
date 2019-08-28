@@ -161,14 +161,8 @@ export default {
     },
   },
 
-  watch: {
-    $route () {
-      // console.log('route changed', this.$route)
-    }
-  },
-
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({app, env, store, route}) {
+  async asyncData({app, env, store}) {
 
     // this is a MASSIVE pull
     const query = env.pd_env == 'stage' ? 'Orgs-preview' : 'Orgs-index'
@@ -190,8 +184,8 @@ export default {
     }
 
     return {
-      orgs: data.tables['Organizations'],
-      phageCollections: data.tables['PhageCollections'],
+      orgs,
+      phageCollections,
     }
   },
 

@@ -145,7 +145,7 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({app, env, store, route}) {
+  async asyncData({app, env, store}) {
 
     // this is a MASSIVE pull
     const query = env.pd_env == 'stage' ? 'People-preview' : 'People'
@@ -160,7 +160,7 @@ export default {
 
     console.log('Data Size:', app.$sizeup(JSON.stringify(data)))
 
-    let people, phageCollections
+    let people
     if(data.tables['People']) {
       people = data.tables['People']
     }

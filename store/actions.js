@@ -29,56 +29,6 @@ export default {
 
     console.log('[action/loadCytosis] Loading Cytosis [routeName]:[tableQuery]:',`[${routeName}]:[${tableQuery}]`,`[useDataCache: ${useDataCache}]`)
 
-
-
-    // console.log('TEST GETTING CONFIG')
-    // _this.$cytosis.getConfig({airKey, airBase, routeName:'[loadCytosis/configFetcher]'}).then((data) => {
-    //   console.log('GETCONFIG TEST ::' , data)
-    // }, (err) => {
-    //   console.log('GETCONFIG ERROR ::' , err)
-    // })
-
-    // function loadDummy({routeName, tableQuery, options, payloads, config, _key, _base}) {
-    //   const airKey = _key || process.env.PD_AIRTABLE_PUBLIC_API
-    //   const airBase = _base || process.env.PD_AIRTABLE_PUBLIC_BASE
-
-    //   console.log('[DUMMY] loading Cytosis w/ ', airKey, ' /// ', airBase )
-
-    //   try {
-    //     const _cytosis = new _this.$cytosis({
-    //       airKey: airKey,
-    //       airBase: airBase,
-    //       tableQuery,
-    //       options,
-    //       config,
-    //       payloads,
-    //     });
-    //     return _cytosis;
-    //   } catch(err) {
-    //     console.error('[DUMMY] Failed to load Cytosis! Failing silently', err)
-    //     return Promise.reject(undefined)
-    //   }
-    // }
-
-
-    // loadDummy({
-    //   routeName: routeName,
-    //   tableQuery: "bollocks", //req.query.tableQuery,
-    //   // _key: req.query.airKey,
-    //   _base: airBase,
-    // }).then((data) => {
-    //   console.log('[DUMMY] LOADING DUMMY:',data)
-    // }, (err) => {
-    //     console.error('[DUMMY] Dummy not loaded', err)
-    // })
-
-
-
-
-
-
-
-
     async function fetchConfigCache(_config) {
       // Cache the config w/ zeit now lambda
       // populate config with cache on first hit; once it's loaded it'll end up in the store
@@ -106,7 +56,6 @@ export default {
     async function fetchDataCache(result_data) {
       // Cache airtable data w/ lambda
       // this current iteration only works for simple tableQueries and does NOT work for complex payloads 
-      // (TODO: next iteration is for more complex fetches)
 
       try {
         if(process.env.useCytosisDataCache && useDataCache) {
@@ -195,6 +144,8 @@ export default {
     // 
     // LOAD CYTOSIS THROUGH CACHE / SERVER
     // 
+
+    // todo: combine these two calls
     // get the config cache (or pass through if turned off / cache doesn't exist)
     config = await fetchConfigCache(config)
     cytosis = await fetchDataCache(cytosis)

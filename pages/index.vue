@@ -129,6 +129,39 @@ export default {
     }
   },
   
+  computed: {
+    ...mapState([
+      'Content',
+      'Manuscripts',
+      'Atoms', 
+      ]),
+
+    // this method doesn't retain old featured atoms
+    // featuredAtoms() {
+    //   return this.Atoms.filter(e => {
+    //   // return this.latestAtoms.filter(e => {
+    //     return e.fields['Status'] == 'FeedFeature'
+    //   })
+    // },
+
+    latestAuthors() {
+      // load the author on client
+      if(this.latestCapsid)
+        this.getAuthorsOfManuscript(this.latestCapsid)
+      return undefined
+    },
+
+
+    nonFeaturedAtoms() {
+      if(this.latestAtoms) {
+        return this.latestAtoms.filter(e => {
+          return e.fields['Status'] != 'FeedFeature'
+        })
+      }
+      return undefined
+    }
+
+  },
 
   async asyncData({env, store}) {
 
@@ -168,7 +201,8 @@ export default {
       query: 'capsid-latest',
     })
 
-    let latestAtoms, featureAtoms, latestCapsid
+    // let latestAtoms, featureAtoms, latestCapsid
+    let latestCapsid
 
     // if(atomData && atomData.tables.Atoms.length > 0)
     //   latestAtoms = atomData.tables.Atoms
@@ -187,32 +221,9 @@ export default {
 
   },
   
-
-  computed: {
-    ...mapState([
-      'Content',
-      'Manuscripts',
-      'Atoms', 
-      ]),
-
-    // this method doesn't retain old featured atoms
-    // featuredAtoms() {
-    //   return this.Atoms.filter(e => {
-    //   // return this.latestAtoms.filter(e => {
-    //     return e.fields['Status'] == 'FeedFeature'
-    //   })
-    // },
-
-    nonFeaturedAtoms() {
-      if(this.latestAtoms) {
-        return this.latestAtoms.filter(e => {
-          return e.fields['Status'] != 'FeedFeature'
-        })
-      }
-      return undefined
-    }
-
-    
+  mounted() {
+    if(this.latestCapsid)
+      this.getAuthorsOfManuscript(this.latestCapsid)
   },
 
   methods: {
@@ -292,7 +303,7 @@ export default {
         keyword: slug,
       })
 
-      return data.tables['People']
+      return data.tables['People'][0]
     },
 
     getAuthorsOfManuscript(manuscript) {
@@ -304,12 +315,18 @@ export default {
         authorSlugs = [... authorSlugs, ... manuscript.fields['Data:AuthorSlugs']]
 
       const _this = this
-      let authors = []
+      // let authors = []
+      let authorsP = []
 
-      authorSlugs.map(async function(slug) {
-        const author = await _this.getAuthor(slug)
-        // authors.push(author[0])
-        _this.authors.push(author[0])
+      authorSlugs.map(function(slug) {
+        // const author = await _this.getAuthor(slug)
+        const author = _this.getAuthor(slug)
+        authorsP.push(author)
+        // _this.authors.push(author[0])
+      })
+
+      Promise.all(authorsP).then((authors) => {
+        _this.authors = authors
       })
 
       // return authors

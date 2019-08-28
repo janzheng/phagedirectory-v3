@@ -9,7 +9,7 @@
   <div :id="person.fields['Slug']" class="People People-card Dir-card " >
     <div class="People-container _flex-row">
       <div class="People-profile _margin-right">
-        <img :src="profileUrl" class="--profile --medium" >
+        <img alt="Profile Image" :src="profileUrl" class="--profile --medium" >
       </div>
       <!-- <div class="People-info _width-100"> -->
       <div class="People-info _flex-1">
@@ -178,24 +178,6 @@ export default {
 
   },
   methods: {
-
-    getJobLink(job) {
-      if (job.fields['URL'])
-        return job.fields['URL']
-
-      return false
-    },
-    showJob(job) {
-      if (!job.fields['isPublished'])
-        return undefined 
-      if (Date(job.fields['ExpirationDate']) < Date.now())
-        return undefined 
-      return true
-    },
-    getJobStatus(job) {
-      return job.fields['Status'] || undefined
-    },
-
 
   }
 }

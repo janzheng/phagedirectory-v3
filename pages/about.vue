@@ -29,7 +29,7 @@
 
           <div class="About-people _divider-top">
             <h3>Who we are</h3>
-            <div v-for="item of people" :key="item.id" class="" >
+            <div v-for="item of People" :key="item.id" class="" >
               <Card :person="item" class="About-person" />
             </div>
           </div>
@@ -61,6 +61,7 @@ import { mapState } from 'vuex'
 // import { loadQuery } from '~/other/loaders'
 import Recently from '~/components/Recently.vue'
 import Card from '~/components/dir/PeopleCard.vue'
+import { loadQuery } from '~/other/loaders'
 
 import Template from '~/templates/context.vue'
 // import Template from '~/templates/article.vue'
@@ -83,17 +84,20 @@ export default {
 
   data () {
 
+    this.getPeople()
     // this.$twitter() // load twitter async for the embedded twitter in our story
 
     return {
       readMore: false,
-      intro: this.$cytosis.findOne('about-intro', this.$store.state['Content'] ).fields['Markdown'],
-      features: this.$cytosis.findOne('about-features', this.$store.state['Content'] ).fields['Markdown'],
-      introend: this.$cytosis.findOne('about-intro-end', this.$store.state['Content'] ).fields['Markdown'],
-      story: this.$cytosis.findOne('about-story', this.$store.state['Content'] ).fields['Markdown'],
-      storylead: this.$cytosis.findOne('about-story-lead', this.$store.state['Content'] ).fields['Markdown'],
-      storymore: this.$cytosis.findOne('about-story-more', this.$store.state['Content'] ).fields['Markdown'],
-      opensource: this.$cytosis.findOne('about-opensource', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('about-intro', this.$store.state['Content'], 'Markdown' ),
+      features: this.$cytosis.findField('about-features', this.$store.state['Content'], 'Markdown' ),
+      introend: this.$cytosis.findField('about-intro-end', this.$store.state['Content'], 'Markdown' ),
+      story: this.$cytosis.findField('about-story', this.$store.state['Content'], 'Markdown' ),
+      storylead: this.$cytosis.findField('about-story-lead', this.$store.state['Content'], 'Markdown' ),
+      storymore: this.$cytosis.findField('about-story-more', this.$store.state['Content'], 'Markdown' ),
+      opensource: this.$cytosis.findField('about-opensource', this.$store.state['Content'], 'Markdown' ),
+
+      People: undefined,
     }
   },
   
@@ -119,6 +123,20 @@ export default {
   },
 
   methods: {
+    async getPeople() {
+      const _this = this
+      const data = await loadQuery({
+        useDataCache: true,
+        _key: process.env.db_api, 
+        _base: process.env.db_base, 
+        store: _this.$store,
+        routeName: '{index/about}', 
+        query: 'People-PD'
+      })
+
+      // return data.tables['People']
+      _this['People'] = data.tables['People']
+    },
   }
 
 }

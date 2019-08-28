@@ -159,23 +159,6 @@ export default {
 
   },
   methods: {
-
-    getJobLink(job) {
-      if (job.fields['URL'])
-        return job.fields['URL']
-
-      return false
-    },
-    showJob(job) {
-      if (!job.fields['isPublished'])
-        return undefined 
-      if (Date(job.fields['ExpirationDate']) < Date.now())
-        return undefined 
-      return true
-    },
-    getJobStatus(job) {
-      return job.fields['Status'] || undefined
-    },
     sortHostNames(item) {
       // return item.fields['Hosts::Names'].concat().sort()
 

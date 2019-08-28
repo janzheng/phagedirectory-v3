@@ -36,8 +36,6 @@ export default {
 
   data () {
     return {
-      // capsid: this.$cytosis.findOne('footer-capsid', this.$store.state['Content'] ).fields['Markdown'],
-      // alerts: this.$cytosis.findOne('footer-alerts', this.$store.state['Content'] ).fields['Markdown'],
     }
   },
 

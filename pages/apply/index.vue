@@ -78,13 +78,13 @@ export default {
 
   data () {
     return {
-      intro: this.$cytosis.findOne('join-intro', this.$store.state['Content'] ).fields['Markdown'],
-      research: this.$cytosis.findOne('join-researcher', this.$store.state['Content'] ).fields['Markdown'],
-      lab: this.$cytosis.findOne('join-lab', this.$store.state['Content'] ).fields['Markdown'],
-      organization: this.$cytosis.findOne('join-organization', this.$store.state['Content'] ).fields['Markdown'],
-      banks: this.$cytosis.findOne('join-banks', this.$store.state['Content'] ).fields['Markdown'],
-      medical: this.$cytosis.findOne('join-medical', this.$store.state['Content'] ).fields['Markdown'],
-      other: this.$cytosis.findOne('join-other', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('join-intro', this.$store.state['Content'], 'Markdown' ),
+      research: this.$cytosis.findField('join-researcher', this.$store.state['Content'], 'Markdown' ),
+      lab: this.$cytosis.findField('join-lab', this.$store.state['Content'], 'Markdown' ),
+      organization: this.$cytosis.findField('join-organization', this.$store.state['Content'], 'Markdown' ),
+      banks: this.$cytosis.findField('join-banks', this.$store.state['Content'], 'Markdown' ),
+      medical: this.$cytosis.findField('join-medical', this.$store.state['Content'], 'Markdown' ),
+      other: this.$cytosis.findField('join-other', this.$store.state['Content'], 'Markdown' ),
       // content: this.$cytosis.find('Content.alerts-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       // alertSignup: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }

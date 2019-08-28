@@ -135,7 +135,6 @@
   
 import { mapState } from 'vuex'
 import Form from '~/templates/node-form.vue'
-// import { loadQuery } from '~/other/loaders'
 
 export default {
 

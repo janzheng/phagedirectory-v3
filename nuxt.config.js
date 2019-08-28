@@ -92,8 +92,8 @@ export default {
     db_api: db_api,  
     db_base: db_base,
 
-    useCytosisConfigCache: true, // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
-    useCytosisDataCache: true,   // works like config caching but for airtable requests
+    useCytosisConfigCache: false, // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
+    useCytosisDataCache: false,   // works like config caching but for airtable requests
     keepCytosisDataCache: false,  // [default if FALSE!] if true, we're using data cache, this waits for server and uses the response's cytosis (instead of doing it from client)
     cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 
 
@@ -211,6 +211,7 @@ export default {
 
   plugins: [
     { src: '~/plugins/syslog.js' },
+    { src: '~/plugins/sizeup.js' },
     // '~plugins/filters.js',nuxtjs/google-tag-manager
     // { src: '~/plugins/plugintest.js', ssr: false }
     // { src: '~/plugins/lazyload.js', ssr: false },
@@ -505,7 +506,7 @@ export default {
           // catches all routes and attempts to find a template
           // throws error if it can't
           name: 'node router',
-          path: '/:slug',
+          path: '/:slug*',
           component: resolve(__dirname, 'pages/routers/r-node.vue')
         },
       )

@@ -26,7 +26,7 @@ export default {
     ])) return {}
 
     return {
-      support: this.$cytosis.findOne('footer-support', this.$store.state['Content'] ).fields['Markdown'],
+      support: this.$cytosis.findField('footer-support', this.$store.state['Content'], 'Markdown' ),
     }
   },
 

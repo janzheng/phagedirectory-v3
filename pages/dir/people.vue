@@ -87,13 +87,13 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "capsid-previews"],
+    tableQueries: ["_content-copy", "capsid-previews"],
     refreshOnLoad: true,
   },
 
   data () {
     return {
-      intro: this.$cytosis.findOne('directory-people', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('directory-people', this.$store.state['Content'], 'Markdown' )
     }
   },
   
@@ -145,8 +145,9 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
-    const slug = route.params.slug
+  async asyncData({app, env, store, route}) {
+
+    // this is a MASSIVE pull
     const query = env.pd_env == 'stage' ? 'People-preview' : 'People'
     const data = await loadQuery({
       useDataCache: true,
@@ -157,10 +158,15 @@ export default {
       query: query
     })
 
+    console.log('Data Size:', app.$sizeup(JSON.stringify(data)))
+
+    let people, phageCollections
+    if(data.tables['People']) {
+      people = data.tables['People']
+    }
+
     return {
-      slug,
-      people: data.tables['People'],
-      // search: search
+      people
     }
   },
 

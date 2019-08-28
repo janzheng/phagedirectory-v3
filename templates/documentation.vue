@@ -50,9 +50,6 @@
 
 
 <script>
-  
-// import { mapState } from 'vuex'
-// import { loadQuery } from '~/other/loaders'
 
 export default {
 

@@ -147,10 +147,10 @@ export default {
       _this.agenda = data.tables['Agenda']
       _this.authors = data.tables['Authors']
 
-      _this.intro = _this.$cytosis.findOne('evg-intro', data.tables['Content'] )
-      _this.announcements = _this.$cytosis.findOne('evg-announcements', data.tables['Content'] )
+      _this.intro = _this.$cytosis.findField('evg-intro', data.tables['Content'], 'Markdown' )
+      _this.announcements = _this.$cytosis.findField('evg-announcements', data.tables['Content'], 'Markdown' )
 
-      _this.formPosters = this.$cytosis.findOne('form-evg-posters', this.$store.state['Content'] )
+      // _this.formPosters = this.$cytosis.findOne('form-evg-posters', this.$store.state['Content'] )
     })
 
     return {
@@ -164,7 +164,7 @@ export default {
       intro: '',
       announcements: '',
 
-      formPosters: '',
+      // formPosters: '',
     }
   },
 

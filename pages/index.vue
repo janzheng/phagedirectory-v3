@@ -4,7 +4,7 @@
     <div class="Home-hero _section-page _margin-center _margin-top-2 _margin-bottom-2">
       <!-- <div class="Home-img-container _section-content _padding-top-2 "> -->
       <div class="Home-img-container _padding-top-2  ">
-        <img class="Home-img" width="250px" src="~/static/phagedirectory_home.png">
+        <img class="Home-img" alt="Phage Directory logo" width="250px" src="~/static/phagedirectory_home.png">
         <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')" />
       </div>
     </div>
@@ -27,19 +27,19 @@
               <div class="" v-html="$md.render(featured || '') "/>
             </div>
 
-            <div class="Home-capsid-container _margin-center _margin-bottom-2 _padding-left-xs _padding-right-xs">
+            <div v-if="latestCapsid" class="Home-capsid-container _divider-bottom _margin-center _margin-bottom-2 _padding-left-xs _padding-right-xs">
               <div class="Home-capsid">
                 <div>
-                  <CapsidStub :authors="getAuthorsOfManuscript(Manuscripts[0])" :show-logo="true" :issue="Manuscripts[0]" :is-featured="true" class="" />
+                  <CapsidStub :authors="authors" :show-logo="true" :issue="latestCapsid" :is-featured="true" class="" />
                 </div>
               </div>
             </div>
 
-            <div class="Home-latest _divider-top _margin-center _padding-left-xs _padding-right-xs">
+            <div class="Home-latest _margin-center _padding-left-xs _padding-right-xs">
               <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
-              <Latest :atoms="featuredAtoms" />
-              <NodeForm :src="form"/>
-              <Latest class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" />
+              <Latest v-if="featuredAtoms" :atoms="featuredAtoms" />
+              <NodeForm v-if="form" :src="form"/>
+              <Latest v-if="nonFeaturedAtoms" class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" />
               <button class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="getLatestAtoms(numLatest)">
                 <span v-if="!isLoadingMore" class="">Load More</span> 
                 <!-- <div v-else class="_spinner"> </div> -->
@@ -77,6 +77,9 @@ import NodeForm from '~/components/render/NodeForm.vue'
 // import EvergreenHome from '~/components/events/EvergreenHome.vue'
 
 
+const _numLatest = 8 // latest number of Atoms to show in the feed
+
+
 export default {
 
   components: {
@@ -92,29 +95,99 @@ export default {
   middleware: 'pageload',
   meta: {
     // tableQuery: "_content"
-    tableQueries: ['_content', 'capsid-previews']
+    // tableQueries: ['_content']
+    tableQueries: ['_content-core']
   },
 
   data () {
 
-    const numLatest = 5
-    this.getLatestAtoms(numLatest)
+    // this loads in the latest capsid on client; but do it on server instead
+    // b/c that's better for SEO
+    // this.getLatestCapsid()
+
+    // load the author on client
+    if(this.latestCapsid)
+      this.getAuthorsOfManuscript(this.latestCapsid)
+
+    // load these in the client so server is faster; can't be cached, so can skip SEO
+    this.getLatestAtoms(_numLatest)
+    // load this one in last b/c they're not that common, and shouldn't be cached
     this.getFeaturedAtoms()
-    this.getPeople()
 
     return {
-      mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
-      featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
-      more: this.$cytosis.findOne('home-more', this.$store.state['Content'] ).fields['Markdown'],
+      mission: this.$cytosis.findField('home-mission', this.$store.state['Content'], 'Markdown' ),
+      featured: this.$cytosis.findField('home-featured', this.$store.state['Content'], 'Markdown' ),
+      more: this.$cytosis.findField('home-more', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-feed', this.$store.state['Content'] ),
+      latestCapsid: null,
       latestAtoms: null, // pulled later
       featuredAtoms: null, // use this if you want to pull featured atoms manually
-      numLatest,
+      numLatest: _numLatest,
       isLoadingMore: false, // loading more atoms
       People: null,
+      authors: []
     }
   },
   
+
+  async asyncData({env, store}) {
+
+    // SUPER slow
+    // Loads in the latest Atoms from the server
+    // this is SEPARATE from the client function
+    // const atomData = await loadQuery({
+    //   // don't cache data here! that defeats the point of refreshing :)
+    //   _key: env.airtable_api, 
+    //   _base: env.airtable_base, 
+    //   store: store, 
+    //   routeName: '{index/getLatestAtoms}', 
+    //   query: 'atoms-latest',
+    //   options: {
+    //     'view': 'Latest:Published',
+    //     'maxRecords': _numLatest,
+    //   }
+    // })
+
+    // const featureAtomData = await loadQuery({
+    //   useDataCache: true,
+    //   _key: env.airtable_api, 
+    //   _base: env.airtable_base, 
+    //   store: store, 
+    //   routeName: '{index/getFeaturedAtoms}', 
+    //   query: 'atoms-featured',
+    // })
+
+    // Loads in the latest Capsid from the server
+    // this is SEPARATE from the client function
+    const capsidData = await loadQuery({
+      useDataCache: true,
+      _key: env.airtable_api, 
+      _base: env.airtable_base, 
+      store: store, 
+      routeName: '{index/getLatestCapsid}', 
+      query: 'capsid-latest',
+    })
+
+    let latestAtoms, featureAtoms, latestCapsid
+
+    // if(atomData && atomData.tables.Atoms.length > 0)
+    //   latestAtoms = atomData.tables.Atoms
+
+    // if(featureAtomData && featureAtomData.tables.Atoms.length > 0)
+    //   featureAtoms = featureAtomData.tables.Atoms
+
+    if(capsidData && capsidData.tables.Manuscripts.length > 0)
+      latestCapsid = capsidData.tables.Manuscripts[0]
+
+    return {
+    //   latestAtoms,
+    //   featureAtoms,
+      latestCapsid,
+    }
+
+  },
+  
+
   computed: {
     ...mapState([
       'Content',
@@ -154,7 +227,30 @@ export default {
         routeName: '{index/getFeaturedAtoms}', 
         query: 'atoms-featured',
       }).then((data) => {
-        _this.featuredAtoms = data.tables.Atoms
+        if(data.tables['Atoms'])
+          _this.featuredAtoms = data.tables.Atoms
+      })
+      return undefined
+    },
+    getLatestCapsid() {
+      const _this = this
+      loadQuery({
+        useDataCache: true,
+        _key: process.env.airtable_api, 
+        _base: process.env.airtable_base, 
+        store: _this.$store, 
+        routeName: '{index/getLatestCapsid}', 
+        query: 'capsid-latest',
+      }).then((data) => {
+        // Note: these are loaded in ON THE CLIENT 
+        if(data.tables['Manuscripts'] && data.tables['Manuscripts'][0]) {
+          _this.latestCapsid = data.tables['Manuscripts'][0]
+          _this.getAuthorsOfManuscript(data.tables['Manuscripts'][0])
+        }
+
+        // Trying to offload these on server
+        // _this.getLatestAtoms(_this.numLatest)
+        // _this.getFeaturedAtoms()
       })
       return undefined
     },
@@ -173,48 +269,50 @@ export default {
           'maxRecords': numLatest,
         }
       }).then((data) => {
-        this.isLoadingMore = false
-        // _this.$sys.log('latest atoms:', data)
-        _this.latestAtoms = data.tables.Atoms
-        _this.numLatest = _this.numLatest + 5
+
+        if(data.tables['Atoms']) {
+          this.isLoadingMore = false
+          // _this.$sys.log('latest atoms:', data)
+          _this.latestAtoms = data.tables.Atoms
+          _this.numLatest = _this.numLatest + 5
+        }
       })
       return undefined
     },
-    getPeople() {
+
+    async getAuthor(slug) {
       const _this = this
-      loadQuery({
-        useDataCache: true,
+      const data = await loadQuery({
+        // useDataCache: true,
         _key: process.env.db_api, 
         _base: process.env.db_base, 
         store: _this.$store,
-        routeName: '{index/getPeople}', 
-        query: 'People-index',
-      }).then((data) => {
-        const People = data.tables['People']
-        _this['People'] = People
+        routeName: '{index/getAuthor}', 
+        query: 'People-profile',
+        keyword: slug,
       })
-      return undefined
+
+      return data.tables['People']
     },
+
     getAuthorsOfManuscript(manuscript) {
-      if(this['People'] && this['People'].length > 0) {
-        // const authorSlug = manuscript.fields['Data:MainAuthorSlug']
-        let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
+      // const authorSlug = manuscript.fields['Data:MainAuthorSlug']
+      let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
 
-        // const authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]
-        if(manuscript.fields['Data:AuthorSlugs'])
-          authorSlugs = [... authorSlugs, ... manuscript.fields['Data:AuthorSlugs']]
+      // const authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]
+      if(manuscript.fields['Data:AuthorSlugs'])
+        authorSlugs = [... authorSlugs, ... manuscript.fields['Data:AuthorSlugs']]
 
-        const _this = this
-        let authors = []
+      const _this = this
+      let authors = []
 
-        authorSlugs.map((slug) => {
-        // console.log('authorSlugs.map', slug, _this.$cytosis.findOne(slug, _this['People'], 'Slug'))
-          authors.push(_this.$cytosis.findOne(slug, _this['People'], ['Slug'] ))
-        })
+      authorSlugs.map(async function(slug) {
+        const author = await _this.getAuthor(slug)
+        // authors.push(author[0])
+        _this.authors.push(author[0])
+      })
 
-        return authors
-      }
-      return undefined
+      // return authors
     },
   },
 

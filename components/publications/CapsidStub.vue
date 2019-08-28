@@ -22,7 +22,7 @@
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
         </div> -->
         <div v-if="showLogo" class="Capsid-logo _margin-bottom">
-          <img src="~/static/cnt.png" width="84">
+          <img alt="Capsid & Tail" src="~/static/cnt.png" width="84">
         </div>
         <div class="Capsid-header _font--1 _grid-gap-small">
           <span class="Capsid-name _font-bold ">{{ issue.fields['Name'] }}</span> | 

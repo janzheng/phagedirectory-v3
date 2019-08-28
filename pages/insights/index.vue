@@ -78,33 +78,6 @@
           </div>
 
         </template>
-        <!-- <template #context>
-          <div class="Dir-sidebar">
-            <div>
-              <label for="dirSearch" class="_form-label-search _padding-left-half _padding-bottom-none _height-100">
-                <span class="_font-phage icon-search"/>
-              </label>
-              <input id="Dir-searchbar" ref="dirSearch" v-model.trim="searchString" class="Dir-search _padding-left-2 _form-input " type="text" name="dir_searchbar" placeholder="Search" @input="doSearch">
-              <span v-if="searchString && searchString.length > 0" role="button" class="_form-label-cancel _padding-left-half _padding-right-half _padding-bottom-none _height-100" @click="doClear" >
-                <span class="_font-phage icon-cancel"/>
-              </span>
-            </div>
-
-            <div class="Dir-filter _margin-top">
-              <div class="Dir-sidebar-label _label">Filter by</div>
-              <div class="_pointer" :class="orgTypeFilter == 'Biotech' ? '_color-brand-active' : ''" @click="setOrgTypeFilter('Biotech')">Biotechs</div>
-              <div class="_pointer" :class="orgTypeFilter == 'Society' ? '_color-brand-active' : ''" @click="setOrgTypeFilter('Society')">Societies</div>
-              <div class="_pointer" :class="orgTypeFilter == 'Nonprofit' ? '_color-brand-active' : ''" @click="setOrgTypeFilter('Nonprofit')">Nonprofits</div>
-              <div class="_pointer" :class="orgTypeFilter == 'Phage Bank' ? '_color-brand-active' : ''" @click="setOrgTypeFilter('Phage Bank')">Phage banks</div>
-              <div v-if="orgTypeFilter" class="_font-small _pointer" @click="clearOrgTypeFilter()">Clear Filter</div>
-            </div>
-          </div>
-          
-          <nuxt-link v-scroll-to="{el: '#top', onDone: (element) => { doneScrolling(element) }}" :to="`#top`" class="_font-small --url _margin-top _inline-block _hidden-xs">
-            Back to top
-          </nuxt-link>
-        </template> -->
-
       </Template>
     </no-ssr>
 
@@ -156,17 +129,12 @@ export default {
   data () {
     return {
       orgTypeFilter: false, // Biotechs, Nonprofits, etc.
-      intro: this.$cytosis.findOne('insights-intro', this.$store.state['Content'] ).fields['Markdown'],
-      abstract: this.$cytosis.findOne('insights-abstract', this.$store.state['Content'] ).fields['Markdown'],
-      evg: this.$cytosis.findOne('insights-evg', this.$store.state['Content'] ).fields['Markdown'],
-      cta: this.$cytosis.findOne('insights-cta', this.$store.state['Content'] ).fields['Markdown'],
-      body: this.$cytosis.findOne('insights-body', this.$store.state['Content'] ).fields['Markdown'],
-      // form: this.$cytosis.findOne('form-insights-early', this.$store.state['Content'] ),
-      // formTest: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
+      intro: this.$cytosis.findField('insights-intro', this.$store.state['Content'], 'Markdown' ),
+      abstract: this.$cytosis.findField('insights-abstract', this.$store.state['Content'], 'Markdown'),
+      evg: this.$cytosis.findField('insights-evg', this.$store.state['Content'], 'Markdown'),
+      cta: this.$cytosis.findField('insights-cta', this.$store.state['Content'], 'Markdown'),
+      body: this.$cytosis.findField('insights-body', this.$store.state['Content'], 'Markdown'),
       formBeta: this.$cytosis.findOne('form-insights-beta', this.$store.state['Content'] ),
-      // formOne: this.$cytosis.findOne('form-insights-one', this.$store.state['Content'] ),
-      // formTwo: this.$cytosis.findOne('form-insights-two', this.$store.state['Content'] ),
-      // formThree: this.$cytosis.findOne('form-insights-three', this.$store.state['Content'] ),
     }
   },
   

@@ -199,7 +199,6 @@ export default {
 
   data () {
     return {
-      // content: this.$cytosis.findOne('footer', this.$store.state['Content'] ).fields['Markdown']
     }
   },
 

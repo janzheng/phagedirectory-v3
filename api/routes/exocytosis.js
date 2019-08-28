@@ -5,7 +5,7 @@
   EXOCYTOSIS — Cytosis API endpoit
 
 
-  Server error tracker:
+  Server error tracker / notes / todo
 
   - large ones like https://phage.directory/api/exocytosis/cache/data?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phages-at-asm%22%7D seem to get errors a lot
   - >>> maybe using keywords to build files isn't such a good idea
@@ -13,11 +13,10 @@
   - >>> consider stripping some of the saved data as they're massive requests
   - >>> consider breaking \_content into \_chrome, homepage, \_forms, \_nodes etc
     - more requests is ok now b/c of caching
-
-  - maybe test all the endpoints
-    - all file endpoints tested
-    - all function handlers should be ok
-
+  - probably will need a cytosis/airtable proxy
+    - this can act as a limiter / report airtable errors consistently
+    - all cytosis calls would come through this proxy
+    - could eventually be replaced with another airtable or other API
 
 */
 
@@ -508,6 +507,8 @@ app.get('/api/exocytosis/get/data', (req, res, next) => {
 })
 
 // ex: http://localhost:2929/api/exocytosis/cache/data?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phage-therapy-faq%22%7D
+// crash request list:
+//    /api/exocytosis/cache/data?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%7D
 app.get('/api/exocytosis/cache/data', (req, res, next) => {
   try {
     if(!req.query.airBase) {
@@ -521,7 +522,10 @@ app.get('/api/exocytosis/cache/data', (req, res, next) => {
 
     const routeName = '{exocytosis data cacher}'
     const tableQuery = req.query.tableQuery
-    const payloads = JSON.parse(req.query.payloads)
+    let payloads
+
+    if(req.query.payloads)
+      payloads = JSON.parse(req.query.payloads)
 
     loadCytosis({
       routeName: routeName,

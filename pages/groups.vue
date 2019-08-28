@@ -7,7 +7,7 @@
 
         <div class="_section-article _margin-center">
           <div class="_padding-bottom-2" v-html="$md.render(intro || '')" />
-          <NodeForm :src="form"/>
+          <NodeForm v-if="form" :src="form"/>
         </div>
 
       </template>
@@ -23,6 +23,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { loadQuery } from '~/other/loaders'
 // import Event from '~/components/Event.vue'
 // import Tabbed from '~/components/layout/Tabbed.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
@@ -40,11 +41,25 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-events"],
+    tableQueries: ["_content-copy", "atoms-events"],
     refreshOnLoad: true,
   },
 
   data () {
+
+    const _this = this
+    loadQuery({
+      _key: process.env.airtable_api, 
+      _base: process.env.airtable_base, 
+      store: this.$store, 
+      routeName: '{groups}', 
+      query: '_content-slug',
+      keyword: 'form-groups'
+    }).then(data => {
+      if(data.tables['Content'] && data.tables['Content'][0])
+        _this.form = data.tables['Content'][0]
+    })
+
     return {
       activeTab: 'Upcoming Events',
       leftData: {
@@ -58,8 +73,8 @@ export default {
       rightData: {
         'Add an Event':{},
       },
-      intro: this.$cytosis.find('Content.groups-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      form: this.$cytosis.find('Content.form-groups', {'Content': this.$store.state['Content']} )[0],
+      intro: this.$cytosis.findField('groups-intro', this.$store.state['Content'], 'Markdown' ),
+      form: null
       // content: this.$cytosis.find('Content.events-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
     }

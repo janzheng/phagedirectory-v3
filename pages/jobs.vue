@@ -42,7 +42,7 @@
 
             <template slot="Post a Job">
               <div class=" _padding-top">
-                <NodeForm :src="form"/>
+                <NodeForm v-if="form" :src="form"/>
               </div>
             </template>
 
@@ -63,6 +63,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { loadQuery } from '~/other/loaders'
 import Job from '~/components/Job.vue'
 // import Template from '~/templates/context.vue'
 import Template from '~/templates/article.vue'
@@ -81,16 +82,32 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-jobs"],
+    tableQueries: ["_content-copy", "atoms-jobs"],
     refreshOnLoad: true,
   },
 
   data () {
+
+    // load form in on client; faster load (async) but no SEO
+    const _this = this
+    loadQuery({
+      _key: process.env.airtable_api, 
+      _base: process.env.airtable_base, 
+      store: this.$store, 
+      routeName: '{jobs}', 
+      query: '_content-slug',
+      keyword: 'form-jobs'
+    }).then(data => {
+      if(data.tables['Content'] && data.tables['Content'][0])
+        _this.form = data.tables['Content'][0]
+    })
+
     return {
       activeTab: "Current Jobs",
-      intro: this.$cytosis.find('Content.jobs-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      content: this.$cytosis.find('Content.jobs-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      form: this.$cytosis.find('Content.form-jobs', {'Content': this.$store.state['Content']} )[0],
+
+      intro: this.$cytosis.findField('jobs-intro', this.$store.state['Content'], 'Markdown' ),
+      content: this.$cytosis.findField('jobs-content', this.$store.state['Content'], 'Markdown' ),
+      form: null
     }
   },
   

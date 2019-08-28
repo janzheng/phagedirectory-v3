@@ -40,7 +40,7 @@
 
             <template slot="Post a Message">
               <div class=" _padding-top">
-                <NodeForm :src="form"/>
+                <NodeForm v-if="form" :src="form"/>
               </div>
             </template>
 
@@ -83,6 +83,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { loadQuery } from '~/other/loaders'
 import NodeForm from '~/components/render/NodeForm.vue'
 // import Template from '~/templates/context.vue'
 import Template from '~/templates/article.vue'
@@ -101,18 +102,55 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-community"],
+    tableQueries: ["_content-copy", "atoms-community"],
     refreshOnLoad: true,
   },
 
   data () {
+
+    // load form in on client; faster load (async) but no SEO
+    const _this = this
+    loadQuery({
+      _key: process.env.airtable_api, 
+      _base: process.env.airtable_base, 
+      store: this.$store, 
+      routeName: '{community}', 
+      query: '_content-slug',
+      keyword: 'form-community'
+    }).then(data => {
+      if(data.tables['Content'] && data.tables['Content'][0])
+        _this.form = data.tables['Content'][0]
+    })
+
     return {
       activeTab: 'Active Posts',
-      intro: this.$cytosis.find('Content.community-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      content: this.$cytosis.find('Content.community-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      form: this.$cytosis.find('Content.form-community', {'Content': this.$store.state['Content']} )[0],
+      intro: this.$cytosis.findField('community-intro', this.$store.state['Content'], 'Markdown' ),
+      content: this.$cytosis.findField('community-content', this.$store.state['Content'], 'Markdown' ),
+      // form: form ? form[0] : undefined,
+      form: null
     }
   },
+
+
+  // load forms in on server; will slow server down, but better SEO
+  // async asyncData({env, store}) {
+  //   const data = await loadQuery({
+  //     _key: env.airtable_api, 
+  //     _base: env.airtable_base, 
+  //     store, 
+  //     routeName: '{community}', 
+  //     query: '_content-slug',
+  //     keyword: 'form-community'
+  //   })
+
+  //   let form
+  //   if(data.tables['Content'] && data.tables['Content'][0])
+  //     form = form
+
+  //   return {
+  //     form,
+  //   }
+  // },
   
   computed: {
     ...mapState([

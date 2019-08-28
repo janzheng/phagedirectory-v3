@@ -26,7 +26,7 @@
 
     <!-- Sign up flow -->
     <div class="Insights-signup">
-      <NodeForm :src="form"/>
+      <NodeForm v-if="form" :src="form"/>
       <!-- <div class="_flex-row">
         <button class="_button CTA --multiline _padding-i _flex-1" @click="toggleForm(1)">I can publish now</button>
         <button class="_button CTA --multiline _padding-i _flex-1" @click="toggleForm(2)">I can publish <br>within two months</button>

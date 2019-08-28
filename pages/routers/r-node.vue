@@ -63,7 +63,7 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content"]
+    tableQueries: ["_content-nodes"]
   },
 
   data () {
@@ -73,7 +73,8 @@ export default {
     // this.getNode(slug)
 
     return {
-      route: this.$router.history.current
+      route: this.$router.history.current,
+      node: undefined
     }
   },
 
@@ -82,19 +83,21 @@ export default {
       'Content'
       ]),
 
-    contents() {
-      let contents = this.$cytosis.getLinkedRecords(this.node.fields['Node:Contents'], this.Content , true )
-      return contents.reverse()
-    },
+    // contents() {
+    //   let contents = this.$cytosis.getLinkedRecords(this.node.fields['Node:Contents'], this.Content , true )
+    //   return contents.reverse()
+    // },
   },
 
   // runs on server+generation and page route (but not on first page load)
   async asyncData({store, route, error}) {
 
+    console.log('Node Router')
+
     // const slug = '/' + unescape(route.params.slug)
     const slug = unescape(route.params.slug)
     // const slug = '/' + unescape(this.$router.history.current.params.slug)
-    console.log('[Node Router] (data)', slug)
+    console.log('[Node Router] slug:', slug)
 
     const _this = this
 
@@ -109,24 +112,25 @@ export default {
       error,
     })
 
-    if(!node)
-      return {}
+    console.log(' NODE ::: ', node)
 
-    if(node.tables['Content'][0])
-      _this.node = node.tables['Content'][0]
+    if(node) {
+      if(node.tables['Content'][0])
+        _this.node = node.tables['Content'][0]
 
-    // special type of node that redirects to another page
-    if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {
-      window.location.replace(node.tables['Content'][0].fields['Data:String'])
-    }
+      // special type of node that redirects to another page
+      if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {
+        window.location.replace(node.tables['Content'][0].fields['Data:String'])
+      }
 
-    if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
-      console.error('[Node Router] Node not found for slug:', slug)
-      error({ statusCode: 404, message: "Page not Found" })
-    }
+      if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
+        console.error('[Node Router] Node not found for slug:', slug)
+        error({ statusCode: 404, message: "Page not Found" })
+      }
 
-    return {
-      node: node.tables['Content'][0]
+      return {
+        node: node.tables['Content'][0]
+      }
     }
 
   },

@@ -76,13 +76,27 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "capsid-previews"]
+    tableQueries: ["_content-copy", "capsid-previews"]
   },
 
   data () {
+    // load form in on client; faster load (async) but no SEO
+    const _this = this
+    loadQuery({
+      useDataCache: true,
+      _key: process.env.db_api, 
+      _base: process.env.db_base, 
+      store: this.$store, 
+      routeName: '{capsid index}', 
+      query: 'People-index'
+    }).then(data => {
+      if(data.tables['People'])
+        _this['People'] = data.tables['People']
+    })
+
     return {
-      message: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      // signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      message: this.$cytosis.findField('capsid-intro', this.$store.state['Content'], 'Markdown' ),
+      People: null,
     }
   },
   
@@ -106,20 +120,21 @@ export default {
 
   },
 
-  async asyncData({env, store}) {
-    const data = await loadQuery({
-      useDataCache: true,
-      _key: env.db_api, 
-      _base: env.db_base, 
-      store, 
-      routeName: '{people}', 
-      query: 'People-index'
-    })
+  // load authors in on client to speed up paint time
+  // async asyncData({env, store}) {
+  //   const data = await loadQuery({
+  //     useDataCache: true,
+  //     _key: env.db_api, 
+  //     _base: env.db_base, 
+  //     store, 
+  //     routeName: '{people}', 
+  //     query: 'People-index'
+  //   })
 
-    return {
-      People: data.tables['People'],
-    }
-  },
+  //   return {
+  //     People: data.tables['People'],
+  //   }
+  // },
 
   mounted () {
   },

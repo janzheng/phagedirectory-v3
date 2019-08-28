@@ -123,10 +123,7 @@ export default {
   // runs on server+generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = unescape(route.params.slug)
-    // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
-    // console.log('matched node: ', node, ' @ ', slug)
-
-    const manuscript = await loadQuery({env, store, routeName:'{capsid router}', query:'insights-single', keyword: slug})
+    const manuscript = await loadQuery({env, store, routeName:'{insight router}', query:'insights-single', keyword: slug})
 
     // fetches the relevant atoms into the store
     // const atoms = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})

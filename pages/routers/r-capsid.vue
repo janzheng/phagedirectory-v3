@@ -15,7 +15,7 @@
       
       <div slot="sidebar" >
         <div class="_sidebar-content-group">
-          <div class="_sidebar-item _sidebar-heading _sidebar-label">
+          <div v-if="manuscript" class="_sidebar-item _sidebar-heading _sidebar-label">
             {{ manuscript.fields['Name'] }}
           </div>
         </div>
@@ -72,7 +72,8 @@
 
       <!-- <a href="/capsid" class="--quiet _inline-block _padding-bottom">Browse all issues of Capsid &amp; Tail</a> -->
 
-      <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" />
+      <Capsid v-if="manuscript && atoms" :issue="manuscript" :atoms="atoms" class="Template-Main" />
+      <!-- <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" /> -->
     </Template>
 
   </div>
@@ -100,12 +101,13 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content"]
+    tableQueries: ["_content-core"]
   },
 
   data () {
-
     return {
+      manuscript: undefined,
+      atoms: undefined
     }
   },
 
@@ -122,7 +124,7 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
+  async asyncData({env, store, route, error}) {
     const slug = unescape(route.params.slug)
     // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
     // console.log('matched node: ', node, ' @ ', slug)
@@ -136,14 +138,25 @@ export default {
       keyword: slug
     })
 
-    // fetches the relevant atoms into the store
-    const atoms = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})
+    // let manuscript = undefined
+    // if(!manuscript)
+    //   error({statusCode: 'Cytosis', message: 'The Capsid issue could not be loaded'})
 
-    // console.log('manuscript:', manuscript, 'matched atoms: ', atoms, ' @ ', slug)
+    if(manuscript) {
+      // fetches the relevant atoms into the store
+      const atoms = await loadQuery({
+        useDataCache: true,
+        env, 
+        store, 
+        routeName:'{capsid router}', 
+        query:'capsid-atoms', 
+        keyword: manuscript.tables.Manuscripts[0].fields['Name']
+      })
 
-    return {
-      manuscript: manuscript.tables.Manuscripts[0],
-      atoms: atoms.tables.Atoms,
+      return {
+        manuscript: manuscript.tables.Manuscripts[0],
+        atoms: atoms.tables.Atoms,
+      }
     }
   },
 

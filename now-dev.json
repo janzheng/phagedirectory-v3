@@ -40,7 +40,7 @@
 
     { "src": "/staging", "status": 301, "headers": { "Location": "https://phagedirectory.yawnxyz.now.sh" } },
 
-    { "src": "/(.*)", "dest": "/$1" },
+    { "src": "/(.*)", "dest": "/" },
     { "handle": "filesystem" },
     { "src": "/.*", "status": 404, "dest": "/error.html" }
   ]

@@ -7,7 +7,7 @@
 
         <div class="_section-article _margin-center">
           <div class="_padding-bottom-2" v-html="$md.render(intro || '')" />
-          <NodeForm :src="form"/>
+          <NodeForm v-if="form" :src="form"/>
 
           <!-- 
 
@@ -51,6 +51,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { loadQuery } from '~/other/loaders'
 // import Event from '~/components/Event.vue'
 // import Tabbed from '~/components/layout/Tabbed.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
@@ -68,14 +69,28 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-tools"],
+    tableQueries: ["_content-copy", "atoms-tools"],
     refreshOnLoad: true,
   },
 
   data () {
+
+    const _this = this
+    loadQuery({
+      _key: process.env.airtable_api, 
+      _base: process.env.airtable_base, 
+      store: this.$store, 
+      routeName: '{tools}', 
+      query: '_content-slug',
+      keyword: 'form-tools'
+    }).then(data => {
+      if(data.tables['Content'] && data.tables['Content'][0])
+        _this.form = data.tables['Content'][0]
+    })
+
     return {
-      intro: this.$cytosis.find('Content.tools-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      form: this.$cytosis.find('Content.form-tools', {'Content': this.$store.state['Content']} )[0],
+      intro: this.$cytosis.findField('tools-intro', this.$store.state['Content'], 'Markdown' ),
+      form: null
     }
   },
   

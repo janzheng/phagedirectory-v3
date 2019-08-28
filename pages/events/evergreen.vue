@@ -143,7 +143,7 @@ export default {
   
   data () {
     return {
-      formPosters: this.$cytosis.findOne('form-evg-posters', this.$store.state['Content'] ),
+      // formPosters: this.$cytosis.findOne('form-evg-posters', this.$store.state['Content'] ),
     }
   },
 

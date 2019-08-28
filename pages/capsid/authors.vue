@@ -41,7 +41,7 @@ export default {
 
   data () {
     return {
-      content: this.$cytosis.findOne('tips-intro', this.$store.state['Content'] ).fields['Markdown'],
+      content: this.$cytosis.findField('tips-intro', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-tips', this.$store.state['Content'] )
     }
   },

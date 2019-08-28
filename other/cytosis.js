@@ -63,6 +63,8 @@
     - added getConfig to only get the _cytosis config data
 
 
+  - 8/27/2019
+    - added findField as a finder/getter
 
 */
 
@@ -826,7 +828,7 @@ class Cytosis {
           for (let field of fields) {
 
             // check if field exists, and if the contents match
-            if(record.fields[field] && str == record.fields[field] ) {
+            if(record && record.fields && record.fields[field] && str == record.fields[field] ) {
               // console.log('Match found in', record.fields.Name)
               results.push(record)
             }
@@ -917,6 +919,27 @@ class Cytosis {
     return undefined
   }
 
+  // findField
+  // combines findOne with a way to get the field, with proper fallback
+  // a common use cases is: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
+  // but this crashes if the content can't be found, which is a fairly easy occurence
+  // 
+  // instead, this fn allows us to do:
+  // this.$cytosis.findField('home-featured', this.$store.state['Content'], 'Markdown', ['Name'] )
+  // 
+  // - this gets the content from Markdown
+  // - or returns undefined if it doesn't exist (rather than crashing)
+  // 
+  // input: findStr — the column item you're looking for
+  // table: the airtable of contents
+  // contentField: the content field you're looking for (e.g. 'Markdown')
+  // fields: the columns you're trying to find a match 
+  static findField (findStr, table, contentField, fields=['Name']) {
+    let element = Cytosis.findOne(findStr, table, fields)
+    if (element && element.fields && element.fields[contentField])
+      return element.fields[contentField]
+    return undefined
+  }
 
 
 
@@ -1444,8 +1467,6 @@ class Cytosis {
     })
   }
 
-
-
   // CURRENTLY NOT FUNCTIONAL, and not really a use for it right now
   // joins/combines multiple tables into one new object
   // would be good to have a join (inner), join-left, join-right, outer-join (full) from SQL
@@ -1480,255 +1501,9 @@ class Cytosis {
 
   // }
 
-
 }
 
 export default Cytosis
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-
-These are pulled from the first experiment w/ ATLX. It mutates the airtable object into indexable/searchable arrays
-But w/ Cytosis, they've been supplanted by cytosis.find('')
-
-
-flatten: function(airtable) {
-
-  // flatten all of airtable to row-level array for easy filtering and manipulation
-  // [ {__id: 'Content.home', ...data }]
-  const airtableflat = Object.keys(airtable).map(table => {
-    // console.log('flatten table:',table)
-    var rows = Object.keys(airtable[table]).map(row => {
-      // console.log('row data', airtable[table][row])
-      let returnObj = airtable[table][row]
-      returnObj['__id'] = table + '.' + row
-      return returnObj
-      // return {__id: table + '.' + row, ...airtable[table][row]} // not supported by some browsers
-    })
-    return rows
-  }).reduce((acc, curValue) => {
-    return acc.concat(curValue)
-  }, [])
-
-}
-
-
-
-
-// e.g. data-airtable="Content.Home Page.Intro"
-// will create an airtable content query for the tab 'Content', the 'Home Page' row, and 'Intro' column
-function airtableReplacer(airtable) {
-  // console.log('airtable >>> ', airtable['Music']['DJ Khaled']['Notes'])
-
-  // flatten all of airtable to row-level array for easy filtering and manipulation
-  // [ {__id: 'Content.home', ...data }]
-  const airtableflat = Object.keys(airtable).map(table => {
-    // console.log('flatten table:',table)
-    var rows = Object.keys(airtable[table]).map(row => {
-      // console.log('row data', airtable[table][row])
-      let returnObj = airtable[table][row]
-      returnObj['__id'] = table + '.' + row
-      return returnObj
-      // return {__id: table + '.' + row, ...airtable[table][row]} // not supported by some browsers
-    })
-    return rows
-  }).reduce((acc, curValue) => {
-    return acc.concat(curValue)
-  }, [])
-
-  console.log('Dance CMS:', airtableflat)
-
-  // populate airtable data tags
-  $('[data-airtable]').each(function(i) {
-    var queries = $(this).data('airtable').split('.')
-    // console.log('airtable: ', $(this).data('airtable'), queries)
-
-    // break if unpublished
-    let isPublished = airtableflat.filter(item => (
-          item.__id == `${queries[0]}.${queries[1]}`
-        ))[0].isPublished
-    if(!isPublished) return;
-
-    // row result; filter returns an array but we assume the __ids are unique so array will always be len=1
-    let result = airtableflat.filter(item => (
-      item.__id == `${queries[0]}.${queries[1]}`
-    ))[0][queries[2]]
-
-    // old iterative loop before .map/reduce flattening 
-    // for (var q in queries) {
-    //   var query = queries[q]
-    //   // nested looping to get nested objects airtable[query1[query2[query3...]]]
-
-    //   // every airtable row needs an isPublished column / depth=1
-    //   if (depth==1 && !result[query].isPublished) {
-    //     console.log('test!', result[query].isPublished)
-    //     return false;
-    //   }
-
-    //   // console.log('in >> ' , result , ' ? ', query)
-    //   // if the query is undefined, break the loop
-    //   if(result[query] !== undefined) {
-    //     result = result[query]
-    //     depth++
-    //   }
-    //   // console.log('test::: ' , queries[q], airtable[queries[q]], result)
-    // }
-
-
-    if (typeof(result) == 'string'){
-      // markdown output
-      // console.log($(this).data('type'), result)
-      if($(this).data('type') == 'raw')
-        $(this).html(result) // don't render markdown
-      else {
-        try {
-          $(this).html(md.render(result))
-          $(this).find('*').addClass($(this).data('airtable-classes')) // applies data-airtable-classes to all children
-        } catch(e){
-          console.err(e, ' result:', result)
-        }
-      }
-    } else {
-      // handle a bunch of edge cases. these are arrays
-      // console.log('edge case:', result)
-
-      // check if array
-      if ( result === undefined || !('length' in result) || !(result.length > 0)) {
-        console.log('result is not array:', result)
-        return;
-      }
-
-      // handle array of strings (e.g. references)
-      // nested linked query: data = Schedule.FriMain.Venue.LocName
-      // Venue is linked to a Venues row, which has LocName
-      if (typeof(result[0]) == 'string' ) {
-        // if query length = 4 we know these are ref links
-        // only go one reference deep for now
-
-        const refs = result; // array of refs; this makes it easier to think about
-        let output = ""; 
-        // output to be rendered; have to collect output since we're looping arrays
-        // we render output by rendering inside and then duplicating the current outer element for the # of instances
-
-        for (let _ref of refs) {
-          var ref = airtableflat.filter(item => (item.id == _ref))[0]
-          // console.log('strings (ID):', _ref, ref, [queries[3]], ref[queries[3]])
-          // console.log('ref (ID):', _ref, [queries[3]], ref[queries[3]])
-          try {
-            // if there's a linked href, we can attach it; useful for linked url records
-            // get the query through the special linkedhref tag
-            if($(this).data('airtable-linkedhref'))
-              $(this).attr('href', ref[$(this).data('airtable-linkedhref')])
-
-            if($(this).data('type') == 'raw') {
-              var elem = $(this).html(ref[queries[3]])
-              output +=  $('<div>').append($(elem).clone()).html(); // get outerHtml
-            } else { 
-              var elem = $(this).html(md.render([queries[3]]))
-              output +=  $('<div>').append($(elem).clone()).html(); // get outerHtml
-            }
-          } catch(e){
-            console.error('Reference error, need a column name from:', ref, _ref)
-          }
-        }        
-
-        // console.log('render::' , output)
-        $(this).replaceWith(output)
-        return;
-      } 
-      
-      // handle image attachments here
-      // how to figure out if an array of attachments
-      if ( ('type' in result[0]) ) {
-        // console.log('attachments:', result)
-        // result[0].type == 'image/jpg'
-        // default to only handling first image
-        $(this).html(`<img src="${result[0].url}" />`)
-        return;
-      } 
-
-      // how to figure out if reference
-    }
-  })
-
-  // populate href tags
-  $('[data-airtable-href]').each(function(i) {
-    var queries = $(this).data('airtable-href').split('.')
-    // console.log('airtable: ', $(this).data('airtable'), queries)
-
-    // break if unpublished
-    let isPublished = airtableflat.filter(item => (
-          item.__id == `${queries[0]}.${queries[1]}`
-        ))[0].isPublished
-    if(!isPublished) return;
-
-    // row result; filter returns an array but we assume the __ids are unique so array will always be len=1
-    let result = airtableflat.filter(item => (
-      item.__id == `${queries[0]}.${queries[1]}`
-    ))[0][queries[2]]
-
-    // handle array of strings (e.g. references) / copypasta from above
-    
-    if (typeof(result) == 'string') {
-      $(this).attr('href',result)
-    } else if (result !== undefined && typeof(result[0]) == 'string' ) {
-      const refs = result;
-      for (let _ref of refs) {
-        var ref = airtableflat.filter(item => (item.id == _ref))[0]
-        $(this).attr('href',ref[queries[3]])
-        return;
-      }        
-    } 
-  })
-}
-
-
-
-*/
-
-// export function Cytosis() {
-//   return Cytosis;
-// }
 
 

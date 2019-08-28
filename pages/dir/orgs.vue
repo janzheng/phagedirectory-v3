@@ -98,14 +98,14 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content"],
+    tableQueries: ["_content-copy"],
     refreshOnLoad: true,
   },
 
   data () {
     return {
       orgTypeFilter: false, // Biotechs, Nonprofits, etc.
-      intro: this.$cytosis.findOne('directory-orgs', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('directory-orgs', this.$store.state['Content'], 'Markdown' ),
     }
   },
   
@@ -168,24 +168,28 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
-    const slug = route.params.slug
+  async asyncData({app, env, store, route}) {
+
+    // this is a MASSIVE pull
     const query = env.pd_env == 'stage' ? 'Orgs-preview' : 'Orgs-index'
     const data = await loadQuery({
       useDataCache: true,
       _key: env.db_api, 
-      _base: env.db_base,
-       store, 
-       routeName: '{orgs}', 
-       query: query
-     })
-    // console.log('matched node: ', node, ' @ ', slug)
+      _base: env.db_base, 
+      store, 
+      routeName: '{orgs}', 
+      query: query
+    })
 
-    // const testdata = app.$cytosis.cleanTable( data.tables['PhageCollections'] )
-    // console.log('jobs AT test: ', JSON.stringify(testdata) )
+    console.log('Data Size:', app.$sizeup(JSON.stringify(data)))
+
+    let orgs, phageCollections
+    if(data.tables['Organizations'] && data.tables['PhageCollections']) {
+      orgs = data.tables['Organizations']
+      phageCollections = data.tables['PhageCollections']
+    }
 
     return {
-      slug,
       orgs: data.tables['Organizations'],
       phageCollections: data.tables['PhageCollections'],
     }

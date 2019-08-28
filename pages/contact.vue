@@ -3,7 +3,7 @@
 
     <Context>
       <template #context>
-        <NodeForm :src="form"/>
+        <NodeForm v-if="form" :src="form"/>
       </template>
 
       <div class="" v-html="$md.render(intro || '')" />
@@ -31,13 +31,13 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQuery: "_content"
+    tableQuery: "_content-forms"
   },
 
   data () {
     return {
-      intro: this.$cytosis.findOne('contact-intro', this.$store.state['Content'] ).fields['Markdown'],
-      content: this.$cytosis.findOne('contact-content', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('contact-intro', this.$store.state['Content'], 'Markdown' ),
+      content: this.$cytosis.findField('contact-content', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-contact', this.$store.state['Content'] ),
 
       // content: this.$cytosis.find('Content.contact-page', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],

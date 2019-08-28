@@ -95,7 +95,7 @@
               </div> -->
               <div class="Header-mobile-item _padding-top _padding-bottom">
                 <nuxt-link to="/apply" class="_button Header-join  --outline _margin-none-i ">
-                  Apply
+                  Sign Up
                 </nuxt-link>
               </div>
 
@@ -135,27 +135,7 @@
               </div>
 
               <div class="--nowrap">
-                <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">
-                  Phage Hosts
-                </nuxt-link>
-                <nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">
-                  Labs
-                </nuxt-link>
-                <nuxt-link :to="`/orgs${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
-                  Organizations
-                </nuxt-link>
-                <nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
-                  People
-                </nuxt-link>
-                <nuxt-link :to="`/insights${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">
-                  Insights
-                </nuxt-link>
-                <!-- <nuxt-link :to="`/groups`" class="_button --text  _padding-none _margin-none-i --border-none">
-                  Groups
-                </nuxt-link> -->
-                <nuxt-link :to="`/apply`" class="Header-join _button --outline  ">
-                  Sign Up
-                </nuxt-link>
+                <nuxt-link :to="`/hosts${searchQuery}`" class="_button --text _padding-none -left _margin-none-i --border-none">Phage Hosts</nuxt-link><nuxt-link :to="`/labs${searchQuery}`" class="_button --text _padding-none _margin-none-i --border-none">Labs</nuxt-link><nuxt-link :to="`/orgs${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">Organizations</nuxt-link><nuxt-link :to="`/people${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">People</nuxt-link><nuxt-link :to="`/insights${searchQuery}`" class="_button --text  _padding-none _margin-none-i --border-none">Insights</nuxt-link><nuxt-link :to="`/apply`" class="Header-join _button --outline  ">Sign Up</nuxt-link>
               </div>
             </div>
 
@@ -181,9 +161,15 @@ import { dirSearch } from '~/other/helpers.js'
 export default {
   data: function () {
 
+    const header = this.$cytosis.findField('header-subnav', this.$store.state['Content'], 'Data:JSON' )
+    let links
+
+    if(header)
+      links = JSON.parse(header)['links']
+
     return {
       // searchString: this.$store.state.search.string,
-      links: JSON.parse(this.$cytosis.findOne('header-subnav', this.$store.state['Content'] ).fields['Data:JSON'])['links'],
+      links: links,
       isHome: this.pathMatch('/') ? true : false
     }
   },

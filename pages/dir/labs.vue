@@ -84,14 +84,14 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content"],
+    tableQueries: ["_content-copy"],
     refreshOnLoad: true,
   },
 
 
   data () {
     return {
-      intro: this.$cytosis.findOne('directory-labs', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('directory-labs', this.$store.state['Content'], 'Markdown' ),
     }
   },
   
@@ -139,8 +139,9 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
-    const slug = route.params.slug
+  async asyncData({app, env, store, route}) {
+
+    // this is a MASSIVE pull
     const query = env.pd_env == 'stage' ? 'Labs-preview' : 'Labs-index'
     const data = await loadQuery({
       useDataCache: true,
@@ -151,11 +152,33 @@ export default {
       query: query
     })
 
-    return {
-      slug,
-      labs: data.tables['Organizations'],
-      phageCollections: data.tables['PhageCollections'],
+    console.log('Data Size:', app.$sizeup(JSON.stringify(data)))
+
+    let labs, phageCollections
+    if(data.tables['Organizations'] && data.tables['PhageCollections']) {
+      labs = data.tables['Organizations']
+      phageCollections = data.tables['PhageCollections']
     }
+
+    return {
+      labs,
+      phageCollections,
+    }
+
+    // const query = env.pd_env == 'stage' ? 'Labs-preview' : 'Labs-index'
+    // const data = await loadQuery({
+    //   useDataCache: true,
+    //   _key: env.db_api, 
+    //   _base: env.db_base, 
+    //   store, 
+    //   routeName: '{labs}', 
+    //   query: query
+    // })
+
+    // return {
+    //   labs: data.tables['Organizations'],
+    //   phageCollections: data.tables['PhageCollections'],
+    // }
   },
   
   mounted () {

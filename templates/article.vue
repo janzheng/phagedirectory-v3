@@ -44,7 +44,7 @@ export default {
     },
     'articleClasses': {
       type: String,
-      default: '_section-article ',
+      default: '_section-article _margin-center',
     },
     
   },

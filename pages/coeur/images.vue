@@ -38,15 +38,6 @@ export default {
   },
 
   data () {
-    // const numLatest = 5
-    // this.getLatestAtoms(numLatest)
-    // return {
-    //   // mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
-    //   featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
-    //   latestAtoms: null, // pulled later
-    //   numLatest,
-    //   isLoadingMore: false, // loading more atoms
-    // }
     return {
     	image64: "",
     	image: "",

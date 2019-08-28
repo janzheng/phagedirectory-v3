@@ -46,7 +46,7 @@ export default {
   data () {
     return {
       activeTab: 'Active',
-      content: this.$cytosis.findOne('join-researcher-content', this.$store.state['Content'] ).fields['Markdown'],
+      content: this.$cytosis.findOne('join-researcher-content', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-join-researcher', this.$store.state['Content'] ),
     }
   },

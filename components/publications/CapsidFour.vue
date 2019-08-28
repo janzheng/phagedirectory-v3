@@ -370,14 +370,15 @@ export default {
     return {
       path: this.$route.path,
       authors: authors,
-      intro: this.$cytosis.find('Content.capsid-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      signup: this.$cytosis.find('Content.capsid-signup-micro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      tip: this.$cytosis.find('Content.capsid-tip', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      fineprint: this.$cytosis.find('Content.capsid-fineprint', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      
+      intro: this.$cytosis.findField('capsid-intro', this.$store.state['Content'], 'Markdown' ),
+      signup: this.$cytosis.findField('capsid-signup-micro', this.$store.state['Content'], 'Markdown' ),
+      tip: this.$cytosis.findField('capsid-tip', this.$store.state['Content'], 'Markdown' ),
+      fineprint: this.$cytosis.findField('capsid-fineprint', this.$store.state['Content'], 'Markdown' ),
 
-      communityDesc: this.$cytosis.findOne('capsid-community-desc', this.$store.state['Content'] ).fields['Markdown'],
-      emptyCommunity: this.$cytosis.findOne('capsid-community-empty', this.$store.state['Content'] ).fields['Markdown'],
-      emptyJobs: this.$cytosis.findOne('capsid-jobs-empty', this.$store.state['Content'] ).fields['Markdown'],
+      communityDesc: this.$cytosis.findField('capsid-community-desc', this.$store.state['Content'], 'Markdown' ),
+      emptyCommunity: this.$cytosis.findField('capsid-community-empty', this.$store.state['Content'], 'Markdown' ),
+      emptyJobs: this.$cytosis.findField('capsid-jobs-empty', this.$store.state['Content'], 'Markdown' ),
     }
   },
 

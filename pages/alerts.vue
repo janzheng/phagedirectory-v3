@@ -41,6 +41,7 @@
 <script>
 
 import { mapState } from 'vuex'
+// import { loadQuery } from '~/other/loaders'
 import Alert from '~/components/Alert.vue'
 import AlertSignup from '~/components/layout/FooterSignups-alerts.vue'
 import Template from '~/templates/article.vue'
@@ -58,16 +59,17 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-alerts"],
+    tableQueries: ["_content-copy", "atoms-alerts"],
     refreshOnLoad: true,
   },
 
   data () {
     return {
       activeTab: 'Active',
-      intro: this.$cytosis.find('Content.alerts-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      content: this.$cytosis.find('Content.alerts-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      alertSignup: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+
+      intro: this.$cytosis.findField('alerts-intro', this.$store.state['Content'], 'Markdown' ),
+      content: this.$cytosis.findField('alerts-content', this.$store.state['Content'], 'Markdown' ),
+      alertSignup: this.$cytosis.findField('footer-alertsintro', this.$store.state['Content'], 'Markdown' ),
     }
   },
   

@@ -11,7 +11,7 @@
     <table class="People-container _card _padding" style="width: 100%;">
       <tr>
         <td class="People-profile _padding " style="vertical-align: top; padding-right: 16px; width: 80px;">
-          <img style="width: 80px; height: 80px; border-radius:100%; border: 3px solid #f0f0f0;" :src="profileUrl" class="--profile --medium" >
+          <img alt="Profile" style="width: 80px; height: 80px; border-radius:100%; border: 3px solid #f0f0f0;" :src="profileUrl" class="--profile --medium" >
         </td>
         <!-- <div class="People-info _width-100"> -->
         <td class="People-info _padding" style="vertical-align: top; padding-left: 0;">
@@ -25,12 +25,12 @@
               <div class="People-name-social">
                 <h3 style="padding: 0 !important; padding-right: 8px !important; margin-right: 8px; display: inline-block">{{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span></h3>
                 <div v-if="hasSocial" class="Dir-social Dir-title">
-                  <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/f72e244f-f5c8-40f1-b91a-4cca385411d7.png"></a>
-                  <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/9cc74a05-860e-481f-8cab-6cac012dd0d2.png"></a>
-                  <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/19d367ed-ddce-4bb4-ad41-a53439520ae1.png"></a>
-                  <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/6c0c221a-b8da-4357-8036-f35f85d39c79.png"></a>
-                  <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/e3408eaf-acf6-4250-b6fd-594e7ce23907.png"></a>
-                  <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/8ca05bda-914f-45d8-962c-8e34debb1412.png"></a>
+                  <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><img alt="Linkedin Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/f72e244f-f5c8-40f1-b91a-4cca385411d7.png"></a>
+                  <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><img alt="Google Scholar Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/9cc74a05-860e-481f-8cab-6cac012dd0d2.png"></a>
+                  <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><img alt="ResearchGate Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/19d367ed-ddce-4bb4-ad41-a53439520ae1.png"></a>
+                  <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><img alt="ORCID Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/6c0c221a-b8da-4357-8036-f35f85d39c79.png"></a>
+                  <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><img alt="Twitter Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/e3408eaf-acf6-4250-b6fd-594e7ce23907.png"></a>
+                  <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><img alt="Github Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/8ca05bda-914f-45d8-962c-8e34debb1412.png"></a>
                 </div>
               </div>
 
@@ -182,25 +182,6 @@ export default {
 
   },
   methods: {
-
-    getJobLink(job) {
-      if (job.fields['URL'])
-        return job.fields['URL']
-
-      return false
-    },
-    showJob(job) {
-      if (!job.fields['isPublished'])
-        return undefined 
-      if (Date(job.fields['ExpirationDate']) < Date.now())
-        return undefined 
-      return true
-    },
-    getJobStatus(job) {
-      return job.fields['Status'] || undefined
-    },
-
-
   }
 }
 </script>

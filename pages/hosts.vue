@@ -85,14 +85,14 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content"],
+    tableQueries: ["_content-copy"],
     refreshOnLoad: true,
   },
 
 
   data () {
     return {
-      intro: this.$cytosis.findOne('directory-hosts', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('directory-hosts', this.$store.state['Content'], 'Markdown' ),
     }
   },
   
@@ -156,7 +156,8 @@ export default {
 
   // runs on server+generation and page route (but not on first page load)
   async asyncData({app, env, store, route}) {
-    const slug = route.params.slug
+
+    // this is a MASSIVE pull
     const data = await loadQuery({
       useDataCache: true,
       _key: env.db_api, 
@@ -166,10 +167,16 @@ export default {
       query: 'Hosts-index'
     })
 
+    let hosts, phageCollections
+    if(data.tables['Hosts'] && data.tables['PhageCollections']) {
+      hosts = data.tables['Hosts']
+      phageCollections = data.tables['PhageCollections']
+    }
+
+    console.log('Data Size:', app.$sizeup(JSON.stringify(data)))
     return {
-      slug,
-      hosts: data.tables['Hosts'],
-      phageCollections: data.tables['PhageCollections'],
+      hosts,
+      phageCollections,
     }
   },
 

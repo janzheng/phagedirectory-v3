@@ -30,7 +30,7 @@ export default {
 
   data: function () {
     return {
-      content: this.$cytosis.findOne('evergreen-promo', this.$store.state['Content'] ).fields['Markdown'],
+      content: this.$cytosis.findField('evergreen-promo', this.$store.state['Content'], 'Markdown' ),
     }
   },
 

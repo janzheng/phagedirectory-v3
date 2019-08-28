@@ -61,13 +61,13 @@ export default {
       return {
         intro: this.src.fields['Markdown'],
         JSON: this.src.fields['Data:JSON'],
-        isPublished: this.src.fields['isPublished'],
+        // isPublished: this.src.fields['isPublished'], // commenting this out; removing might crash forms
     
         handler:  this.src.fields['Data:URL'] || this.$store.state.ext_handler,
-        error:    this.src.fields['Data:Error'] || this.$cytosis.findOne('form-default:error', this['Content'] ).fields['Markdown'],
-        thanks:   this.src.fields['Data:Success'] || this.$cytosis.findOne('form-default:thanks', this['Content'] ).fields['Markdown'],
-        cta:      this.src.fields['Data:String'] || this.$cytosis.findOne('form-default:cta', this['Content'] ).fields['Markdown'],
-        privacy: this.$cytosis.findOne('form-default:privacy', this['Content'] ).fields['Markdown'],
+        error:    this.src.fields['Data:Error'] || this.$cytosis.findField('form-default:error', this['Content'], 'Markdown' ),
+        thanks:   this.src.fields['Data:Success'] || this.$cytosis.findField('form-default:thanks', this['Content'], 'Markdown' ),
+        cta:      this.src.fields['Data:String'] || this.$cytosis.findField('form-default:cta', this['Content'], 'Markdown' ),
+        privacy:  this.$cytosis.findField('form-default:privacy', this['Content'], 'Markdown' ),
       }
     }
   },

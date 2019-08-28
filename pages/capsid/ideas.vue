@@ -18,7 +18,7 @@
 
         <div class="_section-article _margin-center">
           <div class="_padding-bottom-2" v-html="$md.render(intro || '')" />
-          <NodeForm :src="form"/>
+          <NodeForm v-if="form" :src="form"/>
         </div>
 
       </template>
@@ -47,12 +47,12 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content"]
+    tableQueries: ["_content-forms"]
   },
 
   data () {
     return {
-      intro: this.$cytosis.findOne('tips-intro', this.$store.state['Content'] ).fields['Markdown'],
+      intro: this.$cytosis.findField('tips-intro', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-tips', this.$store.state['Content'] )
     }
   },

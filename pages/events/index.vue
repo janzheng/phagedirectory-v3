@@ -18,27 +18,28 @@
             <template slot="Upcoming Events">
               <div class="_padding-top">
                 <div id="map-wrap" class="Leaflet _hidden-xs _margin-bottom" style="height: 50vh">
-                  <!-- <no-ssr> ssr breaks inside the template lol.. -->
-                  <l-map :zoom="1" :center="[47.413220, -1.219482]" class="Leaflet-map" >
-                    <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                                  attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
-                    />
-                    <l-marker v-for="item of upcoming" 
-                              :key="item.id" 
-                              :lat-lng="item.fields['Meta:LatLng'][0].split(',')" 
-                              class="Leaflet-marker"
-                    >
-                      <l-tooltip class="Leaflet-tooltip">
-                        {{ item.fields['Name'] }}
-                        <div class="_font-small"> 
-                          <span>{{ item.fields['Data:Date'] | niceDate }}</span>
-                          <span v-if="item.fields['Data:DateEnd']" > – {{ item.fields['Data:DateEnd'] | niceDate }}</span>
-                        </div>
-                      </l-tooltip>
-                    </l-marker>
-                    <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-                  </l-map>
-                  <!-- </no-ssr> -->
+                  <no-ssr>
+                    <!-- ssr breaks for maps -->
+                    <l-map :zoom="1" :center="[47.413220, -1.219482]" class="Leaflet-map" >
+                      <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                                    attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
+                      />
+                      <l-marker v-for="item of upcoming" 
+                                :key="item.id" 
+                                :lat-lng="item.fields['Meta:LatLng'][0].split(',')" 
+                                class="Leaflet-marker"
+                      >
+                        <l-tooltip class="Leaflet-tooltip">
+                          {{ item.fields['Name'] }}
+                          <div class="_font-small"> 
+                            <span>{{ item.fields['Data:Date'] | niceDate }}</span>
+                            <span v-if="item.fields['Data:DateEnd']" > – {{ item.fields['Data:DateEnd'] | niceDate }}</span>
+                          </div>
+                        </l-tooltip>
+                      </l-marker>
+                      <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+                    </l-map>
+                  </no-ssr>
                 </div>
 
                 <Event v-for="item of upcoming" :key="item.id" :atom="item" />
@@ -53,7 +54,7 @@
 
             <template slot="Add an Event">
               <div class=" _padding-top">
-                <NodeForm :src="form"/>
+                <NodeForm v-if="form" :src="form"/>
               </div>
             </template>
 
@@ -74,6 +75,7 @@
 <script>
 
 import { mapState } from 'vuex'
+import { loadQuery } from '~/other/loaders'
 import Event from '~/components/Event.vue'
 import Tabbed from '~/components/layout/Tabbed.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
@@ -91,11 +93,25 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content", "atoms-events"],
+    tableQueries: ["_content-copy", "atoms-events"],
     refreshOnLoad: true,
   },
 
   data () {
+
+    const _this = this
+    loadQuery({
+      _key: process.env.airtable_api, 
+      _base: process.env.airtable_base, 
+      store: this.$store, 
+      routeName: '{events}', 
+      query: '_content-slug',
+      keyword: 'form-event'
+    }).then(data => {
+      if(data.tables['Content'] && data.tables['Content'][0])
+        _this.form = data.tables['Content'][0]
+    })
+
     return {
       activeTab: 'Upcoming Events',
       leftData: {
@@ -109,10 +125,10 @@ export default {
       rightData: {
         'Add an Event':{},
       },
-      intro: this.$cytosis.find('Content.events-intro', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      form: this.$cytosis.find('Content.form-event', {'Content': this.$store.state['Content']} )[0],
-      // content: this.$cytosis.find('Content.events-content', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
-      // jo: this.$cytosis.find('Content.footer-alerts', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
+      intro: this.$cytosis.findField('events-intro', this.$store.state['Content'], 'Markdown' ),
+      form: null
+
+
     }
   },
   

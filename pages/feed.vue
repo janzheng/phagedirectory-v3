@@ -22,7 +22,7 @@
             <div class="Home-latest _section-page _margin-center ">
               <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
               <Latest :atoms="featuredAtoms" />
-              <NodeForm :src="form"/>
+              <NodeForm v-if="form" :src="form"/>
               <Latest class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" />
               <button class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="getLatestAtoms(numLatest)">
                 <span v-if="!isLoadingMore" class="">Load More</span> 
@@ -63,7 +63,7 @@ export default {
   middleware: 'pageload',
   meta: {
     // tableQuery: "_content"
-    tableQueries: ['_content', 'capsid-previews']
+    tableQueries: ['_content-forms', 'capsid-previews']
   },
 
   data () {
@@ -71,8 +71,8 @@ export default {
     this.getLatestAtoms(numLatest)
     this.getFeaturedAtoms()
     return {
-      mission: this.$cytosis.findOne('home-mission', this.$store.state['Content'] ).fields['Markdown'],
-      featured: this.$cytosis.findOne('home-featured', this.$store.state['Content'] ).fields['Markdown'],
+      mission: this.$cytosis.findField('home-mission', this.$store.state['Content'], 'Markdown' ),
+      featured: this.$cytosis.findField('home-featured', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-feed', this.$store.state['Content'] ),
       latestAtoms: null, // pulled later
       featuredAtoms: null, // use this if you want to pull featured atoms manually

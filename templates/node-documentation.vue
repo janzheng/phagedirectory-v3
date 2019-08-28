@@ -28,7 +28,7 @@
                   el: '#top',
                   onDone: (element) => { doneScrolling(element) }
                 }"
-                :to="`${source.fields['Node:AbsolutePath']}#top`" 
+                :to="`/${source.fields['Node:AbsolutePath']}#top`" 
                 :class="pathMatch(!source.fields['Data:isChecked'] && source.fields['Node:AbsolutePath']) ? 'nuxt-link-active nuxt-link-exact-active' : ''"
                 class="_sidebar-item" 
               >
@@ -73,7 +73,7 @@
               <!-- link -->
               <nuxt-link 
                 v-if="item.fields['Type'] == 'Node'"
-                :to="`${item.fields['Node:AbsolutePath']}`"
+                :to="`/${item.fields['Node:AbsolutePath']}`"
                 class="_sidebar-item"
               >
                 {{ item.fields['Node:Name'] }}
@@ -86,7 +86,7 @@
                     :key="item2" 
                   >
                     <nuxt-link 
-                      :to="`${item.fields['Node:AbsolutePath'] + item.fields['Node:Nav-Links'][index]}`"
+                      :to="`/${item.fields['Node:AbsolutePath'] + item.fields['Node:Nav-Links'][index]}`"
                       class="_sidebar-item _sidebar-subitem"
                     >
                       {{ item2 }}

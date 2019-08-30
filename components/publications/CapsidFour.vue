@@ -185,29 +185,16 @@
       </div>
       <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
-      <div v-if="citationData" id="Capsid-cite" class="Capsid-cite" >
+      <div v-if="citation" id="Capsid-cite" class="Capsid-cite" >
         <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
         <h6 class="--inline">How to Cite</h6>
         <div v-if="issue.fields['Meta:Citation:Text']" >
           <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
         </div>
-
-        <AxiosPost 
-          v-if="citationData"
-          class="Capsid-citations"
-          url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
-          :post="citationData"
-        >
-          <div slot-scope="{ loading, response: data }">
-            <div v-if="loading">Loading...</div>
-            <div v-else>
-              <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
-              <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa || '' )" />
-              <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
-              <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex || '' )" />
-            </div>
-          </div>
-        </AxiosPost>
+        <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
+        <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(citation.apa || '' )" />
+        <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
+        <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(citation.bibtex || '' )" />
       </div>
 
 
@@ -261,12 +248,13 @@ import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
-import { loadQuery } from '~/other/loaders'
+// import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCard.vue'
 import Alert from '~/components/Alert.vue'
 
-import AxiosPost from '~/components/AxiosPost.vue'
+// import AxiosPost from '~/components/AxiosPost.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
+import { headMatter } from '~/other/headmatter.js'
 
 export default {
 
@@ -280,96 +268,39 @@ export default {
     CapsidStub,
     NodeForm,
     AuthorCard,
-    AxiosPost,
   },
 
   props: {
     'issue': Object,
     'atoms': Array,
+    'authors': Array,
+    'citation': Object,
   },
 
   head () {
 
-    // strip html from title
-    // let div = document.createElement("div")
-    // div.innerHTML = this.$md.strip(this.$md.render(this.issue.fields['Data:Title']))
-    // const title = div.textContent || div.innerText || ""
-    const title = this.issue.fields['Data:Title']
-
-    this.$head.setTitle(title || "Capsid & Tail")
-    this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
-
+    let author
     if(this.authors && this.authors.length > 0 && this.authors[0]) {
-      // console.log('autho:',this.authors)
-      this.$head.setAuthor(this.authors[0].fields['Name'] || "")
-      this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
+      author = this.authors[0]
     }
 
-    const cover_img = this.issue.fields['Cover:url'] || 'https://phage.directory/cnt_twitter_card.png'
-    // if(this.issue.fields['Cover'])
-    this.$head.setImage(cover_img)
-    
-    return this.$head.get()
+    let head = headMatter({
+      title: this.issue.fields['Data:Title'],
+      description: this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages",
+      author: author.fields['Name'],
+      twitterCreator: author.fields['Social:Twitter'],
+      imageUrl: this.issue.fields['Cover:url'] || 'https://phage.directory/cnt_twitter_card.png', 
+      url: this.issue.fields['URL'],
+    })
+
+    return head
   },
-
-
 
   data: function () {
 
-    // if we're grabbing author info from DB:People
-    const _this = this
-    let authors = []
-    let authorPromises = []
-    let authorSlugs = []
-    let authorObj = {} // need to use an obj instead of array, since authors don't return in order from server; need to track order w/ obj
-
-    const getAuthor = function() {
-      // console.log('fetching authors:')
-
-      // ensures corr. author is first
-      // REMINDER: Authors always returns as an array; if there are no attached authors
-      // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
-      authorSlugs = _this.issue.fields['Data:MainAuthorSlug']
-
-      if (_this.issue.fields['Data:AuthorSlugs'])
-        authorSlugs = [... _this.issue.fields['Data:MainAuthorSlug'], ... _this.issue.fields['Data:AuthorSlugs']]
-
-      if(authorSlugs) {
-        authorSlugs.map(function(slug) {
-          const item = loadQuery({
-            useDataCache: true,
-            _key: process.env.db_api, 
-            _base: process.env.db_base, 
-            store: _this.$store, 
-            routeName: '{Capsid}', 
-            query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-            keyword: slug,
-          })
-          authorPromises.push(item)
-        })
-      }
-
-    }
-    
-    if(this.issue.fields['Data:MainAuthorSlug'] || this.issue.fields['Data:AuthorSlugs']) {
-      getAuthor() // async; populates this.authors directly when loaded
-
-      Promise.all(authorPromises).then(function(data) {
-        data.map((cytosis) => {
-          const author = cytosis.tables['People'][0]
-          authorObj[author.fields['Slug']] = author
-        })
-
-        // add them in order
-        authorSlugs.map((slug) => {
-          authors.push(authorObj[slug])
-        })
-      })
-    }
 
     return {
       path: this.$route.path,
-      authors: authors,
       
       intro: this.$cytosis.findField('capsid-intro', this.$store.state['Content'], 'Markdown' ),
       signup: this.$cytosis.findField('capsid-signup-micro', this.$store.state['Content'], 'Markdown' ),
@@ -481,55 +412,8 @@ export default {
       return `https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${tags}`
     },
 
-    citationData() {
-      // all author data loaded in async, so need to verify data is complete by using array len
-      // every article will have one corr. author, plus a variable # of authors
-      const mainAuthorCount = this.issue.fields['Data:MainAuthorSlug'] ? this.issue.fields['Data:MainAuthorSlug'].length : 0
-      const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
-      
-      // console.log('citationDta authCount', this.authors.length, mainAuthorCount, authorCount)
-      if(this.authors && this.authors[0] && this.authors.length == mainAuthorCount + authorCount) {
-      // const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
-      // if(this.authors && this.authors.length > 0) {
-        const date = new Date(this.issue.fields['Data:Date'])
 
-        let authorNames = []
-        this.authors.map((item) => authorNames.push(`${item.fields['FamilyName']}, ${item.fields['FirstName']}`))
-        // console.log('author names:', authorNames.join(' and '))
 
-        // const source =  `
-        //   @article{${this.authors[0].fields['FamilyName']}${date.getFullYear()},
-        //     author = {${authorNames.join(' and ')}},
-        //     date = {${date.getFullYear()}},
-        //     day = {${date.getDay()}},
-        //     month = {${date.getMonth()}},
-        //     title = {{${this.issue.fields['Data:Title:String']}}},
-        //     journal = {Capsid & Tail},  
-        //     publisher = {Phage Directory},
-        //     number = {${this.issue.fields['Data:Issue']}},
-        //     url = {${this.issue.fields['URL']}},
-        //   }
-        // `
-        const source =  `
-          @article{${this.issue.fields['Slug']}${date.getFullYear()},
-            author = {${authorNames.join(' and ')}},
-            date = {${date.getFullYear()}},
-            day = {${date.getDay()}},
-            month = {${date.getMonth()}},
-            title = {{${this.issue.fields['Data:Title:String']}}},
-            journal = {Capsid & Tail},  
-            publisher = {Phage Directory},
-            number = {${this.issue.fields['Data:Issue']}},
-            url = {${this.issue.fields['URL']}},
-          }
-        `
-
-        return {
-          source
-        }
-      }
-      return undefined
-    }
   },
 
   methods: {

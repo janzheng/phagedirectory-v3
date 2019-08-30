@@ -2,6 +2,8 @@
 /*
 
   Helps create Head meta objects for nuxt / vue-meta
+  > note: this doesn't run properly on server-side, maybe b/c of inject?
+  > plz refer to the other/headmatter version for now
 
 */
 
@@ -47,7 +49,6 @@ export default ({ }, inject) => {
   head['setTwitterCreator'] = function (payload) {
     head['meta'].push({ hid: 'twitter-creator', property: 'twitter:creator', content: `${payload}` })
   }
-
 
   head['reset'] = function () {
     head['title'] = ''

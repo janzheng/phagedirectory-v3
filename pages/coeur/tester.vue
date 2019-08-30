@@ -28,20 +28,20 @@
       </div>
 
       <h2>Form</h2>
-      <NodeForm :src="form"/>
+      <!-- <NodeForm :src="form"/> -->
 
 
       <h2>Cytosis</h2>
-      <Cytosis
+      <!--<Cytosis
         :tableQueries="['atoms-alerts']"
         :refreshOnLoad="true"
         :env="env"
       >
         <template #default="{ response }">
           [Uncomment for response] 
-          <!-- Response: {{ response }} -->
+          <!~~ Response: {{ response }} ~~>
         </template>
-      </Cytosis>
+      </Cytosis>-->
 
 
   
@@ -57,12 +57,14 @@ import { mapState } from 'vuex'
 import Cytosis from '~/components/experiments/Cytosis.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
 import Template from '~/templates/article.vue'
+import { headMatter } from '~/other/headmatter.js'
+
 
 export default {
 
   components: {
     Cytosis,
-    NodeForm,
+    // NodeForm,
     Template,
   },
 
@@ -72,9 +74,52 @@ export default {
     tableQueries: ["_content","atoms-events"],
   },
 
+  head () {
+
+    let head = headMatter({
+      title: "My little kitty page.",
+      description: "This is a page for kitties!! Descibe all kitties!!",
+      author: "I am a kitty!",
+      imageUrl: "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492__340.jpg", 
+      url: "https://phagedirectory-osht38v01.now.sh/coeur/tester",
+      twitterCreator: "@kittiesonly"
+    })
+
+    return head
+
+    // return {
+    //   title: "my little title",
+    //   meta: [
+    //     // hid is used as unique identifier. Do not use `vmid` for it as it will not work
+    //     { hid: 'description', 
+    //       name: 'description', 
+    //       content: 'My custom description' 
+    //     }
+    //   ]
+    // }
+
+    // this.$head.setTitle("ZZZitty Title!!")
+    // this.$head.setDescription("ZZZitty Description!!")
+
+    // this.$head.setAuthor("ZZZitty author")
+    // this.$head.setTwitterCreator("@zzzittyAuthor")
+    // this.$head.setUrl("https://zzzittykittyrama.com")
+
+    // const cover_img = "https://cdn.pixabay.com/photo/2017/02/20/18/03/cat-2083492__340.jpg"
+
+    // // if(this.issue.fields['Cover'])
+    // this.$head.setImage(cover_img)
+
+    // console.log('head:', this.$head.get())
+    
+    // return this.$head.get()
+
+  },
+
   data () {
+    // console.log('Citing:', this.cite())
     return {
-      form: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
+      // form: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
     }
   },
   
@@ -86,6 +131,18 @@ export default {
       return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
     },
   },
+
+  methods: {
+    // async cite() {
+    //   let answer = await Cite.async('Q30000000')
+    //   console.log('answer:', answer, answer.format('bibliography', {
+    //     format: 'html',
+    //     template: 'apa',
+    //     lang: 'en-US'
+    //   }))
+    //   return answer
+    // }
+  }
 
 }
 </script>

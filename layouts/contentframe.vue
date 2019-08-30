@@ -55,12 +55,12 @@ export default {
     // Directory,
   },
 
-  head () {
-    return {
-      // title: this.$store.state.pageName || 'Phage Directory',
-      title: 'Phage Directory',
-    }
-  },
+  // head () {
+  //   return {
+  //     // title: this.$store.state.pageName || 'Phage Directory',
+  //     title: 'Phage Directory',
+  //   }
+  // },
 
   data () {
     // console.log('content frame ugh', this.$nuxt.error)

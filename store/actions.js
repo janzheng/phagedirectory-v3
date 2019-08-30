@@ -17,6 +17,51 @@ let backoff = oibackoff.backoff({
 })
 
 export default {
+
+  async nuxtServerInit ({ commit }, context) {
+
+    console.log('[nuxtServerInit] >>>>>>>>')
+
+    // async function fetchConfigCache() {
+    //   // Cache the config w/ zeit now lambda
+    //   // populate config with cache on first hit; once it's loaded it'll end up in the store
+    //   // if config exists, skip it
+
+    //   let _config
+
+    //   console.log('env:', process.env.useCytosisConfigCache)
+    //   console.log('env mode:', process.env.mode)
+    //   console.log('env pdenv:', process.env.pd_env)
+
+    //   try {
+    //     if(process.env.useCytosisConfigCache) {
+    //       // const config_cached = await axios.get(`${process.env.api_url}/api/exocytosis/get/config`,{timeout: 10111})
+    //       const config_cached = await axios.get(`${process.env.api_url}/api/exocytosis/get/config`, {timeout: process.env.cache_timeout})
+
+    //       if(config_cached && config_cached.data && config_cached.data[airBase]) {
+    //         _config = config_cached.data[airBase].config
+    //         console.log('[action/loadCytosis] Config cache loaded', `[${routeName}]:[${tableQuery}]`)
+    //       } else { 
+    //       // refresh the cache if it's stale; also pull the config internally 
+    //       /// don't rely on cache to get the config data, so no need for timeout here
+    //         axios.get(`${process.env.api_url}/api/exocytosis/cache/config?airBase=${airBase}&tableQuery=${tableQuery}`)
+    //       }
+    //     } else {
+    //       console.log('[nuxtServerInit] useCytosisConfigCache is turned off.')
+    //     }
+    //   } catch(err) {
+    //     console.log('[action/loadCytosis] Config cache timed out or errored. Proceeding w/o cache ... ')
+    //   }
+    //   return _config
+    // }
+
+    // let config = await fetchConfigCache()
+    // console.log('[nuxtServerInit] Config:', config)
+
+
+
+  },
+
   // async loadCytosis ({ commit, state }, {env, tableQuery, options, caller}) {
   // async loadCytosis ({ commit }, {routeName, env, tableQuery, options, payloads, config, _key, _base}) {
   async loadCytosis ({ commit }, {routeName, tableQuery, options, payloads, config, _key, _base, useDataCache}) {
@@ -159,7 +204,7 @@ export default {
     if(!cytosis) {
       // only load from client if caching didn't work,
       // and cytosis is empty
-
+      let retry = false, retries = 0
       var intermediate = function(err, tries, delay) {
         if(process.server) {
           console.error('[action/loadCytosis] >>>>> Airtable Retrying >>>>>> ')
@@ -167,6 +212,8 @@ export default {
           console.log(tries) // total number of tries performed thus far
           console.log(delay) // the delay for the next attempt
           // return false;       // this will cancel additional tries
+          retry = true
+          retries += 1
           console.log('[action/loadCytosis] >>>>>>')
         }
       }
@@ -175,6 +222,8 @@ export default {
         const getCytosis = function() { 
           return new Promise((resolve, reject) => {
             backoff(fetchCytosis, cytosis, intermediate, function(err, data) {
+              if (retry)
+                console.log('Retries:', retries)
               // console.log('backoff callback:', err, data)
               if(err)
                 reject(err)

@@ -534,24 +534,28 @@ app.get('/api/exocytosis/cache/data', (req, res, next) => {
       _base: req.query.airBase,
       payloads: payloads,
     }).then(function(data) {
-      // check if there's actually any data 
-      // console.error("[exocytosis] retrieved data:")
-      if(Object.keys(data.tables).length>0 && Object.keys(data.tables)[0].length > 0) {
-        writeData({
-          fileName: dataName,
-          key: req.query.airBase,
-          payload: data,
-        }).then(data => {
-          // send back the data regardless
-          res.status(200).send(data)
-        }).catch((err) => { 
-          console.error('[exo/cache/data][EXO:ERROR] Unable to write to cache')
-          next(err) 
-        })
-      } else {
-        console.error("[exo/cache/data][EXO:ERROR] Didn't find any data in Cytosis; canceling cache process", data.tables)
-        // TODO/FIX: Note: the current cache strategy generates cache files for pages that don't exist, which can lead to DDOS
-        next(err)
+      try {
+        // check if there's actually any data 
+        // console.error("[exocytosis] retrieved data:")
+        if(Object.keys(data.tables).length>0 && Object.keys(data.tables)[0].length > 0) {
+          writeData({
+            fileName: dataName,
+            key: req.query.airBase,
+            payload: data,
+          }).then(data => {
+            // send back the data regardless
+            res.status(200).send(data)
+          }).catch((err) => { 
+            console.error('[exo/cache/data][EXO:ERROR] Unable to write to cache')
+            next(err) 
+          })
+        } else {
+          console.error("[exo/cache/data][EXO:ERROR] Didn't find any data in Cytosis; canceling cache process", data.tables)
+          // TODO/FIX: Note: the current cache strategy generates cache files for pages that don't exist, which can lead to DDOS
+          next(err)
+        }
+      } catch(err) {
+        next(err) // send to error handler
       }
     }).catch((err) => {
       console.error('[exo/cache/data][EXO:ERROR] Unable to get cytosis data', req.query, err)

@@ -54,13 +54,11 @@
     { "src": "/api/users(.*)", "dest": "api/routes/hello" },
     { "src": "/api/allusers(.*)", "dest": "api/routes/hello" },
 
-    { "src": "/api/getconfig(.*)", "dest": "api/routes/exocytosis.js" },
+    { "src": "/api/cite", "dest": "api/routes/cite.js" },
     { "src": "/api/exocytosis(.*)", "dest": "api/routes/exocytosis.js" },
 
     { "src": "/api/(.*)", "dest": "api/routes/$1" },
     { "src": "/api", "dest": "api/routes/index.js" },
-
-
 
 
 

@@ -36,7 +36,7 @@ const site_search = 'index,follow';
 const site_author = 'Jan Zheng';
 const page_name = ''; // placeholder for the copy+paste
 
-const site_fb = ''; // buildAtl fb id
+const site_fb = '409001986635448'; // phage directory fb id
 
 // const airtable_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
 // const airtable_base = 'appYvj7j9Ta5I15ks'; // PDv3 repo
@@ -92,9 +92,9 @@ export default {
     db_api: db_api,  
     db_base: db_base,
 
-    useCytosisConfigCache: true, // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
-    useCytosisDataCache: true,   // works like config caching but for airtable requests
-    keepCytosisDataCache: false,  // [default if FALSE!] if true, we're using data cache, this waits for server and uses the response's cytosis (instead of doing it from client)
+    useCytosisConfigCache: pd_env == 'prod' ? true : true,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
+    useCytosisDataCache: pd_env == 'prod' ? true : false,    // works like config caching but for airtable requests
+    keepCytosisDataCache: pd_env == 'prod' ? false : false,  // [default if FALSE!] if true, we're using data cache, this waits for server and uses the response's cytosis (instead of doing it from client)
     cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 
 
     site_policy: site_policy,
@@ -153,6 +153,8 @@ export default {
       // Page-Specific
 
       // Facebook
+      // In SSR, FB screws up when you prepopulate like this
+      // Also, headmatter plugin doesn't run properly on SSR either
       // <meta property="fb:app_id" content="123456789">
       { hid: 'fb-app_id', property: 'fb:app_id', content: site_fb },
       // <meta property="og:url" content="http://example.com/page.html">

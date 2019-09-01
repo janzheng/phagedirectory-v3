@@ -106,7 +106,7 @@ export default {
       _key: process.env.airtable_api, 
       _base: process.env.airtable_base, 
       store: this.$store, 
-      routeName: '{tools}', 
+      routeName: 'tools', 
       query: '_content-slug',
       keyword: 'form-tools'
     }).then(data => {

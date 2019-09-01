@@ -285,7 +285,7 @@ export default {
             _key: process.env.db_api, 
             _base: process.env.db_base, 
             store: _this.$store, 
-            routeName: '{Capsid}', 
+            routeName: 'Capsid-email-original', 
             query: 'People-profile',
             keyword: slug,
           })

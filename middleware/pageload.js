@@ -39,16 +39,17 @@ import {loadQuery} from '~/other/loaders'
 // }
 
 
-async function loadQueryData(routeName, store, env, tableQuery, keyword) {
+async function loadQueryData(routeName, store, env, tableQuery, keyword, error) {
   let data
+
   // console.log('[PageLoad] Loading Query:', `[route: ${routeName}]`, `> ${tableQuery}`, 'store config:', store.state.config, ' store env base:', env.airtable_base)
-  // console.time(`[PageLoad] /${routeName} > ${tableQuery}`)
+  console.time(`[PageLoad/loadQueryData] /${routeName} > ${tableQuery}`)
   if(store.config && store.state.config[env.airtable_base]) {
     // console.time(`[PageLoad] Config exists:`, store.state.config[env.airtable_base])
-    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword, config: store.state.config[env.airtable_base]})
+    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword, config: store.state.config[env.airtable_base], error: error})
   }
   else
-    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword})
+    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword, error: error})
 
   // console.log('[PageLoad] Query Loaded:', `/${routeName}`, `> ${tableQuery}`)
   // console.timeEnd(`[PageLoad] /${routeName} > ${tableQuery}`)
@@ -57,8 +58,7 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword) {
 }
 
 // export default async function ({route, env, store, error}) {
-export default function ({route, env, store}) {
-
+export default function ({route, env, store, error}) {
   // function showStatus(i) {
   //   console.log(i);
   // }
@@ -66,7 +66,6 @@ export default function ({route, env, store}) {
   // for (var i = 0; i < 10; i++) {
   //   showStatusRateLimited(i);
   // }
-
 
   const routeName = route.name || route.path
 
@@ -81,9 +80,9 @@ export default function ({route, env, store}) {
   // }
 
   // add the external handler to store
-  if(!store.state.ext_handler || store.state.ext_handler == '') {
-    store.commit('update', {ext_handler: env.ext_handler})
-  }
+  // if(!store.state.ext_handler || store.state.ext_handler == '') {
+  //   store.commit('update', {ext_handler: env.ext_handler})
+  // }
 
   // specific data requests can be set through meta: in page pages/templates, to reduce server load
   let tableQuery, tableQueries, keyword, refreshOnLoad
@@ -93,6 +92,9 @@ export default function ({route, env, store}) {
     refreshOnLoad = meta.refreshOnLoad
     keyword = route.params.slug // used to match keyword by field
   })[0]
+
+  console.log('[PageLoad] Loading page data: ', routeName, tableQuery)
+
 
   if(refreshOnLoad) {
     // console.log('refresh — clear out the store', tableQuery, tableQueries)
@@ -111,13 +113,13 @@ export default function ({route, env, store}) {
   if (tableQuery) {
     // console.log('[pageload] table query', tableQuery)
     // loads data from airtable based on a partial query
-    return loadQueryData(routeName, store, env, tableQuery, keyword)
+    return loadQueryData(routeName, store, env, tableQuery, keyword, error)
   } else if (tableQueries) {
     // in this case, we have multiple linked queries in airtable
     const getData = async function() {
       // console.log('tableQueries... ', tableQueries)
       let queryData = tableQueries.map( async function(query) {
-        return await loadQueryData(routeName, store, env, query, keyword)
+        return await loadQueryData(routeName, store, env, query, keyword, error)
       })
       return Promise.all(queryData)
     }

@@ -2,10 +2,9 @@
   <div>
     <div id="top" class="ContentFrame Layout" :class="navOpen ? '--open' : ''" >
       
-      <!-- note: if Cytosis goes down, header has a cytosis.check guard that will throw an error if cytosis.Content doesn't exist -->
       <Header :scroll-y="scrollY" />
       
-      <div class="ContentFrame-body" >
+      <div v-if="cytosisExists" class="ContentFrame-body" >
         <nuxt @click="onClick($event)" />
 
         <no-ssr>
@@ -14,6 +13,11 @@
         
         <FooterSignups />
         <FooterSupport />
+      </div>
+
+      <div v-else>
+        <!-- cytosis is down, but error pages will use this -->
+        <nuxt />
       </div>
       
       <Footer/>
@@ -66,20 +70,20 @@ export default {
     // console.log('content frame ugh', this.$nuxt.error)
     // this.$nuxt.error({statusCode: 'Cytosis', message: 'banana'})
     // console.log('ughhhh')
-    if (this.$cytosis.check([
-      this.$store.state['Content']
-    ])) {
-      this.$nuxt.error({statusCode: 'Cytosis', message: 'The database is currently unavailable.'})
-      if (process.server) {
-        throw new Error(404)
-      }
-      return {}
+    let cytosisExists = true
+    if (this.$cytosis.errorCheck(this.$store.state['Content'])) {
+      // this.$nuxt.error({statusCode: 'Cytosis', message: 'The database is currently unavailable.'})
+      // if (process.server) {
+      //   throw new Error(404)
+      // }
+      cytosisExists = false
     }
 
     return {
       scrollY: 0,
       route: '',
       width: 0,
+      cytosisExists,
       // searchString: 'testStr'
       // children: route ? route.children : undefined,
     }

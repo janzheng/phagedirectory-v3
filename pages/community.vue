@@ -114,7 +114,7 @@ export default {
       _key: process.env.airtable_api, 
       _base: process.env.airtable_base, 
       store: this.$store, 
-      routeName: '{community}', 
+      routeName: 'community', 
       query: '_content-slug',
       keyword: 'form-community'
     }).then(data => {
@@ -138,7 +138,7 @@ export default {
   //     _key: env.airtable_api, 
   //     _base: env.airtable_base, 
   //     store, 
-  //     routeName: '{community}', 
+  //     routeName: 'community', 
   //     query: '_content-slug',
   //     keyword: 'form-community'
   //   })

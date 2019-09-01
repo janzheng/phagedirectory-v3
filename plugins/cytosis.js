@@ -8,9 +8,9 @@ import Cytosis from '~/other/cytosis.js'
 // import Cytosis from '~/node_modules/cytosis/src/cytosis.js'
 
 // export default ({ app }, inject) => {
-export default ({ error }, inject) => {
+export default ({ }, inject) => {
 
-  Cytosis['check'] = function(tableArray, message = process.env.error_unknown) {
+  Cytosis['errorCheck'] = function(someObj) {
     // returns true when there's an error
     // used on a page; helper that checks if a given table exists (or is an array), if not, throw an error page
     // the data most likely fails when the data doesn't exist / hasn't been loaded
@@ -21,23 +21,20 @@ export default ({ error }, inject) => {
       ])) return {}
     */
 
-    let hasErrors
-    // console.log('tableArray:', tableArray)
-    tableArray.map((table) => {
-      if(!table || !table.length) {
-        hasErrors = true
-      }
-    })
-    if(hasErrors) {
-      // console.error('[Cytosis/check] Cytosis has errors!')
-      // if(process.client) {
-        error({statusCode: 'Cytosis', message})
-      // }
-      // if(process.server) {
-      //   throw new Error('[Cytosis/check] Cytosis has errors!')
-      // }
-
+    if(typeof someObj === 'undefined') {
+      return true
     }
+
+    return false
+
+    // probably bad practice to throw errors here
+    // console.error('[Cytosis/check] Cytosis has errors!')
+    // if(process.client) {
+      // error({statusCode: 'Cytosis', message})
+    // }
+    // if(process.server) {
+    //   throw new Error('[Cytosis/check] Cytosis has errors!')
+    // }
   }
 
   inject('cytosis', Cytosis)

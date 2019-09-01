@@ -58,9 +58,10 @@ export default {
       if(state[name] !== undefined) {
         state[name] = value
       }
-      else
+      else {
         // console.log('Store update failed; object doesn’t exist for', name, state)
         console.error('Store.update', 'Failed: object doesn’t exist:', name, value, state)
+      }
     }
   },
   
@@ -171,8 +172,24 @@ export default {
     // console.log('setCyt after:', state.cytosis.find)
   },
 
+
+  storeCytosis (state, cytosis) {
+    // this is separate from setCytosis because not everything should be stored; only store the core pieces
+    // adds this cytosis tableQuery reference to the cytosisStore
+    // this can be looked up for reference from loadQuery in the future
+    state['cytosisStore'][cytosis.airBase.tableQuery] = this.$cytosis.strip(cytosis)
+  },
+
+
+  // this stores a key into the cache,
+  // the pageslug lets you pull data for a page
+  // super useful for capsid slugs;
+  storePageCache (state, {key, data}) {
+    state['cytosisStore'][key] = data
+  },
+
+
   // track policy accepted or not, from Policy.vue
-  
   updatePolicyToLatest (state) {
     state['policy'] = state['latestPolicy']
   },

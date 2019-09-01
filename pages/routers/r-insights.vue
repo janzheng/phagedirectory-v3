@@ -123,7 +123,7 @@ export default {
   // runs on server+generation and page route (but not on first page load)
   async asyncData({env, store, route}) {
     const slug = unescape(route.params.slug)
-    const manuscript = await loadQuery({env, store, routeName:'{insight router}', query:'insights-single', keyword: slug})
+    const manuscript = await loadQuery({env, store, routeName:'insight-router-single', query:'insights-single', keyword: slug})
 
     // fetches the relevant atoms into the store
     // const atoms = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})

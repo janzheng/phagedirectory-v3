@@ -126,11 +126,10 @@ export default {
     async getPeople() {
       const _this = this
       const data = await loadQuery({
-        useDataCache: true,
         _key: process.env.db_api, 
         _base: process.env.db_base, 
         store: _this.$store,
-        routeName: '{index/about}', 
+        routeName: 'index-about', 
         query: 'People-PD'
       })
 

@@ -7,7 +7,7 @@
 
   Server error tracker / notes / todo
 
-  - large ones like https://phage.directory/api/exocytosis/cache/data?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phages-at-asm%22%7D seem to get errors a lot
+  - large ones like https://phage.directory/api/exocytosis/data/cache?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phages-at-asm%22%7D seem to get errors a lot
   - >>> maybe using keywords to build files isn't such a good idea
   - >>> this happens: "appYvj7j9Ta5I15ks-_content","appYvj7j9Ta5I15ks-_content-phage-therapy-aquaculture" and you get LOTS of repeated stuff that's massive 
   - >>> consider stripping some of the saved data as they're massive requests
@@ -25,12 +25,18 @@
 
 const app = require('../app')
 const fs = require('fs');
+const util = require('util');
+
 const path = require('path');
 const cors = require('cors');
 const Cytosis = require('cytosis');
 // const Cytosis = require('../../other/cytosis.js');
 
-// app.use(express.static('tmp'));
+const exo = require('./exo.js')
+ 
+const async_readFile = util.promisify(fs.readFile);
+
+app.use(require('express').json());
 
 
 app.use(cors({
@@ -42,218 +48,6 @@ app.use(cors({
     'https://phagedirectory-spa.yawnxyz.now.sh',
   ]
 }))
-
-
-
-// returns a promise
-function loadCytosisConfig({routeName, _key, _base}) {
-  const airKey = _key || process.env.PD_AIRTABLE_PUBLIC_API
-  const airBase = _base || process.env.PD_AIRTABLE_PUBLIC_BASE
-
-  console.log('[exo/loadCytosisConfig] loading Config w/ ', airKey, ' /// ', airBase )
-  try {
-    const _config = Cytosis.getConfig({
-      airKey: airKey,
-      airBase: airBase,
-      routeName: routeName,
-    });
-
-    return _config;
-  } catch(err) {
-    console.error('[exo/loadCytosisConfig][EXO:ERROR] Failed to load Config! Failing silently', err)
-    return Promise.reject(undefined)
-  }
-}
-
-// returns a promise
-function loadCytosis({routeName, tableQuery, options, payloads, config, _key, _base}) {
-  const airKey = _key || process.env.PD_AIRTABLE_PUBLIC_API
-  const airBase = _base || process.env.PD_AIRTABLE_PUBLIC_BASE
-
-  console.log('[exo/loadCytosis] loading Cytosis w/ ', airKey, ' /// ', airBase )
-  try {
-    const _cytosis = new Cytosis({
-      airKey: airKey,
-      airBase: airBase,
-      tableQuery,
-      options,
-      config,
-      payloads
-    });
-    return _cytosis;
-  } catch(err) {
-    console.error('[exo/loadCytosis][EXO:ERROR] Failed to load Cytosis! Failing silently', err)
-    return Promise.reject(undefined)
-  }
-}
-
-
-
-// 
-//  Filesystem / Data styff
-// 
-
-// returns a promise
-// updates data by loading the data and appending the key
-function updateData({fileName, key, payload}) {
-  return new Promise(function(resolve, reject) {
-    fs.readFile('/tmp/'+fileName, 'utf8', function(err, contents) {
-      try {
-
-        // ignore this error, since we're reading the file to see if there's anything in there
-        // if (err) {
-        //   console.log("[exo/updateData] failed to save data to: ", fileName);
-        //   // throw(new Error("Failed to save data"))
-        //   reject(err)
-        // }
-
-        let outdata, fdata
-        if(contents) {
-          fdata = JSON.parse(contents)
-          fdata[key] = payload // could overwrite whatever's already there, which is ok
-          outdata = fdata
-        } else {
-          let data = {}
-          data[key] = payload
-          outdata = data
-        }
-
-        fs.writeFile('/tmp/'+fileName, JSON.stringify(outdata), (err) => {
-          if (err) {
-            console.log("[exo/updateData] failed to save data to: ", fileName);
-            // throw(new Error("Failed to save data"))
-            reject(err)
-          } else {
-            resolve(outdata)
-            // console.log('[exo/updateData] successfully saved data to: ', fileName);                                
-          }
-        });
-
-      } catch(err) {
-        console.log("[exo/updateData] failed to update ", fileName, err);
-        reject(undefined)
-      }
-
-    });
-  })
-}
-
-// forcefully overwrites data
-function writeData({fileName, key, payload}) {
-  return new Promise(function(resolve, reject) {
-    fs.writeFile('/tmp/'+fileName, JSON.stringify(payload), (err) => {
-      if (err) {
-        console.log("[exo/writeData] failed to save data to: ", fileName);
-        reject(err)
-      } else {
-        // console.log('[exocytosis/writeData] saving data to: ', fileName); 
-        // console.log('[exocytosis/writeData] successfully saved data to: ', fileName);  
-        resolve(payload)
-      }
-    });
-  })
-}
-
-function deleteFile(fname) {
-  return new Promise(function(resolve, reject) {
-    try {
-      fs.unlink(`/tmp/${fname}`, (err) => {
-        if (err) {
-          console.log("[exo/deleteFile] failed to delete ", fname, err);
-          reject(err)
-        } else {
-          console.log('[exo/deleteFile] successfully deleted', fname);    
-          resolve(true)                            
-        }
-      });
-    } catch(err) {
-      console.error("[exo/deleteFile][EXO:ERROR] failed to delete ", fname, err);
-      reject(undefined)
-    }
-  })
-}
-
-// TODO: this is not really async, but it's not used in production
-function deleteAll() {
-  return new Promise(function(resolve, reject) {
-    // deletes all json files
-    const directory = '/tmp'
-    fs.readdir(directory, (err, files) => {
-      try {
-        if (err) {
-          console.log("[exo/deleteAll] failed to delete /tmp/ files ", err);
-          reject(err);
-        }
-
-        for (const file of files) {
-          // console.log('[exocytosis/deleteAll] File:', file)
-          if(file.substring(file.length-5) == '.json') {
-            console.log('[exo/deleteAll] Deleting JSON file:', file)
-            const filename = file
-            fs.unlink(path.join(directory, file), err => {
-              if (err) {
-                // don't exit on error (e.g. file system), just keep looping
-                // throw err;
-              } else {
-                console.log('[exo/deleteAll] All JSON files successfully deleted');    
-                // resolve(fname)                            
-              }
-            });
-          }
-        }
-        console.log('[exo/deleteAll] all /tmp/ files deleted');
-        resolve(true)
-      } catch(err) {
-        console.error('[exo/deleteAll][EXO:ERROR] Files not deleted', err);
-        reject()
-      }
-    });
-  })
-}
-
-function updateConfigCache({cytosis}) {
-  return new Promise(function(resolve, reject) {
-    try {
-      // cache current cytosis request to /tmp
-      console.log('[exo/updateConfigCache] caching config w/ key:', cytosis.airBase.id)
-      updateData({
-        fileName: 'config.json',
-        key: cytosis.airBase.id, 
-        payload: cytosis.config
-      }).then((data) => {
-        resolve(data)
-      }, (err) => {
-        reject(err)
-      })
-      // console.log('[exocytosis/cacheCytosis] config:', config)
-    } catch(err) {
-      console.log("[exo/updateConfigCache][EXO:ERROR] failed to update config cache ");
-      reject(undefined)
-    }
-  })
-}
-
-// uses query to make a coherent file name.json
-function makeDataName(req) {
-  // current strategy is to use [airtable_basekey]-[tableQuery]-[keyword]
-  // this helps create multiple tiny files, rather than a mega file 
-  let name = `${req.query.airBase}-${req.query.tableQuery}`
-  // console.log('keyword ??? :', req.query.payloads)
-  let keyword = JSON.parse(req.query.payloads)['keyword']
-  if(keyword) {
-    // console.log('keyword:', keyword)
-    name += `-${keyword}`
-  }
-  return name + '.json'
-}
-
-
-
-
-
-
-
-
 
 
 
@@ -275,10 +69,10 @@ function makeDataName(req) {
 // filename ex: http://localhost:2929/api/exocytosis/delete?file=config.json
 // query ex: https://phage.directory/api/exocytosis/delete?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phage-therapy-faq%22%7D
 // NOTE: errors out for unknown reasons but file still deletes: TypeError: First argument must be a string or Buffer
-app.get('/api/exocytosis/delete', (req, res, next) => {
+app.get('/api/exocytosis/cache/delete', (req, res, next) => {
   if(!req.query.file && !req.query.airBase) {
     // console.log('[exo/delete] /api/exocytosis/delete', req.query) 
-    res.status(200).end("[exo/delete][EXO:ERROR] Please provide a file name or a file query")
+    res.status(200).end("[exo/cache/delete][EXO:ERROR] Please provide a file name or a file query")
   }
 
   let dataName
@@ -286,11 +80,11 @@ app.get('/api/exocytosis/delete', (req, res, next) => {
   if(req.query.file)
     dataName = req.query.file
   else if(req.query.airBase)
-    dataName = makeDataName(req)
+    dataName = exo.makeDataName(req)
 
   // res.status(200).end(JSON.stringify(dataName))
   console.log('[exo/delete] Deleting file:', dataName)
-  deleteFile(dataName).then((fname) => {
+  exo.deleteFile(dataName).then((fname) => {
     // console.log('[exo/delete] File successfully deleted', fname)
     res.end(200)
   }).catch((err) => {
@@ -300,19 +94,19 @@ app.get('/api/exocytosis/delete', (req, res, next) => {
   })
 })
 
-// example: http://localhost:2929/api/exocytosis/delete/all
-app.get('/api/exocytosis/delete/all', (req, res) => {
-  deleteAll().then((data) => {
-    console.log("[exo/delete/all] All json files deleted successfully")
+// example: http://localhost:2929/api/exocytosis/cache/delete
+app.get('/api/exocytosis/cache/clear', (req, res, next) => {
+  exo.deleteAll().then((data) => {
+    console.log("[exo/cache/clear] All json files deleted successfully")
     res.status(200).end("All json files are gone!")
   }).catch(err => {
-    console.error('[exo/delete/all][EXO:ERROR] Couldn\'t delete all files:', err)
+    console.error('[exo/cache/clear][EXO:ERROR] Couldn\'t delete all files:', err)
     next()
   })
 })
 
-// example: http://localhost:2929/api/exocytosis/list
-app.get('/api/exocytosis/list', (req, res, next) => {
+// example: http://localhost:2929/api/exocytosis/cache/list
+app.get('/api/exocytosis/cache/list', (req, res, next) => {
   const directory = '/tmp'
   fs.readdir(directory, (err, files) => {
     try {
@@ -325,21 +119,21 @@ app.get('/api/exocytosis/list', (req, res, next) => {
         res.status(200).send({files})
       }
     } catch(err) {
-      console.error('[exo/list][EXO:ERROR] Couldn\'t list files:', err)
+      console.error('[exo/cache/list][EXO:ERROR] Couldn\'t list files:', err)
       next(err) // send to error handler
     }
   });
 })
 
-// example: http://localhost:2929/api/exocytosis/get/file?name=appYvj7j9Ta5I15ks-Node-AbsolutePath-keyword.json
-// example: http://localhost:2929/api/exocytosis/get/file?name=config.json
-app.get('/api/exocytosis/get/file', (req, res, next) => {
+// example: http://localhost:2929/api/exocytosis/file/get?filename=appYvj7j9Ta5I15ks-Node-AbsolutePath-keyword.json
+// example: http://localhost:2929/api/exocytosis/file/get?filename=config.json
+app.get('/api/exocytosis/file/get', (req, res, next) => {
   try {
     // console.log('[exocytosis] grabbing file:', req.query.name)
 
-    fs.readFile('/tmp/'+req.query.name, 'utf8', function(err, contents) {
+    fs.readFile('/tmp/'+req.query.filename, 'utf8', function(err, contents) {
       if(err) {
-        console.error("[exo/get/file][EXO:ERROR] No file found for get/file: ", req.query.name)
+        console.error("[exo/file/get][EXO:ERROR] No file found for file/get: ", req.query.name)
         // res.status(200).send() // return a blank for empty
         next(err)
       } else {
@@ -355,6 +149,10 @@ app.get('/api/exocytosis/get/file', (req, res, next) => {
     next(err) // send to error handler
   }
 })
+
+
+
+
 
 
 
@@ -370,84 +168,135 @@ app.get('/api/exocytosis/get/file', (req, res, next) => {
 // - grabbing these things hits airtable DB a lot
 
 
-// Re-cache the config
-// Example: http://localhost:2929/api/exocytosis/cache/config?airBase=appYvj7j9Ta5I15ks
-app.get('/api/exocytosis/cache/config', (req, res, next) => {
+app.get('/api/exocytosis/config/setup', async (req, res, next) => {
+  // find config from cache
+
+  // load config from cache, if found send it away
   try {
-    if(!req.query.airBase) {
-      // console.log('[exo/cache/config] Please provide a key')
-      res.status(200).end("[exo/cache/config][EXO:ERROR] Please provide a key")
-      // next(err)
-    }
-    console.log('[exo/cache/config] caching config', req.query)
-    // console.log('[exocytosis] key', process.env.AIRTABLE_PUBLIC_BASE)
-    const routeName = '{exo config cache}'
-
-    loadCytosisConfig({
-      routeName: "[exo/cache/config]",
-      _base: req.query.airBase,
-    }).then((data) => {
-
-      updateData({
-        fileName: 'config.json',
-        key: req.query.airBase,
-        payload: data,
-      }).then((data) => {
-        console.log('[exo/cache/config] Config cache generated data for:', req.query)
-        res.status(200).send({
-          message: `Config cache complete`,
-          result: JSON.stringify(data)
-        })
-      }).catch( (err) => {
-        console.error('[exo/cache/config][EXO:ERROR] Unable to update data', req.query, err)
-        next(err) // send to error handler
-      })
-    }).catch( (err) => {
-      console.error('[exo/cache/config][EXO:ERROR] Unable to cache config.json', req.query, err)
-      next(err) // send to error handler
-    })
+    console.log('[exo/config/setup] Setting up config.json')
+    // let config = await async_readFile('/tmp/config.json', 'utf8')
+    let config = await exo.readFile('config.json')
+    // console.log('[exo/config/setup] Cached config:', config)
+    res.status(200).send(JSON.parse(config))
   } catch(err) {
-    next(err) // send to error handler
+
+    // if config from cache not found, load it through Cytosis
+    // and save it to cache
+
+    console.log('[exo/config/setup] No config file found.', req.query.airtables, err ? err : '')
+    const airtables = JSON.parse(req.query.airtables)
+
+    try {
+      // build config files
+      let configsP = [], _configArr = [], _config = {}
+      airtables.map(async function({api, base}) {
+        // without backoff
+        configsP.push(Cytosis.getConfig({
+          airKey: api,
+          airBase: base,
+          routeName: "nuxtServerInit-setup-config",
+        }))
+      })
+
+      let configs = await Promise.all(configsP)
+      // console.log('[nuxtServerInit/setupConfig] final configs :::' , configs)
+      await configs.map(async function(configObj) {
+        _configArr.push(configObj)
+      })
+
+      // return a config object that can be added to the store
+      airtables.map(({api, base}, i) => {
+        _config[base] = _configArr[i]
+      })
+
+      let save = await exo.writeFile({filename: 'config.json', payload: _config})
+
+      res.send(_config)
+    } catch(err) {
+      // fail if configs not found
+      next(err)
+    }
   }
 })
+
+// Re-cache the config
+// Example: http://localhost:2929/api/exocytosis/config/cache?airBase=appYvj7j9Ta5I15ks
+// app.get('/api/exocytosis/config/cache', (req, res, next) => {
+//   try {
+//     if(!req.query.airBase) {
+//       // console.log('[exo/config/cache] Please provide a key')
+//       res.status(200).end("[exo/config/cache][EXO:ERROR] Please provide a key")
+//       // next(err)
+//     }
+//     console.log('[exo/config/cache] caching config', req.query)
+//     // console.log('[exocytosis] key', process.env.AIRTABLE_PUBLIC_BASE)
+//     const routeName = 'exo-config-cache'
+
+//     exo.loadCytosisConfig({
+//       routeName: "exo-config-cache]",
+//       _base: req.query.airBase,
+//     }).then((data) => {
+
+//       exo.updateFile({
+//         filename: 'config.json',
+//         key: req.query.airBase,
+//         payload: data,
+//       }).then((data) => {
+//         console.log('[exo/config/cache] Config cache generated data for:', req.query)
+//         res.status(200).send({
+//           message: `Config cache complete`,
+//           result: JSON.stringify(data)
+//         })
+//       }).catch( (err) => {
+//         console.error('[exo/config/cache][EXO:ERROR] Unable to update data', req.query, err)
+//         next(err) // send to error handler
+//       })
+//     }).catch( (err) => {
+//       console.error('[exo/config/cache][EXO:ERROR] Unable to cache config.json', req.query, err)
+//       next(err) // send to error handler
+//     })
+//   } catch(err) {
+//     next(err) // send to error handler
+//   }
+// })
 
 
 // Retrieve ALL config objects — it's mapped by base key
-// example: http://localhost:2929/api/exocytosis/get/config
-// note: equivalent to http://localhost:2929/api/exocytosis/get/file?name=config.json
-app.get('/api/exocytosis/get/config', (req, res, next) => {
+// example: http://localhost:2929/api/exocytosis/config/get
+// note: equivalent to http://localhost:2929/api/exocytosis/file/get?name=config.json
+// app.get('/api/exocytosis/config/get', (req, res, next) => {
+//   try {
+//     // console.log('[exocytosis] Finding config.json')
+//     fs.readFile('/tmp/config.json', 'utf8', function(err, contents) {
+//       if(err) {
+//         console.error("[exo/config/get][EXO:ERROR] config.json not found", req.query)
+//         // res.status(500).send()
+//         // res.status(200).send() // return a blank for empty
+//         next(err)
+//       } else {
+//         if(contents) {
+//           res.status(200).send(JSON.parse(contents))
+//         } else {
+//           // res.status(200).send({ message: `contents empty.` })
+//           res.status(200).send(undefined)
+//         }
+//       }
+//     });
+//   } catch(err) {
+//     next(err) // send to error handler
+//   }
+// })
+
+
+
+// example: http://localhost:2929/api/exocytosis/config/delete
+app.get('/api/exocytosis/config/delete', (req, res, next) => {
   try {
-    // console.log('[exocytosis] Finding config.json')
-    fs.readFile('/tmp/config.json', 'utf8', function(err, contents) {
-      if(err) {
-        console.error("[exo/get/config][EXO:ERROR] config.json not found", req.query)
-        // res.status(500).send()
-        // res.status(200).send() // return a blank for empty
-        next(err)
-      } else {
-        if(contents) {
-          res.status(200).send(JSON.parse(contents))
-        } else {
-          // res.status(200).send({ message: `contents empty.` })
-          res.status(200).send(undefined)
-        }
-      }
-    });
-  } catch(err) {
-    next(err) // send to error handler
-  }
-})
-
-
-
-// example: http://localhost:2929/api/exocytosis/clear/config
-app.get('/api/exocytosis/clear/config', (req, res, next) => {
-  try {
-    console.log('[exo/clear/config] Deleting config.json')
-    deleteFile('config.json').then(data => {
+    console.log('[exo/config/delete] Deleting config.json')
+    exo.deleteFile('config.json').then(data => {
       res.status(200).send('config.json deleted')
     }).catch((err) => {
-      console.error('[exo/clear/config][EXO:ERROR] Unable to delete config.json')
+      console.error('[exo/config/delete][EXO:ERROR] Unable to delete config.json')
       next(err)
     })
   } catch(err) {
@@ -469,124 +318,225 @@ app.get('/api/exocytosis/clear/config', (req, res, next) => {
 
 
 
-// Retrieve cached data
-// http://localhost:2929/api/exocytosis/get/data?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phage-therapy-faq%22%7D
-app.get('/api/exocytosis/get/data', (req, res, next) => {
-  try {
-    if(!req.query.airBase) {
-      res.status(200).end("[exo/get/data][EXO:ERROR] Please provide a key")
-      // console.log('[exo/get/data] Please provide a key')
-      // next(err)
-    }
-
-    const dataName = makeDataName(req)
-    // console.log('[exo/get/data] grabbing data:', req.query, 'name:', dataName, 'url:', req.originalUrl)
-    // console.log('[exo/get/data] Grabbing data:', req.query, 'name:', dataName)
-
-    fs.readFile('/tmp/'+dataName, 'utf8', function(err, contents) {
-      if(err) {
-        console.error("[exo/get/data][EXO:ERROR] No file found for get/data: ", dataName)
-        // res.status(500).send()
-        // res.status(200).send() // return a blank for empty
-        next(err)
-      } else {
-        if(contents) {
-          // console.log('[exo/get/data] data found!')
-          res.status(200).send(JSON.parse(contents))
-        } else {
-          // res.status(200).send({ message: `contents empty.` })
-          res.status(200).send(undefined)
-        }
-
-      }
-
-    });
-  } catch(err) {
-    next(err) // send to error handler
-  }
-})
-
-// ex: http://localhost:2929/api/exocytosis/cache/data?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phage-therapy-faq%22%7D
-// crash request list:
-//    /api/exocytosis/cache/data?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%7D
-app.get('/api/exocytosis/cache/data', (req, res, next) => {
-  try {
-    if(!req.query.airBase) {
-      // console.error('[exo/cache/data] Please provide a key')
-      res.status(200).end("[exo/cache/data][EXO:ERROR] Please provide a key")
-      // next(err)
-    }
-
-    const dataName = makeDataName(req)
-    // console.log('[exocytosis] Caching data: ', req.query, 'name:', dataName)
-
-    const routeName = '{exocytosis data cacher}'
-    const tableQuery = req.query.tableQuery
-    let payloads
-
-    if(req.query.payloads)
-      payloads = JSON.parse(req.query.payloads)
-
-    loadCytosis({
-      routeName: routeName,
-      tableQuery: tableQuery,
-      // _key: req.query.airKey,
-      _base: req.query.airBase,
-      payloads: payloads,
-    }).then(function(data) {
-      try {
-        // check if there's actually any data 
-        // console.error("[exocytosis] retrieved data:")
-        if(Object.keys(data.tables).length>0 && Object.keys(data.tables)[0].length > 0) {
-          writeData({
-            fileName: dataName,
-            key: req.query.airBase,
-            payload: data,
-          }).then(data => {
-            // send back the data regardless
-            res.status(200).send(data)
-          }).catch((err) => { 
-            console.error('[exo/cache/data][EXO:ERROR] Unable to write to cache')
-            next(err) 
-          })
-        } else {
-          console.error("[exo/cache/data][EXO:ERROR] Didn't find any data in Cytosis; canceling cache process", data.tables)
-          // TODO/FIX: Note: the current cache strategy generates cache files for pages that don't exist, which can lead to DDOS
-          next(err)
-        }
-      } catch(err) {
-        next(err) // send to error handler
-      }
-    }).catch((err) => {
-      console.error('[exo/cache/data][EXO:ERROR] Unable to get cytosis data', req.query, err)
-      next(err) // send to error handler
-    })
-  } catch(err) {
-    next(err) // send to error handler
-  }
-
-})
-
-// app.get('/api/exocytosis/log/data', (req, res) => {
+// 
+// Retrieve cached data / cache get
+// http://localhost:2929/api/exocytosis/data/get?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phage-therapy-faq%22%7D
+// app.get('/api/exocytosis/data/get', async (req, res, next) => {
 //   try {
-//     fs.readFile('/tmp/datalog.json', 'utf8', function(err, contents) {
-//       if(err) {
-//         console.error("[exocytosis] log/data went wrong", req.query)
-//         res.status(200).send() // return a blank for empty
-//       }
+//     if(!req.query.airBase) {
+//       // console.log('[exo/data/get] Please provide a key')
+//       res.status(200).end("[exo/data/get][EXO:ERROR] Please provide a key")
+//       // next(err)
+//     }
 
-//       if(contents) {
-//         res.status(200).send(JSON.parse(contents))
-//       } else {
-//         // res.status(200).send({ message: `contents empty.` })
-//         res.status(200).send(undefined)
-//       }
+//     const dataName = exo.makeDataName(req)
+//     console.log('[exo/data/get] Grabbing data:', req.query, 'name:', dataName)
 
-//     });
+//     let data = await exo.readFile(dataName)
+//     console.log('[exo/data/get] Grabbed data:', data)
+//     res.status(200).send()
+
+//     // fs.readFile('/tmp/'+dataName, 'utf8', function(err, contents) {
+//     //   if(err) {
+//     //     // console.error("[exo/data/get][EXO:ERROR] No file found for data/get: ", dataName)
+//     //     // res.status(500).send()
+//     //     // res.status(200).send() // return a blank for empty
+//     //     next(err)
+//     //   } else {
+//     //     if(contents) {
+//     //       // console.log('[exo/data/get] data found!')
+//     //       res.status(200).send(JSON.parse(contents))
+//     //     } else {
+//     //       // res.status(200).send({ message: `contents empty.` })
+//     //       res.status(200).send(undefined)
+//     //     }
+//     //   }
+//     // });
 //   } catch(err) {
 //     next(err) // send to error handler
 //   }
 // })
+
+
+// a combination of data/get and data/cache, this one loads and caches data from cytosis 
+// if a cached file isn't found
+app.get('/api/exocytosis/data/fetch', async (req, res, next) => {
+
+  try {
+    if(!req.query.airBase) {
+      // console.log('[exo/data/get] Please provide a key')
+      res.status(200).end("[exo/data/fetch][EXO:ERROR] Please provide a key")
+      // next(err)
+    }
+
+    const dataName = exo.makeDataName(req)
+    // console.log('[exo/data/fetch] Feching data:', req.query, 'name:', dataName, 'filename:', dataName)
+
+    // if there's cached data, send it and exit
+    try {
+      let filedata = await exo.readFile(dataName)
+      // console.log('[exo/data/fetch] Successfully fetched data from file:', dataName)
+      res.send(filedata)
+    } catch(err) {
+
+      try {
+        // if no cached data, then get it from cytosis
+
+        console.log('[exo/data/fetch] No cache found. Pulling data from Cytosis.')
+
+        let config = req.query.config? JSON.parse(req.query.config) : undefined
+        let cytosis = await exo.loadCytosis({
+            routeName: req.query.routeName,
+            tableQuery: req.query.tableQuery,
+            // _key: req.query.airKey,
+            _base: req.query.airBase,
+            // payloads: payloads, 
+            config: config,
+            // note: don't use data/fetch for slugs, as it adds too much redundancy
+          })
+
+        cytosis = Cytosis.strip(cytosis)
+        exo.writeFile({filename: dataName, payload: cytosis})
+        res.send(cytosis)
+
+      } catch(err) {
+        console.log('[exo/data/fetch] Error pulling data from Cytosis')
+        next(err) // send to error handler
+      }
+    }
+  } catch(err) {
+    console.log('[exo/data/fetch] Error:',)
+    next(err) // send to error handler
+  }
+})
+
+  // this version takes a config object
+  app.post('/api/exocytosis/data/fetch', async (req, res, next) => {
+
+    try {
+      let request = req.body
+      let config = request.config
+
+      // console.log('[POST:exo/data/fetch] request:', req.query.airBase, request)
+      if(!req.query.airBase) {
+        // console.log('[exo/data/get] Please provide a key')
+        res.status(200).end("[POST:exo/data/fetch] Please provide a key!")
+        // next(err)
+      }
+
+      const dataName = exo.makeDataName(req)
+      // console.log('[exo/data/fetch] Feching data:', req.query, 'name:', dataName, 'filename:', dataName)
+
+      // if there's cached data, send it and exit
+      try {
+        let filedata = await exo.readFile(dataName)
+        // console.log('[exo/data/fetch] Successfully fetched data from file:', dataName)
+        res.send(filedata)
+      } catch(err) {
+
+        try {
+          // if no cached data, then get it from cytosis
+
+          // console.log('[exo/data/fetch] No cache found. Pulling data from Cytosis.', config)
+          let cytosis = await exo.loadCytosis({
+              routeName: req.query.routeName,
+              tableQuery: req.query.tableQuery,
+              // _key: req.query.airKey,
+              _base: req.query.airBase,
+              // payloads: payloads, 
+              config: config,
+              // note: don't use data/fetch for slugs, as it adds too much redundancy
+            })
+
+          cytosis = Cytosis.strip(cytosis)
+          exo.writeFile({filename: dataName, payload: cytosis})
+          res.send(cytosis)
+
+        } catch(err) {
+          console.log('[exo/data/fetch] Error pulling data from Cytosis', err)
+          next(err) // send to error handler
+        }
+      }
+    } catch(err) {
+      console.log('[exo/data/fetch] Error:', err)
+      next(err) // send to error handler
+    }
+  })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ex: http://localhost:2929/api/exocytosis/data/cache?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%22keyword%22:%22phage-therapy-faq%22%7D
+// crash request list:
+//    /api/exocytosis/data/cache?airBase=appYvj7j9Ta5I15ks&tableQuery=_content&payloads=%7B%7D
+// app.get('/api/exocytosis/data/cache', (req, res, next) => {
+//   try {
+//     if(!req.query.airBase) {
+//       // console.error('[exo/data/cache] Please provide a key')
+//       res.status(200).end("[exo/data/cache][EXO:ERROR] Please provide a key")
+//       // next(err)
+//     }
+
+//     const dataName = exo.makeDataName(req)
+//     // console.log('[exocytosis] Caching data: ', req.query, 'name:', dataName)
+
+//     const routeName = 'exo-data-cacher'
+//     const tableQuery = req.query.tableQuery
+//     let payloads
+
+//     if(req.query.payloads)
+//       payloads = JSON.parse(req.query.payloads)
+
+//     exo.loadCytosis({
+//       routeName: routeName,
+//       tableQuery: tableQuery,
+//       // _key: req.query.airKey,
+//       _base: req.query.airBase,
+//       payloads: payloads,
+//     }).then(function(data) {
+//       try {
+//         // check if there's actually any data 
+//         // console.error("[exocytosis] retrieved data:")
+//         if(Object.keys(data.tables).length>0 && Object.keys(data.tables)[0].length > 0) {
+//           writeData({
+//             filename: dataName,
+//             key: req.query.airBase,
+//             payload: data,
+//           }).then(data => {
+//             // send back the data regardless
+//             res.status(200).send(data)
+//           }).catch((err) => { 
+//             console.error('[exo/data/cache][EXO:ERROR] Unable to write to cache')
+//             next(err) 
+//           })
+//         } else {
+//           console.error("[exo/data/cache][EXO:ERROR] Didn't find any data in Cytosis; canceling cache process", data.tables)
+//           // TODO/FIX: Note: the current cache strategy generates cache files for pages that don't exist, which can lead to DDOS
+//           next(err)
+//         }
+//       } catch(err) {
+//         next(err) // send to error handler
+//       }
+//     }).catch((err) => {
+//       console.error('[exo/data/cache][EXO:ERROR] Unable to get cytosis data', req.query, err)
+//       next(err) // send to error handler
+//     })
+//   } catch(err) {
+//     next(err) // send to error handler
+//   }
+
+// })
+
 
 
 // error handling

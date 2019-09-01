@@ -8,10 +8,6 @@
 */
 
 
-
-
-// Test version of cytosis 8/23 - 9/12 London
-
 /*
   - Added to new npm package 9/12
   
@@ -66,6 +62,14 @@
   - 8/27/2019
     - added findField as a finder/getter
 
+  - 8/30/2019
+    - added strip, which retains fields, id, and core parts of a cytosis object
+    - added a filter helper, 'filter_or'
+
+  - 8/31/2019
+    - added getRecord that uses Airtable API's "find" method
+    - added cleanRecord that only keeps id, fields, and some of _table from a record
+    
 */
 
 /*
@@ -779,6 +783,32 @@ class Cytosis {
 
 
 
+  // Retrieves a single record from Airtable
+  // This performs a "base('TableName').find('recUKWFfOvY1lRwzM')"
+  // 
+  // Input: recordId (Airtable record ID, a string)
+  // Output: a single record object
+  static async getRecord ({recordId, airKey, baseId, tableName, endpointUrl}) {
+
+    try {
+      Airtable.configure({
+        endpointUrl: endpointUrl || `https://api.airtable.com`,
+        apiKey: airKey
+      })
+
+      const base = Cytosis.getBase(baseId)
+      let record = await base(tableName).find(recordId)
+      return record
+    } catch(err) {
+      // nothing found
+      return Promise.reject()
+    }
+  }
+
+
+
+
+
 
 
   // Will find a row within an airtables object e.g. airtables: { Content: [ row, row, row], Tags: [ row, row, row ] } 
@@ -1074,8 +1104,7 @@ class Cytosis {
   // Output: 
   //    a table array where each object only has id and fields, no helpers
   static cleanTable (table) {
-
-    // clean up the cytosis table by only keeping id and fields
+    // clean up the cytosis table by only keeping id, fields, and basics of _table
     return table.map(entry => {
       // console.log('cleanData . entry', entry)
       return {
@@ -1085,6 +1114,47 @@ class Cytosis {
     })
   }
 
+
+  // takes an airtable record and keeps field and id
+  static cleanRecord (record) {
+    return {
+      fields: record.fields,
+      id: record.id,
+      // _table: {
+      //   name: record._table.name,
+      //   _base: {
+      //     _id: record._table._base._id,
+      //     // the record also exposes the airtable API key, but
+      //     // it really shouldn't be exposed here
+      //   }
+      // }
+    }
+  }
+
+
+  // takes a cytosis object and 
+  // iterates through tables and cleans them all up.
+  // really useful for caching and storing data
+  // Input: 
+  //    a cytosis object
+  // Output: 
+  //    a stripped down cytosis object
+  static strip (cytosis) {
+
+    let _cytosis = {}
+    _cytosis['config'] = { _cytosis: Cytosis.cleanTable(cytosis.config._cytosis) }
+    _cytosis['airBase'] = cytosis['airBase']
+    _cytosis['airKey'] = cytosis['airKey']
+    _cytosis['endpointUrl'] = cytosis['endpointUrl']
+    _cytosis['routeName'] = cytosis['routeName']
+    _cytosis['tables'] = {}
+
+    Object.keys(cytosis.tables).map((tableName) => {
+      _cytosis['tables'][tableName] = Cytosis.cleanTable(cytosis.tables[tableName])
+    })
+
+    return _cytosis
+  }
 
   // from an airtable facebook group discussion / Nick Cappello
   // he's apparently created his own API, so this isn't super useful, but it shows how introspection works!
@@ -1466,6 +1536,36 @@ class Cytosis {
       //       obj.fields.Authors && obj.fields.Authors.toLowerCase().includes(searchterm)
     })
   }
+
+
+
+  // 
+  //  Filter Generators
+  // 
+  //  Airtable has a weird syntax for filters. It's pretty annoying.
+  //  These help make them less annoying
+  // 
+
+
+  static filter_or(keywords, field) {
+    // field is a column name. Ex: "Slug" 
+    // keywords is an array of keywords. Ex: "['jan-zheng', 'jessica-sacher']"
+    // this generates: 'IF(OR({Slug}="jan-zheng", {Slug}="jessica-sacher"), TRUE())'
+
+    let orArr = [], strArr = ""
+    keywords.map((keyword) => {
+      // generates: {Slug}="jan-zheng", {Slug}="jessica-sacher"
+      orArr.push(`{${field}}="${keyword}"`)
+    })
+    strArr = orArr.join(', ')
+    return `IF(OR(${orArr}), TRUE())`
+  }
+
+
+
+
+
+
 
   // CURRENTLY NOT FUNCTIONAL, and not really a use for it right now
   // joins/combines multiple tables into one new object

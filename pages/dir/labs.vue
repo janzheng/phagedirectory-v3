@@ -148,7 +148,7 @@ export default {
       _key: env.db_api, 
       _base: env.db_base, 
       store, 
-      routeName: '{labs}', 
+      routeName: 'labs-all', 
       query: query
     })
 

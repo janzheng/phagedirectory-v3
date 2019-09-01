@@ -158,7 +158,7 @@ export default {
       _key: env.db_api, 
       _base: env.db_base, 
       store, 
-      routeName: '{hosts}', 
+      routeName: 'hosts-all', 
       query: 'Hosts-index'
     })
 

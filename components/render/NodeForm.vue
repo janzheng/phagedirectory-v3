@@ -63,7 +63,7 @@ export default {
         JSON: this.src.fields['Data:JSON'],
         // isPublished: this.src.fields['isPublished'], // commenting this out; removing might crash forms
     
-        handler:  this.src.fields['Data:URL'] || this.$store.state.ext_handler,
+        handler:  this.src.fields['Data:URL'] || undefined,
         error:    this.src.fields['Data:Error'] || this.$cytosis.findField('form-default:error', this['Content'], 'Markdown' ),
         thanks:   this.src.fields['Data:Success'] || this.$cytosis.findField('form-default:thanks', this['Content'], 'Markdown' ),
         cta:      this.src.fields['Data:String'] || this.$cytosis.findField('form-default:cta', this['Content'], 'Markdown' ),

@@ -287,8 +287,8 @@ export default {
     let head = headMatter({
       title: this.issue.fields['Data:Title'],
       description: this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages",
-      author: author.fields['Name'],
-      twitterCreator: author.fields['Social:Twitter'],
+      author: author ? author.fields['Name'] : undefined,
+      twitterCreator: author ? author.fields['Social:Twitter'] : undefined,
       imageUrl: this.issue.fields['Cover:url'] || 'https://phage.directory/cnt_twitter_card.png', 
       url: this.issue.fields['URL'],
     })

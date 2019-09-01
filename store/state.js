@@ -1,13 +1,12 @@
 export default function() {
   return { 
-    ext_handler: '',
 
     // searchSource: '',
     // searchString: '',
     // searchUrl: '',
     search: {},
-    cytosis: {},
 
+    cytosisStore: {},
     config: {
       // 'airtable base key': {cytosis config object}
     },

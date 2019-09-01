@@ -98,7 +98,7 @@ export default {
       useDataCache: true,
       _key: env.db_api, 
       _base: env.db_base, store, 
-      routeName: '{people profile}', 
+      routeName: 'people-profile', 
       query: 'People-profile',
       keyword: slug,
     })

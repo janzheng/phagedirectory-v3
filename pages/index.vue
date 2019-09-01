@@ -96,7 +96,7 @@ export default {
   meta: {
     // tableQuery: "_content"
     // tableQueries: ['_content']
-    tableQueries: ['_content-core']
+    tableQueries: ['_content-copy']
   },
 
   data () {
@@ -173,7 +173,7 @@ export default {
     //   _key: env.airtable_api, 
     //   _base: env.airtable_base, 
     //   store: store, 
-    //   routeName: '{index/getLatestAtoms}', 
+    //   routeName: 'Index-atoms-latest', 
     //   query: 'atoms-latest',
     //   options: {
     //     'view': 'Latest:Published',
@@ -186,7 +186,7 @@ export default {
     //   _key: env.airtable_api, 
     //   _base: env.airtable_base, 
     //   store: store, 
-    //   routeName: '{index/getFeaturedAtoms}', 
+    //   routeName: 'Index-atoms-featured', 
     //   query: 'atoms-featured',
     // })
 
@@ -197,7 +197,7 @@ export default {
       _key: env.airtable_api, 
       _base: env.airtable_base, 
       store: store, 
-      routeName: '{index/getLatestCapsid}', 
+      routeName: 'Index-capsid-latest', 
       query: 'capsid-latest',
     })
 
@@ -231,11 +231,10 @@ export default {
     getFeaturedAtoms() {
       const _this = this
       loadQuery({
-        useDataCache: true,
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
         store: _this.$store, 
-        routeName: '{index/getFeaturedAtoms}', 
+        routeName: 'Index-atoms-featured', 
         query: 'atoms-featured',
       }).then((data) => {
         if(data.tables['Atoms'])
@@ -250,7 +249,7 @@ export default {
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
         store: _this.$store, 
-        routeName: '{index/getLatestCapsid}', 
+        routeName: 'Index-capsid-latest', 
         query: 'capsid-latest',
       }).then((data) => {
         // Note: these are loaded in ON THE CLIENT 
@@ -273,7 +272,7 @@ export default {
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
         store: _this.$store, 
-        routeName: '{index/getLatestAtoms}', 
+        routeName: 'Index-atoms-latest', 
         query: 'atoms-latest',
         options: {
           'view': 'Latest:Published',
@@ -298,7 +297,7 @@ export default {
         _key: process.env.db_api, 
         _base: process.env.db_base, 
         store: _this.$store,
-        routeName: '{index/getAuthor}', 
+        routeName: 'Index-authors', 
         query: 'People-profile',
         keyword: slug,
       })

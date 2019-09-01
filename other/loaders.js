@@ -5,10 +5,11 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
   let data
   // todo: need some other way to keep track of what we've grabbed
   // esp. important for site generation
-  // if(store.state && !store.state.Content) {
-  // throw new Error("[loadQuery] TEST ERROR ")
 
-  // console.log('loadQuery triggered >>>>>>>>>>>>>>>>> ', error)
+  // console.log('loadQuery triggered >>>>>>>>>>>>>>>>> ')
+  // return error({statusCode: 500, message: "Test Error"})
+  // error() doesn't work as a mechanism
+
   try {
     data = await store.dispatch('loadCytosis', {
       useDataCache,
@@ -26,13 +27,24 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
     return data
   } catch (err) {
     // error only works on client, which means for SSR this is never touched (will work on SPA tho)
+    console.error("[loadQuery] Cytosis failed to load routeName/query/error >>>>>>>>>>> ", routeName, query, err)
+    // throw new Error("[loadQuery] Database failed to load. ")
+    // return Promise.resolve() // quietly fail?
+    // this is the Nuxt error function — has to be passed in, and not always available
+    
+    // display error page (if Cytosis doesn't work, nothing's going to show on the site)
     if(error && (typeof error === "function")) {
+      console.log('Redirecting to the error page ... ')
       error({statusCode: 500, message: process.env.error_cytosis})
-    }
-    if(process.server) {
-      throw new Error("[loadQuery] Database failed to load. Shutting down app. ")
-    }
-    console.error("Cytosis error:", routeName, err)
+      // throw new Error("[loadQuery] Database failed to load. ")
+    } 
+    // else {
+    //   if(process.server) {
+    //     // redirect to the homepage ('/') ?
+    //     // window.location.replace('/')
+    //     throw new Error("[loadQuery] Database failed to load. Shutting down app. ")
+    //   }
+    // }
     return undefined
   }
 }

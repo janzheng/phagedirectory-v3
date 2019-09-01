@@ -121,7 +121,7 @@ export default {
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
         store: _this.$store, 
-        routeName: '{Index}', 
+        routeName: 'Index-featured-atoms', 
         query: 'atoms-featured',
       }).then((data) => {
         _this.featuredAtoms = data.tables.Atoms
@@ -135,7 +135,7 @@ export default {
         _key: process.env.airtable_api, 
         _base: process.env.airtable_base, 
         store: _this.$store, 
-        routeName: '{Index}', 
+        routeName: 'Index-latest-atoms', 
         query: 'atoms-latest',
         options: {
           'view': 'Latest:Published',

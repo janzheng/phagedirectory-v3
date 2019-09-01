@@ -291,11 +291,10 @@ export default {
       if(authorSlugs) {
         authorSlugs.map(function(slug) {
           const item = loadQuery({
-            useDataCache: true,
             _key: process.env.db_api, 
             _base: process.env.db_base, 
             store: _this.$store, 
-            routeName: '{Capsid}', 
+            routeName: 'Capsid-email', 
             query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
             keyword: slug,
           })

@@ -87,7 +87,7 @@ export default {
       _key: process.env.db_api, 
       _base: process.env.db_base, 
       store: this.$store, 
-      routeName: '{capsid index}', 
+      routeName: 'capsid-index-people', 
       query: 'People-index'
     }).then(data => {
       if(data.tables['People'])

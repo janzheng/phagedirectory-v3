@@ -65,10 +65,9 @@ export default {
   async asyncData({env, store, route}) {
     const slug = unescape(route.params.slug)
     const atom = await loadQuery({
-      useDataCache: true,
       env, 
       store, 
-      routeName: '{atom router}', 
+      routeName: 'atom-router', 
       query: 'atoms-slug', 
       keyword: slug
     })

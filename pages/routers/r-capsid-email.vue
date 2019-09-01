@@ -86,10 +86,9 @@ export default {
     // console.log('matched node: ', node, ' @ ', slug)
 
     const manuscript = await loadQuery({
-      useDataCache: true,
       env, 
       store, 
-      routeName:'{capsid router}', 
+      routeName:'capsid-router-single', 
       query:'capsid-single', 
       keyword: slug
     })
@@ -101,10 +100,9 @@ export default {
     if(manuscript) {
       // fetches the relevant atoms into the store
       const atoms = await loadQuery({
-        useDataCache: true,
         env, 
         store, 
-        routeName:'{capsid router}', 
+        routeName:'capsid-router', 
         query:'capsid-atoms', 
         keyword: manuscript.tables.Manuscripts[0].fields['Name']
       })

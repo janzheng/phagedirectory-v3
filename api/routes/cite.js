@@ -51,7 +51,7 @@ app.use(cors({
   ]
 }))
 
-// example: http://localhost:2929/api/exocytosis/clear/config
+// example: http://localhost:2929/api/exocytosis/config/delete
 // app.get('/api/cite', (req, res, next) => {
 //   res.send('BANANARAMA LAMA WAMA')
 // })
@@ -88,17 +88,15 @@ app.use(cors({
 // better to get citation-js working natively 
 app.post('/api/cite', async function(req, res, next) {
   try {
+    console.time(`/api/cite/`)
     const request = req.body;
     const api_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
     // console.log('[Cite] Building Citation ...', request)
     
-    // console.log('axios:', axios)
-    // let dogs = await axios.get('https://dog.ceo/api/breeds/list/all')
-    // console.log("Dogs!!!", dogs.data)
-
     // pass it on to webtask........ :P 
     let citation = await axios.post(api_url, request)
-    // console.log('[Cite] Citation received!', citation.data)
+    // console.log('[Cite] Citation received!', citation.config.data)
+    console.timeEnd(`/api/cite/`)
     res.send(citation.data)
   } catch(err) {
     console.log('[Cite] Error:', err)

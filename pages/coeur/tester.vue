@@ -6,7 +6,7 @@
       <h1>Test Room!</h1>
 
       <h2>Map of Events</h2>
-
+<!-- 
       <div class="Leaflet" id="map-wrap" style="height: 40vh">
         <no-ssr>
           <l-map :zoom=1 :center="[47.413220, -1.219482]" class="Leaflet-map" >
@@ -25,7 +25,7 @@
             <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
           </l-map>
         </no-ssr>
-      </div>
+      </div> -->
 
       <h2>Form</h2>
       <!-- <NodeForm :src="form"/> -->
@@ -58,7 +58,7 @@ import Cytosis from '~/components/experiments/Cytosis.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
 import Template from '~/templates/article.vue'
 import { headMatter } from '~/other/headmatter.js'
-
+import { loadQuery } from '~/other/loaders'
 
 export default {
 
@@ -71,7 +71,8 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content","atoms-events"],
+    tableQueries: ["_content-core"],
+    // tableQueries: ["_content-copy","atoms-events"],
   },
 
   head () {
@@ -116,20 +117,66 @@ export default {
 
   },
 
-  data () {
+  // async asyncData({env, store, route, app, error}) {
+  //   error({statusCode: 500, message: "I AM A BANANA"})
+  // },
+
+  async data () {
+
+    let item = await this.$cytosis.getRecord({
+      recordId: 'recnY61HrxiBaB27h',
+      tableName: '_cache',
+      airKey: process.env.airtable_api,
+      baseId: process.env.airtable_base,
+    })
+    item = this.$cytosis.cleanRecord(item)
+
+    console.log(' ::: GET ITEM ::: ', item)
+    // console.log(' ::: GET ITEM ::: ', JSON.parse(item.fields['Payload']))
+
+    // let people = await loadQuery({
+    //   _key: process.env.db_api, 
+    //   _base: process.env.db_base, 
+    //   store: this.$store, 
+    //   routeName: 'Test router [People]', 
+    //   query: 'People-profile',
+    //   options: {
+    //     filter: this.$cytosis.filter_or(['jan-zheng', 'jessica-sacher'], "Slug")
+    //   }
+    //   // keyword: 'adel-abouhmad',
+    // })
+    // people = this.$cytosis.strip(people)
+
+    // console.log('TESTER PEOPLE:', people)
+
+    // const data = {
+    //   routeName: '[nuxtServerInit]',
+    //   airKey: process.env.airtable_api, 
+    //   airBase: process.env.airtable_base, 
+    //   tableQuery: '_content-copy',
+    //   config: this.$store.state.config[process.env.airtable_base],
+    // }
+
+    // let test = await new this.$cytosis(data)
+    // console.log(' ::::: TEST START :::::', test)
+    // test = this.$cytosis.strip(test)
+    // console.log(' ::::: TEST END :::::', test )
+
+
     // console.log('Citing:', this.cite())
     return {
+      hello: "banana"
       // form: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
     }
   },
   
   computed: {
-    ...mapState([
-      'Atoms',
-      ]),
-    events() {
-      return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
-    },
+    // ...mapState([
+    //   'Atoms',
+    //   ]),
+    // events() {
+    //   return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
+    // },
   },
 
   methods: {

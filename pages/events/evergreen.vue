@@ -153,7 +153,7 @@ export default {
       _key: 'keyAe6M1KoPfg25aO', // Live Public DB
       _base: 'appEuZLle3bAy2g2g', // Live Public DB
       store, 
-      routeName: '{live:pfdc-2019}', 
+      routeName: 'live-pfdc-2019', 
       // query: 'pfdc-2019'
       query: 'evergreen-2019'
     })

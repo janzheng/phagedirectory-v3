@@ -90,7 +90,7 @@
 <script>
 
 import { mapState } from 'vuex'
-import { loadQuery } from '~/other/loaders'
+// import { loadQuery } from '~/other/loaders'
 // import NodeForm from '~/components/render/NodeForm.vue'
 
 import Cytosis from '~/components/experiments/Cytosis.vue'
@@ -157,37 +157,37 @@ export default {
         // const url = `/search/${str}`
       }
     },
-    filterOrgs() {
+    // filterOrgs() {
 
-      let _orgs = []
+    //   let _orgs = []
 
-      if(this.search.string) {
-        const str = this.search.string.toLowerCase()
+    //   if(this.search.string) {
+    //     const str = this.search.string.toLowerCase()
 
-        // inclusive filter:
-        /*
-          {Name} &' - '& {AltName} &' - '& {Org:Types} &' - '& {Location} &' - '& {Location:Parent} &' - '&{PhageCollections:Hosts::Names} &' - '& {Orgs:Parent:Name} &' - '& {People:Supervisors::Names} &' - '& {People:LabMembers::Names} &' - '& {People:OrgMembers::Names}
-        */
-        this.orgs.map((org) => {
-          if(org.fields['Data:Search'].toLowerCase().includes(str)) {
-            _orgs.push(org)
-          }
-        })
-      } else {
-        _orgs = this.orgs
-      }
+    //     // inclusive filter:
+    //     /*
+    //       {Name} &' - '& {AltName} &' - '& {Org:Types} &' - '& {Location} &' - '& {Location:Parent} &' - '&{PhageCollections:Hosts::Names} &' - '& {Orgs:Parent:Name} &' - '& {People:Supervisors::Names} &' - '& {People:LabMembers::Names} &' - '& {People:OrgMembers::Names}
+    //     */
+    //     this.orgs.map((org) => {
+    //       if(org.fields['Data:Search'].toLowerCase().includes(str)) {
+    //         _orgs.push(org)
+    //       }
+    //     })
+    //   } else {
+    //     _orgs = this.orgs
+    //   }
 
-      if(this.orgTypeFilter) {
-        _orgs = _orgs.reduce((acc, org) => {
-          if(org.fields['Org:Types'] == this.orgTypeFilter) {
-            acc.push(org)
-          }
-          return acc
-        }, [])
-      }
+    //   if(this.orgTypeFilter) {
+    //     _orgs = _orgs.reduce((acc, org) => {
+    //       if(org.fields['Org:Types'] == this.orgTypeFilter) {
+    //         acc.push(org)
+    //       }
+    //       return acc
+    //     }, [])
+    //   }
 
-      return _orgs 
-    },
+    //   return _orgs 
+    // },
   },
 
   watch: {
@@ -197,28 +197,28 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({env, store, route}) {
-    const slug = route.params.slug
-    const data = await loadQuery({
-      useDataCache: true,
-      _key: env.db_api, 
-      _base: env.db_base, 
-      store, 
-      routeName: '{orgs}', 
-      query: 'Orgs-index'
-    })
-    // console.log('matched node: ', node, ' @ ', slug)
+  // async asyncData({env, route}) {
+  //   // const slug = route.params.slug
+  //   // const data = await loadQuery({
+  //   //   useDataCache: true,
+  //   //   _key: env.db_api, 
+  //   //   _base: env.db_base, 
+  //   //   store, 
+  //   //   routeName: 'insights', 
+  //   //   query: 'Orgs-index'
+  //   // })
+  //   // console.log('matched node: ', node, ' @ ', slug)
 
-    // const testdata = app.$cytosis.cleanTable( data.tables['PhageCollections'] )
-    // console.log('jobs AT test: ', JSON.stringify(testdata) )
+  //   // const testdata = app.$cytosis.cleanTable( data.tables['PhageCollections'] )
+  //   // console.log('jobs AT test: ', JSON.stringify(testdata) )
 
-    return {
-      slug,
-      env,
-      orgs: data.tables['Organizations'],
-      phageCollections: data.tables['PhageCollections'],
-    }
-  },
+  //   return {
+  //     // slug,
+  //     // env,
+  //     // orgs: data.tables['Organizations'],
+  //     // phageCollections: data.tables['PhageCollections'],
+  //   }
+  // },
 
   mounted () {
   },

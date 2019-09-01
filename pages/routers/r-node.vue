@@ -7,33 +7,33 @@
 
 <template>
   <div class="Template-Documentation">
-    <!-- ssr gets screwy with these -->
-    <no-ssr>
-      <!-- 
-      <div class="_section-page">
-        <h6>[ t-router ] </h6>
-        <div class="_card _padding">Node: {{ node }}</div>
-        <div class="_card _padding">Source: {{ source }}</div>
-      </div> -->
+    <!-- generated ssr gets screwy with these, but zeit now is fine -->
+    <!-- <no-ssr> -->
+    <!-- 
+    <div class="_section-page">
+      <h6>[ t-router ] </h6>
+      <div class="_card _padding">Node: {{ node }}</div>
+      <div class="_card _padding">Source: {{ source }}</div>
+    </div> -->
 
-      <!-- consider using dynamic loading only after too many templates (> 7) -->
-      <div v-if="node">
+    <!-- consider using dynamic loading only after too many templates (> 7) -->
+    <div v-if="node">
 
-        <!-- For landing pages and basic articles -->
-        <TemplateArticle v-if="node && node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
+      <!-- For landing pages and basic articles -->
+      <TemplateArticle v-if="node && node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
 
-        <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
-        <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
+      <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
+      <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
 
-        <!-- <TemplateDocs :node="node" :route="route" /> -->
-        <TemplateDocumentation v-if="node && node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
+      <!-- <TemplateDocs :node="node" :route="route" /> -->
+      <TemplateDocumentation v-if="node && node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
 
-        <!-- scroll spy alt -->
-        <TemplateScrollDocumentation v-if="node && node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
-      </div>
+      <!-- scroll spy alt -->
+      <TemplateScrollDocumentation v-if="node && node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
+    </div>
 
 
-    </no-ssr>
+    <!-- </no-ssr> -->
   </div>
 </template>
 
@@ -43,7 +43,7 @@
 <script>
   
 import { mapState } from 'vuex'
-import { loadQuery } from '~/other/loaders'
+// import { loadQuery } from '~/other/loaders'
 
 import TemplateArticle from '~/templates/node-article'
 // import TemplateBasic from '~/templates/node-basic'
@@ -90,9 +90,7 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({store, route, error}) {
-
-    console.log('Node Router')
+  async asyncData({app, store, route, error}) {
 
     // const slug = '/' + unescape(route.params.slug)
     const slug = unescape(route.params.slug)
@@ -100,40 +98,32 @@ export default {
     console.log('[Node Router] slug:', slug)
 
     const _this = this
+    const node = app.$cytosis.findOne(slug, store.state['Content'], ['Slug'])
 
-    const node = await loadQuery({
-      useDataCache: true,
-      _key: process.env.airtable_api, 
-      _base: process.env.airtable_base, 
-      store: store, 
-      routeName: '{index/getNode}', 
-      query: 'Node-AbsolutePath',
-      keyword: slug,
-      error,
-    })
+    // console.log('Node Router: node :: ', node)
 
     if(node) {
-      if(node.tables['Content'][0])
-        _this.node = node.tables['Content'][0]
+        _this.node = node
 
       // special type of node that redirects to another page
-      if(node.tables['Content'] && node.tables['Content'][0] && node.tables['Content'][0].fields['Type'] && node.tables['Content'][0].fields['Type'] == 'Node:Redirect' && node.tables['Content'][0].fields['Data:String']) {
-        window.location.replace(node.tables['Content'][0].fields['Data:String'])
-      }
-
-      if(node && node.tables && node.tables['Content'] && node.tables['Content'].length == 0) {
-        console.error('[Node Router] Node not found for slug:', slug)
-        error({ statusCode: 404, message: "Page not Found" })
+      if(node.fields['Type'] && node.fields['Type'] == 'Node:Redirect' && node.fields['Data:String']) {
+        window.location.replace(node.fields['Data:String'])
       }
 
       return {
-        node: node.tables['Content'][0]
+        node: node
       }
+    } else {
+      console.error('[Node Router] Node not found for slug:', slug)
+      error({ statusCode: 404, message: "Page not Found" })
     }
+
 
   },
   
   methods: {
+    // loading _content-nodes through middleware replaces this bit
+
     // getNode(slug) {
     //   const _this = this
     //   // console.log('Getting node ...')

@@ -93,18 +93,17 @@ export default {
     db_base: db_base,
 
     useCytosisConfigCache: pd_env == 'prod' ? true : true,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
-    useCytosisDataCache: pd_env == 'prod' ? true : false,    // works like config caching but for airtable requests
-    keepCytosisDataCache: pd_env == 'prod' ? false : false,  // [default if FALSE!] if true, we're using data cache, this waits for server and uses the response's cytosis (instead of doing it from client)
+    useCytosisDataCache: pd_env == 'prod' ? true : true,    // works like config caching but for airtable requests
     cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 
 
     site_policy: site_policy,
     site_segment: site_segment,
-    ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-basic',
+    // ext_handler: 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-basic',
     // site_data: site_data,
     site_static: site_static,
   
     error_cytosis: 'The database is currently unavailable',
-    error_unknown: 'An unexplained error has occurred, please try refreshing...',
+    error_unknown: 'A system error occurred. Please try refreshing. If this continues to happen, please contact us at support@phage.directory',
   },
 
   server: {
@@ -217,6 +216,7 @@ export default {
   plugins: [
     { src: '~/plugins/syslog.js' },
     { src: '~/plugins/sizeup.js' },
+    // { src: '~/plugins/cite.js' },
     // '~plugins/filters.js',nuxtjs/google-tag-manager
     // { src: '~/plugins/plugintest.js', ssr: false }
     // { src: '~/plugins/lazyload.js', ssr: false },
@@ -480,12 +480,12 @@ export default {
           // catches all routes and attempts to find a template
           // throws error if it can't
           name: 'capsid & tail router',
-          path: '/capsid/:slug',
+          path: '/capsid/:slug*',
           component: resolve(__dirname, 'pages/routers/r-capsid.vue')
         },
         {
           name: 'capsid & tail email generator',
-          path: '/capsidemail/:slug',
+          path: '/capsidemail/:slug*',
           component: resolve(__dirname, 'pages/routers/r-capsid-email.vue')
         },
         {

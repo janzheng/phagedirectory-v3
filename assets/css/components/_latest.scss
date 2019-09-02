@@ -17,6 +17,19 @@
       border-radius: 0;
       padding-bottom: $size-half;
       border-bottom: solid usetheme(mono-10) $border-medium;
+
+      &.--featured {
+        border: solid usetheme(brand) $border-medium;
+        border-radius: $radius;
+        padding: $size;
+      }
+
+      &.--alert {
+        border: solid usetheme(brand) $border-medium;
+        border-radius: $radius;
+        padding: $size;
+        border-color: usetheme(pink-active);
+      }
     }
 
     h1 {
@@ -76,4 +89,6 @@
       margin-bottom: $size-half;
     } 
   }
+
+
 }

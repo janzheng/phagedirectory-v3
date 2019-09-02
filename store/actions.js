@@ -387,7 +387,9 @@ export default {
 
 
   // stores a pageCache into the store
-  // but also caches over the API
+  // but also caches over the API (not built yet)
+  // pageCache is really useful for pages w/ a ton of objects linked from other places,
+  // like Capsids 
   storePageCache ({ commit }, object) {
     // store.action('storePageCache', {
     //   key: slug,
@@ -400,7 +402,6 @@ export default {
     // })
 
     // ** hold off on an API approach for now, since airtable caching seems fine
-
     commit('storePageCache', object)
   },
 
@@ -413,12 +414,12 @@ export default {
 
     // 1. from vuex store state
     if(state.cytosisStore[pagekey])
-      return 
+      return state.cytosisStore[pagekey]
 
     // 2. Nah
 
     // 3. from Airtable, using cytosisObj
-    if(recordId) {
+    if(process.env.useCytosisPageCache && recordId) {
       try {
         let cache = await this.$cytosis.getRecord({
           recordId: recordId,
@@ -426,7 +427,6 @@ export default {
           airKey: airKey || process.env.airtable_api,
           baseId: baseId || process.env.airtable_base,
         })
-        console.l
         return cache
         // item = this.$cytosis.cleanRecord(item)
       } catch(err) {

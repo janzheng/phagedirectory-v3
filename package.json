@@ -19,7 +19,7 @@
     "dev-api": "PD_ENV=dev now dev --port 2929 --local-config=now-dev.json",
     "dev-nuxt": "PD_ENV=stage API_URL=http://localhost:2929 nuxt",
     "dev-nuxt-old": "MODE=spa PD_ENV=stage API_URL=http://localhost:2929 nuxt",
-    "dev-prod": "PD_ENV=prod MODE=spa nuxt",
+    "dev-spa": "PD_ENV=stage MODE=spa nuxt",
     "build": "nuxt build",
     "analyze": "nuxt build --a",
     "start": "nuxt start",

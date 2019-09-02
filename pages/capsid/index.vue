@@ -26,8 +26,6 @@
       </div>
     </div>
 
-
-
     <div class="_section-content _margin-center-sm _margin-left-xs _margin-right-xs">
       <CapsidStub :issue="latest" :authors="getAuthorsOfManuscript(latest)" :is-featured="true" class="Capsid-latest" />
     </div>
@@ -65,6 +63,7 @@ import { mapState } from 'vuex'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import CapsidSignup from '~/components/layout/FooterSignups-capsid.vue'
 import { loadQuery } from '~/other/loaders'
+import _ from 'lodash'
 
 export default {
 
@@ -82,14 +81,35 @@ export default {
   data () {
     // load form in on client; faster load (async) but no SEO
     const _this = this
+
+    // loadQuery({
+    //   useDataCache: true,
+    //   _key: process.env.db_api, 
+    //   _base: process.env.db_base, 
+    //   store: this.$store, 
+    //   routeName: 'capsid-index-people', 
+    //   query: 'People-index'
+    // }).then(data => {
+    //   if(data.tables['People'])
+    //     _this['People'] = data.tables['People']
+    // })
+
+    // should be faster / smaller footprint
+
+    let authorSlugs = this.getAuthorSlugs(this.$store.state['Manuscripts'])
+
     loadQuery({
-      useDataCache: true,
+      // useDataCache: true, // can't data cache this b/c of filter
       _key: process.env.db_api, 
       _base: process.env.db_base, 
       store: this.$store, 
-      routeName: 'capsid-index-people', 
-      query: 'People-index'
+      routeName: 'Capsid-router', 
+      query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
+      options: {
+        filter: this.$cytosis.filter_or(authorSlugs, "Slug")
+      }
     }).then(data => {
+      // console.log('Index People :::: ', data)
       if(data.tables['People'])
         _this['People'] = data.tables['People']
     })
@@ -118,6 +138,7 @@ export default {
       return this.issues.slice(1)
     },
 
+
   },
 
   // load authors in on client to speed up paint time
@@ -140,6 +161,30 @@ export default {
   },
 
   methods: {
+
+    getAuthorSlugs(manuscripts) {
+
+      // get a flat list of all authors that appear in manuscripts
+      let authorSlugs = []
+      manuscripts.map(manuscript => {
+        if(manuscript.fields['Data:MainAuthorSlug'])
+          authorSlugs.push(manuscript.fields['Data:MainAuthorSlug'])
+        if(manuscript.fields['Data:AuthorSlugs'])
+          authorSlugs.push(manuscript.fields['Data:AuthorSlugs'])
+      })
+
+      if(authorSlugs) {
+        // console.log( ' :::: authorSlugs ', _.flattenDeep(authorSlugs))
+        // authorSlugs = authorSlugs.flat(2) // .flat isn't completely supported
+        authorSlugs = _.flattenDeep(authorSlugs)
+        authorSlugs = this.$cytosis.deduplicate(authorSlugs)
+        // console.log( ' :::: authorSlugs ', authorSlugs)
+        return authorSlugs
+      }
+      return undefined
+
+    },
+
     getAuthorsOfManuscript(manuscript) {
       if(!this['People'])
         return undefined

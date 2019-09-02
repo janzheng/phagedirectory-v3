@@ -43,13 +43,20 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword, error) 
   let data
 
   // console.log('[PageLoad] Loading Query:', `[route: ${routeName}]`, `> ${tableQuery}`, 'store config:', store.state.config, ' store env base:', env.airtable_base)
-  console.time(`[PageLoad/loadQueryData] /${routeName} > ${tableQuery}`)
-  if(store.config && store.state.config[env.airtable_base]) {
-    // console.time(`[PageLoad] Config exists:`, store.state.config[env.airtable_base])
-    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword, config: store.state.config[env.airtable_base], error: error})
-  }
-  else
-    data = await loadQuery({useDataCache: true, env, store, routeName, query: tableQuery, keyword, error: error})
+  // console.time(`[PageLoad/loadQueryData] /${routeName} > ${tableQuery}`)
+
+  // console.time(`[PageLoad] Config exists:`, store.state.config[env.airtable_base])
+  // all loadQueryData from pageload should be from the airtable_base
+  data = await loadQuery({
+    useDataCache: true, 
+    env, 
+    _base: env.airtable_base,
+    store, 
+    routeName, 
+    query: tableQuery, 
+    keyword,
+    error: error
+  })
 
   // console.log('[PageLoad] Query Loaded:', `/${routeName}`, `> ${tableQuery}`)
   // console.timeEnd(`[PageLoad] /${routeName} > ${tableQuery}`)

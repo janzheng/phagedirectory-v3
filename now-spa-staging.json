@@ -24,6 +24,10 @@
   },
   "builds": [
     {
+      "src": "404.html",
+      "use": "@now/static"
+    },
+    {
       "src": "api/routes/**/*.js",
       "use": "@now/node"
     },
@@ -48,6 +52,8 @@
     }
   ],
   "routes": [
+    { "src": "/404.html", "dest": "404.html" },
+
     { "src": "/api/hello(.*)", "dest": "api/routes/hello" },
     { "src": "/api/users(.*)", "dest": "api/routes/hello" },
     { "src": "/api/allusers(.*)", "dest": "api/routes/hello" },

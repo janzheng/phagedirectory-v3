@@ -32,6 +32,8 @@ export default ({app, env, store }, inject) => {
 
       console.log('[Project mode]', env.mode)
       console.log('[PD environment]', env.pd_env)
+      console.log('[Use Config Cache]', env.useCytosisConfigCache)
+      console.log('[Use Data Cache]', env.useCytosisDataCache)
       console.log('[Running policy-enhanced features]')
       // console.log('[Policy.js] Enable ga', app, Vue.$ga)
       // Vue.$ga.enable()

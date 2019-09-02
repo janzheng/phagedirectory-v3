@@ -6,10 +6,13 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
   // todo: need some other way to keep track of what we've grabbed
   // esp. important for site generation
 
-  // console.log('loadQuery triggered >>>>>>>>>>>>>>>>> ')
+  // console.log(`loadQuery triggered >>>>>>>>>>>>>>>>> routename: ${routeName} , query: ${query}, _base:${_base}, store state _base:`, store.state.config[_base] )
+  // console.log(`loadQuery triggered >>>>>>>>>>>>>>>>> routename: ${routeName} , query: ${query}, _base:${_base}` )
+    
+
   // return error({statusCode: 500, message: "Test Error"})
   // error() doesn't work as a mechanism
-
+  
   try {
     data = await store.dispatch('loadCytosis', {
       useDataCache,
@@ -19,7 +22,7 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
       routeName,
       options,
       // grab the config / _cytosis from store if it's already been loaded
-      config: store.state.config[_base || process.env.airtable_base] || undefined,
+      config: store.state.config ? store.state.config[_base] : undefined,
       payloads: {
         keyword: keyword
       },

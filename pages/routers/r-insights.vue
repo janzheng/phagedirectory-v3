@@ -128,7 +128,7 @@ export default {
     // fetches the relevant atoms into the store
     // const atoms = await loadQuery({env, store, routeName:'{capsid router}', query:'capsid-atoms', keyword: manuscript.tables.Manuscripts[0].fields['Name']})
 
-    console.log('manuscript:', manuscript, ' @ ', slug)
+    // console.log('manuscript:', manuscript, ' @ ', slug)
 
     return {
       manuscript: manuscript.tables.Manuscripts[0],

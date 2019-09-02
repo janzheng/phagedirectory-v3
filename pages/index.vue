@@ -17,6 +17,7 @@
           </EvergreenHome>
         </div>
      -->
+
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
                 grid-classes="Template--Main-Sidebar-xs _grid-3-1 _grid-gap"
@@ -37,9 +38,11 @@
 
             <div class="Home-latest _margin-center _padding-left-xs _padding-right-xs">
               <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
-              <Latest v-if="featuredAtoms" :atoms="featuredAtoms" />
+              <!-- featured has been rolled into Latest — add FeedFeature tag and it should show up here -->
+              <!-- <Latest v-if="featuredAtoms" :atoms="featuredAtoms" /> -->
               <NodeForm v-if="form" :src="form"/>
-              <Latest v-if="nonFeaturedAtoms" class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" />
+              <!-- <Latest v-if="nonFeaturedAtoms" class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" /> -->
+              <Latest class="_margin-top-2 --tight" :atoms="latestAtoms" />
               <button class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="getLatestAtoms(numLatest)">
                 <span v-if="!isLoadingMore" class="">Load More</span> 
                 <!-- <div v-else class="_spinner"> </div> -->
@@ -105,14 +108,13 @@ export default {
     // b/c that's better for SEO
     // this.getLatestCapsid()
 
-    // load the author on client
     if(this.latestCapsid)
       this.getAuthorsOfManuscript(this.latestCapsid)
 
     // load these in the client so server is faster; can't be cached, so can skip SEO
     this.getLatestAtoms(_numLatest)
     // load this one in last b/c they're not that common, and shouldn't be cached
-    this.getFeaturedAtoms()
+    // this.getFeaturedAtoms()
 
     return {
       mission: this.$cytosis.findField('home-mission', this.$store.state['Content'], 'Markdown' ),
@@ -143,14 +145,6 @@ export default {
     //     return e.fields['Status'] == 'FeedFeature'
     //   })
     // },
-
-    latestAuthors() {
-      // load the author on client
-      if(this.latestCapsid)
-        this.getAuthorsOfManuscript(this.latestCapsid)
-      return undefined
-    },
-
 
     nonFeaturedAtoms() {
       if(this.latestAtoms) {
@@ -228,20 +222,7 @@ export default {
 
   methods: {
 
-    getFeaturedAtoms() {
-      const _this = this
-      loadQuery({
-        _key: process.env.airtable_api, 
-        _base: process.env.airtable_base, 
-        store: _this.$store, 
-        routeName: 'Index-atoms-featured', 
-        query: 'atoms-featured',
-      }).then((data) => {
-        if(data.tables['Atoms'])
-          _this.featuredAtoms = data.tables.Atoms
-      })
-      return undefined
-    },
+    // s
     getLatestCapsid() {
       const _this = this
       loadQuery({
@@ -290,45 +271,48 @@ export default {
       return undefined
     },
 
-    async getAuthor(slug) {
-      const _this = this
-      const data = await loadQuery({
-        // useDataCache: true,
-        _key: process.env.db_api, 
-        _base: process.env.db_base, 
-        store: _this.$store,
-        routeName: 'Index-authors', 
-        query: 'People-profile',
-        keyword: slug,
-      })
+    // async getAuthor(slug) {
+    //   const _this = this
+    //   const data = await loadQuery({
+    //     // useDataCache: true,
+    //     _key: process.env.db_api, 
+    //     _base: process.env.db_base, 
+    //     store: _this.$store,
+    //     routeName: 'Index-authors', 
+    //     query: 'People-profile',
+    //     keyword: slug,
+    //   })
 
-      return data.tables['People'][0]
-    },
+    //   return data.tables['People'][0]
+    // },
 
-    getAuthorsOfManuscript(manuscript) {
-      // const authorSlug = manuscript.fields['Data:MainAuthorSlug']
+    async getAuthorsOfManuscript(manuscript) {
+      // if(!this['People'])
+      //   return undefined
+
+      if(!manuscript)
+        return undefined
+    
       let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
-
-      // const authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]
       if(manuscript.fields['Data:AuthorSlugs'])
         authorSlugs = [... authorSlugs, ... manuscript.fields['Data:AuthorSlugs']]
-
-      const _this = this
-      // let authors = []
-      let authorsP = []
-
-      authorSlugs.map(function(slug) {
-        // const author = await _this.getAuthor(slug)
-        const author = _this.getAuthor(slug)
-        authorsP.push(author)
-        // _this.authors.push(author[0])
+      // this.getAuthorsOfManuscript(this.latestCapsid)
+    
+      let cytosis = await loadQuery({
+        // useDataCache: true, // can't data cache this b/c of filter
+        _key: process.env.db_api, 
+        _base: process.env.db_base, 
+        store: this.$store, 
+        routeName: 'Index-people', 
+        query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
+        options: {
+          filter: this.$cytosis.filter_or(authorSlugs, "Slug")
+        }
       })
 
-      Promise.all(authorsP).then((authors) => {
-        _this.authors = authors
-      })
+      this['People'] = cytosis.tables['People']
 
-      // return authors
+      return cytosis.tables['People'] // not really used
     },
   },
 

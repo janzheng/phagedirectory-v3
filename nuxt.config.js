@@ -70,6 +70,31 @@ const site_static = false; // if set to true, the client will never pull data
 let site_routes; // used for the generate process to save on airtable pulls
 const api_url = process.env.API_URL;
 
+
+// set up caching data
+let useCytosisConfigCache = false
+let useCytosisDataCache = false
+let useCytosisPageCache = false
+
+// in full production
+if(pd_env=='prod' && mode=='universal') {
+  useCytosisConfigCache = true
+  useCytosisDataCache = true
+  useCytosisPageCache = true
+}
+
+// on zeit now staging
+if(pd_env=='stage' && mode=='universal') {
+  useCytosisConfigCache = true
+  useCytosisDataCache = true
+  useCytosisPageCache = true
+}
+
+// use stage / SPA to test uncached previews `yarn dev-spa`
+// use this mode to generate cache data as well
+
+
+
 // export default (async function() {
 export default {
   // let site_data
@@ -78,7 +103,7 @@ export default {
 
   // console.log('site_data:', site_data)
 
-  // let obj = {
+  // let obj = {api_url
   // export default {
   // mode: 'universal', // use this for deployment; need to rebuild the site every time airtable content changes
   mode: mode, // for development, or for real-time airtable changes
@@ -92,8 +117,9 @@ export default {
     db_api: db_api,  
     db_base: db_base,
 
-    useCytosisConfigCache: pd_env == 'prod' ? true : true,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
-    useCytosisDataCache: pd_env == 'prod' ? true : true,    // works like config caching but for airtable requests
+    useCytosisConfigCache: useCytosisConfigCache,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
+    useCytosisDataCache: useCytosisDataCache,    // works like config caching but for airtable requests
+    useCytosisPageCache: useCytosisPageCache,
     cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 
 
     site_policy: site_policy,

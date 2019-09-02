@@ -95,6 +95,7 @@ import Template from '~/templates/manuscript-capsid.vue'
 import Capsid from '~/components/publications/CapsidFour.vue'
 
 
+// on the server side
 const getAuthors = function(store, manuscript, app) {
 
   // ensures corr. author is first
@@ -111,7 +112,7 @@ const getAuthors = function(store, manuscript, app) {
       _key: process.env.db_api, 
       _base: process.env.db_base, 
       store: store, 
-      routeName: 'Capsid-router', 
+      routeName: 'Capsid-router-people', 
       query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
       // keyword: slug,
       options: {
@@ -216,6 +217,7 @@ export default {
       // useDataCache: true, can't cache this since this uses a slug
       env, 
       store, 
+      _base: env.airtable_base,
       routeName:'Capsid-router-article', 
       query:'capsid-single', 
       keyword: slug
@@ -241,7 +243,7 @@ export default {
           if(cache && cache.fields['Payload']) {
             cache = app.$cytosis.cleanRecord(cache)
             cachedata = JSON.parse(cache.fields['Payload'])
-            console.log('Capsid cache found; sending the Cytosis cached page data.')
+            // console.log('Capsid cache found; sending the Cytosis cached page data.')
             // store the cache data into the store's page cache
             store.dispatch('storePageCache', {
               key: manuscript.fields['Slug'],
@@ -308,15 +310,21 @@ export default {
         // let api_url =  'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
         let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
         if(process.env.api_url) // if the API is down (temp. fix)
-          process.env.api_url + '/api/cite'
+          cite_url = process.env.api_url + '/api/cite'
 
         let citation = {}
         if(manuscript.fields['Data:Citation']) {
           // this is added to airtable manually, after generation
-          citation = manuscript.fields['Data:Citation']
+          citation = JSON.parse(manuscript.fields['Data:Citation'])
         } else {
           let cite_data = await axios.post(cite_url, citationData(manuscript, authors))
           citation = cite_data.data // JSON.parse(cite_data.data)
+
+          // console.log('WT Citation URL:', cite_url )
+          if(!process.env.api_url) {
+            // console.log('WT Citation Object:', cite_data.data )
+            // citation = JSON.parse(cite_data.data) // webtask returns a stringified obj
+          }
           // console.log('Citation Object ::::', citation)
         }
 

@@ -39,10 +39,8 @@ export default {
         let nameList = name.split('.')
         nameList.map((o) => {
           if(typeof(substate[o]) == 'object') {
-            // console.log('popopopo')
             substate = substate[o]
           } else if(typeof(substate[o]) == 'undefined'){
-            // console.log('wawawawa')
             substate[o] = {}
           }
         })
@@ -104,7 +102,7 @@ export default {
   //   state['cytosis'] = cytosis
   // },
 
-  setCytosis (state, cytosis) {
+  setCytosis (state, _cytosis) {
     // this takes up a lot of space; don't save cytosis objects in store anymore
     // but stil generate all the tables into the store
 
@@ -113,14 +111,14 @@ export default {
     // console.log('setCyt before:', cytosis.tables)
 
     // set the config object
-    // console.log('[setCytosis]', cytosis)
-    state['config'][cytosis.airBase.id] = cytosis.config
+    // console.log('[setCytosis] Updating Config store:', _cytosis.airBase.id, _cytosis.config)
+    state['config'][_cytosis.airBase.id] = _cytosis.config
 
     // clean up the cytosis table by only keeping id and fields
     let cleanTable = {}
-    Object.keys(cytosis.tables).map(key => {
+    Object.keys(_cytosis.tables).map(key => {
       // console.log('cleantable:', key)
-      const cleanData = cytosis.tables[key].map(entry => {
+      const cleanData = _cytosis.tables[key].map(entry => {
         // console.log('cleanData . entry', entry)
         return {
           fields: entry.fields,

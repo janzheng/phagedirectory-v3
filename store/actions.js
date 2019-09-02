@@ -329,7 +329,7 @@ export default {
 
     try {
       // async loadCytosis ({ commit }, {env, tableQuery, options, payloads, caller, _key, _base}) {
-      let {routeName, tableQuery, options, payloads, config, _key, _base, useDataCache} = data
+      let {routeName, tableQuery, options, payloads, config, _key, _base, useDataCache, noCommit} = data
 
       const airKey = _key || process.env.airtable_api
       const airBase = _base || process.env.airtable_base
@@ -363,12 +363,16 @@ export default {
       if(cytosis) {
         // clean up the cytosis object for storage
         cytosis = _this.$cytosis.strip(cytosis)
-        commit('setCytosis', cytosis)
 
         if(useDataCache) {
           // store it in the local cache
           commit('storeCytosis', cytosis)
         }
+
+        if(noCommit)
+          return cytosis
+        
+        commit('setCytosis', cytosis)
 
       } else {
         // errors are handled in Contenframe objects, which check for whether node objects exist

@@ -7,9 +7,8 @@
  -->
 <template>
 
-  <div class="Capsid Capsid-Stub _height-100">
+  <div class="Capsid Capsid-Stub _height-100" :data-name="`/capsid/${issue.fields.Slug}`">
     <div v-if="isFeatured" >
-
       <nuxt-link :key="issue.id"
                  :to="`/capsid/${issue.fields.Slug}`"
                  :class="isFeatured ? '--featured' :''"

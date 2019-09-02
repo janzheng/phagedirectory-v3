@@ -44,9 +44,7 @@
     <div class="_section-content _margin-center">
       <div class="_grid-2 _margin-left-xs _margin-right-xs">
         
-        <div v-for="issue of notLatest" :key="issue.id" >
-          <CapsidStub :issue="issue" :authors="getAuthorsOfManuscript(issue)" show-lede="true" class="" />
-        </div>
+        <CapsidStub v-for="issue of this['Manuscripts']" :key="issue.id" :issue="issue" :authors="getAuthorsOfManuscript(issue)" show-lede="true" class="" />
       </div>
 
     </div>

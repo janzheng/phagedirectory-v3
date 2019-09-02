@@ -213,14 +213,16 @@ export default {
     // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
     // console.log('matched node: ', node, ' @ ', slug)
 
+
     const cytosis = await loadQuery({
       // useDataCache: true, can't cache this since this uses a slug
+      noCommit: true,
       env, 
       store, 
       _base: env.airtable_base,
       routeName:'Capsid-router-article', 
       query:'capsid-single', 
-      keyword: slug
+      keyword: slug,
     })
 
     let manuscript = cytosis.tables['Manuscripts'][0]

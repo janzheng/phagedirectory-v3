@@ -1,7 +1,7 @@
 
 
 // loads from a specific query / useful for transforming content
-export async function loadQuery({ store, routeName, query, options, keyword, config, _key, _base, useDataCache, error}) {
+export async function loadQuery({ store, routeName, query, options, keyword, config, _key, _base, useDataCache, error, noCommit}) {
   let data
   // todo: need some other way to keep track of what we've grabbed
   // esp. important for site generation
@@ -26,6 +26,7 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
       payloads: {
         keyword: keyword
       },
+      noCommit, // if true, don't commit loadquery results to store
     })
     return data
   } catch (err) {

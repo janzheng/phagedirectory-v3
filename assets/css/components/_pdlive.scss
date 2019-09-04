@@ -82,6 +82,7 @@ $timeline-post-width: 100%; // 479.05px;
   .--profile {
     width: 70px;
     height: 70px;
+    object-fit: cover;
   }
 
   // @include screen-xs {

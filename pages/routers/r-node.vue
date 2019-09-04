@@ -102,7 +102,7 @@ export default {
 
     // console.log('Node Router: node :: ', node)
 
-    if(node) {
+    if(node && node.fields) {
         _this.node = node
 
       // special type of node that redirects to another page
@@ -115,6 +115,8 @@ export default {
       }
     } else {
       console.error('[Node Router] Node not found for slug:', slug)
+      // put in a SENTRY thing here that catches all the weird routes
+      // bots sometimes try to get to
       error({ statusCode: 404, message: "Page not Found" })
     }
 

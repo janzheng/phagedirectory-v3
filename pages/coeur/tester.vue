@@ -5,7 +5,7 @@
 
       <h1>Test Room!</h1>
 
-      <h2>Map of Events</h2>
+      <!-- <h2>Map of Events</h2> -->
 <!-- 
       <div class="Leaflet" id="map-wrap" style="height: 40vh">
         <no-ssr>
@@ -27,11 +27,10 @@
         </no-ssr>
       </div> -->
 
-      <h2>Form</h2>
       <!-- <NodeForm :src="form"/> -->
 
 
-      <h2>Cytosis</h2>
+      <!-- <h2>Cytosis</h2> -->
       <!--<Cytosis
         :tableQueries="['atoms-alerts']"
         :refreshOnLoad="true"
@@ -59,6 +58,7 @@ import NodeForm from '~/components/render/NodeForm.vue'
 import Template from '~/templates/article.vue'
 import { headMatter } from '~/other/headmatter.js'
 import { loadQuery } from '~/other/loaders'
+import axios from 'axios'
 
 export default {
 
@@ -117,21 +117,32 @@ export default {
 
   },
 
-  // async asyncData({env, store, route, app, error}) {
-  //   error({statusCode: 500, message: "I AM A BANANA"})
-  // },
+  async asyncData({env, store, route, app, error}) {
+    // error({statusCode: 500, message: "I AM A BANANA"})
+  },
 
-  async data () {
+  data () {
 
-    let item = await this.$cytosis.getRecord({
-      recordId: 'recnY61HrxiBaB27h',
-      tableName: '_cache',
-      airKey: process.env.airtable_api,
-      baseId: process.env.airtable_base,
-    })
-    item = this.$cytosis.cleanRecord(item)
+    console.log('Testing Testing!')
 
-    console.log(' ::: GET ITEM ::: ', item)
+    // if(process.client)
+      // this.getData()
+
+    return {
+      profiledata: null,
+      slug: "",
+      passcode: "",
+    }
+
+    // let item = await this.$cytosis.getRecord({
+    //   recordId: 'recnY61HrxiBaB27h',
+    //   tableName: '_cache',
+    //   airKey: process.env.airtable_api,
+    //   baseId: process.env.airtable_base,
+    // })
+    // item = this.$cytosis.cleanRecord(item)
+
+    // console.log(' ::: GET ITEM ::: ', item)
     // console.log(' ::: GET ITEM ::: ', JSON.parse(item.fields['Payload']))
 
     // let people = await loadQuery({
@@ -189,7 +200,8 @@ export default {
     //   }))
     //   return answer
     // }
-  }
+  },
+
 
 }
 </script>

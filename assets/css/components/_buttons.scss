@@ -10,6 +10,12 @@
   color: usetheme(brand-80); //$color-links;
   // @extend ._shadow-1;
 
+  &:not(.--hover-none):hover {
+    background-color: usetheme(brand-bright); //$color-links;
+    border-color: usetheme(brand-bright); //$color-links;
+    color: usetheme(purewhite); //$color-bg;
+    @extend %ease;
+  }
 
   // declared using overriding default variables in settings
   &.--outline {

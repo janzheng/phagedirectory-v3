@@ -533,6 +533,21 @@ export default {
         },
 
         {
+          // Profile Editor / Magic Links + password protection
+          name: 'profile editor slug+passcode',
+          path: '/profile/edit/:slug/:passcode',
+          component: resolve(__dirname, 'pages/profile/edit.vue')
+        },
+          {
+            // Profile Editor / Magic Links + password protection
+            // just a :slug could be typo, capsid, or idk
+            // future: use auth to handle these
+            name: 'profile editor slug',
+            path: '/profile/edit/:slug',
+            component: resolve(__dirname, 'pages/profile/edit.vue')
+          },
+
+        {
           // Dynamic Template Router
           // catches all routes and attempts to find a template
           // throws error if it can't

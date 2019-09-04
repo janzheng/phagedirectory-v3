@@ -260,6 +260,11 @@ $capsid_: (
   @extend ._card;
   padding: $size;
   font-size: usetheme(font-small);
+
+  ul {
+    padding-top: $size-half;
+    padding-bottom: 0;
+  }
 }
   .Capsid-info-container {
     // padding: $size;

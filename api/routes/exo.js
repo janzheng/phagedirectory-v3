@@ -274,10 +274,10 @@ const exo = {
 
 
 	// TODO: this is not really async, but it's not used in production
-	deleteAll: function() {
+	deleteAll: function(directory = '/tmp') {
 	  return new Promise(function(resolve, reject) {
 	    // deletes all json files
-	    const directory = '/tmp'
+	    // const directory = '/tmp'
 	    fs.readdir(directory, (err, files) => {
 	      try {
 	        if (err) {

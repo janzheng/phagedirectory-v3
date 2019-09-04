@@ -66,6 +66,7 @@ img {
       // width: 100%;
       border-radius: 100%;
       border: $border-medium solid usetheme(mono-disabled);
+      object-fit: cover;
     }
 
     &.--medium {

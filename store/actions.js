@@ -213,26 +213,29 @@ async function fetchData({data, _this, state}) {
         let retry = false, retries = 0
         var intermediate = function(err, tries, delay) {
           if(process.server) {
-            console.error('[action/loadCytosis] >>>>> Airtable Retrying >>>>>> ')
-            console.log(err)   // last error
-            console.log(tries) // total number of tries performed thus far
-            console.log(delay) // the delay for the next attempt
-            // return false;       // this will cancel additional tries
+            console.error('[action/loadCytosis] >>>>> Airtable Retrying >>>>> ')
+            console.log('>>>>> Last error: ', err, ' >>>>> tries: ', tries, ' >>>>> delay: ', delay)   // last error
+            // console.log(tries) // total number of tries performed thus far
+            // console.log(delay) // the delay for the next attempt
+            // return false;      // this will cancel additional tries
             retry = true
             retries += 1
-            console.log('[action/loadCytosis] >>>>>>')
+            console.log('[action/loadCytosis] >>>>> ')
           }
         }
 
         backoff(fetchCytosis, {data, _this}, intermediate, function(err, _data) {
           if (retry)
-            console.log('Retries:', retries)
+            console.log('Retrying... #:', retries)
           // console.log('backoff callback:', err, data)
           if(err) {
             console.log('Backoff Failed at', err)
             reject(err)
           }
           if(_data)
+            if(retry) {
+              console.log(' >>>>> Retry Succcessful >>>>> Total retries:', retries)
+            }
             // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
             resolve(_data)
         })

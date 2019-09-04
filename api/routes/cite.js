@@ -94,6 +94,7 @@ app.post('/api/cite', async function(req, res, next) {
     // console.log('[Cite] Building Citation ...', request)
     
     // pass it on to webtask........ :P 
+    // there's a bug on Zeit Now that prevents citation-js from being added
     let citation = await axios.post(api_url, request)
     // console.log('[Cite] Citation received!', citation.config.data)
     console.timeEnd(`/api/cite/`)

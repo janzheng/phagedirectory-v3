@@ -9,6 +9,8 @@
     "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
     "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
     "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
+    "PD_AIRTABLE_PRIVATE_MGR_API": "@pd-airtable-private-mgr-api",
+    "PD_AIRTABLE_PRIVATE_MGR_BASE": "@pd-airtable-private-mgr-base",
     "MODE": "universal",
     "PD_ENV": "prod",
     "API_URL": "https://phage.directory"
@@ -19,6 +21,8 @@
       "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
       "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
       "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
+      "PD_AIRTABLE_PRIVATE_MGR_API": "@pd-airtable-private-mgr-api",
+      "PD_AIRTABLE_PRIVATE_MGR_BASE": "@pd-airtable-private-mgr-base",
       "MODE": "universal",
       "PD_ENV": "prod",
       "API_URL": "https://phage.directory"
@@ -60,6 +64,7 @@
     { "src": "/api/users(.*)", "dest": "api/routes/hello" },
     { "src": "/api/allusers(.*)", "dest": "api/routes/hello" },
 
+    { "src": "/api/profile(.*)", "dest": "api/routes/profile.js" },
     { "src": "/api/cite", "dest": "api/routes/cite.js" },
     { "src": "/api/exocytosis(.*)", "dest": "api/routes/exocytosis.js" },
 

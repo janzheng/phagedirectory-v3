@@ -69,6 +69,9 @@
   - 8/31/2019
     - added getRecord that uses Airtable API's "find" method
     - added cleanRecord that only keeps id, fields, and some of _table from a record
+
+  - 9/1/2019
+    - fixed save () and delete; saveLinkedTables probably needs a fixin' too
     
 */
 
@@ -486,15 +489,15 @@ class Cytosis {
 
   // — these require API key w/ write permission or they'll fail
   save (object, tableName, recordId=undefined) {
-    return Cytosis.save(object, tableName, recordId)
+    return Cytosis.save(object, tableName, this, recordId)
   }
 
   delete (tableName, recordId) {
-    return Cytosis.delete(tableName, recordId)
+    return Cytosis.delete(tableName, this, recordId)
   }
 
   saveLinkedTable (stringList, targetTableName, sourceTable, colName='Name') {
-    return Cytosis.saveLinkedTable(stringList, targetTableName, sourceTable, colName)
+    return Cytosis.saveLinkedTable(stringList, targetTableName, sourceTable, this, colName)
   }
 
 
@@ -980,6 +983,7 @@ class Cytosis {
   // Input: 
   //    object: a JS object with one or more keys that match field (column) names in the table
   //    tableName: a string indicating what table to save to
+  //    cytosis: cytosis object (w/ proper key/base)
   //    recordId: a string, if defined, would save the object into the existing record w/ recordId
   // Output:
   //    an object: the saved record object as returned from Airtable
@@ -1016,14 +1020,16 @@ class Cytosis {
   // The given API key needs account permission to delete
   // Input:
   //    tableName: a string, the name of the table
+  //    cytosis: cytosis object (w/ proper key/base)
   //    recordId: a string, the Id of the record to be deleted
   // Output:
   //    an object: the deleted record object as returned from Airtable
-  static delete (tableName, recordId) {
-    if(!Cytosis.preCheck(this.airKey,this.airBase))
+  static delete (tableName, cytosis, recordId) {
+
+    if(!Cytosis.preCheck(cytosis.airKey,cytosis.airBase))
       return
 
-    let base = this.base
+    let base = cytosis.base
     try {
       return new Promise(function(resolve, reject) {
         if (recordId) {
@@ -1066,10 +1072,11 @@ class Cytosis {
   //    stringList: an array of strings that represent the records (e.g. Tag Names) in the target
   //    targetTableName: the name of the target table (e.g. "Tags")
   //    sourceTable: an array of Airtable record objects where the matches could be found
+  //    cytosis: cytosis object (w/ proper key/base)
   //    colName: usually matches the 'Name' (default) field but could be anything
   // Output:
   //    an array of record Ids that match the list
-  static async saveLinkedTable(stringList, targetTableName, sourceTable, colName='Name') {
+  static async saveLinkedTable (stringList, targetTableName, sourceTable, cytosis, colName='Name') {
     let recordIds = await stringList.reduce(async (resultPromise, listItem) => {
       const _result = await resultPromise
 
@@ -1081,7 +1088,7 @@ class Cytosis {
         } 
       }
       // if no match, we have to create a new one and get its id
-      let recordId = await Cytosis.save({'Name': listItem}, targetTableName)
+      let recordId = await Cytosis.save({'Name': listItem}, targetTableName, cytosis)
 
       // bug? this touches the sourceTable
       // is it possible to set sourceTable = stringList (thus updating the source to include the list) from here?

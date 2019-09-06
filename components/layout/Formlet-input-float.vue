@@ -12,6 +12,7 @@
              :required="input.required"
              class="_form-input --width-full" 
              type="text"
+             :list="input.options ? 'input_options':undefined"
              @input="emit"
              @blur="emit"
              @change="emit"
@@ -35,6 +36,7 @@
              :required="input.required"
              class="_form-input --width-full" 
              type="text"
+             :list="input.options ? 'input_options':undefined"
              @input="emit"
              @blur="emit"
              @change="emit"
@@ -49,6 +51,9 @@
       />
     </div>
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
+    <datalist v-if="input.options" id="input_options">
+      <option v-for="item of input.options" :key="item.value" :value="item.value">{{ item.label }}</option>
+    </datalist>
   </div>
 
 </template>

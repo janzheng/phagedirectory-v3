@@ -59,7 +59,7 @@ export default {
 
   data: function () {
     return {
-      data: '' // note that data can't be a prop since it needs to be bound
+      data: this.input.initial || '' // note that data can't be a prop since it needs to be bound
       // we're emitting the data back as a @input
     }
   },

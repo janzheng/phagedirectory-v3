@@ -276,6 +276,9 @@ $colors-mono: (
 ._color-brand-dark { color: usetheme(brand-dark, $colors); }
 ._color-brand-light { color: usetheme(brand-light, $colors); }
 
+// colorate's been removed to cut down on size, so manually include colors
+._color-bg-white { background-color: #fff; } // usetheme(white); }
+
 
 @include addtheme($colors_); // merge settings colors into working theme 
 $colorMap: colorTintMap($colors);

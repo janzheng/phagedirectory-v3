@@ -42,6 +42,7 @@
 
     { "src": "/apply/profile", "status": 301, "headers": { "Location": "https://airtable.com/shrbZHMw6R2dCij9v" } },
     { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrJzoZ7LocbmuTNP" } },
+    { "src": "/apply/professionals", "status": 301, "headers": { "Location": "https://airtable.com/shrJzoZ7LocbmuTNP" } },
     { "src": "/apply/labs", "status": 301, "headers": { "Location": "https://airtable.com/shrRZfnjvaKOx3eeK" } },
     { "src": "/apply/medical", "status": 301, "headers": { "Location": "https://airtable.com/shrdIUxOsr411hNwR" } },
     { "src": "/apply/phagebanks", "status": 301, "headers": { "Location": "https://airtable.com/shrPtmSf5dxdeBnoy" } },

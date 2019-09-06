@@ -1,6 +1,6 @@
 <template>
   <div class="Join">
-    <Template>
+    <Template main-classes="Template--Main _section-article _margin-bottom _margin-center _margin-top-none-i">
       <template #container>
         <div class="_section-article" v-html="$md.render(intro || '')" />
 

@@ -254,6 +254,13 @@ $capsid_: (
 
  */
 
+.Capsid-cover {
+  // cover image
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
 .Capsid-cite {
   // infobox on how to cite, read time, doi, etc.
   // they may be split up as well

@@ -39,7 +39,7 @@ export const dirSearch = function(_this) {
 
   // const slug = this.$router.params.slug
   const route = _this.$router.currentRoute
-  let base = 'hosts'
+  let base = '/hosts'
 
   if(route.path == '/orgs' || route.path == '/people' || route.path == '/labs')
     base = route.path

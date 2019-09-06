@@ -25,13 +25,18 @@
                 <nuxt-link :to="`/people#${person.fields['Slug']}`" class="--nolink">{{ person.fields['Name'] }}</nuxt-link> <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
               </div>
               <div class="Dir-social Dir-title">
+                <a v-if="person.fields['Email']" :href="`${person.fields['Email']}`" class="Dir-icon --url"><span class="_font-phage icon-mail-alt"/> </a>
                 <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
                 <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><span class="_font-phage icon-google-scholar" /></a>
                 <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
                 <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
                 <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
-                <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><span class="_font-phage icon-github"/></a>
+                <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><span class="_font-phage icon-github-circled"/></a>
               </div>
+            </div>
+
+            <div class="People-name-expertise">
+              <div v-html="$md.render(person.fields['Expertise'] || '')" />
             </div>
 
             <div class="People-orgs Dir-row _font-small">
@@ -46,7 +51,10 @@
               <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
                 {{ item.name +'' }}
               </span> -->
-              <span v-for="(item, i) of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name"><span v-if="i > 0">; </span>{{ item.name +'' }}<span v-if="item.location">, {{ item.location }}</span>
+
+              <span v-if="orgs">
+                <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name"><span v-if="i > 0">; </span><nuxt-link :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-if="item.location">, {{ item.location }}</span>
+                </span>
               </span>
             </div>
 
@@ -55,13 +63,16 @@
 
           <div class="People-info-block Dir-block">
             <!-- <div><span class="Dir-label">Website</span></div> -->
-            <!-- <div v-if="person.fields['Short']" class="People-short Dir-row" >
-              <span class="_md-pfix" v-html="$md.render( person.fields['Short'] || '')" />
+            <!-- <div v-if="person.fields['Expertise']" class="People-short Dir-row" >
+              <span class="_md-pfix" v-html="$md.render( person.fields['Expertise'] || '')" />
             </div> -->
-            <div v-if="person.fields['Social:Twitter']" class="Dir-row _grid-1-7-xs _align-vertically">
+            <div v-if="person.fields['Email']" class="Dir-row-half _grid-1-7-xs _align-vertically">
+              <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
+            </div>
+            <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-7-xs _align-vertically">
               <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="_wordbreak --url --none">@{{ person.fields['Social:Twitter'] }}</a>
             </div>
-            <div v-if="url" class="Dir-row _grid-1-7-xs _align-vertically">
+            <div v-if="url" class="Dir-row-half _grid-1-7-xs _align-vertically">
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
             </div>
           </div>

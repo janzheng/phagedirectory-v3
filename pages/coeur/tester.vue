@@ -71,7 +71,7 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content-core"],
+    tableQueries: ["_content-copy"],
     // tableQueries: ["_content-copy","atoms-events"],
   },
 

@@ -25,6 +25,7 @@
              :required="input.required"
              class="_form-input --width-full" 
              :type="type"
+             :list="input.options ? 'input_options':undefined"
              @input="emit"
              @blur="emit"
              @change="emit"
@@ -41,11 +42,17 @@
            :required="input.required"
            class="_form-input --width-full" 
            :type="type"
+           :list="input.options ? 'input_options':undefined"
            @input="emit"
            @blur="emit"
            @change="emit"
            @keyup.enter="keyEnterHandler"
     >
+
+    <datalist v-if="input.options" id="input_options">
+      <option v-for="item of input.options" :key="item.value" :value="item.value">{{ item.label }}</option>
+    </datalist>
+
     <label v-if="isFieldInvalid && errorMessage" class="_error" >{{ errorMessage }}</label>
   </div>
 
@@ -70,7 +77,7 @@ export default {
 
   data: function () {
     return {
-      data: '', // note that data can't be a prop since it needs to be bound
+      data: this.input.initial || '', // note that data can't be a prop since it needs to be bound
       // we're emitting the data back as a @input
     }
   },

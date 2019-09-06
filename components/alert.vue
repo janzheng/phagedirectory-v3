@@ -18,6 +18,10 @@
       </span>
     </div>
     <div class="Alert-content " v-html="$md.render(atom.fields['Markdown'] || '')" />
+    <div v-if="atom.fields['Updates']" >
+      <hr>
+      <div class="Alert-updates " v-html="$md.render(atom.fields['Updates'] || '')" />
+    </div>
 
   </div>
 

@@ -72,7 +72,13 @@
 
   - 9/1/2019
     - fixed save () and delete; saveLinkedTables probably needs a fixin' too
-    
+
+  - 9/4/2019
+    - added a typecast option to class and static save ()
+    - added saveArray and reverted old save () to how it used to be; save Array uses the new API
+    - update airtable dep to 0.7.1
+    - also consider a real CHANGELOG.md lol
+
 */
 
 /*
@@ -490,6 +496,11 @@ class Cytosis {
   // — these require API key w/ write permission or they'll fail
   save (object, tableName, recordId=undefined) {
     return Cytosis.save(object, tableName, this, recordId)
+  }
+
+  // new model
+  saveArray (objectArray, tableName, create=false, typecast=false) {
+    return Cytosis.saveArray(objectArray, tableName, this, create, typecast)
   }
 
   delete (tableName, recordId) {
@@ -997,11 +1008,12 @@ class Cytosis {
       return new Promise(function(resolve, reject) {
         if (!recordId) {
           base(tableName).create(object, function(err, record) {
-            if (err) { console.error('Airtable async save error', err); reject(err); return }
+            if (err) { console.error('Airtable async save/create error', err); reject(err); return }
             console.log('New record: ' , record.getId(), record.fields['Name']);
             resolve(record);
           });
         } else {
+          // old API doesn't support typecast
           base(tableName).update(recordId, object, function(err, record) {
             if (err) { console.error('Airtable async save error', err); reject(err); return }
             console.log('Updated record: ' , record.getId(), record.fields['Name']);
@@ -1014,6 +1026,41 @@ class Cytosis {
       console.error('Save Object to Airtable error (do you have permission?)', e); return; 
     }
   }
+
+  // uses the new Airtable create/update API
+  // passes in an array of objects (id is embedded within the objects)
+  // takes up to ten objects in the array
+  // set "create" to true to create; has to be explicit, since it's easier to read 
+  // to create: objectArray = [{fields: "name: {}, ..."}]
+  // to update: objectArray = [{id: "123", fields: "name: {}, ..."}]
+  static saveArray (objectArray, tableName, cytosis, create=false, typecast=false) {
+    
+    if(!Cytosis.preCheck(cytosis.airKey,cytosis.airBase))
+      return
+
+    let base = cytosis.base
+    try {
+      return new Promise(function(resolve, reject) {
+        if (create) {
+          base(tableName).create(objectArray, {typecast: typecast}, function(err, records) {
+            if (err) { console.error('Airtable async saveArray/create error', err); reject(err); return }
+            console.log('New records: ' , records);
+            resolve(records);
+          });
+        } else {
+          base(tableName).update(objectArray, {typecast: typecast}, function(err, records) {
+            if (err) { console.error('Airtable async saveArray/update error', err); reject(err); return }
+            console.log('Updated records: ' , records);
+            resolve(records);
+          });
+        }
+      })
+
+    } catch(e) {
+      console.error('SaveArray Object to Airtable error (do you have permission?)', e); return; 
+    }
+  }
+
 
 
   // Deletes an existing record from a table

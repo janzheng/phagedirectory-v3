@@ -267,7 +267,8 @@ app.post('/api/profile', async function(req, res, next) {
         let profile = JSON.parse(body.profile)
         // console.log('UPDATING >>>>>>> avatar files ? ', profile, profile.slug, profile.passcode)
 
-        // console.log(' >>>>>> loading:', profile.slug)
+        console.log('Updating >>>>>> :', profile)
+
         let cytmgr = await loadManager(profile.slug)
         cytmgr = Cytosis.strip(cytmgr)
         let mgrprofile = cytmgr.tables['ProfileManager'][0]
@@ -280,7 +281,12 @@ app.post('/api/profile', async function(req, res, next) {
           mgrprofile.fields['Access'] === "ReadWrite"
         ) {
 
-          if(req.files && req.files.avatar) {
+          // set the custom link as precedent
+          if(profile.avatar_link) {
+            avatarUrl = profile.avatar_link
+          }
+
+          if(!avatarUrl && req.files && req.files.avatar) {
 
             avatar = req.files.avatar.path.substring(12) // remove the tmp/public part of the path
             avatarUrl = req.protocol + '://' + req.get('host') + '/api/profile/' + avatar
@@ -293,22 +299,60 @@ app.post('/api/profile', async function(req, res, next) {
               const pipeline = sharp();
 
               pipeline.metadata().then(metadata => {
-                let length = metadata.width < metadata.height ? metadata.width : metadata.height
-                if (length > 900)
-                  length = 900
-                console.log(`[Profile] Resizing image to ${length}x${length}`)
-                return pipeline.resize({
-                  width: length,
-                  // height: length, // actually square is pretty ugly; can use object-fit
-                  withoutEnlargement: true,
-                  fit: sharp.fit.inside,
-                  // position: sharp.strategy.entropy
-                })
-                .webp()
-                .toBuffer();
+
+                if(profile.avatar == "square") {
+                  let length = metadata.width < metadata.height ? metadata.width : metadata.height
+                  if (length > 900)
+                    length = 900
+
+                  console.log(`[Profile] Resizing image to ${length}x${length}`)
+                  return pipeline.resize({
+                    width: length,
+                    // height: length, // actually square is pretty ugly; can use object-fit
+                    withoutEnlargement: true,
+                    fit: sharp.fit.inside,
+                    // position: sharp.strategy.entropy
+                  })
+                  .png()
+                  .toBuffer();
+                } else {
+                  let width = metadata.width
+                  let density = 120
+
+                  if(width > 900)
+                    width = 900
+
+                  if(metadata.format == 'svg') {
+                    // improve density for svg // https://github.com/lovell/sharp/issues/729
+                    // density = 72*width/16
+                    return pipeline; // do nothing for svg
+                  }
+
+                  console.log('[Profile] metadata:', metadata)
+                  return pipeline.resize({
+                    width: width,
+                    // height: length, // actually square is pretty ugly; can use object-fit
+                    withoutEnlargement: true,
+                    // density: density
+                    // fit: sharp.fit.inside,
+                    // position: sharp.strategy.entropy
+                  })
+                  .png()
+                  .toFile(req.files.avatar.path, (err, info) => {  
+                    if(err) {
+                      console.error('[Profile] Could not write PNG to file', err, info)
+                      return
+                    }
+                    console.error('[Profile] Wrote PNG to file', err, info)
+                    avatarUrl = avatarUrl + '.png'
+                  });
+                  // slap .png to any file name... airtable doesn't support webp, svg, etc.
+                  // .toBuffer();
+                }
+
                 // }
               }).then(function(data) {
-                fs.writeFile(req.files.avatar.path, data)
+                // fs.writeFileSync(req.files.avatar.path, data)
               });
 
               req.files.avatar.pipe(pipeline)
@@ -322,17 +366,105 @@ app.post('/api/profile', async function(req, res, next) {
             let cytprofilesave = await loadProfileForSaving(mgrprofile.fields['capsID'])
             let dbprofile = cytprofilesave.tables['People'][0] || cytprofilesave.tables['Organizations'][0]
             
+            let fields = {}
+
+            if(profile.table == 'Organizations') {
+              // org whitelist
+              fields['Name'] = profile.data['Name']
+              fields['AltName'] = profile.data['AltName']
+              fields['Description'] = profile.data['Description']
+              fields['ContactPerson'] = profile.data['ContactPerson']
+              fields['Email'] = profile.data['Email']
+              fields['Org:Types'] = profile.data['Org:Types']
+              fields['Social:Linkedin'] = profile.data['Social:Linkedin']
+              fields['Social:Twitter'] = profile.data['Social:Twitter']
+              fields['URL'] = profile.data['URL']
+              fields['Profile'] = profile.data['Profile']
+              fields['City'] = profile.data['City']
+              fields['State'] = profile.data['State']
+              fields['Country'] = profile.data['Country']
+            } else if(profile.table == 'People') {
+              // person whitelist
+              fields['FirstName'] = profile.data['FirstName']
+              fields['MiddleName'] = profile.data['MiddleName']
+              fields['FamilyName'] = profile.data['FamilyName']
+              fields['Title'] = profile.data['Title']
+              fields['Expertise'] = profile.data['Expertise']
+              fields['Description'] = profile.data['Description']
+              fields['Orgs:Name'] = profile.data['Orgs:Name']
+              fields['Roles:Custom'] = profile.data['Roles:Custom'] // send it to a custom string instead to maintain integrity
+              fields['Roles'] = profile.data['Roles:Custom'] ? [] : undefined // remove the previous role if there's a new one
+              fields['JobTitle'] = profile.data['JobTitle']
+
+              fields['Email'] = profile.data['Email']
+              fields['URL'] = profile.data['URL']
+              fields['Social:Twitter'] = profile.data['Social:Twitter']
+              fields['Social:Linkedin'] = profile.data['Social:Linkedin']
+              fields['Social:GoogleScholar'] = profile.data['Social:GoogleScholar']
+              fields['Social:ResearchGate'] = profile.data['Social:ResearchGate']
+              fields['Social:ResearcherID'] = profile.data['Social:ResearcherID']
+              fields['Social:ORCID'] = profile.data['Social:ORCID']
+              fields['Social:Github'] = profile.data['Social:Github']
+              fields['Social:ProtocolsIO'] = profile.data['Social:ProtocolsIO']
+              fields['Social:Other'] = profile.data['Social:Other']
+            }
+
             if(avatarUrl) { 
               // add a Profile attachment image; please ref the Airtable API for Qs
               // the img is uploaded + written to /tmp/ then served dynamically
-              profile.data['Profile'] = [ {
+              fields['Profile'] = [ {
                 'url': avatarUrl
               }]
             }
-            console.log(' >>>>>> final data :::::', profile.data)
 
-            let response = await cytprofilesave.save(profile.data, profile.table, dbprofile.id)
-            response = Cytosis.cleanRecord(response)
+            // if no avatars are set and triggered to clear, we clear the profile
+            if(!avatarUrl && profile.avatar_clear) {
+              fields['Profile'] = []
+            }
+
+            let sendpayload = [{
+              id: dbprofile.id,
+              fields: fields,
+            }]
+
+            // console.log(' >>>>>> cytprofilesave base :::::', cytprofilesave.base('Organizations'))
+            // console.log(' >>>>>> replacing :::::', dbprofile.fields)
+            console.log(' >>>>>> final sendpayload :::::', sendpayload)
+
+            // let response = await cytprofilesave.save(whiteprofile, profile.table, dbprofile.id, true)
+            // let response = await Cytosis.saveArray(sendpayload, profile.table, cytprofilesave, false, true)
+            // let base = cytosis.base
+            let save = async function() {
+              return new Promise(function(resolve, reject) {
+                // cytprofilesave.base(profile.table).update(sendpayload, {typecast: false}, function(err, records) {
+                //   if (err) { console.error('Airtable async saveArray/update error', err); reject(err); return }
+                //   console.log('Updated record: ', records);
+                //   // resolve(records);
+                //   resolve(records)
+                // })
+
+                resolve(cytprofilesave.base(profile.table).update(sendpayload, {typecast: false}))
+
+                // cytprofilesave.base('Organizations').update('recmNpJPK0Tr4h1qq', {'Name':'test'}, function(err, records) {
+                //   if (err) { console.error('Airtable async saveArray/update error', err); reject(err); return }
+                //   console.log('Updated record: ' , records.getId(), records.fields['Name']);
+                //   // resolve(records);
+                //   resolve(records)
+                // })
+
+
+                // cytprofilesave.base('Organizations').update([{id:'recmNpJPK0Tr4h1qq', fields: {'Name':'test2'}}], function(err, records) {
+                //   if (err) { console.error('Airtable async saveArray/update error', err); reject(err); return }
+                //   console.log('Updated record: ' , records);
+                //   // resolve(records);
+                //   resolve(records)
+                // })
+              })
+            }
+            let response = await save()
+            console.log(' >>>>>> final response :::::', response)
+            // console.log('[Profile] Update saved:', response[0])
+            response = Cytosis.cleanRecord(response[0])
 
             let result = {
               meta: {
@@ -348,7 +480,7 @@ app.post('/api/profile', async function(req, res, next) {
             next(err)
           }
         } else {
-          console.error('[Profile] No profile found')
+          console.error('[Profile] No profile found:', mgrprofile.fields)
           res.end('Couldn\'t find profile.');
         }
       } catch(err) {

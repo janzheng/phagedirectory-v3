@@ -1,66 +1,141 @@
 <template>
   <div class="Profile-edit-orgs">
-    <Template>
+    <Template sidebar-classes="--sticky --top-1" grid-classes="Template--Main-Sidebar _grid-4-1-sm _grid-gap ">
 
-      <template>
-        <h6>Organization Details</h6>
+      <template #header>
         <div class="_card _padding">
-          <div>
+          <div v-if="message" class="Profile-edit-message _card _padding">{{ message }}</div>
+
+          <h6>Organization Profile</h6>
+          <h1 class="--title">{{ profile.fields['Name'] }}</h1>
+          <div class="Profile-edit-name">
             <FormletInputFloat
-              class="input.classes"
               :input="input_orgName" 
-              @input="(data) => { this.profile['Name'] = data }" 
+              @input="(data) => { updateProfile('Name', data) }" 
             />
           </div>
-          <div>
+          <div class="Profile-edit-altname">
             <FormletInputFloat
-              class="input.classes"
               :input="input_orgShortName" 
-              @input="(data) => { this.profile['Name'] = data }" 
+              @input="(data) => { updateProfile('AltName', data) }" 
             />
           </div>
-          <div>
-            <FormletInputDatalist
-              class="input.classes"
+          <div class="Profile-edit-orgtype">
+            <FormletInputFloat
               :input="input_orgType" 
-              @input="(data) => { this.profile['Name'] = data }" 
+              @input="(data) => { updateProfile('Org:Types', data) }" 
             />
           </div>
 
-          <label for="color">What's the name of your favorite color?</label>
-          <input type="text" id="color" list="colors_data">
-          <datalist id="colors_data">
-            <option value="red"></option>
-            <option value="orange"></option>
-            <option value="green"></option>
-            <option value="blue">The color of the sky</option>
-          </datalist>
+          <div class="Profile-edit-description _margin-top-2">
+            <FormletTextArea 
+              :input="input_orgDescription"
+              @input="(data) => { updateProfile('Description', data) }" 
+            />
+          </div>
 
-
-
-
-          <div>
-            <div class="Profile-avatar-control _form-control">
-              <!-- <label class="_form-label">File Upload Button</label> -->
-              <label for="Profile-avatar" class="_button --outline">Upload Profile Image</label>
-              <input type="file" id="Profile-avatar" class="Profile-avatar" style="display:none" @change="uploadAvatar">
-              <img :src="avatar" />
-              <button @click="clearAvatar">Clear avatar</button>
-              Note: your image might be cropped — please save and preview your profile picture!
-            </div>
-
-            <!-- <div v-if="isLoading">Hold on to your shoes, I'm loading!!</div> -->
-            <div v-if="profile" class="_card _padding _margin-top">
-              <!-- <div v-if="tableType" class="_tag">{{tableType}}</div> -->
-              {{ profileProp }}
+          <div class="Profile-edit-location _margin-top-2">
+            <p class="_font-bold">Organization Location</p>
+            <div class="_grid-3">
+              <div class="Profile-edit-city">
+                <FormletInputFloat
+                  :input="input_orgCity" 
+                  @input="(data) => { updateProfile('City', data) }" 
+                />
+              </div>
+              <div class="Profile-edit-state">
+                <FormletInputFloat
+                  :input="input_orgState" 
+                  @input="(data) => { updateProfile('State', data) }" 
+                />
+              </div>
+              <div class="Profile-edit-country">
+                <FormletInputFloat
+                  :input="input_orgCountry" 
+                  @input="(data) => { updateProfile('Country', data) }" 
+                />
+              </div>
             </div>
           </div>
+
+
+
+
+
+          <div class="Profile-edit-avatar _margin-top-2">
+            <div class="Profile-avatar-control _card _padding _form-control">
+              <h6>Organization Logo</h6>
+              <label for="Profile-avatar" class="_button --outline">
+                <span v-if="!avatar">Upload Logo</span>
+                <span v-else>Change Logo Image</span>
+              </label> <button v-if="avatar" @click="clearAvatar">Clear Logo</button>
+              <input ref="avatar" id="Profile-avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
+              <div v-if="avatar">
+                <img :src="avatar" >
+              </div>
+              <div class="_font-small">Note: your image might be cropped — please save to preview your final profile</div>
+              <!-- todo: add support for profile url and svgs -->
+            </div>
+          </div>
+
+
+
+
+
+          <div class="Profile-edit-group-contact _margin-top-2">
+            <div class="Profile-edit-contact">
+              <FormletInputFloat
+                :input="input_orgContact" 
+                @input="(data) => { updateProfile('ContactPerson', data) }" 
+              />
+            </div>
+            <div class="Profile-edit-email">
+              <FormletInputFloat
+                :input="input_orgEmail" 
+                @input="(data) => { updateProfile('Email', data) }" 
+              />
+            </div>
+            <div class="Profile-edit-website">
+              <FormletInputFloat
+                :input="input_orgWebsite" 
+                @input="(data) => { updateProfile('URL', data) }" 
+              />
+            </div>
+            <div class="Profile-edit-twitter">
+              <FormletInputFloat
+                :input="input_orgTwitter" 
+                @input="(data) => { updateProfile('Social:Twitter', data) }" 
+              />
+            </div>
+            <div class="Profile-edit-linkedin">
+              <FormletInputFloat
+                :input="input_orgLinkedin" 
+                @input="(data) => { updateProfile('Social:Linkedin', data) }" 
+              />
+            </div>
+          </div>
+
+
+          <div class="_margin-top-2">
+
+            <button v-if="!isSaving" class="_button --width_full" @click="saveData" >Save Organization Profile</button>
+            <button v-if="isSaving" class="_button --width_full --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+
+            <div v-if="message" class="Profile-edit-message _card _padding">{{ message }}</div>
+          </div>
+
         </div>
+
+        <!-- <div v-if="profile && isStaging" style="word-break: break-all;">
+          {{ profile }}
+        </div> -->
+
       </template>
 
-      <template #context>
-        <button @click="saveData" class="_button">Save the data!</button>
-      </template>
+      <!-- <template #context>
+        <button v-if="!isSaving" @click="saveData" class="_button --width_full">Save Profile</button>
+        <button v-if="isSaving" class="_button --width_full --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+      </template> -->
 
     </Template>
   </div>
@@ -69,57 +144,70 @@
 
 <script>
 
-import { mapState } from 'vuex'
+// import { mapState } from 'vuex'
 // import Cytosis from '~/components/experiments/Cytosis.vue'
-import NodeForm from '~/components/render/NodeForm.vue'
+// import NodeForm from '~/components/render/NodeForm.vue'
 // import Template from '~/templates/article.vue'
+// import { headMatter } from '~/other/headmatter.js'
+// import { loadQuery } from '~/other/loaders'
 import Template from '~/templates/context.vue'
-import { headMatter } from '~/other/headmatter.js'
-import { loadQuery } from '~/other/loaders'
 import axios from 'axios'
 
+// import FormletInput from '~/components/layout/Formlet-input'
 import FormletInputFloat from '~/components/layout/Formlet-input-float'
-import FormletInputDatalist from '~/components/layout/Formlet-input-datalist'
+import FormletTextArea from '~/components/layout/Formlet-textarea'
 
 
 export default {
-
-  props: {
-    profileProp: Object
-  },
 
   components: {
     // Cytosis,
     // NodeForm,
     Template,
 
+    // FormletInput,
     FormletInputFloat,
-    FormletInputDatalist,
+    FormletTextArea
+    // FormletInputDatalist,
+  },
+
+  props: {
+    slug: String, // used to get the mgr account
+    passcode: String, // used to get the mgr account
+    profileProp: Object
   },
 
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content-core"],
+    tableQueries: ["_content-copy"],
     // tableQueries: ["_content-copy","atoms-events"],
   },
 
-  async asyncData({env, store, route, app, error}) {
-  },
+  // async asyncData({env, store, route, app, error}) {
+  // },
 
   data () {
 
     let profile = this.profileProp.payload
+    let avatar
+    if(profile.fields['Profile'] && profile.fields['Profile'][0]) {
+      avatar = profile.fields['Profile'][0]['url']
+    }
+
     return {
       tableType: this.profileProp.meta['table'],
       profile: profile, // user's profile
       files: [],
-      avatar: null, // temporary placeholder for avatar preview for upload
+      avatar: avatar, // temporary placeholder for avatar preview for upload
+      isSaving: false,
+      message: "",
+      isStaging: process.env.pd_env,
 
       input_orgName: {
         "initial": profile.fields['Name'],
         "name":"Name",
-        "label":"Full Organization Name",
+        "label":"Organization Name",
         "description":"",
         "placeholder":"",
         "type":"FLOAT",
@@ -140,25 +228,93 @@ export default {
         "label":"Organization Type",
         "description":"",
         "placeholder":"",
-        "type":"DATALIST",
+        "type":"INPUT",
         "options": [
-          {
-            "value": "One",
-          },
-          {
-            "value": "Two",
-          },
-          {
-            "value": "Three",
-          }
+          {"value": "Biotech"},
+          {"value": "Pharma"},
+          {"value": "Non-profit"},
+          {"value": "Phage Bank"},
+          {"value": "Government"},
+          {"value": "Regulatory"},
+          {"value": "Funding Agency"},
+          {"value": "Tech (ML, AI, Bioinformatics)"},
+          {"value": "Consultancy"},
+          {"value": "CRO"},
+          {"value": "CRMO"},
+          {"value": "Phage Manufacturer"}
         ]
+      },
+
+      input_orgDescription: {
+        "initial": profile.fields['Description'],
+        "name":"Description",
+        "label":"Mission/activities",
+        "description":"What is your organization's mission, or what does your organization do?",
+        "placeholder":"",
+        "type":"TEXTAREA",
+      },
+
+
+      input_orgContact: {
+        "initial": profile.fields['ContactPerson'],
+        "name":"ContactPerson",
+        "label":"Contact Person",
+        "placeholder":"",
+        "type":"FLOAT",
+      },
+      input_orgEmail: {
+        "initial": profile.fields['Email'],
+        "name":"Name",
+        "label":"Public Email Address",
+        "placeholder":"",
+        "type":"FLOAT",
+      },
+      input_orgWebsite: {
+        "initial": profile.fields['URL'],
+        "name":"URL",
+        "label":"Org Website Link",
+        "description":"",
+        "placeholder":"",
+        "type":"FLOAT",
+      },
+      input_orgTwitter: {
+        "initial": profile.fields['Social:Twitter'],
+        "name":"Social:Twitter",
+        "label":"Twitter",
+        "placeholder":"",
+        "type":"FLOAT",
+      },
+      input_orgLinkedin: {
+        "initial": profile.fields['Social:Linkedin'],
+        "name":"Social:Linkedin",
+        "label":"LinkedIn URL",
+        "placeholder":"",
+        "type":"FLOAT",
       },
 
 
 
-
-
-
+      input_orgCity: {
+        "initial": profile.fields['City'],
+        "name":"City",
+        "label":"City",
+        "placeholder":"",
+        "type":"FLOAT",
+      },
+      input_orgState: {
+        "initial": profile.fields['State'],
+        "name":"State",
+        "label":"US State",
+        "placeholder":"",
+        "type":"FLOAT",
+      },
+      input_orgCountry: {
+        "initial": profile.fields['Country'],
+        "name":"Country",
+        "label":"Country",
+        "placeholder":"",
+        "type":"FLOAT",
+      },
 
     }
 
@@ -174,6 +330,13 @@ export default {
   },
 
   methods: {
+    updateProfile(field, data) {
+      // since profile is an obj we need to manually trigger update
+      this.profile.fields[field] = data
+      this.profile.__ob__.dep.notify()
+    },
+
+
     // async getData({slug, passcode}) {
     //   let _slug = slug || this.slug
     //   let _passcode = passcode || this.passcode
@@ -203,16 +366,16 @@ export default {
 
       // https://stackoverflow.com/questions/50774176/sending-file-and-json-in-post-multipart-form-data-request-with-axios/50774380
       let formData = new FormData()
+      this.isSaving = true
+      this.message = "Saving your profile..."
 
-      this.profiledata = "Hey buddy, I'm saving this thing ... wait plz."
       let profiledata = {
         slug: this.slug, // "test-example",
         passcode: this.passcode, //  "THEIR-FEED-NOSE-into",
         type: "UPDATE",
         table: this.tableType,
-        data: {
-          Name: this.testname
-        }
+        avatar: "keep", // "test-example",
+        data: this.profile.fields
       }
 
       if(this.files && this.files[0]) {
@@ -234,21 +397,24 @@ export default {
 
       console.log('response:', response)
       if(response.data && response.data.meta) {
-        this.profile = response.data
-        this.tableType = response.data.meta.table
-        this.isLoading = false
+        this.profile = response.data.payload
+        this.isSaving = false
+        this.message = "Profile successfully saved!"
       } else {
-        this.isLoading = false
-        this.statusMessage = "Profile could not be saved."
+        this.isSaving = false
+        this.message = "Profile could not be saved."
       }
     },
 
-    clearAvatar(event) {
-      this.files = null
-      this.avatar = null
+    clearAvatar() {
+      this.files = undefined
+      this.avatar = undefined
+      this.$refs.avatar.value = '' 
     },
+    
     uploadAvatar(event) {
       const _this = this
+      console.log('upload avatar: ', event.target.files)
       this.files = event.target.files
       if(this.files && this.files[0]) {
         console.log("File: " , this.files[0])

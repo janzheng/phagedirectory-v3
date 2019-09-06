@@ -13,7 +13,10 @@
       <div v-scroll-spy class="scrollspy" >
         
         <div id="intro" class="Capsid-intro" >
-          <div class="Capsid-masthead Capsid-section _margin-center _padding _padding-bottom-none-i " >
+          <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover" 
+               :src="issue.fields['Cover:url']" alt="Capsid and Tail"
+          >
+          <div v-if="!issue.fields['Cover:showOnIssue']" class="Capsid-masthead Capsid-section _margin-center _padding _padding-bottom-none-i " >
             <nuxt-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
               <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail" >
               <div class="Capsid-masthead-title _left _font-serif">A weekly phage periodical</div>
@@ -21,7 +24,7 @@
           </div>
 
           <div class="Capsid-header Capsid-section _margin-center _padding">
-            <div class="_section-content _margin-center">
+            <div class="_section-content _margin-center _margin-top-none-i">
               <div class="Capsid-meta">
                 <div>
                   <span class="Capsid-title _font-bold">{{ issue.fields['Name'] }}</span> | 

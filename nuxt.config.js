@@ -369,7 +369,7 @@ export default {
       plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-syntax-dynamic-import', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
     },
     // explicitly transpile these
-    transpile: ['cytosis', 'vuex-cache', 'markdownit', 'markdown-it-attrs'],
+    transpile: ['cytosis', 'markdownit', 'markdown-it-attrs'],
     // transpile: ['cytosis', 'vuex-cache', 'markdownit'],
 
     // extend(config, ctx) {

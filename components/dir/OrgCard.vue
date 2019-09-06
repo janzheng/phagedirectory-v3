@@ -6,7 +6,7 @@
  -->
 
 <template>
-  <div class="Org Org-Card Dir-card " >
+  <div :id="org.fields['Slug']" class="Org Org-Card Dir-card " >
 
     <div class="Org-container">
       <div class="Org-info _width-100" :class="logoUrl ? '_grid-1-3' : ''">
@@ -102,8 +102,8 @@ export default {
   },
   computed: {
     logo() {
-      if(this.org.fields['Logo'])
-        return this.org.fields['Logo'][0]
+      if(this.org.fields['Profile'])
+        return this.org.fields['Profile'][0]
       return undefined
     },
     logoUrl() {

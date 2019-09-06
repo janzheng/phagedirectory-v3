@@ -25,12 +25,13 @@
               <div class="People-name-social">
                 <h3 style="padding: 0 !important; padding-right: 8px !important; margin-right: 8px; display: inline-block">{{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span></h3>
                 <div v-if="hasSocial" class="Dir-social Dir-title">
+                  <a v-if="person.fields['Email']" :href="`${person.fields['Email']}`" class="Dir-icon --url"><img alt="Email Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/e3602ac6-ebb1-46f6-9e7f-bdf9162a496a.png"></a>
                   <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><img alt="Linkedin Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/f72e244f-f5c8-40f1-b91a-4cca385411d7.png"></a>
                   <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><img alt="Google Scholar Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/9cc74a05-860e-481f-8cab-6cac012dd0d2.png"></a>
                   <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><img alt="ResearchGate Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/19d367ed-ddce-4bb4-ad41-a53439520ae1.png"></a>
                   <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><img alt="ORCID Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/6c0c221a-b8da-4357-8036-f35f85d39c79.png"></a>
                   <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><img alt="Twitter Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/e3408eaf-acf6-4250-b6fd-594e7ce23907.png"></a>
-                  <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><img alt="Github Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/8ca05bda-914f-45d8-962c-8e34debb1412.png"></a>
+                  <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><img alt="Github Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/70af7d76-2104-4326-8e48-f9a915a42557.png"></a>
                 </div>
               </div>
 
@@ -58,8 +59,8 @@
 
               <div v-if="person.fields['Social:Twitter'] || url" class="People-info-block Dir-block">
                 <!-- <div><span class="Dir-label">Website</span></div> -->
-                <!-- <div v-if="person.fields['Short']" class="People-short Dir-row" >
-                  <span class="_md-pfix" v-html="$md.render( person.fields['Short'] || '')" />
+                <!-- <div v-if="person.fields['Expertise']" class="People-short Dir-row" >
+                  <span class="_md-pfix" v-html="$md.render( person.fields['Expertise'] || '')" />
                 </div> -->
                 <div v-if="person.fields['Social:Twitter']" class="Dir-row _grid-1-7-xs _align-vertically">
                   <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="_wordbreak --url --none">@{{ person.fields['Social:Twitter'] }}</a>

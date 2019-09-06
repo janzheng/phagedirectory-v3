@@ -18,7 +18,7 @@
             </div>
           </div>
 
-          <div class="_section-article _margin-center" v-if="isCorrect && isLoading">
+          <div v-if="isCorrect && isLoading" class="_section-article _margin-center" >
             <div class=""> 
               <!-- <h1 class="">EditProfile</h1> -->
               <div class="_card _padding">
@@ -36,13 +36,11 @@
       </Template>
 
       <div v-if="isCorrect && !isLoading" class="">
-        <div v-if="tableType == 'People'">
-          People Page
-          People
-        </div>
-
         <div v-if="tableType == 'Organizations'">
-          <EditOrgs :profile-prop="profile" />
+          <EditOrg :slug="slug" :passcode="passcode" :profile-prop="profile" />
+        </div>
+        <div v-else>
+          <EditPerson :slug="slug" :passcode="passcode" :profile-prop="profile" />
         </div>
       </div>  
 
@@ -55,8 +53,9 @@
 
 <script>
 
-import { mapState } from 'vuex'
-import EditOrgs from '~/components/profile/EditOrgs.vue'
+// import { mapState } from 'vuex'
+import EditOrg from '~/components/profile/EditOrg.vue'
+import EditPerson from '~/components/profile/EditPerson.vue'
 
 // import Template from '~/templates/context.vue'
 import Template from '~/templates/article.vue'
@@ -72,24 +71,15 @@ export default {
   components: {
     // Cytosis,
     Template,
-    EditOrgs,
+    EditOrg,
+    EditPerson,
   },
 
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content-core"],
+    tableQueries: ["_content-copy"],
     // tableQueries: ["_content-copy","atoms-events"],
-  },
-
-  async asyncData({env, store, route, app, error}) {
-    let routeslug = route.params.slug
-    let routecode = route.params.passcode
-    let _ready = routeslug && routecode
-
-    return {
-      isCorrect: _ready
-    }
   },
 
   data () {
@@ -107,24 +97,24 @@ export default {
     return {
       isCorrect: _ready,
       isLoading: _loading,
-      routeslug: routeslug,
-      routecode: routecode, // passcode
+      // routeslug: routeslug,
+      // routecode: routecode, // passcode
       profile: null, // user's profile
       slug: routeslug,
       passcode: routecode,
       tableType: null,
       statusMessage: null,
     }
-
   },
   
-  computed: {
-    // ...mapState([
-    //   'Atoms',
-    //   ]),
-    // events() {
-    //   return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
-    // },
+  async asyncData({route}) {
+    let routeslug = route.params.slug
+    let routecode = route.params.passcode
+    let _ready = routeslug && routecode
+
+    return {
+      isCorrect: _ready
+    }
   },
 
   methods: {

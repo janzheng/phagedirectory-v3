@@ -158,7 +158,7 @@ img {
       position: absolute;
       padding-left: $size +2px;
       z-index: 1;
-      color: usetheme(disabled-text);
+      // color: usetheme(disabled-text);
       &, p { // sometimes markdown generates a p
         line-height: $size-6;
         top: 0;
@@ -171,14 +171,17 @@ img {
       height: $size-6;
       padding-top: $size-2;
     }
+
+    // shrunken
     ._form-input:focus, 
     ._form-input:active,
-    ._form-input.--data,  {
+    ._form-input.--data, {
       height: $size-8;
+      // line-height: $size-10;
       // padding-bottom: $size-half;
-
       & + ._form-label {
         &, p {
+          color: usetheme(disabled-text);
           font-size: usetheme(font-small);
           line-height: $size;
           padding-top: $size-quart;

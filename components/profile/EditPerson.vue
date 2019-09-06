@@ -64,7 +64,7 @@
                   <span v-if="!avatar">Upload Profile</span>
                   <span v-else>Change Profile</span>
                 </label> <button v-if="avatar" @click="clearAvatar">Clear Profile</button>
-                <input ref="avatar" id="Profile-avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
+                <input id="Profile-avatar" ref="avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
                 <div v-if="avatar_link || avatar">
                   <img style="max-width: 400px" :src="avatar_link || avatar" >
                 </div>

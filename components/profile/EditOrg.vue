@@ -69,7 +69,7 @@
                 <span v-if="!avatar">Upload Logo</span>
                 <span v-else>Change Logo Image</span>
               </label> <button v-if="avatar" @click="clearAvatar">Clear Logo</button>
-              <input ref="avatar" id="Profile-avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
+              <input id="Profile-avatar" ref="avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
               <div v-if="avatar">
                 <img :src="avatar" >
               </div>

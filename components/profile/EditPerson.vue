@@ -19,28 +19,28 @@
               <div class="Profile-edit-firstname">
                 <FormletInputFloat
                   :input="input_firstName"
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('FirstName', data) }" 
                 />
               </div>
               <div class="Profile-edit-middlename">
                 <FormletInputFloat
                   :input="input_middleName" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('MiddleName', data) }" 
                 />
               </div>
               <div class="Profile-edit-familyname">
                 <FormletInputFloat
                   :input="input_familyName"
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('FamilyName', data) }" 
                 />
               </div>
               <div class="Profile-edit-title">
                 <FormletInputFloat
                   :input="input_title" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Title', data) }" 
                 />
               </div>
@@ -119,7 +119,7 @@
               <div class="Profile-edit-jobtitle _margin-top">
                 <FormletInputFloat
                   :input="input_jobtitle"
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('JobTitle', data) }" 
                 />
               </div>
@@ -182,63 +182,63 @@
               <div class="Profile-edit-website">
                 <FormletInputFloat
                   :input="input_website" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('URL', data) }" 
                 />
               </div>
               <div class="Profile-edit-email">
                 <FormletInputFloat
                   :input="input_email" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Email', data) }" 
                 />
               </div>
               <div class="Profile-edit-twitter">
                 <FormletInputFloat
                   :input="input_twitter" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Social:Twitter', data) }" 
                 />
               </div>
               <div class="Profile-edit-linkedin">
                 <FormletInputFloat
                   :input="input_linkedin" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Social:Linkedin', data) }" 
                 />
               </div>
               <div class="Profile-edit-googlescholar">
                 <FormletInputFloat
                   :input="input_googlescholar" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Social:GoogleScholar', data) }" 
                 />
               </div>
               <div class="Profile-edit-orcid">
                 <FormletInputFloat
                   :input="input_orcid" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Social:ORCID', data) }" 
                 />
               </div>
               <div class="Profile-edit-github">
                 <FormletInputFloat
                   :input="input_github" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Social:Github', data) }" 
                 />
               </div>
               <div class="Profile-edit-researchgate">
                 <FormletInputFloat
                   :input="input_researchgate" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Social:ResearchGate', data) }" 
                 />
               </div>
               <div class="Profile-edit-researcherid">
                 <FormletInputFloat
                   :input="input_researcherid" 
-                  inputAttrs="--open"
+                  input-attrs="--open"
                   @input="(data) => { updateProfile('Social:ResearcherID', data) }" 
                 />
               </div>

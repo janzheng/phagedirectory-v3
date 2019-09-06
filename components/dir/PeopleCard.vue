@@ -17,9 +17,9 @@
         <!-- basic info -->
         <div class="">
 
-          <div class="People-name People-header-block ">
+          <div class="People-name People-header-block _margin-bottom-2">
             <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
-            <div class="People-name-social _flex-row">
+            <div class="People-name-social _flex-row _margin-bottom-half">
               <div class="Dir-title _flex-1">
                 <!-- link from name is useful for C&T and other places where the card appears -->
                 <nuxt-link :to="`/people#${person.fields['Slug']}`" class="--nolink">{{ person.fields['Name'] }}</nuxt-link> <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
@@ -39,8 +39,8 @@
               <div v-html="$md.render(person.fields['Expertise'] || '')" />
             </div>
 
-            <div class="People-orgs Dir-row _margin-bottom-2">
-              <div v-if="roles || jobTitle" class="People-roles _font-small _margin-bottom _margin-top-half">
+            <div class="People-orgs Dir-row _margin-top-2 _margin-bottom-2">
+              <div v-if="roles || jobTitle" class="People-roles _font-small ">
                 <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
                 <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
               </div>

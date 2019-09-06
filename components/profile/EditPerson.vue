@@ -18,25 +18,29 @@
             <div class="_grid-4">
               <div class="Profile-edit-firstname">
                 <FormletInputFloat
-                  :input="input_firstName" 
+                  :input="input_firstName"
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('FirstName', data) }" 
                 />
               </div>
               <div class="Profile-edit-middlename">
                 <FormletInputFloat
                   :input="input_middleName" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('MiddleName', data) }" 
                 />
               </div>
               <div class="Profile-edit-familyname">
                 <FormletInputFloat
-                  :input="input_familyName" 
+                  :input="input_familyName"
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('FamilyName', data) }" 
                 />
               </div>
               <div class="Profile-edit-title">
                 <FormletInputFloat
                   :input="input_title" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Title', data) }" 
                 />
               </div>
@@ -57,80 +61,117 @@
               />
             </div>
 
-            <div class="Profile-edit-avatar _margin-top-2">
-              <div class="Profile-avatar-control _card _padding _form-control">
+            <div class="Profile-edit-avatar-section _margin-top-2">
+              <div class="Profile-avatar-container _card _padding _form-control">
                 <h6>Profile Image</h6>
-                <label for="Profile-avatar" class="_button --outline">
-                  <span v-if="!avatar">Upload Profile</span>
-                  <span v-else>Change Profile</span>
-                </label> <button v-if="avatar" @click="clearAvatar">Clear Profile</button>
-                <input id="Profile-avatar" ref="avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
-                <div v-if="avatar_link || avatar">
-                  <img style="max-width: 400px" :src="avatar_link || avatar" >
+
+                <div class="Profile-avatar-grid _flex-row-sm">
+                  <div class="Profile-avatar-preview">
+                    <div v-if="avatar" class="_padding-right">
+                      <img style="max-width: 400px" :src="avatar" >
+                    </div>
+                  </div>
+                  <div class="Profile-avatar-control _flex-1">
+                    <label for="Profile-avatar" class="_button --outline">
+                      <span v-if="!avatar">Upload Profile Image</span>
+                      <span v-else>Change Profile Image</span>
+                    </label> <button v-if="avatar" @click="clearAvatar">Clear Profile</button>
+                    <FormletInputFloat
+                      :key="input_avatarlink.initial"
+                      :input="input_avatarlink" 
+                      type="text"
+                      @input="(data) => { setAvatar(data) }" 
+                    />
+                    <input id="Profile-avatar" ref="avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
+                  </div>
                 </div>
 
-                <FormletInput
-                  :key="input_avatarlink"
-                  :input="input_avatarlink" 
-                  type="text"
-                  @input="(data) => { avatar_link = data }" 
-                />
                 <div class="_font-small">Note: your image might be cropped — please save to preview your final profile</div>
                 <!-- todo: add support for profile url and svgs -->
               </div>
             </div>
 
-          </div>
-        </div>
-        <div class="Profile-edit-ctabar _margin-top">
-          <div class="_grid-1-3 _align-vertically">
-            <div>
-              <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Profile</button>
-              <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+            <div class="Profile-edit-ctabar _margin-top">
+              <div class="_grid-1-3 _align-vertically">
+                <div>
+                  <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Profile</button>
+                  <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+                </div>
+                <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
+              </div>
             </div>
-            <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
           </div>
         </div>
 
 
         <div class="Profile-edit-work _divider-top ">
-          <h6>Work Information</h6>
+          <h6>Work & Lab Information</h6>
 
           <div class="_card _padding _color-bg-white">
-            <div class="Profile-edit-orgname _margin-top-2">
-              <FormletInput
-                :input="input_orgname"
-                type="text"
-                @input="(data) => { updateProfile('Orgs:Name', data) }" 
-              />
-              <div class="_font-small">If your organization isn't listed on Phage Directory, <nuxt-link to="/join">please consider adding it!</nuxt-link></div>
-            </div>
-            <div class="_grid-2">
-              <div class="Profile-edit-role _margin-top-2">
+
+            <div class="Profile-edit-titlesroles _grid-2">
+              <div class="Profile-edit-role _margin-top">
                 <FormletInputFloat
                   :input="input_roles"
                   @input="(data) => { updateProfile('Roles:Custom', data) }" 
                 />
               </div>
-              <div class="Profile-edit-jobtitle _margin-top-2">
+              <div class="Profile-edit-jobtitle _margin-top">
                 <FormletInputFloat
                   :input="input_jobtitle"
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('JobTitle', data) }" 
                 />
               </div>
             </div>
-          </div>
-        </div>
-        <div class="Profile-edit-ctabar _margin-top">
-          <div class="_grid-1-3 _align-vertically">
-            <div>
-              <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Profile</button>
-              <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
-            </div>
-            <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
-          </div>
-        </div>
 
+            <div class="_font-small _margin-top _margin-bottom-2">Note: Linked organizations and labs are still in beta — if you need to link or unlink a lab or organization, please email us at <a href="mailto:support@phage.directory">support@phage.directory</a>. If your organization isn't listed on Phage Directory, <nuxt-link to="/join">please consider adding it!</nuxt-link></div>
+
+            <div class="Profile-edit-labs">
+              <div class="Profile-edit-labs-linked _margin-bottom-2">
+                <div class="">
+                  <div class="_font-bold">Labs</div>
+                  <div class="_card _padding _margin-top _margin-bottom">
+                    <span v-if="profile.fields['Orgs:Labs::Name']" >{{ profile.fields['Orgs:Labs::Name'].join(', ') }}</span> <span v-else>(No labs listed)</span>
+                  </div> <!-- <span v-for="item of profile.fields['Orgs::Names']" class="" >
+                    {{ item }}
+                  </span> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="Profile-edit-orgs">
+              <div class="Profile-edit-orgs-linked _margin-bottom-2">
+                <div class="">
+                  <div class="_font-bold">Organizations</div>
+                  <div class="_card _padding _margin-top _margin-bottom">
+                    <span v-if="profile.fields['Orgs::Names']" >{{ profile.fields['Orgs::Names'].join(', ') }}</span> <span v-else>(No organizations listed)</span>
+                  </div> 
+                  <!-- <span v-for="item of profile.fields['Orgs::Names']" class="" >
+                    {{ item }}
+                  </span> -->
+                </div>
+                <div class="_margin-top-2">
+                  <FormletInput
+                    :input="input_otherorgname"
+                    type="text"
+                    @input="(data) => { updateProfile('Orgs:Other', data) }" 
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div class="Profile-edit-ctabar _margin-top">
+              <div class="_grid-1-3 _align-vertically">
+                <div>
+                  <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Profile</button>
+                  <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+                </div>
+                <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
         <div class="Profile-edit-contact _divider-top ">
@@ -141,54 +182,63 @@
               <div class="Profile-edit-website">
                 <FormletInputFloat
                   :input="input_website" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('URL', data) }" 
                 />
               </div>
               <div class="Profile-edit-email">
                 <FormletInputFloat
                   :input="input_email" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Email', data) }" 
                 />
               </div>
               <div class="Profile-edit-twitter">
                 <FormletInputFloat
                   :input="input_twitter" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Social:Twitter', data) }" 
                 />
               </div>
               <div class="Profile-edit-linkedin">
                 <FormletInputFloat
                   :input="input_linkedin" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Social:Linkedin', data) }" 
                 />
               </div>
               <div class="Profile-edit-googlescholar">
                 <FormletInputFloat
                   :input="input_googlescholar" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Social:GoogleScholar', data) }" 
                 />
               </div>
               <div class="Profile-edit-orcid">
                 <FormletInputFloat
                   :input="input_orcid" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Social:ORCID', data) }" 
                 />
               </div>
               <div class="Profile-edit-github">
                 <FormletInputFloat
                   :input="input_github" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Social:Github', data) }" 
                 />
               </div>
               <div class="Profile-edit-researchgate">
                 <FormletInputFloat
                   :input="input_researchgate" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Social:ResearchGate', data) }" 
                 />
               </div>
               <div class="Profile-edit-researcherid">
                 <FormletInputFloat
                   :input="input_researcherid" 
+                  inputAttrs="--open"
                   @input="(data) => { updateProfile('Social:ResearcherID', data) }" 
                 />
               </div>
@@ -199,23 +249,23 @@
                 @input="(data) => { updateProfile('Social:Other', data) }" 
               />
             </div>
-          </div>
-        </div>
-        <div class="Profile-edit-ctabar _margin-top">
-          <div class="_grid-1-3 _align-vertically">
-            <div>
-              <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Profile</button>
-              <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+            <div class="Profile-edit-ctabar _margin-top-2">
+              <div class="_grid-1-3 _align-vertically">
+                <div>
+                  <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Profile</button>
+                  <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+                </div>
+                <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
+              </div>
             </div>
-            <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
           </div>
         </div>
 
 
-        <div v-if="profile && isStaging" class="_divider-top" style="word-break: break-all;">
+        <!-- <div v-if="profile && isStaging" class="_divider-top" style="word-break: break-all;">
           {{ profile }}
         </div>
-
+ -->
       </template>
 
     </Template>
@@ -324,6 +374,7 @@ export default {
       },
       input_description: {
         "initial": profile.fields['Description'],
+        "rows": 6,
         "name":"Description",
         "label":"Personal Bio",
         "description":"Please provide a short bio",
@@ -333,24 +384,23 @@ export default {
       input_avatarlink: { // if user wants to upload an image
         "initial": "",
         "name":"ImageURL",
-        "label":"Image URL",
+        "label":"Upload Image from URL",
         "placeholder":"",
         "type":"FLOAT",
       },
 
-
-      input_orgname: {
-        "initial": profile.fields['Orgs:Name'],
-        "name":"Orgs:Name",
-        "label":"Organization/Institutions",
-        "description":"What organizations or universities do you work with?",
+      input_otherorgname: {
+        "initial": profile.fields['Orgs:Other'],
+        "name":"Orgs:Other",
+        "label":"",
+        "description":"What other labs, organizations or universities are you affiliated with?",
         "placeholder":"",
         "type":"TEXT",
       },
       input_jobtitle: {
         "initial": profile.fields['JobTitle'],
         "name":"JobTitle",
-        "label":"Job Title",
+        "label":"Job Title(s)",
         // "description":"What organizations or universities do you work with?",
         "placeholder":"",
         "type":"TEXT",
@@ -578,13 +628,25 @@ export default {
       }
     },
 
+
+    setAvatar(data) {
+      if(data == '') {
+        this.avatar = undefined 
+        this.profile.fields['Profile'] = undefined
+      } else {
+        this.avatar = data
+        this.profile.fields['Profile'] = [{url: data}]
+      }
+    },
+
     clearAvatar() {
       this.files = undefined
       this.avatar = undefined
+      this.profile.fields['Profile'] = []
       this.avatar_clear = true // in case user wants to delete avatar
       this.$refs.avatar.value = '' 
     },
-    
+
     uploadAvatar(event) {
       const _this = this
       console.log('upload avatar: ', event.target.files)

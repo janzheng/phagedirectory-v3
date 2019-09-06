@@ -391,7 +391,7 @@ app.post('/api/profile', async function(req, res, next) {
               fields['Title'] = profile.data['Title']
               fields['Expertise'] = profile.data['Expertise']
               fields['Description'] = profile.data['Description']
-              fields['Orgs:Name'] = profile.data['Orgs:Name']
+              fields['Orgs:Other'] = profile.data['Orgs:Other']
               fields['Roles:Custom'] = profile.data['Roles:Custom'] // send it to a custom string instead to maintain integrity
               fields['Roles'] = profile.data['Roles:Custom'] ? [] : undefined // remove the previous role if there's a new one
               fields['JobTitle'] = profile.data['JobTitle']

@@ -39,23 +39,28 @@
               <div v-html="$md.render(person.fields['Expertise'] || '')" />
             </div>
 
-            <div class="People-orgs Dir-row _font-small">
-              <div v-if="roles || jobTitle" class="People-roles _margin-top-half">
+            <div class="People-orgs Dir-row _margin-bottom-2">
+              <div v-if="roles || jobTitle" class="People-roles _font-small _margin-bottom _margin-top-half">
                 <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
                 <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
               </div>
 
-              <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
+              <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="_font-small">
                 <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
               </span>
               <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
                 {{ item.name +'' }}
               </span> -->
 
-              <span v-if="orgs">
+              <span v-if="orgs" class="">
                 <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name"><span v-if="i > 0">; </span><nuxt-link :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-if="item.location">, {{ item.location }}</span>
                 </span>
               </span>
+
+              <span v-if="person.fields['Orgs:Other']" class="">
+                {{ person.fields['Orgs:Other'] }}
+              </span>
+
             </div>
 
           </div>
@@ -176,7 +181,8 @@ export default {
       return string
     },
     roles() {
-      return this.person.fields['Roles']
+      // wrap the custom role in an array
+      return this.person.fields['Roles:Custom'] ? [this.person.fields['Roles:Custom']] : this.person.fields['Roles']
     },
     jobTitle() {
       return this.person.fields['JobTitle']

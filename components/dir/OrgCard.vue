@@ -49,8 +49,8 @@
         </div>
       </div>
 
-      <div v-if="org.fields['Markdown']" class="Dir-people Dir-block" >
-        <div v-html="$md.render(org.fields['Markdown'] || '')" />
+      <div v-if="org.fields['Description']" class="Dir-people Dir-block" >
+        <div v-html="$md.render(org.fields['Description'] || '')" />
       </div>
 
       <div v-if="org.fields['People:OrgMembers::Names']" class="Dir-people Dir-block" >

@@ -84,7 +84,8 @@ if(pd_env=='prod' && mode=='universal') {
 }
 
 // on zeit now staging
-if(pd_env=='stage' && mode=='universal') {
+// if(pd_env=='stage' && mode=='universal') {
+if(pd_env=='stage') {
   useCytosisConfigCache = true
   useCytosisDataCache = true
   useCytosisPageCache = true

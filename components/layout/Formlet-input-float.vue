@@ -14,7 +14,7 @@
              type="text"
              :list="input.options ? 'input_options':undefined"
              @input="emit"
-             @blur="emit"
+             @blur="emitOnBlur"
              @change="emit"
              @keyup.enter="keyEnterHandler"
       >
@@ -38,10 +38,11 @@
              type="text"
              :list="input.options ? 'input_options':undefined"
              @input="emit"
-             @blur="emit"
+             @blur="emitOnBlur"
              @change="emit"
              @keyup.enter="keyEnterHandler"
       >
+      <!-- @blur="emit" -->
       <label  
         v-if="input.name"
         :for="input.name" 
@@ -137,9 +138,11 @@ export default {
     //     'trailing': true
     //   })()
     // }
-    emit: new _.debounce(function() { // long initial delay
+    emit: new _.debounce(function(evt) { // long initial delay
       // slows down error messages
-      // console.log('emitting formlet-input', _delay)
+      console.log('!! emitting action:', (evt == 'InputEvent'), evt )
+      if(evt == 'InputEvent')
+        console.log('INPUT EVENT!!')
       this.$emit('input', this.data)
       _delay = 100
     }, _delay, {
@@ -150,6 +153,13 @@ export default {
       if(this.onSubmit) {
         // console.log('emitOnSubmit')
         this.$emit('input', this.data)
+      }
+    },
+    emitOnBlur() {
+      // trigger this only if user has tried to submit
+      if(this.onSubmit) {
+        // console.log('emitOnSubmit')
+        this.$emit('blur', this.data)
       }
     },
     keyEnterHandler() {

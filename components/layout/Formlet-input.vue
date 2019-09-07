@@ -3,7 +3,7 @@
 
   <div class="Formlet Formlet-input _form-control" >
     <label  
-      v-if="input.name"
+      v-if="input.name && input.label"
       :for="input.name" 
       class="_form-label" 
       :class="data ? '--data' : '' "
@@ -27,10 +27,11 @@
              :type="type"
              :list="input.options ? 'input_options':undefined"
              @input="emit"
-             @blur="emit"
+             @blur="blurEmit"
              @change="emit"
              @keyup.enter="keyEnterHandler"
       >
+      <!-- @blur="emit" -->
       <input class="_button _flex-1 --outline _margin-bottom-none " type="submit" :value="input.action" @click="keyEnterHandler">
     </div>
     <input v-else
@@ -44,7 +45,7 @@
            :type="type"
            :list="input.options ? 'input_options':undefined"
            @input="emit"
-           @blur="emit"
+           @blur="emitOnBlur"
            @change="emit"
            @keyup.enter="keyEnterHandler"
     >
@@ -150,6 +151,13 @@ export default {
       if(this.onSubmit) {
         // console.log('emitOnSubmit')
         this.$emit('input', this.data)
+      }
+    },
+    emitOnBlur() {
+      // trigger this only if user has tried to submit
+      if(this.onSubmit) {
+        // console.log('emitOnSubmit')
+        this.$emit('blur', this.data)
       }
     },
     keyEnterHandler() {

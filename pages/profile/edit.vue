@@ -37,10 +37,10 @@
 
       <div v-if="isCorrect && !isLoading" class="">
         <div v-if="tableType == 'Organizations'">
-          <EditOrg :slug="slug" :passcode="passcode" :profile-prop="profile" />
+          <EditOrg :profileslug="slug" :passcode="passcode" :profile-prop="profile" />
         </div>
         <div v-else>
-          <EditPerson :slug="slug" :passcode="passcode" :profile-prop="profile" />
+          <EditPerson :profileslug="slug" :passcode="passcode" :profile-prop="profile" />
         </div>
       </div>  
 
@@ -128,7 +128,7 @@ export default {
         this.isLoading = true
 
         let profiledata = {
-          slug: _slug, // "test-example",
+          profileslug: _slug, // "test-example",
           passcode: _passcode, //  "THEIR-FEED-NOSE-into",
           type: "GET"
         }

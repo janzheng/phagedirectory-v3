@@ -40,6 +40,8 @@ const bcrypt = require('bcrypt');
 const fs = require('fs');
 const util = require('util');
 const sharp = require('sharp');
+const axios = require('axios');
+const http = require('http');
 const async_readFile = util.promisify(fs.readFile);
 
 const exo = require('./exo.js')
@@ -153,14 +155,14 @@ function loadProfileForSaving(capsId) {
   }
 }
 
-function loadManager(slug) {
+function loadManager(profileslug) {
   try {
     const _cytosis = new Cytosis({
       airKey: process.env.PD_AIRTABLE_PRIVATE_MGR_API,
       airBase: process.env.PD_AIRTABLE_PRIVATE_MGR_BASE,
       tableQuery: 'profile-readwrite',
       payloads: {
-        keyword: slug,
+        keyword: profileslug,
       },
     });
     return _cytosis;
@@ -211,7 +213,7 @@ app.post('/api/profile', async function(req, res, next) {
       // console.log('GETTING >>>>>>> ')
 
       try {
-        let cytmgr = await loadManager(body.slug)
+        let cytmgr = await loadManager(body.profileslug)
         cytmgr = Cytosis.strip(cytmgr)
         let mgrprofile = cytmgr.tables['ProfileManager'][0]
 
@@ -269,14 +271,14 @@ app.post('/api/profile', async function(req, res, next) {
 
         console.log('Updating >>>>>> :', profile)
 
-        let cytmgr = await loadManager(profile.slug)
+        let cytmgr = await loadManager(profile.profileslug)
         cytmgr = Cytosis.strip(cytmgr)
         let mgrprofile = cytmgr.tables['ProfileManager'][0]
         let avatar, avatarUrl, writeStr
 
         if (
           mgrprofile &&
-          mgrprofile.fields['Slug'] === profile.slug && 
+          mgrprofile.fields['ProfileSlug'] === profile.profileslug && 
           mgrprofile.fields['Passcode'] === profile.passcode && 
           mgrprofile.fields['Access'] === "ReadWrite"
         ) {
@@ -337,14 +339,14 @@ app.post('/api/profile', async function(req, res, next) {
                     // fit: sharp.fit.inside,
                     // position: sharp.strategy.entropy
                   })
-                  .png()
+                  // .png()
                   .toFile(req.files.avatar.path, (err, info) => {  
                     if(err) {
-                      console.error('[Profile] Could not write PNG to file', err, info)
+                      console.error('[Profile] Could not write image to file', err, info)
                       return
                     }
-                    console.error('[Profile] Wrote PNG to file', err, info)
-                    avatarUrl = avatarUrl + '.png'
+                    console.error('[Profile] Wrote image to file', req.files.avatar.path, ' errors:' , err, 'info:',  info)
+                    avatarUrl = avatarUrl// + '.png'
                   });
                   // slap .png to any file name... airtable doesn't support webp, svg, etc.
                   // .toBuffer();
@@ -389,7 +391,7 @@ app.post('/api/profile', async function(req, res, next) {
               fields['MiddleName'] = profile.data['MiddleName']
               fields['FamilyName'] = profile.data['FamilyName']
               fields['Title'] = profile.data['Title']
-              fields['Expertise'] = profile.data['Expertise']
+              fields['Short'] = profile.data['Short']
               fields['Description'] = profile.data['Description']
               fields['Orgs:Other'] = profile.data['Orgs:Other']
               fields['Roles:Custom'] = profile.data['Roles:Custom'] // send it to a custom string instead to maintain integrity
@@ -402,7 +404,7 @@ app.post('/api/profile', async function(req, res, next) {
               fields['Social:Linkedin'] = profile.data['Social:Linkedin']
               fields['Social:GoogleScholar'] = profile.data['Social:GoogleScholar']
               fields['Social:ResearchGate'] = profile.data['Social:ResearchGate']
-              fields['Social:ResearcherID'] = profile.data['Social:ResearcherID']
+              fields['Social:Publons'] = profile.data['Social:Publons']
               fields['Social:ORCID'] = profile.data['Social:ORCID']
               fields['Social:Github'] = profile.data['Social:Github']
               fields['Social:ProtocolsIO'] = profile.data['Social:ProtocolsIO']
@@ -429,7 +431,7 @@ app.post('/api/profile', async function(req, res, next) {
 
             // console.log(' >>>>>> cytprofilesave base :::::', cytprofilesave.base('Organizations'))
             // console.log(' >>>>>> replacing :::::', dbprofile.fields)
-            console.log(' >>>>>> final sendpayload :::::', sendpayload)
+            console.log(' >>>>>> final sendpayload :::::', sendpayload, ' Profile:', fields['Profile'])
 
             // let response = await cytprofilesave.save(whiteprofile, profile.table, dbprofile.id, true)
             // let response = await Cytosis.saveArray(sendpayload, profile.table, cytprofilesave, false, true)
@@ -473,7 +475,8 @@ app.post('/api/profile', async function(req, res, next) {
               payload: response
             }
 
-            // console.log('[Profile] Saving worked!')
+            // clear cache
+            http.get(req.protocol + '://' + req.get('host') + '/api/exocytosis/cache/clear');
             res.send(result);
           } catch(err) {
             console.error('[Profile] Error saving profile:', err)
@@ -713,7 +716,7 @@ app.get('/api/profile/list', (req, res, next) => {
 // example: http://localhost:2929/api/profile/list
 app.get('/api/profile/clear', async (req, res, next) => {
   try {
-    await exo.deleteAll('/tmp/public')
+    await exo.deleteAll('/tmp/public', '')
     console.log('Cached profiles cleared!')
     res.end('Cached profiles cleared!')
   } catch(err) {
@@ -724,7 +727,7 @@ app.get('/api/profile/clear', async (req, res, next) => {
 
 // example: http://localhost:2929/api/profile/0YyNcoB0cQ0-R1QbrVpliuVA.png
 app.get('/api/profile/:filename', async (req, res, next) => {
-  console.log('[Profile] Generating file ...')
+  console.log('[Profile] Loading profile ...')
   let filename = req.params.filename
 
   try {
@@ -734,6 +737,7 @@ app.get('/api/profile/:filename', async (req, res, next) => {
     if (fs.existsSync(path)) {
       let data = await async_readFile(path)
       res.writeHead(200, {'Content-Type': 'image'});
+      console.log('[Profile] Profile loaded!')
       res.end(data); // Send the file data to the browser.
       // res.download(data)
     } else {

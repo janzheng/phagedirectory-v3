@@ -214,7 +214,7 @@ async function fetchData({data, _this, state}) {
         var intermediate = function(err, tries, delay) {
           if(process.server) {
             console.error('[action/loadCytosis] >>>>> Airtable Retrying >>>>> ')
-            console.log('>>>>> Last error: ', err, ' >>>>> tries: ', tries, ' >>>>> delay: ', delay)   // last error
+            console.log('>>>>> Last error: ', err, '> tries:', tries, '> delay:', delay)   // last error
             // console.log(tries) // total number of tries performed thus far
             // console.log(delay) // the delay for the next attempt
             // return false;      // this will cancel additional tries
@@ -234,7 +234,7 @@ async function fetchData({data, _this, state}) {
           }
           if(_data)
             if(retry) {
-              console.log(' >>>>> Retry Succcessful >>>>> Total retries:', retries)
+              console.log('>>> Retry Succcessful > Total retries:', retries)
             }
             // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
             resolve(_data)

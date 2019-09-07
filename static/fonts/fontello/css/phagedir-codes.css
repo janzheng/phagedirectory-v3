@@ -13,6 +13,7 @@
 .icon-cancel:before { content: '\e80d'; } /* '' */
 .icon-search:before { content: '\e80e'; } /* '' */
 .icon-researcherid:before { content: '\e91a'; } /* '' */
+.icon-publons:before { content: '\e937'; } /* '' */
 .icon-open-access:before { content: '\e939'; } /* '' */
 .icon-researchgate:before { content: '\e95e'; } /* '' */
 .icon-doi:before { content: '\e97e'; } /* '' */

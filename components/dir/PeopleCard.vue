@@ -25,27 +25,28 @@
                 <nuxt-link :to="`/people#${person.fields['Slug']}`" class="--nolink">{{ person.fields['Name'] }}</nuxt-link> <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
               </div>
               <div class="Dir-social Dir-title">
-                <a v-if="person.fields['Email']" :href="`${person.fields['Email']}`" class="Dir-icon --url"><span class="_font-phage icon-mail-alt"/> </a>
+                <a v-if="person.fields['Email']" :href="`mailto:${person.fields['Email']}`" class="Dir-icon --url"><span class="_font-phage icon-mail-alt"/> </a>
                 <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
                 <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><span class="_font-phage icon-google-scholar" /></a>
                 <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
-                <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
+                <a v-if="person.fields['Social:ORCID']" :href="`${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
+                <a v-if="person.fields['Social:Publons']" :href="`${person.fields['Social:Publons']}`" class="Dir-icon --url"><span class="_font-phage icon-publons"/></a>
                 <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
                 <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><span class="_font-phage icon-github-circled"/></a>
               </div>
             </div>
 
-            <div class="People-name-expertise">
-              <div v-html="$md.render(person.fields['Expertise'] || '')" />
+            <div v-if="person.fields['Short']" class="People-name-short _margin-bottom">
+              <div v-html="$md.render(person.fields['Short'] || '')" />
             </div>
 
-            <div class="People-orgs Dir-row _margin-top-2 _margin-bottom-2">
+            <div class="People-orgs Dir-row _margin-top _margin-bottom-2">
               <div v-if="roles || jobTitle" class="People-roles _font-small ">
                 <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
                 <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
               </div>
 
-              <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="_font-small">
+              <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="">
                 <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
               </span>
               <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
@@ -68,21 +69,27 @@
 
           <div class="People-info-block Dir-block">
             <!-- <div><span class="Dir-label">Website</span></div> -->
-            <!-- <div v-if="person.fields['Expertise']" class="People-short Dir-row" >
-              <span class="_md-pfix" v-html="$md.render( person.fields['Expertise'] || '')" />
-            </div> -->
             <div v-if="person.fields['Email']" class="Dir-row-half _grid-1-7-xs _align-vertically">
               <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
             </div>
             <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-7-xs _align-vertically">
-              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="_wordbreak --url --none">@{{ person.fields['Social:Twitter'] }}</a>
+              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{getTwitter}}</a>
             </div>
             <div v-if="url" class="Dir-row-half _grid-1-7-xs _align-vertically">
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
             </div>
+
+            <!-- skills here for now -->
+            <div v-if="person.fields['Skills']" class="People-skills Dir-row _grid-1-7-xs _align-vertically" >
+              <span class="Dir-label">Skills </span><span>
+                <span>{{ person.fields['Skills'].join(', ') }}</span>
+                <!-- <span v-for="_item of person.fields['Skills']" :key="_item" class="_wordbreak --url --none">{{ _item }}</span> -->
+              </span>
+            </div>
           </div>
 
           <div class="People-desc-block Dir-block">
+
             <div v-if="person.fields['Description']" class="People-description Dir-row" >
               <div class="_md-pfix" v-html="$md.render(person.fields['Description'] || '')" />
             </div>
@@ -192,6 +199,13 @@ export default {
         return true
       return false
     },
+    getTwitter() {
+      let twitter = this.person.fields['Social:Twitter']
+      if(twitter.substring(0,1) == '@')
+        return twitter
+      else
+        return '@'+twitter
+    }
 
   },
   methods: {

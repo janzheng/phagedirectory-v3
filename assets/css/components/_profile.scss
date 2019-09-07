@@ -50,7 +50,16 @@
     #Profile-avatar {
       display: none;
     }
-
   }
 
 }
+
+  // this is added to some sections if the form hasn't been changed
+  .--notChanged {
+    @extend ._disabled;
+    // opacity: 0.3;
+  }
+
+
+
+

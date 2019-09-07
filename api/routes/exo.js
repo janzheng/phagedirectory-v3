@@ -274,7 +274,7 @@ const exo = {
 
 
 	// TODO: this is not really async, but it's not used in production
-	deleteAll: function(directory = '/tmp') {
+	deleteAll: function(directory = '/tmp', ext='.json', extlen=5, deleteAll=false) {
 	  return new Promise(function(resolve, reject) {
 	    // deletes all json files
 	    // const directory = '/tmp'
@@ -286,22 +286,35 @@ const exo = {
 	        }
 
 	        for (const file of files) {
-	          // console.log('[exocytosis/deleteAll] File:', file)
-	          if(file.substring(file.length-5) == '.json') {
-	            console.log('[exo/deleteAll] Deleting JSON file:', file)
+	          // console.log('[exocytosis/deleteAll] File >>> ', file.substring(file.length-extlen), ext)
+	          if(file.substring(file.length-extlen) === ext) {
+	            console.log(`[exo/deleteAll] Deleting ${ext} file ::::`, file, file.substring(file.length-extlen))
 	            const filename = file
 	            fs.unlink(path.join(directory, file), err => {
 	              if (err) {
 	                // don't exit on error (e.g. file system), just keep looping
 	                // throw err;
 	              } else {
-	                console.log('[exo/deleteAll] All JSON files successfully deleted');    
+	                console.log('[exo/deleteAll] All ${ext} files successfully deleted');    
 	                // resolve(fname)                            
 	              }
 	            });
 	          }
+	          else if(deleteAll) {
+	            console.log(`[exo/deleteAll] Deleting ${ext} file ????:`, file)
+	            const filename = file
+	          	fs.unlink(path.join(directory, file), err => {
+	              if (err) {
+	                // don't exit on error (e.g. file system), just keep looping
+	                // throw err;
+	              } else {
+	                console.log('[exo/deleteAll] All files successfully deleted');    
+	                // resolve(fname)                            
+	              }
+	            })
+	          }
 	        }
-	        console.log('[exo/deleteAll] all /tmp/ files deleted');
+	        console.log('[exo/deleteAll] All files processed');
 	        resolve(true)
 	      } catch(err) {
 	        console.error('[exo/deleteAll][EXO:ERROR] Files not deleted', err);

@@ -1,16 +1,16 @@
 <template>
-  <div class="Profile-edit-orgs">
+  <div class="Profile-edit-person">
     <Template sidebar-classes="--sticky --top-1" grid-classes="Template--Main-Sidebar _grid-4-1-sm _grid-gap ">
 
       <template #header>
-        <h1 class="">{{ profile.fields['Name'] }}’s Profile</h1>
+        <h1 class="">{{ ProfileTitle }}</h1>
 
-        <div class="Profile-edit-preview _margin-top-2 _card _padding">
+        <div class="Profile-edit-preview _margin-top _card _padding">
           <h6>Profile Preview</h6>
           <Card :person="profile" class="Profile-edit-preview-card" />
         </div>
 
-        <div class="Profile-editor _divider-top ">
+        <div class="Profile-editor _divider-top-half ">
           <h6>Personal Profile</h6>
           
           <div class="Profile-edit-background _card _padding _color-bg-white">
@@ -51,20 +51,22 @@
             </div>
 
             <div class="Profile-edit-short _grid-3-2 _margin-top-2">
-              <FormletInput
+              <FormletInputFloat
                 :input="input_short" 
                 type="text"
+                input-attrs="--open"
                 :submit-handler="saveData"
                 @input="(data) => { updateProfile('Short', data) }" 
               />
-              <div class="Profile-edit-role ">
-                <FormletInput
-                  :input="input_roles"
-                  type="text"
-                  :submit-handler="saveData"
-                  @input="(data) => { updateProfile('Roles:Custom', data) }" 
-                />
-              </div>
+              <!-- <div class="Profile-edit-role "> -->
+              <FormletInputFloat
+                :input="input_roles"
+                type="text"
+                input-attrs="--open"
+                :submit-handler="saveData"
+                @input="(data) => { updateProfile('Roles:Custom', data) }" 
+              />
+              <!-- </div> -->
             </div>
 
             <div class="Profile-edit-description _margin-top-2">
@@ -93,7 +95,7 @@
                     <FormletInputFloat
                       :key="input_avatarlink.initial"
                       :input="input_avatarlink" 
-                      inputAttrs="--open"
+                      input-attrs="--open"
                       type="text"
                       :submit-handler="saveData"
                       @input="(data) => { setAvatar(data) }" 
@@ -120,17 +122,17 @@
         </div>
 
 
-        <div class="Profile-edit-work _divider-top ">
-          <h6>Lab or Organization Information</h6>
+        <div class="Profile-edit-work _divider-top-half ">
+          <h6>Lab / Organization Information</h6>
 
           <div class="_card _padding _color-bg-white">
 
-            <div class="_font-small _margin-top _margin-bottom-2">Note: We’re still working on this part of the website! Below are the organizations connected to your profile. If you need to link or unlink a lab or organization, or if you need to update your organization information, please email us at <a href="mailto:support@phage.directory">support@phage.directory</a>. If your organization isn't listed on Phage Directory <nuxt-link to="/join">please consider adding it!</nuxt-link></div>
+            <div class="_font-small _margin-top _margin-bottom-2">Note: We’re still working on this part of the website! Below are the organizations connected to your profile. If you need to add or remove a lab or organization, or if you need to update your organization information, please email us at <a href="mailto:support@phage.directory">support@phage.directory</a>. If your organization isn't listed on Phage Directory <nuxt-link to="/join">please consider adding it!</nuxt-link></div>
 
             <div class="Profile-edit-labs">
               <div class="Profile-edit-labs-linked _margin-bottom">
                 <div class="">
-                  <span class="_font-bold">Connected Labs: </span><span v-if="profile.fields['Orgs:Labs::Name']" >{{ profile.fields['Orgs:Labs::Name'].join(', ') }}</span> <span v-else>(No labs currently connected to your profile)</span>
+                  <span class="_font-bold">Labs: </span><span v-if="profile.fields['Orgs:Labs::Name']" >{{ profile.fields['Orgs:Labs::Name'].join(', ') }}</span> <span v-else>(No labs currently connected to your profile)</span>
                   <!-- <div class="_font-bold">Labs</div>
                   <div class="_card _padding _margin-top _margin-bottom">
                     <span v-if="profile.fields['Orgs:Labs::Name']" >{{ profile.fields['Orgs:Labs::Name'].join(', ') }}</span> <span v-else>(No labs listed)</span>
@@ -141,11 +143,11 @@
                 </div>
               </div>
             </div>
-
+            
             <div class="Profile-edit-orgs">
               <div class="Profile-edit-orgs-linked _margin-bottom">
                 <div class="">
-                  <span class="_font-bold">Connected Organizations: </span><span v-if="profile.fields['Orgs::Names']" >{{ profile.fields['Orgs::Names'].join(', ') }}</span> <span v-else>(No organizations currently connected to your profile)</span>
+                  <span class="_font-bold">Organizations: </span><span v-if="profile.fields['Orgs::Names']" >{{ profile.fields['Orgs::Names'].join(', ') }}</span> <span v-else>(No organizations currently connected to your profile)</span>
                   <!-- <div class="_card _padding _margin-top _margin-bottom">
                     <span v-if="profile.fields['Orgs::Names']" >{{ profile.fields['Orgs::Names'].join(', ') }}</span> <span v-else>(No organizations listed)</span>
                   </div>  -->
@@ -162,7 +164,7 @@
                 </div> -->
               </div>
 
-              <div class="Profile-edit-titlesroles _grid-3-2 _margin-top">
+              <!--<div class="Profile-edit-titlesroles _grid-3-2 _margin-top">
                 <div class="Profile-edit-short ">
                   <FormletInput
                     :input="input_short"
@@ -179,17 +181,17 @@
                     @input="(data) => { updateProfile('Roles:Custom', data) }" 
                   />
                 </div>
-                <!-- <div class="Profile-edit-jobtitle _margin-top">
+                <!~~ <div class="Profile-edit-jobtitle _margin-top">
                   <FormletInputFloat
                     :input="input_jobtitle"
                     input-attrs="--open"
                     @input="(data) => { updateProfile('JobTitle', data) }" 
                   />
-                </div> -->
-              </div>
+                </div> ~~>
+              </div>-->
             </div>
             
-            <div :class="!hasChanged ? '--notChanged' : ''" class="Profile-edit-ctabar _margin-top">
+            <!-- <div :class="!hasChanged ? '--notChanged' : ''" class="Profile-edit-ctabar _margin-top">
               <div class="_grid-1-3 _align-vertically">
                 <div>
                   <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Changes</button>
@@ -197,12 +199,12 @@
                 </div>
                 <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
 
-        <div class="Profile-edit-contact _divider-top ">
+        <div class="Profile-edit-contact _divider-top-half ">
           <h6 class="_font-bold">Contact Information</h6>
 
           <div class="_card _padding _color-bg-white">
@@ -301,7 +303,7 @@
         </div>
 
 
-        <!-- <div v-if="profile && isStaging" class="_divider-top" style="word-break: break-all;">
+        <!-- <div v-if="profile && isStaging" class="_divider-top-half" style="word-break: break-all;">
           {{ profile }}
         </div>
  -->
@@ -320,7 +322,7 @@
 import Template from '~/templates/context.vue'
 import axios from 'axios'
 
-import FormletInput from '~/components/layout/Formlet-input'
+// import FormletInput from '~/components/layout/Formlet-input'
 import FormletInputFloat from '~/components/layout/Formlet-input-float'
 import FormletTextArea from '~/components/layout/Formlet-textarea'
 
@@ -333,7 +335,7 @@ export default {
     // NodeForm,
     Template,
     Card,
-    FormletInput,
+    // FormletInput,
     FormletInputFloat,
     FormletTextArea,
     // FormletInputDatalist,
@@ -407,8 +409,8 @@ export default {
       input_short: {
         "initial": profile.fields['Short'],
         "name":"Short",
-        // "label":"Headline",
-        "description":"__Headline__",
+        "label":"Headline",
+        // "description":"__Headline__",
         "placeholder":"I'm an Assistant Professor at ABC University",
         "type":"TEXT",
       },
@@ -447,8 +449,8 @@ export default {
       input_roles: {
         "initial": profile.fields['Roles:Custom'] || profile.fields['Roles'],
         "name":"Roles",
-        "label":"",
-        "description":"__Role__",
+        "label":"Role",
+        // "description":"__Role__",
         "placeholder":"Assistant Professor",
         "type":"INPUT",
         "options": [
@@ -587,6 +589,13 @@ export default {
     //   return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
     // },
 
+    ProfileTitle() {
+      // calculated names includes spaces
+      if(!this.profile.fields['Name'] || this.profile.fields['Name'].trim() == '')
+        return `Brand New Profile!`
+      
+      return `${this.profile.fields['Name']}'s Profile`
+    }
   },
 
   methods: {

@@ -20,32 +20,35 @@
                 <div class="Dir-title --title _padding-bottom-none-i">{{ org.fields['Name'] }}</div>
               </div>
               <div class="Dir-social Dir-title">
+                <a v-if="org.fields['Email']" :href="`mailto:${org.fields['Email']}`" class="Dir-icon --url"><span class="_font-phage icon-mail-alt"/></a>
                 <a v-if="org.fields['Social:Linkedin']" :href="`${org.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
                 <a v-if="org.fields['Social:Twitter']" :href="`https://twitter.com/${org.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
               </div>
             </div>
-            <h5 v-if="org.fields['AltName']" class="_font-normal _padding-none">{{ org.fields['AltName'] }}</h5>
+            <h5 v-if="org.fields['AltName']" class="_font-small _padding-none">{{ org.fields['AltName'] }}</h5>
           </div>
 
-          <!-- <div class="People-name-social _flex-row">
-            <div class="Dir-title _flex-1">
-              {{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle">{{ person.fields['Title'] }}</span>
-            </div>
-            <div class="Dir-social Dir-title">
-              <a v-if="person.fields['Social:Linkedin']" :href="`${person.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
-              <a v-if="person.fields['Social:GoogleScholar']" :href="`${person.fields['Social:GoogleScholar']}`" class="Dir-icon --url"><span class="_font-phage icon-google-scholar" /></a>
-              <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
-              <a v-if="person.fields['Social:ORCID']" :href="`https://orcid.org/${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
-              <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
-            </div>
-          </div> -->
-
-          <div v-if="org.fields['Org:Types']" class="_margin-top-half">
+          <div v-if="org.fields['Org:Types:Custom']" class="_margin-top-half">
+            <span class="_tag">{{ org.fields['Org:Types:Custom'] }}</span>
+          </div>
+          <div v-else-if="org.fields['Org:Types']" class="_margin-top-half">
             <span v-for="item of org.fields['Org:Types']" :key="item" class="_tag">{{ item }}</span>
           </div>
           <div v-if="org.fields['URL']" class="">
             <a v-if="org.fields['URL']" :href="org.fields['URL']" class="--url --none">{{ org.fields['URL'] }}</a>
           </div>
+        </div>
+      </div>
+
+      <div class="People-info-block Dir-block">
+        <div v-if="org.fields['Email']" class="Dir-row-half _grid-1-7-xs _align-vertically">
+          <span class="Dir-label">Email </span><a :href="`mailto:${org.fields['Email']}`" class="_wordbreak --url --none">{{ org.fields['Email'] }}</a>
+        </div>
+        <div v-if="org.fields['Social:Twitter']" class="Dir-row-half _grid-1-7-xs _align-vertically">
+          <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
+        </div>
+        <div v-if="url" class="Dir-row-half _grid-1-7-xs _align-vertically">
+          <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
         </div>
       </div>
 
@@ -113,6 +116,24 @@ export default {
     linkedPhageCollections() {
       return this.$cytosis.getLinkedRecords(this.org.fields['PhageCollections'], this.phageCollections, true).reverse()
     },
+    url() {
+      let string = this.org.fields['URL']
+
+      if (!string)
+        return undefined
+
+      if(string.substring(0,4) != 'http')
+        string = 'https://' + string
+
+      return string
+    },
+    getTwitter() {
+      let twitter = this.org.fields['Social:Twitter']
+      if(twitter.substring(0,1) == '@')
+        return twitter
+      else
+        return '@'+twitter
+    }
 
   },
   methods: {

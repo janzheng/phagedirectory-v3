@@ -3,139 +3,194 @@
     <Template sidebar-classes="--sticky --top-1" grid-classes="Template--Main-Sidebar _grid-4-1-sm _grid-gap ">
 
       <template #header>
-        <div class="_card _padding">
-          <div v-if="message" class="Profile-edit-message _card _padding">{{ message }}</div>
+        <h1 class="">{{ ProfileTitle }}</h1>
 
+        <div class="Profile-edit-preview _margin-top-2 _card _padding">
+          <h6>Organization Preview</h6>
+          <Card :org="profile" class="Profile-edit-preview-card" />
+        </div>
+
+        <div class="Profile-editor _divider-top-half ">
           <h6>Organization Profile</h6>
-          <h1 class="--title">{{ profile.fields['Name'] }}</h1>
-          <div class="Profile-edit-name">
-            <FormletInputFloat
-              :input="input_orgName" 
-              @input="(data) => { updateProfile('Name', data) }" 
-            />
-          </div>
-          <div class="Profile-edit-altname">
-            <FormletInputFloat
-              :input="input_orgShortName" 
-              @input="(data) => { updateProfile('AltName', data) }" 
-            />
-          </div>
-          <div class="Profile-edit-orgtype">
-            <FormletInputFloat
-              :input="input_orgType" 
-              @input="(data) => { updateProfile('Org:Types', data) }" 
-            />
-          </div>
-
-          <div class="Profile-edit-description _margin-top-2">
-            <FormletTextArea 
-              :input="input_orgDescription"
-              @input="(data) => { updateProfile('Description', data) }" 
-            />
-          </div>
-
-          <div class="Profile-edit-location _margin-top-2">
-            <p class="_font-bold">Organization Location</p>
-            <div class="_grid-3">
-              <div class="Profile-edit-city">
-                <FormletInputFloat
-                  :input="input_orgCity" 
-                  @input="(data) => { updateProfile('City', data) }" 
-                />
-              </div>
-              <div class="Profile-edit-state">
-                <FormletInputFloat
-                  :input="input_orgState" 
-                  @input="(data) => { updateProfile('State', data) }" 
-                />
-              </div>
-              <div class="Profile-edit-country">
-                <FormletInputFloat
-                  :input="input_orgCountry" 
-                  @input="(data) => { updateProfile('Country', data) }" 
-                />
-              </div>
-            </div>
-          </div>
-
-
-
-
-
-          <div class="Profile-edit-avatar _margin-top-2">
-            <div class="Profile-avatar-control _card _padding _form-control">
-              <h6>Organization Logo</h6>
-              <label for="Profile-avatar" class="_button --outline">
-                <span v-if="!avatar">Upload Logo</span>
-                <span v-else>Change Logo Image</span>
-              </label> <button v-if="avatar" @click="clearAvatar">Clear Logo</button>
-              <input id="Profile-avatar" ref="avatar" type="file" class="Profile-avatar" style="display:none" @change="uploadAvatar"> 
-              <div v-if="avatar">
-                <img :src="avatar" >
-              </div>
-              <div class="_font-small">Note: your image might be cropped — please save to preview your final profile</div>
-              <!-- todo: add support for profile url and svgs -->
-            </div>
-          </div>
-
-
-
-
-
-          <div class="Profile-edit-group-contact _margin-top-2">
-            <div class="Profile-edit-contact">
+          
+          <div class="Profile-edit-background _card _padding _color-bg-white">
+            <p class="_font-bold">Background Information</p>
+            <div class="Profile-edit-name">
               <FormletInputFloat
-                :input="input_orgContact" 
-                @input="(data) => { updateProfile('ContactPerson', data) }" 
+                :input="input_name"
+                input-attrs="--open"
+                :submit-handler="saveData"
+                @input="(data) => { updateProfile('Name', data) }" 
               />
             </div>
-            <div class="Profile-edit-email">
+
+            <div class="_grid-2">
               <FormletInputFloat
-                :input="input_orgEmail" 
-                @input="(data) => { updateProfile('Email', data) }" 
+                :input="input_altname"
+                input-attrs="--open"
+                :submit-handler="saveData"
+                @input="(data) => { updateProfile('AltName', data) }" 
+              />
+              <FormletInputFloat
+                :input="input_orgtype" 
+                type="text"
+                input-attrs="--open"
+                :submit-handler="saveData"
+                @input="(data) => { updateProfile('Org:Types:Custom', data) }" 
               />
             </div>
+
+            <div class="Profile-edit-description _margin-top-2">
+              <FormletTextArea
+                :input="input_description" 
+                :submit-handler="saveData"
+                @input="(data) => { updateProfile('Description', data) }" 
+              />
+            </div>
+
+            <div class="Profile-edit-location _margin-top-2">
+              <div class="_grid-3">
+                <div class="Profile-edit-city">
+                  <FormletInputFloat
+                    :input="input_city" 
+                    type="text"
+                    input-attrs="--open"
+                    :submit-handler="saveData"
+                    @input="(data) => { updateProfile('City', data) }" 
+                  />
+                </div>
+                <div class="Profile-edit-state">
+                  <FormletInputFloat
+                    :input="input_state" 
+                    type="text"
+                    input-attrs="--open"
+                    :submit-handler="saveData"
+                    @input="(data) => { updateProfile('State', data) }" 
+                  />
+                </div>
+                <div class="Profile-edit-country">
+                  <FormletInputFloat
+                    :input="input_country" 
+                    type="text"
+                    input-attrs="--open"
+                    :submit-handler="saveData"
+                    @input="(data) => { updateProfile('Country', data) }"  
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="Profile-edit-avatar-section _margin-top-2">
+              <div class="_font-bold _margin-bottom-half">Organization Logo</div>
+
+              <div class="Profile-avatar-container _card _padding _form-control">
+                <div class="Profile-avatar-grid _flex-row-sm">
+                  <div class="Profile-avatar-preview">
+                    <div v-if="avatar" class="_padding-right">
+                      <img style="max-width: 400px" :src="avatar" >
+                    </div>
+                  </div>
+                  <div class="Profile-avatar-control _flex-1">
+                    <label for="Profile-avatar" class="_button --outline">
+                      <span v-if="!avatar">Upload Logo Image</span>
+                      <span v-else>Change Logo Image</span>
+                    </label> <button v-if="avatar" @click="clearAvatar">Clear Logo</button>
+                    <FormletInputFloat
+                      :key="input_avatarlink.initial"
+                      :input="input_avatarlink" 
+                      input-attrs="--open"
+                      type="text"
+                      :submit-handler="saveData"
+                      @input="(data) => { setAvatar(data) }" 
+                    />
+                    <input id="Profile-avatar" ref="avatar" type="file" class="Profile-avatar" style="display:none" @input="uploadAvatar"> 
+                  </div>
+                </div>
+
+                <div class="_font-small">Note: your image might be cropped — please save to preview your final profile</div>
+                <!-- todo: add support for profile url and svgs -->
+              </div>
+            </div>
+
+            <div :class="!hasChanged ? '--notChanged' : ''" class="Profile-edit-ctabar _margin-top">
+              <div class="_grid-1-3 _align-vertically">
+                <div>
+                  <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Changes</button>
+                  <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+                </div>
+                <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="Profile-edit-contact _divider-top-half ">
+          <h6 class="_font-bold">Organization Contact</h6>
+
+          <div class="_card _padding _color-bg-white">
             <div class="Profile-edit-website">
               <FormletInputFloat
-                :input="input_orgWebsite" 
+                :input="input_website" 
+                input-attrs="--open"
+                :submit-handler="saveData"
                 @input="(data) => { updateProfile('URL', data) }" 
               />
             </div>
-            <div class="Profile-edit-twitter">
-              <FormletInputFloat
-                :input="input_orgTwitter" 
-                @input="(data) => { updateProfile('Social:Twitter', data) }" 
-              />
+            <div class="Profile-edit-social _grid-2">
+              <div class="Profile-edit-contactname">
+                <FormletInputFloat
+                  :input="input_contactperson" 
+                  input-attrs="--open"
+                  :submit-handler="saveData"
+                  @input="(data) => { updateProfile('ContactPerson', data) }" 
+                />
+              </div>
+              <div class="Profile-edit-email">
+                <FormletInputFloat
+                  :input="input_email" 
+                  input-attrs="--open"
+                  :submit-handler="saveData"
+                  @input="(data) => { updateProfile('Email', data) }" 
+                />
+              </div>
+              <div class="Profile-edit-twitter">
+                <FormletInputFloat
+                  :input="input_twitter" 
+                  input-attrs="--open"
+                  :submit-handler="saveData"
+                  @input="(data) => { updateProfile('Social:Twitter', data) }" 
+                />
+              </div>
+              <div class="Profile-edit-linkedin">
+                <FormletInputFloat
+                  :input="input_linkedin" 
+                  input-attrs="--open"
+                  :submit-handler="saveData"
+                  @input="(data) => { updateProfile('Social:Linkedin', data) }" 
+                />
+              </div>
             </div>
-            <div class="Profile-edit-linkedin">
-              <FormletInputFloat
-                :input="input_orgLinkedin" 
-                @input="(data) => { updateProfile('Social:Linkedin', data) }" 
-              />
+
+            <div :class="!hasChanged ? '--notChanged' : ''" class="Profile-edit-ctabar _margin-top">
+              <div class="_grid-1-3 _align-vertically">
+                <div>
+                  <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Save Changes</button>
+                  <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
+                </div>
+                <div v-if="message" class="Profile-edit-message _margin-bottom-none-i">{{ message }}</div>
+              </div>
             </div>
           </div>
-
-
-          <div class="_margin-top-2">
-
-            <button v-if="!isSaving" class="_button --width_full" @click="saveData" >Save Organization Profile</button>
-            <button v-if="isSaving" class="_button --width_full --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
-
-            <div v-if="message" class="Profile-edit-message _card _padding">{{ message }}</div>
-          </div>
-
         </div>
 
-        <!-- <div v-if="profile && isStaging" style="word-break: break-all;">
+
+        <!-- <div v-if="profile && isStaging" class="_divider-top-half" style="word-break: break-all;">
           {{ profile }}
         </div> -->
 
       </template>
-
-      <!-- <template #context>
-        <button v-if="!isSaving" @click="saveData" class="_button --width_full">Save Profile</button>
-        <button v-if="isSaving" class="_button --width_full --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Saving...</button>
-      </template> -->
 
     </Template>
   </div>
@@ -146,10 +201,7 @@
 
 // import { mapState } from 'vuex'
 // import Cytosis from '~/components/experiments/Cytosis.vue'
-// import NodeForm from '~/components/render/NodeForm.vue'
 // import Template from '~/templates/article.vue'
-// import { headMatter } from '~/other/headmatter.js'
-// import { loadQuery } from '~/other/loaders'
 import Template from '~/templates/context.vue'
 import axios from 'axios'
 
@@ -157,6 +209,8 @@ import axios from 'axios'
 import FormletInputFloat from '~/components/layout/Formlet-input-float'
 import FormletTextArea from '~/components/layout/Formlet-textarea'
 
+// import Card from '~/components/dir/PeopleCard.vue'
+import Card from '~/components/dir/OrgCard.vue'
 
 export default {
 
@@ -164,15 +218,15 @@ export default {
     // Cytosis,
     // NodeForm,
     Template,
-
+    Card,
     // FormletInput,
     FormletInputFloat,
-    FormletTextArea
+    FormletTextArea,
     // FormletInputDatalist,
   },
 
   props: {
-    slug: String, // used to get the mgr account
+    profileslug: String, // used to get the mgr account
     passcode: String, // used to get the mgr account
     profileProp: Object
   },
@@ -200,31 +254,35 @@ export default {
       profile: profile, // user's profile
       files: [],
       avatar: avatar, // temporary placeholder for avatar preview for upload
+      avatar_link: false, // external url link
+      avatar_clear: false, // if user clicks 'clear' this is set to true
       isSaving: false,
+      hasChanged: false,
       message: "",
       isStaging: process.env.pd_env,
 
-      input_orgName: {
+
+      input_name: {
         "initial": profile.fields['Name'],
         "name":"Name",
         "label":"Organization Name",
         "description":"",
-        "placeholder":"",
+        "placeholder":"Full Organization Name",
         "type":"FLOAT",
       },
 
-      input_orgShortName: {
+      input_altname: {
         "initial": profile.fields['AltName'],
         "name":"AltName",
-        "label":"Alternate Organization Name",
-        "description":"Shorter names, e.g. 'ATCC'",
-        "placeholder":"",
+        "label":"Alt Org Name",
+        "description":"",
+        "placeholder":"e.g. NCTC",
         "type":"FLOAT",
       },
 
-      input_orgType: {
-        "initial": profile.fields['Org:Types'],
-        "name":"Org:Types",
+      input_orgtype: {
+        "initial": profile.fields['Org:Types:Custom'] || profile.fields['Org:Types'],
+        "name":"Org:Types:Custom",
         "label":"Organization Type",
         "description":"",
         "placeholder":"",
@@ -245,74 +303,82 @@ export default {
         ]
       },
 
-      input_orgDescription: {
+      input_description: {
         "initial": profile.fields['Description'],
+        "rows": 6,
         "name":"Description",
-        "label":"Mission/activities",
-        "description":"What is your organization's mission, or what does your organization do?",
-        "placeholder":"",
+        // "label":"Personal Bio",
+        "description":"__Organization Description__",
+        "placeholder":"My phage organization does this really well.",
         "type":"TEXTAREA",
       },
 
-
-      input_orgContact: {
-        "initial": profile.fields['ContactPerson'],
-        "name":"ContactPerson",
-        "label":"Contact Person",
-        "placeholder":"",
-        "type":"FLOAT",
-      },
-      input_orgEmail: {
-        "initial": profile.fields['Email'],
-        "name":"Name",
-        "label":"Public Email Address",
-        "placeholder":"",
-        "type":"FLOAT",
-      },
-      input_orgWebsite: {
-        "initial": profile.fields['URL'],
-        "name":"URL",
-        "label":"Org Website Link",
-        "description":"",
-        "placeholder":"",
-        "type":"FLOAT",
-      },
-      input_orgTwitter: {
-        "initial": profile.fields['Social:Twitter'],
-        "name":"Social:Twitter",
-        "label":"Twitter",
-        "placeholder":"",
-        "type":"FLOAT",
-      },
-      input_orgLinkedin: {
-        "initial": profile.fields['Social:Linkedin'],
-        "name":"Social:Linkedin",
-        "label":"LinkedIn URL",
-        "placeholder":"",
+      input_avatarlink: { // if user wants to upload an image
+        "initial": "",
+        "name":"ImageURL",
+        "label":"Upload Image from URL",
+        "placeholder":"https://phage.directory/icon.png",
         "type":"FLOAT",
       },
 
-
-
-      input_orgCity: {
+      input_city: {
         "initial": profile.fields['City'],
         "name":"City",
         "label":"City",
-        "placeholder":"",
+        "placeholder":"Atlanta",
         "type":"FLOAT",
       },
-      input_orgState: {
+      input_state: {
         "initial": profile.fields['State'],
         "name":"State",
         "label":"US State",
-        "placeholder":"",
+        "placeholder":"GA",
         "type":"FLOAT",
       },
-      input_orgCountry: {
+
+      input_country: {
         "initial": profile.fields['Country'],
         "name":"Country",
         "label":"Country",
-        "placeholder":"",
+        "placeholder":"United States",
+        "type":"FLOAT",
+      },
+
+
+      input_website: {
+        "initial": profile.fields['URL'],
+        "name":"URL",
+        "label":"Website URL",
+        "description":"",
+        "placeholder":"http://organization.com",
+        "type":"FLOAT",
+      },
+      input_contactperson: {
+        "initial": profile.fields['ContactPerson'],
+        "name":"ContactPerson",
+        "label":"Organization Contact Person",
+        "placeholder":"John D. Smith",
+        "type":"FLOAT",
+      },
+      input_email: {
+        "initial": profile.fields['Email'],
+        "name":"Email",
+        "label":"Organization Contact Email",
+        "placeholder":"marketing@organization.com",
+        "type":"FLOAT",
+      },
+      input_twitter: {
+        "initial": profile.fields['Social:Twitter'],
+        "name":"Social:Twitter",
+        "label":"Twitter",
+        "placeholder":"@organization_twitter",
+        "type":"FLOAT",
+      },
+      input_linkedin: {
+        "initial": profile.fields['Social:Linkedin'],
+        "name":"Social:Linkedin",
+        "label":"LinkedIn URL",
+        "placeholder":"https://linkedin.com/in/organization",
         "type":"FLOAT",
       },
 
@@ -327,40 +393,29 @@ export default {
     // events() {
     //   return this.Atoms.filter(t => t.fields['Atom:Type'] == 'Event')
     // },
+
+    ProfileTitle() {
+      // calculated names includes spaces
+      if(!this.profile.fields['Name'] || this.profile.fields['Name'].trim() == '')
+        return `New Organization Profile`
+      
+      return `${this.profile.fields['Name']} Profile`
+    }
   },
 
   methods: {
     updateProfile(field, data) {
-      // since profile is an obj we need to manually trigger update
+      // if(field == 'Org:Types') {
+      //   console.log('updating Org:Types:', field, data)
+      //   this.profile.fields[field] = [data] // multiple select
+      // } else {
+      //   // since profile is an obj we need to manually trigger update
+      //   this.profile.fields[field] = data
+      // }
       this.profile.fields[field] = data
       this.profile.__ob__.dep.notify()
+      this.hasChanged = true
     },
-
-
-    // async getData({slug, passcode}) {
-    //   let _slug = slug || this.slug
-    //   let _passcode = passcode || this.passcode
-
-    //   if(_slug && _passcode) {
-    //     this.statusMessage = "Hold on to your shoes, I'm loading!!"
-    //     this.isLoading = true
-
-    //     let profiledata = {
-    //       slug: _slug, // "test-example",
-    //       passcode: _passcode, //  "THEIR-FEED-NOSE-into",
-    //       type: "GET"
-    //     }
-    //     let response = await axios.post(process.env.api_url + '/api/profile', profiledata)
-    //     if(response.data && response.data.meta) {
-    //       this.profile = response.data
-    //       this.table = response.data.meta.table
-    //       this.isLoading = false
-    //     } else {
-    //       this.isLoading = false
-    //       this.statusMessage = "Profile could not be loaded."
-    //     }
-    //   }
-    // },
 
     async saveData() {
 
@@ -370,11 +425,12 @@ export default {
       this.message = "Saving your profile..."
 
       let profiledata = {
-        slug: this.slug, // "test-example",
+        profileslug: this.profileslug, // "test-example",
         passcode: this.passcode, //  "THEIR-FEED-NOSE-into",
         type: "UPDATE",
         table: this.tableType,
-        avatar: "keep", // "test-example",
+        avatar_link: this.avatar_link,
+        avatar_clear: this.avatar_clear,
         data: this.profile.fields
       }
 
@@ -388,6 +444,8 @@ export default {
 
       // let response = await axios.post(process.env.api_url + '/api/profile', profiledata)
 
+      console.log(' >>>> submitting >>>>', profiledata)
+
       let response = await axios({
         method: 'post',
         url: process.env.api_url + '/api/profile',
@@ -395,27 +453,64 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
 
-      console.log('response:', response)
+      // console.log('response:', response)
       if(response.data && response.data.meta) {
-        this.profile = response.data.payload
+        let avatar, profile = response.data.payload
+        this.profile = profile
         this.isSaving = false
         this.message = "Profile successfully saved!"
+
+        // reset local state images
+        if(profile.fields['Profile'] && profile.fields['Profile'][0]) {
+          avatar = profile.fields['Profile'][0]['url']
+          // clear the avatar field
+          this.input_avatarlink = {
+            "initial": "",
+            "name":"ImageURL",
+            "label":"Image URL",
+            "placeholder":"",
+            "type":"FLOAT",
+          }
+        }
+        this.files = undefined
+        this.avatar = avatar // temporary placeholder for avatar preview for upload
+        this.avatar_link = false // external url link
+        this.avatar_clear = false // if user clicks 'clear' this is set to true
+
       } else {
         this.isSaving = false
         this.message = "Profile could not be saved."
       }
     },
 
+
+    setAvatar(data) {
+      console.log(' >>>>> SET AVATAR ', data)
+      if(data == '') {
+        this.avatar = undefined 
+        this.profile.fields['Profile'] = undefined
+        this.hasChanged = true
+      } else {
+        this.avatar = data
+        this.profile.fields['Profile'] = [{url: data}]
+        this.hasChanged = true
+      }
+    },
+
     clearAvatar() {
       this.files = undefined
       this.avatar = undefined
+      this.profile.fields['Profile'] = []
+      this.avatar_clear = true // in case user wants to delete avatar
       this.$refs.avatar.value = '' 
+      this.hasChanged = true
     },
-    
+
     uploadAvatar(event) {
       const _this = this
       console.log('upload avatar: ', event.target.files)
       this.files = event.target.files
+      this.hasChanged = true
       if(this.files && this.files[0]) {
         console.log("File: " , this.files[0])
         const reader = new FileReader()
@@ -434,264 +529,3 @@ export default {
 <style>
 </style>
 
-
-<!-- 
-{
-  "inputs": [
-    {
-      "name": "TextareaContent",
-      "label": "Feedback",
-      "placeholder": "Text Area!",
-      "required": "true",
-      "type": "TEXTAREA"
-    },
-    {
-       "name":"Floaty Name",
-       "label":"Floaty Name",
-       "description":"",
-       "placeholder":"",
-       "type":"FLOAT"
-    },
-    {
-      "type": "MARKDOWN",
-      "markdown": "# This is some markdown comment! \n \n --- \n \n hello there"
-    },
-    {
-      "name": "EmailContent",
-      "label": "Optional Email",
-      "required": "true",
-      "placeholder": "address@gmail.com",
-      "type": "EMAIL"
-    },
-    {
-      "name": "ActionEmailContent",
-      "label": "Action Email",
-      "action":"Send Now!!",
-      "required": "true",
-      "placeholder": "address@gmail.com",
-      "type": "EMAIL"
-    },
-    {
-      "name": "InlineCTA",
-      "label": "Inline CTA",
-      "required": "true",
-      "action":"Press Me!",
-      "placeholder": "Something not sane",
-      "error": "Please enter something more sane!",
-      "type": "CTA"
-    },
-    {
-      "name": "RadioContent",
-      "label": "Shirt Size",
-      "type": "RADIO",
-      "required": "true",
-      "error": "Please choose a shirt!",
-      "options": [
-        {
-          "value": "ExtraSmall",
-          "label": "Extra Small Shirt"
-        },
-        {
-          "value": "Small",
-          "label": "Small Shirt"
-        },
-        {
-          "value": "Medium",
-          "label": "Medium Shirt"
-        },
-        {
-          "value": "Large",
-          "label": "Large Shirt"
-        },
-        {
-          "value": "ExtraLarge",
-          "label": "Extra Large Shirt"
-        },
-        {
-          "value": "ExtraExtraLarge",
-          "label": "Extra-extra Large Shirt"
-        }
-      ]
-    },
-    {
-      "name": "CheckboxContent",
-      "label": "Check Options",
-      "type": "CHECKBOX",
-      "required": "true",
-      "error": "Please choose an option!",
-      "options": [
-        {
-          "value": "Gin",
-          "label": "Gin!"
-        },
-        {
-          "value": "Tequila",
-          "label": "Tequila!!"
-        },
-        {
-          "value": "Tacos",
-          "label": "Tacos!!!!!!!"
-        }
-      ]
-    },
-    {
-      "name": "DatalistContent",
-      "label": "Dinosaurs",
-      "type": "DATALIST",
-      "required": "true",
-      "error": "Please choose a dino!",
-      "options": [
-        {
-          "value": "Pterodactyl",
-          "label": "Pterodactyl"
-        },
-        {
-          "value": "TyrannosaurusRex",
-          "label": "Tyrannosaurus Rex"
-        },
-        {
-          "value": "Triceratops",
-          "label": "Triceratops"
-        },
-        {
-          "value": "Brontosaurus",
-          "label": "Brontosaurus"
-        }
-      ]
-    }
-  ]
-}
-   "type":"simple",
-   "privacy":"We keep your information private, and we will not spam you. Please review our [site policies](/policies).{._font-small}",
-   "thanks":"#### Thank you for signing up!{.--title}",
-   "error":"We found a mistake, please scroll back up and take a look.",
-  "inputs": [
-    {
-      "name": "TextareaContent",
-      "label": "Feedback",
-      "placeholder": "Text Area!",
-      "required": "true",
-      "type": "TEXTAREA"
-    },
-    {
-       "name":"Floaty Name",
-       "label":"Floaty Name",
-       "description":"",
-       "placeholder":"",
-       "type":"FLOAT"
-    },
-    {
-      "type": "MARKDOWN",
-      "markdown": "# This is some markdown comment! \n \n --- \n \n hello there"
-    },
-    {
-      "name": "EmailContent",
-      "label": "Optional Email",
-      "required": "true",
-      "placeholder": "address@gmail.com",
-      "type": "EMAIL"
-    },
-    {
-      "name": "ActionEmailContent",
-      "label": "Action Email",
-      "action":"Send Now!!",
-      "required": "true",
-      "placeholder": "address@gmail.com",
-      "type": "EMAIL"
-    },
-    {
-      "name": "InlineCTA",
-      "label": "Inline CTA",
-      "required": "true",
-      "action":"Press Me!",
-      "placeholder": "Something not sane",
-      "error": "Please enter something more sane!",
-      "type": "CTA"
-    },
-    {
-      "name": "RadioContent",
-      "label": "Shirt Size",
-      "type": "RADIO",
-      "required": "true",
-      "error": "Please choose a shirt!",
-      "options": [
-        {
-          "value": "ExtraSmall",
-          "label": "Extra Small Shirt"
-        },
-        {
-          "value": "Small",
-          "label": "Small Shirt"
-        },
-        {
-          "value": "Medium",
-          "label": "Medium Shirt"
-        },
-        {
-          "value": "Large",
-          "label": "Large Shirt"
-        },
-        {
-          "value": "ExtraLarge",
-          "label": "Extra Large Shirt"
-        },
-        {
-          "value": "ExtraExtraLarge",
-          "label": "Extra-extra Large Shirt"
-        }
-      ]
-    },
-    {
-      "name": "CheckboxContent",
-      "label": "Check Options",
-      "type": "CHECKBOX",
-      "required": "true",
-      "error": "Please choose an option!",
-      "options": [
-        {
-          "value": "Gin",
-          "label": "Gin!"
-        },
-        {
-          "value": "Tequila",
-          "label": "Tequila!!"
-        },
-        {
-          "value": "Tacos",
-          "label": "Tacos!!!!!!!"
-        }
-      ]
-    },
-    {
-      "name": "DatalistContent",
-      "label": "Dinosaurs",
-      "type": "DATALIST",
-      "required": "true",
-      "error": "Please choose a dino!",
-      "options": [
-        {
-          "value": "Pterodactyl",
-          "label": "Pterodactyl"
-        },
-        {
-          "value": "TyrannosaurusRex",
-          "label": "Tyrannosaurus Rex"
-        },
-        {
-          "value": "Triceratops",
-          "label": "Triceratops"
-        },
-        {
-          "value": "Brontosaurus",
-          "label": "Brontosaurus"
-        }
-      ]
-    }
-  ]
-}
-
-
-
-
-
- -->

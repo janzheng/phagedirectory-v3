@@ -12,7 +12,7 @@
 
     ._card {
       box-shadow: none;
-      padding: 0;
+      padding: $size;
       border: 0;
       border-radius: 0;
       padding-bottom: $size-half;
@@ -89,6 +89,7 @@
       margin-bottom: $size-half;
     } 
   }
-
-
 }
+
+
+

@@ -36,7 +36,7 @@
               </div>
             </div>
 
-            <div class="Home-latest _margin-center _padding-left-xs _padding-right-xs">
+            <div class="Home-latest _margin-center _padding _card">
               <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
               <!-- featured has been rolled into Latest — add FeedFeature tag and it should show up here -->
               <!-- <Latest v-if="featuredAtoms" :atoms="featuredAtoms" /> -->
@@ -107,9 +107,6 @@ export default {
     // this loads in the latest capsid on client; but do it on server instead
     // b/c that's better for SEO
     // this.getLatestCapsid()
-
-    if(this.latestCapsid)
-      this.getAuthorsOfManuscript(this.latestCapsid)
 
     // load these in the client so server is faster; can't be cached, so can skip SEO
     this.getLatestAtoms(_numLatest)
@@ -216,8 +213,9 @@ export default {
   },
   
   mounted() {
-    if(this.latestCapsid)
+    if(this.latestCapsid) {
       this.getAuthorsOfManuscript(this.latestCapsid)
+    }
   },
 
   methods: {
@@ -311,6 +309,7 @@ export default {
       })
 
       this['People'] = cytosis.tables['People']
+      this['authors'] = cytosis.tables['People']
 
       return cytosis.tables['People'] // not really used
     },

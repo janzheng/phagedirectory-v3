@@ -1,7 +1,7 @@
 
 <template>
 
-  <div :class="atom.fields['Data:Status']" class="Alert _card _padding " >
+  <div :class="atom.fields['Data:Status']" class="Alert _card _padding _color-bg-white" >
 
     <div class="Alert-status" >
       <div class="_grid-auto-1-xs _align-vertically">

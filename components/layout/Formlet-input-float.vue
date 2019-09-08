@@ -140,7 +140,7 @@ export default {
     // }
     emit: new _.debounce(function(evt) { // long initial delay
       // slows down error messages
-      console.log('!! emitting action:', (evt == 'InputEvent'), evt )
+      // console.log('!! emitting action:', (evt == 'InputEvent'), evt )
       if(evt == 'InputEvent')
         console.log('INPUT EVENT!!')
       this.$emit('input', this.data)

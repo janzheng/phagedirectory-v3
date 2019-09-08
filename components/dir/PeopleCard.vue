@@ -73,7 +73,7 @@
               <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
             </div>
             <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-7-xs _align-vertically">
-              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{getTwitter}}</a>
+              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
             </div>
             <div v-if="url" class="Dir-row-half _grid-1-7-xs _align-vertically">
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>

@@ -371,13 +371,15 @@ app.post('/api/profile', async function(req, res, next) {
             let fields = {}
 
             if(profile.table == 'Organizations') {
+
               // org whitelist
               fields['Name'] = profile.data['Name']
               fields['AltName'] = profile.data['AltName']
               fields['Description'] = profile.data['Description']
               fields['ContactPerson'] = profile.data['ContactPerson']
               fields['Email'] = profile.data['Email']
-              fields['Org:Types'] = profile.data['Org:Types']
+              // fields['Org:Types'] = profile.data['Org:Types']
+              fields['Org:Types:Custom'] = profile.data['Org:Types:Custom']
               fields['Social:Linkedin'] = profile.data['Social:Linkedin']
               fields['Social:Twitter'] = profile.data['Social:Twitter']
               fields['URL'] = profile.data['URL']

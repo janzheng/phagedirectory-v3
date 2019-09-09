@@ -23,7 +23,7 @@ $capsid_: (
 
     // latest stub
     .Capsid-Stub-item {
-      padding-top: $size-2x;
+      // padding-top: $size-2x; // needed when no cover image, but try to always have a cover image...
       padding-bottom: $size-2x;
     }
     .Capsid-lede {
@@ -259,6 +259,11 @@ $capsid_: (
   width: 100%;
   height: 350px;
   object-fit: cover;
+
+  &.--stub {
+    // homepage, highlight, etc.
+    max-height: 250px;
+  }
 }
 
 .Capsid-cite {

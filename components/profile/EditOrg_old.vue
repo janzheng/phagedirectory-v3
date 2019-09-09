@@ -191,8 +191,8 @@ export default {
 
     let profile = this.profileProp.payload
     let avatar
-    if(profile.fields['Profile'] && profile.fields['Profile'][0]) {
-      avatar = profile.fields['Profile'][0]['url']
+    if(profile.fields['ProfileImage'] && profile.fields['ProfileImage'][0]) {
+      avatar = profile.fields['ProfileImage'][0]['url']
     }
 
     return {

@@ -14,6 +14,10 @@
     <div class="Capsid-email Capsid" id="email">
 
       <div class="Capsid-header Capsid-section">
+        <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover" 
+                 :src="issue.fields['Cover:url']" alt="Capsid and Tail"
+        >
+
         <div class="">
           <div class="Capsid-meta">
             <div class="Capsid-name"><strong>{{ issue.fields['Name'] }}</strong></div>
@@ -512,6 +516,13 @@ export default {
 img {
   max-width: 100% !important;
 } 
+
+
+.Capsid-cover {
+  max-height: 300px;
+  object-fit: cover;
+  padding-bottom: 16px;
+}
 
 .Capsid-content {
   width: 100%;

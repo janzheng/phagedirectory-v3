@@ -54,12 +54,12 @@
               </span> -->
 
               <span v-if="orgs" class="">
-                <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name"><span v-if="i > 0">; </span><nuxt-link :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-if="item.location">, {{ item.location }}</span>
+                <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name"><span v-if="i > 0">; </span><nuxt-link v-if="person.fields['Orgs::Slugs'][0]" :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-else> {{ item.name +'' }}</span><span v-if="item.location">, {{ item.location }}</span>
                 </span>
               </span>
 
-              <span v-if="person.fields['Orgs:Other']" class="">
-                {{ person.fields['Orgs:Other'] }}
+              <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
+                {{ person.fields['Orgs:Custom'] }}
               </span>
 
             </div>
@@ -69,18 +69,18 @@
 
           <div class="People-info-block Dir-block">
             <!-- <div><span class="Dir-label">Website</span></div> -->
-            <div v-if="person.fields['Email']" class="Dir-row-half _grid-1-7-xs _align-vertically">
+            <div v-if="person.fields['Email']" class="Dir-row-half _grid-1-6-xs _align-vertically">
               <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
             </div>
-            <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-7-xs _align-vertically">
+            <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-6-xs _align-vertically">
               <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
             </div>
-            <div v-if="url" class="Dir-row-half _grid-1-7-xs _align-vertically">
+            <div v-if="url" class="Dir-row-half _grid-1-6-xs _align-vertically">
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
             </div>
 
             <!-- skills here for now -->
-            <div v-if="person.fields['Skills']" class="People-skills Dir-row _grid-1-7-xs _align-vertically" >
+            <div v-if="person.fields['Skills']" class="People-skills Dir-row _grid-1-6-xs _align-vertically" >
               <span class="Dir-label">Skills </span><span>
                 <span>{{ person.fields['Skills'].join(', ') }}</span>
                 <!-- <span v-for="_item of person.fields['Skills']" :key="_item" class="_wordbreak --url --none">{{ _item }}</span> -->
@@ -134,8 +134,8 @@ export default {
   },
   computed: {
     profile() {
-      if(this.person.fields['Profile'])
-        return this.person.fields['Profile'][0]
+      if(this.person.fields['ProfileImage'])
+        return this.person.fields['ProfileImage'][0]
       return undefined
     },
     profileUrl() {

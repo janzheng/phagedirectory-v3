@@ -27,7 +27,7 @@
     </div>
 
     <div class="_section-content _margin-center-sm _margin-left-xs _margin-right-xs">
-      <CapsidStub :issue="latest" :authors="getAuthorsOfManuscript(latest)" :is-featured="true" class="Capsid-latest" />
+      <CapsidStub :issue="latest" :show-header="true" :authors="getAuthorsOfManuscript(latest)" :is-featured="true" class="Capsid-latest" />
     </div>
 
     <div class="Capsid-insert">

@@ -245,8 +245,8 @@ export default {
 
     let profile = this.profileProp.payload
     let avatar
-    if(profile.fields['Profile'] && profile.fields['Profile'][0]) {
-      avatar = profile.fields['Profile'][0]['url']
+    if(profile.fields['ProfileImage'] && profile.fields['ProfileImage'][0]) {
+      avatar = profile.fields['ProfileImage'][0]['url']
     }
 
     return {
@@ -461,8 +461,8 @@ export default {
         this.message = "Profile successfully saved!"
 
         // reset local state images
-        if(profile.fields['Profile'] && profile.fields['Profile'][0]) {
-          avatar = profile.fields['Profile'][0]['url']
+        if(profile.fields['ProfileImage'] && profile.fields['ProfileImage'][0]) {
+          avatar = profile.fields['ProfileImage'][0]['url']
           // clear the avatar field
           this.input_avatarlink = {
             "initial": "",
@@ -488,11 +488,11 @@ export default {
       console.log(' >>>>> SET AVATAR ', data)
       if(data == '') {
         this.avatar = undefined 
-        this.profile.fields['Profile'] = undefined
+        this.profile.fields['ProfileImage'] = undefined
         this.hasChanged = true
       } else {
         this.avatar = data
-        this.profile.fields['Profile'] = [{url: data}]
+        this.profile.fields['ProfileImage'] = [{url: data}]
         this.hasChanged = true
       }
     },
@@ -500,7 +500,7 @@ export default {
     clearAvatar() {
       this.files = undefined
       this.avatar = undefined
-      this.profile.fields['Profile'] = []
+      this.profile.fields['ProfileImage'] = []
       this.avatar_clear = true // in case user wants to delete avatar
       this.$refs.avatar.value = '' 
       this.hasChanged = true

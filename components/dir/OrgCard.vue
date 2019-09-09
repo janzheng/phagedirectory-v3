@@ -18,6 +18,7 @@
             <div class="Org-name-social _flex-row">
               <div class="_flex-1">
                 <div class="Dir-title --title _padding-bottom-none-i">{{ org.fields['Name'] }}</div>
+                <h5 v-if="org.fields['AltName']" class="_font-small _padding-none">{{ org.fields['AltName'] }}</h5>
               </div>
               <div class="Dir-social Dir-title">
                 <a v-if="org.fields['Email']" :href="`mailto:${org.fields['Email']}`" class="Dir-icon --url"><span class="_font-phage icon-mail-alt"/></a>
@@ -25,7 +26,6 @@
                 <a v-if="org.fields['Social:Twitter']" :href="`https://twitter.com/${org.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
               </div>
             </div>
-            <h5 v-if="org.fields['AltName']" class="_font-small _padding-none">{{ org.fields['AltName'] }}</h5>
           </div>
 
           <div v-if="org.fields['Org:Types:Custom']" class="_margin-top-half">
@@ -40,15 +40,22 @@
         </div>
       </div>
 
-      <div class="People-info-block Dir-block">
-        <div v-if="org.fields['Email']" class="Dir-row-half _grid-1-7-xs _align-vertically">
-          <span class="Dir-label">Email </span><a :href="`mailto:${org.fields['Email']}`" class="_wordbreak --url --none">{{ org.fields['Email'] }}</a>
+      <div class="People-info-block Dir-block _grid-2">
+        <div>
+          <div v-if="org.fields['Email']" class="Dir-row-half _grid-1-6-xs _align-vertically">
+            <span class="Dir-label">Email </span><a :href="`mailto:${org.fields['Email']}`" class="_wordbreak --url --none">{{ org.fields['Email'] }}</a>
+          </div>
+          <div v-if="url" class="Dir-row-half _grid-1-6-xs _align-vertically">
+            <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
+          </div>
         </div>
-        <div v-if="org.fields['Social:Twitter']" class="Dir-row-half _grid-1-7-xs _align-vertically">
-          <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
-        </div>
-        <div v-if="url" class="Dir-row-half _grid-1-7-xs _align-vertically">
-          <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
+        <div>
+          <div v-if="org.fields['Social:Twitter']" class="Dir-row-half _grid-1-6-xs _align-vertically">
+            <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
+          </div>
+          <div v-if="org.fields['Social:Linkedin']" class="Dir-row-half _grid-1-6-xs _align-vertically">
+            <span class="Dir-label">LinkedIn </span><a :href="`${org.fields['Social:Linkedin']}`" class="_wordbreak --url --none">{{ org.fields['Social:Linkedin'] }}</a>
+          </div>
         </div>
       </div>
 
@@ -105,8 +112,8 @@ export default {
   },
   computed: {
     logo() {
-      if(this.org.fields['Profile'])
-        return this.org.fields['Profile'][0]
+      if(this.org.fields['ProfileImage'])
+        return this.org.fields['ProfileImage'][0]
       return undefined
     },
     logoUrl() {

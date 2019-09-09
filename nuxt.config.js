@@ -84,8 +84,8 @@ if(pd_env=='prod' && mode=='universal') {
 }
 
 // on zeit now staging
-// if(pd_env=='stage' && mode=='universal') {
-if(pd_env=='stage') {
+if(pd_env=='stage' && mode=='universal') {
+// if(pd_env=='stage') {
   useCytosisConfigCache = true
   useCytosisDataCache = true
   useCytosisPageCache = true
@@ -234,7 +234,10 @@ export default {
   /*
   ** Customize the progress bar color
   */
-  loading: { color: site_color },
+  loading: { 
+    color: site_color,
+    continuous: true, 
+  },
 
   /*
   ** Build configuration

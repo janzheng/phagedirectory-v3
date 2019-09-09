@@ -383,7 +383,7 @@ app.post('/api/profile', async function(req, res, next) {
               fields['Social:Linkedin'] = profile.data['Social:Linkedin']
               fields['Social:Twitter'] = profile.data['Social:Twitter']
               fields['URL'] = profile.data['URL']
-              fields['Profile'] = profile.data['Profile']
+              fields['ProfileImage'] = profile.data['ProfileImage']
               fields['City'] = profile.data['City']
               fields['State'] = profile.data['State']
               fields['Country'] = profile.data['Country']
@@ -416,14 +416,14 @@ app.post('/api/profile', async function(req, res, next) {
             if(avatarUrl) { 
               // add a Profile attachment image; please ref the Airtable API for Qs
               // the img is uploaded + written to /tmp/ then served dynamically
-              fields['Profile'] = [ {
+              fields['ProfileImage'] = [ {
                 'url': avatarUrl
               }]
             }
 
             // if no avatars are set and triggered to clear, we clear the profile
             if(!avatarUrl && profile.avatar_clear) {
-              fields['Profile'] = []
+              fields['ProfileImage'] = []
             }
 
             let sendpayload = [{
@@ -433,7 +433,7 @@ app.post('/api/profile', async function(req, res, next) {
 
             // console.log(' >>>>>> cytprofilesave base :::::', cytprofilesave.base('Organizations'))
             // console.log(' >>>>>> replacing :::::', dbprofile.fields)
-            console.log(' >>>>>> final sendpayload :::::', sendpayload, ' Profile:', fields['Profile'])
+            console.log(' >>>>>> final sendpayload :::::', sendpayload, ' Profile:', fields['ProfileImage'])
 
             // let response = await cytprofilesave.save(whiteprofile, profile.table, dbprofile.id, true)
             // let response = await Cytosis.saveArray(sendpayload, profile.table, cytprofilesave, false, true)
@@ -583,7 +583,7 @@ app.post('/api/profile', async function(req, res, next) {
     //         if(avatarUrl) { 
     //           // add a Profile attachment image; please ref the Airtable API for Qs
     //           // the img is uploaded + written to /tmp/ then served dynamically
-    //           profile.data['Profile'] = [ {
+    //           profile.data['ProfileImage'] = [ {
     //             'url': avatarUrl
     //           }]
     //         }

@@ -30,7 +30,7 @@
             <div v-if="lab.fields['Markdown']" class="Dir-description Dir-block">
               {{ lab.fields['Markdown'] }}
             </div>
-            <div class="Lab-parent Dir-block">
+            <div v-if="lab.fields['Orgs:Parent:Name']" class="Lab-parent Dir-block">
               <div class="Dir-label">University</div>
               <span>{{ lab.fields['Orgs:Parent:Name'] +'' }}</span>
             </div>

@@ -118,8 +118,8 @@ export default {
               )
     },
     profile() {
-      if(this.person.fields['Profile'])
-        return this.person.fields['Profile'][0]
+      if(this.person.fields['ProfileImage'])
+        return this.person.fields['ProfileImage'][0]
       return undefined
     },
     profileUrl() {

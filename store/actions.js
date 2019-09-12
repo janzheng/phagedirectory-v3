@@ -221,7 +221,7 @@ async function fetchData({data, _this, state}) {
             // return false;      // this will cancel additional tries
             retry = true
             retries += 1
-            console.log('[action/loadCytosis] >>>>> ')
+            console.log('[action/loadCytosis] Retrying > ', retries)
           }
         }
 
@@ -233,12 +233,13 @@ async function fetchData({data, _this, state}) {
             console.log('Backoff Failed at', err)
             reject(err)
           }
-          if(_data)
+          if(_data) {
             if(retry) {
               console.log('>>> # retries:', retries)
             }
             // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
             resolve(_data)
+          }
         })
       } catch(err) {
         console.error('[fetchData] Local data fetching from Cytosis failed:', err)

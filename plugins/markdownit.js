@@ -39,11 +39,12 @@ export default ({ }, inject) => {
   //   anchorLink: false,
   // })
 
-  md['strip'] = function (md) {
+  md['strip'] = function (md, start='<p>', end="</p>") {
     // add functionality to strip the annoying <p></p> from a rendered markdown
     // really useful for rendering markdown content in to an H1, etc.
     // usage: $md.strip($md.render( post.fields['Title'] || ''))
-    return md.substring(3, md.length-5)
+    // return md.substring(3, md.length-5)
+    return md.substring(start.length, md.length - (end.length+1))
   }
 
   inject('md', md)

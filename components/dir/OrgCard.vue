@@ -40,8 +40,11 @@
         </div>
       </div>
 
-      <div class="People-info-block Dir-block _grid-2">
+      <div class="People-info-block Dir-block">
         <div>
+          <div v-if="org.fields['ContactPerson']" class="Dir-row-half _grid-1-6-xs _align-vertically">
+            <span class="Dir-label">Contact </span><span>{{ org.fields['ContactPerson'] }}</span>
+          </div>
           <div v-if="org.fields['Email']" class="Dir-row-half _grid-1-6-xs _align-vertically">
             <span class="Dir-label">Email </span><a :href="`mailto:${org.fields['Email']}`" class="_wordbreak --url --none">{{ org.fields['Email'] }}</a>
           </div>
@@ -70,8 +73,7 @@
                 :key="item.id" 
                 class="_commas" >
             <!-- <nuxt-link v-if="org.fields['People:OrgMembers::Slugs']" :to="`/people/${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</nuxt-link> -->
-
-            <nuxt-link v-if="org.fields['People:OrgMembers::Slugs']" :to="`/people#${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</nuxt-link>
+            <nuxt-link v-if="org.fields['People:OrgMembers::Slugs'][i]" :to="`/people#${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</nuxt-link>
             <span v-else>{{ item }}</span>
             <!-- {{ item }} // {{org.fields['People:OrgMembers::Slugs']}} // {{ i }} -->
           </span>
@@ -84,7 +86,8 @@
           <div class="">
             <div class="Dir-subtitle">{{ item.fields['Name:Nice'] }}</div>
             <div>
-              <nuxt-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</nuxt-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
+              <nuxt-link v-if="item.fields['Owners:People::Slug'][i]" :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</nuxt-link>
+              <span v-else>{{ item.fields['Owners:People::Name'][0] }}</span><span v-if="item.fields['Owners:People::Roles'].length>0"> {{ item.fields['Owners:People::Roles'].join(', ') }}</span>
             </div>
             <div class="Dir-block">Phage hosts: {{ sortHostNames(item).length }}</div>
           </div>

@@ -18,12 +18,12 @@
     </div>
 
     <!-- Type: Day -->
-    <div v-if="agendaType == 'Day' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --meta-major">
+    <div v-if="agendaType == 'Day' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --meta-major ">
       <div class="_grid-2-1 _grid-gap-small _align-vertically">
         <div class="AgendaEvent-item-title" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
         <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time:Nice'] }}</div>
       </div>
-      <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+      <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.render( event.fields['Description'] || '')" />
     </div>
 
     <!-- Type: End of Day -->
@@ -32,7 +32,7 @@
         <div class="AgendaEvent-item-title" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
         <div class="AgendaEvent-item-date _right-sm">{{ event.fields['Time:Nice'] }}</div>
       </div>
-      <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+      <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.render( event.fields['Description'] || '')" />
     </div>
 
     <!-- Type: Event -->
@@ -56,10 +56,10 @@
     <!-- Type: Session -->
     <div v-else-if="agendaType == 'Session' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --meta-session">
       <div class="AgendaEvent-item-title">
-        <div class="--meta-session-header">Session:</div>
+        <div class="--meta-session-header">Session</div>
         <div v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
       </div>
-      <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+      <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.render( event.fields['Description'] || '')" />
       <!-- <div class="AgendaEvent-item-date _right">{{ event.fields['Time'] | niceTimeDate }}</div> -->
     </div>
 
@@ -72,7 +72,7 @@
         <div slot="date">{{ event.fields['Time:Nice'] }}</div>
         <div slot="main">
           <div class="AgendaEvent-item-name">{{ event.fields['Name'] }}</div>
-          <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+          <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.render( event.fields['Description'] || '')" />
         </div>
       </AgendaCard>
     </div>
@@ -87,7 +87,7 @@
         <div slot="main">
           <div class="AgendaEvent-item-name" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
           <div class="AgendaEvent-item-speakers" v-html="$md.strip($md.render( event.fields['Speakers'] || ''))" />
-          <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+          <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.render( event.fields['Description'] || '')" />
         </div>
       </AgendaCard>
     </div>
@@ -100,7 +100,7 @@
         <div slot="main">
           <div class="AgendaEvent-item-name" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
           <div class="AgendaEvent-item-speakers" v-html="$md.strip($md.render( event.fields['Speakers'] || ''))" />
-          <div v-if="event.fields['Description']" class="AgendaEvent--description _margin-top" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+          <div v-if="event.fields['Description']" class="AgendaEvent--description _margin-top" v-html="$md.render( event.fields['Description'] || '')" />
         </div>
       </AgendaCard>
     </div>
@@ -112,8 +112,8 @@
         <div slot="date">{{ event.fields['Time:Nice'] }}</div>
         <div slot="main">
           <div class="AgendaEvent-item-name" v-html="$md.strip($md.render( event.fields['Name'] || ''))" />
-          <div class="AgendaEvent-item-speakers" v-html="$md.render( event.fields['Speakers'] || '')" />
-          <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+          <div class="AgendaEvent-item-speakers" v-html="$md.strip($md.render( event.fields['Speakers'] || ''))" />
+          <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.render( event.fields['Description'] || '')" />
         </div>
       </AgendaCard>
     </div>
@@ -170,7 +170,7 @@ export default {
       const nowDate = new Date
       const now = nowDate.toISOString()
 
-      if (now > this.event.fields['Time:Raw'])
+      if (now > this.event.fields['Time:GMT:UTC'])
         return '--expired'
 
       return undefined

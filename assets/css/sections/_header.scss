@@ -207,6 +207,7 @@ $header-item-height: $size-4;
     width: 100%;
     // max-width: 400px;
 
+    line-height: initial; // fixes firefox problem
     height: 100%;
     padding-left: $size-4;
     // height: initial; // resets the input's height limit of 32px

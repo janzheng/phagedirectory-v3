@@ -133,7 +133,7 @@ function loadProfile(capsId) {
     return _cytosis;
   } catch(err) {
     console.error('[Profile/loadProfile] Error:', err)
-    return new Promise.reject()
+    return Promise.reject()
   }
 }
 
@@ -151,7 +151,7 @@ function loadProfileForSaving(capsId) {
     return _cytosis;
   } catch(err) {
     console.error('[Profile/loadProfile] Error:', err)
-    return new Promise.reject()
+    return Promise.reject()
   }
 }
 
@@ -168,7 +168,7 @@ function loadManager(profileslug) {
     return _cytosis;
   } catch(err) {
     console.error('[Profile/loadManager] Error:', err)
-    return new Promise.reject()
+    return Promise.reject()
   }
 }
 
@@ -649,51 +649,6 @@ app.post('/api/profile', async function(req, res, next) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // example: http://localhost:2929/api/profile/list
 app.get('/api/profile/list', (req, res, next) => {
   console.log('[Profile] Listing ...')
@@ -761,4 +716,18 @@ app.use(function (err, req, res, next) {
 });
 
 
+
+
 module.exports = app
+
+
+
+
+
+
+
+
+
+
+
+

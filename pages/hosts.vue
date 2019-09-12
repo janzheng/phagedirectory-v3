@@ -31,7 +31,7 @@
               <h1 class="" >No results found.</h1>
             </div>
 
-            <div v-for="item of genusList" :key="item.id" class="" >
+            <div v-if="item" v-for="item of genusList" :key="item ? item.id : '' " class="" >
               <Card :genus="item" :hosts="getGenusHosts(item)" :phage-collections="phageCollections" class="Hosts-list-item" />
             </div>
           </div>
@@ -163,6 +163,7 @@ export default {
     })
 
     let hosts, phageCollections
+
     if(data.tables['Hosts'] && data.tables['PhageCollections']) {
       hosts = data.tables['Hosts']
       phageCollections = data.tables['PhageCollections']

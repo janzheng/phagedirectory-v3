@@ -62,6 +62,7 @@
     { "src": "/api/users(.*)", "dest": "api/routes/hello" },
     { "src": "/api/allusers(.*)", "dest": "api/routes/hello" },
 
+    { "src": "/api/timeline(.*)", "dest": "api/routes/timeline.js" },
     { "src": "/api/profile(.*)", "dest": "api/routes/profile.js" },
     { "src": "/api/cite", "dest": "api/routes/cite.js" },
     { "src": "/api/exocytosis(.*)", "dest": "api/routes/exocytosis.js" },

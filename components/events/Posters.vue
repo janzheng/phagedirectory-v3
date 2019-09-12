@@ -17,20 +17,22 @@
         <template #off>
           <div class="Events-poster-name _font-bold " v-html="$md.strip($md.render( poster.fields['Name'] || ''))" />
           <div v-if="poster.fields['Authors']" class="Events-poster-authors _margin-top " v-html="$md.strip($md.render( poster.fields['Authors'] || ''))" />
-          <div v-if="poster.fields['Markdown']" class="Events-poster-markdown _margin-top ">
+          <div class="Events-poster-abstract _margin-top " v-html="$md.strip($md.render( poster.fields['Abstract'] || ''))" />
+          <!-- <div v-if="poster.fields['Markdown']" class="Events-poster-markdown _margin-top ">
             <div v-html="$md.strip($md.render( poster.fields['Markdown'] || ''))" />
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
-          </div>
-          <div v-if="poster.fields['Attachments']" class="Events-poster-attachments _margin-top _grid-3-xs" >
+          </div> -->
+          <!-- <div v-if="poster.fields['Attachments']" class="Events-poster-attachments _margin-top _grid-3-xs" >
             <div v-for="item of poster.fields['Attachments']" :key="item['url']" >
               <img style="max-width: 160px" :src="item['thumbnails']['large']['url']">
             </div>
-          </div>
+          </div> -->
         </template>
 
         <template #on>
           <div class="Events-poster-name _font-bold " v-html="$md.strip($md.render( poster.fields['Name'] || ''))" />
           <div class="Events-poster-authors _margin-top " v-html="$md.strip($md.render( poster.fields['Authors'] || ''))" />
+          <div class="Events-poster-abstract _margin-top " v-html="$md.strip($md.render( poster.fields['Abstract'] || ''))" />
           <div v-if="poster.fields['Markdown']" class="Events-poster-markdown _margin-top ">
             <div v-html="$md.strip($md.render( poster.fields['Markdown'] || ''))" />
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
@@ -40,7 +42,6 @@
               <img style="max-width: 100%" :src="item['thumbnails']['large']['url']">
             </div>
           </div>
-          <div class="Events-poster-abstract _margin-top " v-html="$md.strip($md.render( poster.fields['Abstract'] || ''))" />
         </template>
       </Toggle>
 

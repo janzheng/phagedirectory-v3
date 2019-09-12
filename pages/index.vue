@@ -5,18 +5,20 @@
       <!-- <div class="Home-img-container _section-content _padding-top-2 "> -->
       <div class="Home-img-container _padding-top-2  ">
         <img class="Home-img" alt="Phage Directory logo" width="250px" src="~/static/phagedirectory_home.png">
-        <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')" />
+        <div v-if="!isStaging"  class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')" />
       </div>
     </div>
     
-    <!-- 
-        <div>
-          <EvergreenHome class="_margin-top-2 _divider-bottom">
-            <img class="" width="250px" src="~/static/phagedirectory_home.png">
-            <div class="" v-html="$md.render(more || '') "/>
-          </EvergreenHome>
-        </div>
-     -->
+    
+    <div v-if="isStaging" class="Home-promo _margin-top-2 _padding-top-2 _padding-bottom-2  _divider-bottom _color-bg-white">
+      <div class="_section-page _margin-center">
+        <PhageFuturesEUHome>
+          <div slot="default" class="" v-html="$md.render(promo || '') "/>
+          <div slot="footer" class="" v-html="$md.render(promofooter || '') "/>
+        </PhageFuturesEUHome>
+      </div>
+    </div>
+    
 
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
@@ -77,7 +79,7 @@ import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import NodeForm from '~/components/render/NodeForm.vue'
 
-// import EvergreenHome from '~/components/events/EvergreenHome.vue'
+import PhageFuturesEUHome from '~/components/events/PhageFuturesEUHome.vue'
 
 
 const _numLatest = 8 // latest number of Atoms to show in the feed
@@ -91,7 +93,8 @@ export default {
     Twitter,
     CapsidStub,
     NodeForm,
-    // EvergreenHome,
+
+    PhageFuturesEUHome,
   },
 
   layout: 'contentframe',
@@ -114,9 +117,14 @@ export default {
     // this.getFeaturedAtoms()
 
     return {
+      isStaging: process.env.pd_env == 'stage' ? true : false,
+
+      promo: this.$cytosis.findField('pfeu-promo', this.$store.state['Content'], 'Markdown' ),
+      promofooter: this.$cytosis.findField('pfeu-promofooter', this.$store.state['Content'], 'Markdown' ),
+
       mission: this.$cytosis.findField('home-mission', this.$store.state['Content'], 'Markdown' ),
       featured: this.$cytosis.findField('home-featured', this.$store.state['Content'], 'Markdown' ),
-      more: this.$cytosis.findField('home-more', this.$store.state['Content'], 'Markdown' ),
+      // more: this.$cytosis.findField('home-more', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-feed', this.$store.state['Content'] ),
       latestCapsid: null,
       latestAtoms: null, // pulled later

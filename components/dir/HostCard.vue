@@ -49,11 +49,11 @@
                   </div>
 
                   <div class="Dir-row">
-                    <nuxt-link :to="`/people#${ collection.peopleSlug }`" class="--url">{{ collection.people }}</nuxt-link><span>, {{ collection.peopleRole }}</span>
+                    <nuxt-link v-if="collection.peopleSlug" :to="`/people#${ collection.peopleSlug }`" class="--url">{{ collection.people }}</nuxt-link><span v-else>{{ collection.people }}</span><span v-if="collection.peopleRole">, {{ collection.peopleRole }}</span>
                   </div>
 
                   <div class="Dir-row">
-                    <nuxt-link :to="`${collection.orgSlugRoot}#${collection.orgSlug}`" class="--url">{{ collection.orgName }}</nuxt-link><span v-if="collection.parent">, {{ collection.parent }}</span>
+                    <nuxt-link v-if="collection.orgSlug" :to="`${collection.orgSlugRoot}#${collection.orgSlug}`" class="--url">{{ collection.orgName }}</nuxt-link><span v-else>{{ collection.orgName }}</span><span v-if="collection.parent">, {{ collection.parent }}</span>
                   </div>
 
                 </div>
@@ -96,15 +96,15 @@ export default {
     hostCollections(host) {
       let collections = []
       if(host && host.fields['PhageCollections']) {
-        const ids = host.fields['PhageCollections:_id'].split(',')
-        const names = host.fields['PhageCollections:Names'].split(',')
-        const orgs = host.fields['PhageCollections:Owners:Orgs::Names'].split(',')
-        const orgsslugroots = host.fields['PhageCollections:Owners:Orgs::SlugRoot'].split(',')
-        const orgsslugs = host.fields['PhageCollections:Owners:Orgs::Slugs'].split(',')
-        const people = host.fields['PhageCollections:Owners:People::Names'].split(',')
-        const peopleslugs = host.fields['PhageCollections:Owners:People::Slugs'].split(',')
-        const peopleroles = host.fields['PhageCollections:Owners:People::Roles'].split(',')
-        const parents = host.fields['PhageCollections:Owners:ParentOrgs::Names'].split(',')
+        const ids = host.fields['PhageCollections:_id'] ? host.fields['PhageCollections:_id'].split(',') : ''
+        const names = host.fields['PhageCollections:Names'] ? host.fields['PhageCollections:Names'].split(',') : ''
+        const orgs = host.fields['PhageCollections:Owners:Orgs::Names'] ? host.fields['PhageCollections:Owners:Orgs::Names'].split(',') : ''
+        const orgsslugroots = host.fields['PhageCollections:Owners:Orgs::SlugRoot'] ? host.fields['PhageCollections:Owners:Orgs::SlugRoot'].split(',') : ''
+        const orgsslugs = host.fields['PhageCollections:Owners:Orgs::Slugs'] ? host.fields['PhageCollections:Owners:Orgs::Slugs'].split(',') : ''
+        const people = host.fields['PhageCollections:Owners:People::Names'] ? host.fields['PhageCollections:Owners:People::Names'].split(',') : ''
+        const peopleslugs = host.fields['PhageCollections:Owners:People::Slugs'] ? host.fields['PhageCollections:Owners:People::Slugs'].split(',') : ''
+        const peopleroles = host.fields['PhageCollections:Owners:People::Roles'] ? host.fields['PhageCollections:Owners:People::Roles'].split(',') : ''
+        const parents = host.fields['PhageCollections:Owners:ParentOrgs::Names'] ? host.fields['PhageCollections:Owners:ParentOrgs::Names'].split(',') : ''
 
         ids.map((_id,i) => {
           collections.push({

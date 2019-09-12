@@ -79,6 +79,9 @@
     - update airtable dep to 0.7.1
     - also consider a real CHANGELOG.md lol
 
+  - 9/10/2019
+    - added a condition in init when not sending a tableQuery (just want a base obj)
+
 */
 
 /*
@@ -273,7 +276,7 @@ class Cytosis {
       _this.airKey = Cytosis.airKey || '';
       _this.airBase = Cytosis.airBase || '';
       _this.airBase.tables = Cytosis.tables || [];
-      _this.airBase.tableQuery = Cytosis.tableQuery || 'tables';
+      _this.airBase.tableQuery = Cytosis.tableQuery || undefined; //'tables';
       _this.airBase.options = Cytosis.options || {view: "Grid view"};
       _this.airBase.payloads = Cytosis.payloads; // used for keyword or other payloads
       _this.airBase.endpointUrl = Cytosis.endpointUrl;
@@ -284,7 +287,7 @@ class Cytosis {
       _this.airKey = opts.airKey;
       _this.airBase = { id: opts.airBase || opts.airBaseId };
       _this.airBase.tables = opts.tables || []
-      _this.airBase.tableQuery = opts.tableQuery || 'tables';
+      _this.airBase.tableQuery = opts.tableQuery || undefined; //'tables';
       _this.airBase.options = opts.options || {view: "Grid view"};
       _this.airBase.payloads = opts.payloads; // used for keyword or other payloads
     }
@@ -295,6 +298,11 @@ class Cytosis {
     })
 
     _this.base = Cytosis.getBase(this.airBase.id)
+
+
+    // if no query, we just return this object
+    if(!_this.airBase.tableQuery)
+      return this
 
     // console.log('opts: ', opts)
     // return a promise if the callee needs to do something w/ the result

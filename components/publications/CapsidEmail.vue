@@ -14,9 +14,9 @@
     <div class="Capsid-email Capsid" id="email">
 
       <div class="Capsid-header Capsid-section">
-        <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover" 
+        <!-- <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover" 
                  :src="issue.fields['Cover:url']" alt="Capsid and Tail"
-        >
+        > -->
 
         <div class="">
           <div class="Capsid-meta">
@@ -770,6 +770,13 @@ li {
   }
 
 
+._publons img {
+  width: 0.9em;
+}
+
+._googlescholar img {
+  width: 1em;
+}
 
 
 ._font-small {

@@ -7,7 +7,8 @@
 <template>
 
   <div class="AgendaCard">
-    <div class="AgendaCard-header _grid-3-2 _grid-gap-small _align-vertically _margin-bottom-half-xs _padding-bottom-half " >
+    <!-- <div class="AgendaCard-header _grid-3-2 _grid-gap-small _align-vertically _margin-bottom-half-xs _padding-bottom-half " > -->
+    <div class="AgendaCard-header _grid-3-2 _grid-gap-small _align-vertically _margin-bottom-half-xs " >
       <h6 class="_padding-none"><slot name="type" /></h6>
       <div class="_right-sm"><slot name="date" /></div>
     </div>

@@ -2,12 +2,13 @@
 
   <!-- 
 
+    - Note that timeline only shows things IN THE PAST; use the Agenda otherwise
     - todo:
       - sort Oldest first!! BUT only show the last five posts
         - button to show more (at the top of the stream)
         - easier to read when newest at bottom — like a chat, not like twitter
       - add loader
-      - add "More" button
+      -
    -->
 
 
@@ -26,21 +27,21 @@
         />
     </div>
 
-
-    <div v-if="order =='asc' " class="Timeline-more _margin-bottom-2">
-      <button v-if="postCount < timeline.length "
+    <!-- postCount: {{ postCount }} | fullAgenda.length: {{fullAgenda.length }} -->
+    <div v-if="order =='asc' && postCount < fullAgenda.length" class="Timeline-more _margin-bottom-2">
+      <button v-if="postCount < fullAgenda.length "
               class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="showMore()">
         <span class="">Show Earlier Posts</span>
       </button>
     </div>
 
-    <div v-for="item of timelineAgenda" :key="item.id" class="Timeline-posts">
+    <div v-for="item of timelineAgenda" :key="item.id" class="Timeline-post">
       
       <TimelineCard 
         :post="item"
         :author="getAuthor(item)"
         v-if="item.fields['Data:Type'] == 'Timeline'" 
-        class="Timeline-post _grid-gap-small" 
+        class="Timeline-post _grid-gap _margin-bottom-2" 
       />
       <!-- <StreamCard v-if="!post['isAgenda']" class="PhageFutures-post _grid-gap-small">
         <div v-if="getAuthor(post)" slot="sidebar" class="PhageFutures-post-sidebar _margin-bottom-half-xs" >
@@ -78,15 +79,17 @@
       </StreamCard> -->
 
       <!-- agenda post within timeline -->
-      <div>
-        <AgendaEvent :event="item" class="Timeline-AgendaEvent _margin-bottom-2" />
-      </div>
+      <AgendaEvent 
+        v-if="item.fields['Data:Type'] == 'Agenda'" 
+        :event="item" 
+        class="Timeline-AgendaEvent _margin-bottom-2" 
+      />
 
     </div>
 
 
-    <div v-if="order =='desc' " class="Timeline-more _margin-top _margin-bottom-2">
-      <button v-if="postCount < timeline.length "
+    <div v-if="order =='desc' && postCount < fullAgenda.length" class="Timeline-more _margin-top _margin-bottom-2">
+      <button v-if="postCount < fullAgenda.length "
               class="_button --width-full _center CTA --brand _font-bold _margin-none-i" @click="showMore()">
         <span class="">Show Earlier Posts</span>
       </button>
@@ -140,9 +143,14 @@ export default {
   },
 
   computed: {
+    isLoading() {
+      if (!this.timeline && this.agenda && this.authors) {
+        return true
+      }
+      return false
+    },
 
-    timelineAgenda() {
-
+    fullAgenda() {
       // get the posts from timeline
       let timeline = this['timeline']
       let agenda = this['agenda']
@@ -156,6 +164,23 @@ export default {
       if(agenda)
         timeline = [ ...timeline, ...agenda ]
 
+      // get rid of items that haven't happened yet
+      const nowDate = new Date
+      const now = nowDate.toISOString()
+      timeline = timeline.reduce((total, current) => {
+        if (now > current.fields['Time:GMT:UTC']) {
+          total.push(current)
+        }
+        return total
+      }, [])
+
+      return timeline
+    },
+
+    timelineAgenda() {
+
+      let timeline = this.fullAgenda
+
       // get rid of timeline items that might not have dates associate (will mess up sorting)
       // for (const i of timeline.keys()) {
       //   if(!timeline[i].fields['Time'])
@@ -168,17 +193,20 @@ export default {
       // } else {
       //   timeline = this.$cytosis.sort(timeline, 'Time:Raw')
       // }
-      timeline = this.$cytosis.sort(timeline, 'Time:Raw')
+      // timeline = this.$cytosis.sort(timeline, 'Time:Raw')
+      timeline = this.$cytosis.sort(timeline, 'Time:GMT:UTC')
 
       // get rid of items that haven't happened yet
       const nowDate = new Date
       const now = nowDate.toISOString()
       timeline = timeline.reduce((total, current) => {
-        if (now > current.fields['Time:Raw']) {
+        if (now > current.fields['Time:GMT:UTC']) {
           total.push(current)
         }
         return total
       }, [])
+
+      // console.log('FINAL TIMELINE :::: ', timeline)
 
       // only show by postCount number of posts
       if(timeline.length-this.postCount >= 0)
@@ -203,8 +231,8 @@ export default {
     showMore() {
       this.postCount = this.postCount + 6
 
-      // if(this.postCount >= 24)
-      //   this.postCount = this['timeline'].length
+      if(this.postCount >= 48)
+        this.postCount = this.fullAgenda.length
     },
     getAuthor(post) {
       if (post.fields['Author'])

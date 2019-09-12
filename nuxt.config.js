@@ -427,6 +427,15 @@ export default {
 
       routes.push(
 
+
+        // phage futures temporary
+        {
+          name: 'phage futures temporary',
+          path: '/phagefutures',
+          component: resolve(__dirname, 'pages/events/phagefutureseu.vue')
+        },
+
+
         {
           name: 'join / signup',
           path: '/signup',
@@ -489,10 +498,15 @@ export default {
         },
 
         {
-          name: 'evergreen temp router',
-          path: '/evergreen',
-          component: resolve(__dirname, 'pages/events/evergreen.vue')
+          name: 'events timeline tool slug+passcode',
+          path: '/events/:event/:slug/:passcode',
+          component: resolve(__dirname, 'pages/events/posttimeline.vue')
         },
+          {
+            name: 'evergreen temp router',
+            path: '/evergreen',
+            component: resolve(__dirname, 'pages/events/evergreen.vue')
+          },
 
         {
           name: 'alerts / misspelling',

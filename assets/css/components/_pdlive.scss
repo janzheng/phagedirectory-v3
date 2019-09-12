@@ -135,8 +135,8 @@ a.TimelineCard-author {
     color: usetheme(copy-light);
   }
     .AgendaCard-main {
-      @extend ._card;
-      @extend .--simple;
+      // @extend ._card;
+      // @extend .--simple;
       @extend ._md-p_fix;
       border-color: transparent; // usetheme(bg-silver);
       background: usetheme(bg-silver);
@@ -148,7 +148,24 @@ a.TimelineCard-author {
 
 
 
+// Agenda component that's marked as archived 
+// shouldn't fade past events
+.Agenda.--archive {
+  .--expired {
+    opacity: 1 !important;
+  }
+}
 
+
+
+// generalized agenda items
+.Agenda-block {
+  &:not(:first-of-type) {
+    .--meta-major {
+      @extend ._divider-top;
+    }
+  }
+}
 
 
 
@@ -239,6 +256,7 @@ a.TimelineCard-author {
       margin-top: $size-half;
       font-size: $font-small;
       line-height: $font-small * 1.5;
+      padding-bottom: $size;
     }
 
     &.--meta-major {
@@ -296,6 +314,7 @@ a.TimelineCard-author {
         @extend h6;
         padding: 0;
         @extend %line-highlight;
+        line-height: $size-2;
       }
       .--meta-session-header {
         @extend h6;
@@ -311,12 +330,12 @@ a.TimelineCard-author {
     &.--meta-event {
       // describes an event like start, end, lunch, break
       // Day, Day End, and Event
-      @extend ._card;
+      // @extend ._card;
       // @extend .--active;
-      @extend .--highlight;
-      @extend .--simple;
+      // @extend .--highlight;
+      // @extend .--simple;
 
-      padding: $size;
+      // padding: $size;
       .AgendaEvent-item-title {
         @extend h5;
         padding: 0;

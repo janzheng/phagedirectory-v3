@@ -492,6 +492,7 @@ export default {
         this.hasChanged = true
       } else {
         this.avatar = data
+        this.avatar_link = data
         this.profile.fields['ProfileImage'] = [{url: data}]
         this.hasChanged = true
       }

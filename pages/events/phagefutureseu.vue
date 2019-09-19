@@ -10,7 +10,7 @@
       >
 
         <template #header>
-          <div v-if="intro" :class="intro.fields['Data:Classes']" class="_margin-bottom" v-html="$md.render(intro.fields['Markdown'] || '')"/>
+          <div v-if="intro" :class="intro.fields['Data:Classes']" class="_margin-bottom _divider-bottom" v-html="$md.render(intro.fields['Markdown'] || '')"/>
         </template>
 
 
@@ -20,8 +20,8 @@
           <div v-if="announcements" :class="announcements.fields['Data:Classes']" class="_margin-bottom _divider-bottom" v-html="$md.render(announcements.fields['Markdown'] || '')"/>
           <div v-scroll-spy class="scrollspy" >
 
-            <div id="timeline" class="_card _padding _divider-bottom" >
-              <h6>Live Blog</h6>
+            <div id="timeline" class=" _divider-bottom" >
+              <h2 class="--title">Live Blog</h2>
               <Timeline 
                 :timeline="timeline"
                 :agenda="agenda"
@@ -29,6 +29,7 @@
                 :show-now="false"
                 :show-next="false"
                 :count="6"
+                class="_card _padding"
               />
 
               <!-- {{ timeline }} -->
@@ -62,8 +63,15 @@
 
             <!-- <EvgPromo class="_hidden-sm-up" /> -->
 
-            <div v-if="agenda" id="agenda" class="_card _padding _divider-bottom">
-              <h6 class="_padding-none">Agenda</h6>
+            <div v-if="agenda" id="agenda" class=" _divider-bottom">
+
+              <div class="_grid-2-xs _align-baseline _padding-bottom">
+                <h2 class="_padding-none">Agenda</h2>
+                <div class="_font-small _right">
+                  <!-- <a>Full Agenda</a> |  --><a href="https://dl.airtable.com/.attachments/9c9ab102121cdd9b46bc2a9aeacd4742/b68ef9f3/phagefutureseurope2019main8.pdf">Download PDF</a>
+                </div>
+              </div>
+
               <Agenda 
                 :show-now="false"
                 :show-next="false"
@@ -73,6 +81,7 @@
                 :show-all="false"
                 :agenda="agenda"
                 :count="8"
+                class="_card _padding"
               />
             </div>
 
@@ -81,10 +90,12 @@
               <!-- <NodeForm class="_margin-bottom-2" :src="formPosters"/> -->
             </Posters>
 
-            <Staff v-if="authors && posters.length>0" id="staff" :staff="authors" class="_card _padding _divider-bottom">
-              <h6>Live Authors</h6>
-              <!-- <NodeForm class="_margin-bottom-2" :src="formPosters"/> -->
-            </Staff>
+            <div id="staff" >
+              <h2>Live Staff</h2>
+              <Staff v-if="authors && authors.length>0" :staff="authors" class="_card _padding _divider-bottom">
+                <!-- <NodeForm class="_margin-bottom-2" :src="formPosters"/> -->
+              </Staff>
+            </div>
 
           </div>
         </template>
@@ -116,7 +127,7 @@
               }"
               to="#staff" 
               class="_font-smaller _block _padding-left --active-disabled --link-none">
-              Authors
+              Live Staff
             </nuxt-link>
           </div>
           <!-- just now and what's next -->

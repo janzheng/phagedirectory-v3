@@ -11,7 +11,7 @@
         We apologize... we couldn’t find what you were looking for, or something went wrong.
       </h1>
       <h3>
-        If you keep getting to this page but suspect you shouldn't be, please reach out to us by emailing <a href="mailto:jan@phage.directory">support@phage.directory</a> or tweeting us <a href="https://twitter.com/phagedirectory">@phagedirectory</a>. 
+        If you keep getting to this page but suspect you shouldn't be, please reach out to us by emailing <a href="mailto:support@phage.directory">support@phage.directory</a> or tweeting us <a href="https://twitter.com/phagedirectory">@phagedirectory</a>. 
         <br><br>
         We really appreciate your help!
       </h3>

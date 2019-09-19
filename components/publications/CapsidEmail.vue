@@ -816,7 +816,18 @@ li {
 }
 
 
+table {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+th, td {
+  padding: 4px;
+  vertical-align: baseline;
+}
 
+.Capsid-table tbody tr:nth-child(odd) td {
+  background-color: #EEEEEE;
+}
 
 .--featured {
   border-width: 2px;

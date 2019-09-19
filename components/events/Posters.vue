@@ -17,6 +17,7 @@
         <template #off>
           <div class="Events-poster-name _font-bold " v-html="$md.strip($md.render( poster.fields['Name'] || ''))" />
           <div v-if="poster.fields['Authors']" class="Events-poster-authors _margin-top " v-html="$md.strip($md.render( poster.fields['Authors'] || ''))" />
+          <div v-if="poster.fields['Description']" class="Events-poster-description _margin-top " v-html="$md.strip($md.render( poster.fields['Description'] || ''))" />
           <div class="Events-poster-abstract _margin-top " v-html="$md.strip($md.render( poster.fields['Abstract'] || ''))" />
           <!-- <div v-if="poster.fields['Markdown']" class="Events-poster-markdown _margin-top ">
             <div v-html="$md.strip($md.render( poster.fields['Markdown'] || ''))" />
@@ -31,8 +32,9 @@
 
         <template #on>
           <div class="Events-poster-name _font-bold " v-html="$md.strip($md.render( poster.fields['Name'] || ''))" />
-          <div class="Events-poster-authors _margin-top " v-html="$md.strip($md.render( poster.fields['Authors'] || ''))" />
-          <div class="Events-poster-abstract _margin-top " v-html="$md.strip($md.render( poster.fields['Abstract'] || ''))" />
+          <div v-if="poster.fields['Authors']" class="Events-poster-authors _margin-top " v-html="$md.strip($md.render( poster.fields['Authors'] || ''))" />
+          <div v-if="poster.fields['Description']" class="Events-poster-description _margin-top " v-html="$md.strip($md.render( poster.fields['Description'] || ''))" />
+          <div v-if="poster.fields['Abstract']" class="Events-poster-abstract _margin-top " v-html="$md.strip($md.render( poster.fields['Abstract'] || ''))" />
           <div v-if="poster.fields['Markdown']" class="Events-poster-markdown _margin-top ">
             <div v-html="$md.strip($md.render( poster.fields['Markdown'] || ''))" />
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
@@ -47,6 +49,7 @@
 
       <div v-else>
         <div class="Events-poster-name _font-bold " v-html="$md.strip($md.render( poster.fields['Name'] || ''))" />
+        <div v-if="poster.fields['Description']" class="Events-poster-description _margin-top " v-html="$md.strip($md.render( poster.fields['Description'] || ''))" />
         <div class="Events-poster-authors _margin-top " v-html="$md.strip($md.render( poster.fields['Authors'] || ''))" />
       </div>
     </div>

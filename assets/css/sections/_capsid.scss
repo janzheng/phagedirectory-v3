@@ -258,7 +258,7 @@ $capsid_: (
   // cover image
   width: 100%;
   height: 350px;
-  object-fit: cover;
+  // object-fit: cover;
 
   &.--stub {
     // homepage, highlight, etc.
@@ -316,6 +316,23 @@ $capsid_: (
     }
   }
 }
+
+// Some articles have tables / markdown tables
+.Capsid {
+  table {
+    th, td {
+      padding: $size-quart;
+    }
+
+    margin-top: $size-2;
+    margin-bottom: $size-2;
+  }
+
+  tbody tr:nth-child(odd) td {
+    background-color: $color-ui-light;
+  }
+}
+
 
 // specifically for the classroom episode,
 // ti

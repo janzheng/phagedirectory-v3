@@ -31,8 +31,8 @@
               <h1 class="" >No results found.</h1>
             </div>
 
-            <div v-if="item" v-for="item of genusList" :key="item ? item.id : '' " class="" >
-              <Card :genus="item" :hosts="getGenusHosts(item)" :phage-collections="phageCollections" class="Hosts-list-item" />
+            <div v-for="item of genusList" :key="item ? item.id : '' " class="" >
+              <Card v-if="item" :genus="item" :hosts="getGenusHosts(item)" :phage-collections="phageCollections" class="Hosts-list-item" />
             </div>
           </div>
         </div>

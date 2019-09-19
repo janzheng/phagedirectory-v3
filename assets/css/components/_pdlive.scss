@@ -128,12 +128,15 @@ a.TimelineCard-author {
 
 
   .AgendaCard-header {
-    color: usetheme(copy-light);
+    *, h6 {
+      color: usetheme(copy-light);
+      // @extend ._font-small;
+    }
     // @extend ._align-bottom;
   }
-  .AgendaCard-header {
-    color: usetheme(copy-light);
-  }
+  // .AgendaCard-header {
+  //   color: usetheme(copy-light);
+  // }
     .AgendaCard-main {
       // @extend ._card;
       // @extend .--simple;
@@ -324,7 +327,7 @@ a.TimelineCard-author {
 
       @include screen-xs {
         padding: $size;
-        background-color: usetheme(highlight);
+        // background-color: usetheme(highlight);
       }
     }
     &.--meta-event {
@@ -365,6 +368,14 @@ a.TimelineCard-author {
   }
 
 
+
+// Posters
+
+.Events-posters {
+  .Events-poster-description {
+    @extend ._font-small;
+  }
+}
 
 
 

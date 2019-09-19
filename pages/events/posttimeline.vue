@@ -47,7 +47,7 @@
 // import { mapState } from 'vuex'
 import TimelineEditor from '~/components/events/TimelineEditor.vue'
 // import EditOrg from '~/components/profile/EditOrg_old.vue'
-import EditPerson from '~/components/profile/EditPerson.vue'
+// import EditPerson from '~/components/profile/EditPerson.vue'
 
 // import Template from '~/templates/context.vue'
 import Template from '~/templates/article.vue'
@@ -65,7 +65,7 @@ export default {
     Template,
     TimelineEditor,
     // EditOrg,
-    EditPerson,
+    // EditPerson,
   },
 
   layout: 'contentframe',

@@ -206,10 +206,10 @@ a, ._link {
   // @extend %ease-fast;
 
   &:visited {
-    color: usetheme(links);
+    // color: usetheme(links);
   };
 
-  &:hover, &:active {
+  &:hover, &:active, {
     color: usetheme(hover); //$color-links;
     text-decoration-color: usetheme(hover); //$color-links;
   }

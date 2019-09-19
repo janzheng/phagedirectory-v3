@@ -2,6 +2,7 @@
 
 @import 'settings.scss';
 @import 'design.scss';
+
 @import 'layout'; // typography, basic design & whitespace
 
 
@@ -146,6 +147,12 @@ img {
   To be added to Coeur
 
  */
+
+// added to griddick
+._align-baseline {
+  display: grid;
+  align-items: end; // bottom of grid text
+}
 
  
 

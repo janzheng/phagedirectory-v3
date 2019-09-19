@@ -371,6 +371,7 @@ export default {
 
         if(useDataCache) {
           // store it in the local cache
+          // console.log('Storing to storeCytosis:', cytosis)
           commit('storeCytosis', cytosis)
         }
 

@@ -643,6 +643,7 @@ export default {
       formData.append("profile", JSON.stringify(profiledata))
 
       // let response = await axios.post(process.env.api_url + '/api/profile', profiledata)
+      console.log('Sending profile:', profiledata)
 
       let response = await axios({
         method: 'post',
@@ -690,6 +691,7 @@ export default {
         this.hasChanged = true
       } else {
         this.avatar = data
+        this.avatar_link = data
         this.profile.fields['ProfileImage'] = [{url: data}]
         this.hasChanged = true
       }

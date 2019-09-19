@@ -161,11 +161,11 @@ $colors-brand: (
   brand-110: #172640,
   brand-250: #0085FF,
   brand-copy: #172640,
-  brand-active: #FA5486,
+  brand-active: #FA5486, // old color not AAA
   brand-alert: #71EFF5,
   brand-background: #F1FBFF,
   brand-border: #9EF3FD, // was 71EFF5; too bright?
-  brand-bright: #0085FF,
+  brand-bright: #0085FF, // #00529E, // replaced w/ more AA color #0085FF,
   brand-disabled: #E7FBFF,
 );
 
@@ -220,7 +220,7 @@ $colors-pink: (
   pink-80: #6B0027,
   pink: #FA5486,
   pink-copy: #6B0027,
-  pink-active: #DF2C5F,       // brand color not AA
+  pink-active: #b90236, // #DF2C5F,       // brand color not AA // AA: 9c002d // rgb(250, 84, 134);
   pink-disabled: #FFCFDC, 
   pink-background: #FFE3E8, 
   pink-border: #BD053A, 
@@ -284,15 +284,15 @@ $colors-mono: (
 $colorMap: colorTintMap($colors);
 
 $context: (
-  main: usetheme(brand, $colors),
+  main: usetheme(brand),
   secondary: usetheme(gray),
-  tertiary: usetheme(pink, $colors),
-  tertiary-dark: color(usetheme(pink, $colors), 122),
+  tertiary: usetheme(pink),
+  tertiary-dark: color(usetheme(pink), 122),
 
   active: usetheme(pink-active),
-  links: usetheme(brand-dark, $colors),
-  hover: usetheme(pink, $colors),
-  links-decoration: usetheme(pink, $colors),
+  links: usetheme(brand-dark),
+  hover: usetheme(pink-active), //usetheme(pink-active, $colors), // usetheme(pink, $colors),
+  links-decoration: usetheme(pink),//usetheme(pink, $colors),
   // highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
   highlight: usetheme(brand-40),
   highlight-dark: usetheme(brand-60),
@@ -401,7 +401,7 @@ $button-color-disabled-text: usetheme(gray-light, $colors_);
 @import '../../node_modules/coeur/styles/_neck-buttons.scss';
 @import '../../node_modules/coeur/styles/_neck-layout.scss';
 @import '../../node_modules/coeur/styles/_neck-design.scss';
-@import '../../node_modules/coeur/styles/_neck-links.scss';
+// @import '../../node_modules/coeur/styles/_neck-links.scss';
 @import '../../node_modules/coeur/styles/_neck-code.scss';
 
 // @import '../../node_modules/coeur/styles/_body.scss';

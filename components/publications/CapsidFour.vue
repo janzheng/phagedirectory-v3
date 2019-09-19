@@ -301,6 +301,10 @@ export default {
 
   data: function () {
 
+    if(process.server && process.pd_env == 'stage') {
+      // console.log('[Capsid] Cached data conversion:', this.$store.state['cytosisStore'][this.issue.fields['Slug']])
+      console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
+    }
 
     return {
       path: this.$route.path,

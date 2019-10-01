@@ -57,6 +57,7 @@ export default {
     'gridClasses': {
       type: String,
       default: 'Template--Main-Sidebar _grid-2-1-sm _grid-gap ',
+      // default: 'Template--Main-Sidebar-xs',
     },
     'headerClasses': {
       type: String,

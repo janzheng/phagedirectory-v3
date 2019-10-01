@@ -2,6 +2,10 @@
   <div>
     <div id="top" class="ContentFrame Layout" :class="navOpen ? '--open' : ''" >
       
+      <div v-if="pd_env == 'stage'" class="stage_sign">
+        {{ pd_env }} environment
+      </div>
+
       <Header :scroll-y="scrollY" />
       
       <div v-if="cytosisExists" class="ContentFrame-body" >
@@ -79,11 +83,14 @@ export default {
       cytosisExists = false
     }
 
+    let pd_env = process.env.pd_env
+
     return {
       scrollY: 0,
       route: '',
       width: 0,
       cytosisExists,
+      pd_env,
       // searchString: 'testStr'
       // children: route ? route.children : undefined,
     }
@@ -130,6 +137,10 @@ export default {
       scrolled = true
     })
   
+    // if(this.$segment) {
+    //   console.log('[analytics][contentframe/mounted] initial page trigger:', this.$route.path)
+    //   this.$segment.page(this.$route.path) // not SPA so we need this to init segment
+    // }
   },
 
   // link intercept idea from: https://github.com/nuxt/nuxtjs.org/blob/master/components/HtmlParser.vue
@@ -167,4 +178,14 @@ export default {
 
 
 <style lang="scss" scoped>
+
+.stage_sign {
+  background-color: rebeccapurple; 
+  color: white;
+  font-weight: bold;
+  width: 100%;
+  font-size: 21px;
+  padding: 16px;
+}
+        
 </style>

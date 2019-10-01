@@ -81,7 +81,16 @@ export default {
   
   beforeCreate () {
   },
+  
   mounted () {
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Atom/Slug',
+      data: {
+        path: this.$route.path,
+      }
+    })
   },
   beforeDestroy() {
   },

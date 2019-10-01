@@ -434,6 +434,11 @@ export default {
           path: '/phagefutures',
           component: resolve(__dirname, 'pages/events/phagefutureseu.vue')
         },
+          {
+            name: 'phage futures feedback',
+            path: '/phagefutures/feedback',
+            component: resolve(__dirname, 'pages/phagefutureseu-questions.vue')
+          },
 
 
         {
@@ -446,21 +451,21 @@ export default {
             path: '/join',
             component: resolve(__dirname, 'pages/apply/index.vue')
           },
-          {
-            name: 'join / professionals', // same form as researchers / combined
-            path: '/apply/professional',
-            component: resolve(__dirname, 'pages/apply/person.vue')
-          },
-          {
-            name: 'join / researcher', // same form as researchers / combined
-            path: '/apply/researcher',
-            component: resolve(__dirname, 'pages/apply/person.vue')
-          },
-          {
-            name: 'join / research', // same form as researchers / combined
-            path: '/apply/research',
-            component: resolve(__dirname, 'pages/apply/person.vue')
-          },
+          // {
+          //   name: 'join / professionals', // same form as researchers / combined
+          //   path: '/apply/professional',
+          //   component: resolve(__dirname, 'pages/apply/person.vue')
+          // },
+          // {
+          //   name: 'join / researcher', // same form as researchers / combined
+          //   path: '/apply/researcher',
+          //   component: resolve(__dirname, 'pages/apply/person.vue')
+          // },
+          // {
+          //   name: 'join / research', // same form as researchers / combined
+          //   path: '/apply/research',
+          //   component: resolve(__dirname, 'pages/apply/person.vue')
+          // },
 
 
         {
@@ -502,11 +507,6 @@ export default {
           path: '/events/:event/:slug/:passcode',
           component: resolve(__dirname, 'pages/events/posttimeline.vue')
         },
-          {
-            name: 'evergreen temp router',
-            path: '/evergreen',
-            component: resolve(__dirname, 'pages/events/evergreen.vue')
-          },
 
         {
           name: 'alerts / misspelling',

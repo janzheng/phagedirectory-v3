@@ -65,13 +65,18 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword, error) 
 }
 
 // export default async function ({route, env, store, error}) {
-export default function ({route, env, store, error}) {
+export default function ({app, route, env, store, error}) {
   // function showStatus(i) {
   //   console.log(i);
   // }
   // var showStatusRateLimited = _.rateLimit(showStatus, 200);
   // for (var i = 0; i < 10; i++) {
   //   showStatusRateLimited(i);
+  // }
+
+  // if(app.$segment) {
+  //   console.log('[analytics][pageload] pageload trigger:', route.path, app, app.$segment)
+  //   app.$segment.page(route.path) // not SPA so we need this to init segment
   // }
 
   const routeName = route.name || route.path

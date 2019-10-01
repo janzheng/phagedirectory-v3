@@ -171,6 +171,14 @@ export default {
   },
 
   mounted () {
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Directory/People',
+      data: {
+        path: this.$route.path,
+      }
+    })
   },
 
   methods: {

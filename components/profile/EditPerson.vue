@@ -53,6 +53,7 @@
             <div class="Profile-edit-short _grid-3-2 _margin-top-2">
               <FormletInputFloat
                 :input="input_short" 
+                :key="input_short['name']"
                 type="text"
                 input-attrs="--open"
                 :submit-handler="saveData"
@@ -61,12 +62,23 @@
               <!-- <div class="Profile-edit-role "> -->
               <FormletInputFloat
                 :input="input_roles"
+                :key="input_roles['name']"
                 type="text"
                 input-attrs="--open"
                 :submit-handler="saveData"
                 @input="(data) => { updateProfile('Roles:Custom', data) }" 
               />
               <!-- </div> -->
+            </div>
+
+            <div class="Profile-edit-skills _margin-top-2">
+              <FormletInputFloat
+                :input="input_skills"
+                type="text"
+                input-attrs="--open"
+                :submit-handler="saveData"
+                @input="(data) => { updateProfile('Skills:Custom', data) }" 
+              />
             </div>
 
             <div class="Profile-edit-description _margin-top-2">
@@ -91,7 +103,7 @@
                     <label for="Profile-avatar" class="_button --outline">
                       <span v-if="!avatar">Upload Profile Image</span>
                       <span v-else>Change Profile Image</span>
-                    </label> <button v-if="avatar" @click="clearAvatar">Clear Profile</button>
+                    </label> <button v-if="avatar" @click="clearAvatar">Remove Profile Image</button>
                     <FormletInputFloat
                       :key="input_avatarlink.initial"
                       :input="input_avatarlink" 
@@ -446,6 +458,7 @@ export default {
       //   "placeholder":"",
       //   "type":"TEXT",
       // },
+
       input_roles: {
         "initial": profile.fields['Roles:Custom'] || profile.fields['Roles'],
         "name":"Roles",
@@ -484,6 +497,29 @@ export default {
           {"value": "Researcher"},
           {"value": "Scientist"},
           {"value": "Undergraduate Student"},
+        ]
+      },
+
+      input_skills: {
+        "initial": profile.fields['Skills'] ? profile.fields['Skills'].join(', ') : profile.fields['Skills:Custom'],
+        "name":"Skills",
+        "label":"Skills",
+        // "description":"__Role__",
+        "placeholder":"Bioinformatics",
+        "type":"INPUT",
+        "options": [
+          {"value": "Phage-host interactions"},
+          {"value": "Molecular Biology"},
+          {"value": "Biotechnology"},
+          {"value": "Machine Learning / AI"},
+          {"value": "Bioinformatics"},
+          {"value": "Teaching"},
+          {"value": "Pharmacy"},
+          {"value": "Synthetic Biology"},
+          {"value": "Microbiology"},
+          {"value": "Immunology"},
+          {"value": "Analytical Chemistry"},
+          {"value": "Structural Biology"},
         ]
       },
 

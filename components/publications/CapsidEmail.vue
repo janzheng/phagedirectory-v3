@@ -528,8 +528,8 @@ img {
   width: 100%;
 }
   .Capsid-content img {
-    width: 600px;
-    max-width: 100%;
+    max-width: 600px;
+    /*max-width: 100%;*/
   }
 
 .Capsid-title {
@@ -816,11 +816,11 @@ li {
 }
 
 
-table {
+.Capsid-table {
   margin-top: 16px;
   margin-bottom: 16px;
 }
-th, td {
+.Capsid-table th, .Capsid-table td {
   padding: 4px;
   vertical-align: baseline;
 }

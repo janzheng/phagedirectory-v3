@@ -13,6 +13,7 @@ export function headMatter({
   url,
   author, 
   twitterCreator, // author's twitter
+  twitterCard,
 }) {
   let head = {
     title: title,
@@ -30,6 +31,8 @@ export function headMatter({
   head['meta'].push({ hid: 'twitter-description', property: 'twitter:description', content: `${description}` })
   head['meta'].push({ hid: 'og-description', property: 'og:description', content: `${description}` })
   head['meta'].push({ hid: 'description', name: 'description', content: `${description}` })
+
+  head['meta'].push({ hid: 'twitter-card', property: 'twitter:card', content: `${twitterCard}` })
 
   // set page url
   head['meta'].push({ hid: 'og-url', property: 'og:url', content: `${url}` })

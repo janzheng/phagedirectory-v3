@@ -82,6 +82,11 @@
   - 9/10/2019
     - added a condition in init when not sending a tableQuery (just want a base obj)
 
+  - 9/20/2019
+    - added a simpler way of getting record ID by supplying a base object
+
+
+
 */
 
 /*
@@ -803,22 +808,23 @@ class Cytosis {
   }
 
 
-
-
   // Retrieves a single record from Airtable
   // This performs a "base('TableName').find('recUKWFfOvY1lRwzM')"
   // 
-  // Input: recordId (Airtable record ID, a string)
+  // Input: recordId (Airtable record ID, a string) / alternatively give it a base
   // Output: a single record object
-  static async getRecord ({recordId, airKey, baseId, tableName, endpointUrl}) {
+  static async getRecord ({recordId, base, tableName, airKey, baseId, endpointUrl}) {
 
     try {
-      Airtable.configure({
-        endpointUrl: endpointUrl || `https://api.airtable.com`,
-        apiKey: airKey
-      })
+      if(!base) {
+        Airtable.configure({
+          endpointUrl: endpointUrl || `https://api.airtable.com`,
+          apiKey: airKey
+        })
 
-      const base = Cytosis.getBase(baseId)
+        base = Cytosis.getBase(baseId)
+      }
+
       let record = await base(tableName).find(recordId)
       return record
     } catch(err) {
@@ -826,6 +832,7 @@ class Cytosis {
       return Promise.reject()
     }
   }
+
 
 
 
@@ -1379,11 +1386,11 @@ class Cytosis {
   //    recordArray: an array of Airtable records
   // Output:
   //    an array of names (string values; NOT an array of Airtable objects)
-  static getNames(recordArray) {
+  static getNames(recordArray, fieldName='Name') {
     let results = []
     for (let record of recordArray) {
       if(record)
-        results.push(record.fields['Name'])
+        results.push(record.fields[fieldName])
     }
     return results
   }
@@ -1392,7 +1399,7 @@ class Cytosis {
   // similar to getNames and getFieldValues but w/ arbitrary fieldname and null filtering & deduplication
   // fieldName is a string
   // useful for getting a list of 
-  static getFields(recordArray, fieldName) {
+  static getFields(recordArray, fieldName='Name') {
     let results = []
 
     for (let record of recordArray) {

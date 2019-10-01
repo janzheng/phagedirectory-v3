@@ -2,12 +2,9 @@
   <div class="Contact">
 
     <Context>
-      <template #context>
+      <template>
         <NodeForm v-if="form" :src="form"/>
       </template>
-
-      <div class="" v-html="$md.render(intro || '')" />
-      <div class="" v-html="$md.render(content || '')" />
     </Context>
 
   </div>
@@ -18,7 +15,7 @@
 
 <script>
 
-import Context from '~/templates/context.vue'
+import Context from '~/templates/article.vue'
 import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
@@ -36,9 +33,7 @@ export default {
 
   data () {
     return {
-      intro: this.$cytosis.findField('contact-intro', this.$store.state['Content'], 'Markdown' ),
-      content: this.$cytosis.findField('contact-content', this.$store.state['Content'], 'Markdown' ),
-      form: this.$cytosis.findOne('form-contact', this.$store.state['Content'] ),
+      form: this.$cytosis.findOne('form-pfeu', this.$store.state['Content'] ),
 
       // content: this.$cytosis.find('Content.contact-page', {'Content': this.$store.state['Content']} )[0]['fields']['Markdown'],
       // form: this.$cytosis.find('Content.form-contact', {'Content': this.$store.state['Content']} )[0],
@@ -52,13 +47,13 @@ export default {
       this.$segmentize({
         segment: this.$segment,
         type: 'page',
-        event: 'Groups',
+        event: 'PFEU Questionnaire',
         data: {
           path: this.$route.path,
         }
       })
     }
-    
+
   },
   
 }

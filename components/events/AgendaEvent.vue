@@ -48,7 +48,7 @@
         <div slot="date">{{ event.fields['Time:Nice'] }}</div>
         <div slot="main">
           <div class="AgendaEvent-item-name">{{ event.fields['Name'] }}</div>
-          <div v-if="event.fields['Description']" class="AgendaEvent--description" v-html="$md.strip($md.render( event.fields['Description'] || ''))" />
+          <div v-if="event.fields['Description']" class="AgendaEvent--description _md-pfix" v-html="$md.render( event.fields['Description'] || '')" />
         </div>
       </AgendaCard>
     </div>

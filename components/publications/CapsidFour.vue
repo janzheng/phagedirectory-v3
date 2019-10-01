@@ -13,9 +13,12 @@
       <div v-scroll-spy class="scrollspy" >
         
         <div id="intro" class="Capsid-intro" >
-          <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover" 
-               :src="issue.fields['Cover:url']" alt="Capsid and Tail"
-          >
+          <figure v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover-container">
+            <img class="Capsid-cover" 
+                 :src="issue.fields['Cover:url']" alt="Capsid and Tail"
+            >
+            <figcaption v-if="issue.fields['Cover:description']" class="Capsid-cover-description _font-smaller _padding _color-disabled" v-html="$md.render(issue.fields['Cover:description'] ||'')" />
+          </figure>
           <div v-if="!issue.fields['Cover:showOnIssue']" class="Capsid-masthead Capsid-section _margin-center _padding _padding-bottom-none-i " >
             <nuxt-link to="/capsid" class="_grid-auto-1-xs _align-vertically --underline-none">
               <img class="cnt _block _margin-center" src="/cnt.png" width="120px" alt="Capsid and Tail" >
@@ -301,7 +304,10 @@ export default {
 
   data: function () {
 
-    if(process.server && process.pd_env == 'stage') {
+    // if(process.server && process.pd_env == 'stage') {
+    // console.log('capsid data:', process.env.pd_env)
+    if(process.env.pd_env == 'stage') {
+      console.log('[Capsid] Cached data conversion:')
       // console.log('[Capsid] Cached data conversion:', this.$store.state['cytosisStore'][this.issue.fields['Slug']])
       console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
     }

@@ -34,11 +34,11 @@ export default {
   },
   
   created() {
-    if(this.$segment) {
-      this.$segment.track('Error Hit', { error: this.error.statusCode, message: this.error.message })
-      console.log('Error logged...')
-      // this.$segment.page('Error Page')
-    }
+    // if(this.$segment) {
+    //   this.$segment.track('Error Hit', { error: this.error.statusCode, message: this.error.message })
+    //   console.log('Error logged...')
+    //   // this.$segment.page('Error Page')
+    // }
   },
 
   // contentframe can NOT rely on Cytosis, or at least have fallbacks

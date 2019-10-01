@@ -177,6 +177,16 @@ export default {
   },
 
   mounted () {
+    if(this.$segmentize) {
+      this.$segmentize({
+        segment: this.$segment,
+        type: 'page',
+        event: 'Hosts',
+        data: {
+          path: this.$route.path,
+        }
+      })
+    }
   },
   
   methods: {

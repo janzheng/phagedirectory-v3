@@ -24,7 +24,7 @@
 
       <div class="Event-info _margin-bottom _margin-top-half">
         <div v-if="atom.fields['Data:Subtitle']" class="_font-bold _md-pfix" v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
-        <div v-if="atom.fields['Data:Source']" class="_margin-top _margin-bottom _padding _card" v-html="$md.render( atom.fields['Data:Source'] || '')">
+        <div v-if="atom.fields['Data:Source']" class="_margin-top _margin-bottom _padding _card _md-pfix" v-html="$md.render( atom.fields['Data:Source'] || '')">
         </div>
       </div>
     </div>

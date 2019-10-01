@@ -120,6 +120,16 @@ export default {
 
 
   mounted () {
+    if(this.$segmentize) {
+      this.$segmentize({
+        segment: this.$segment,
+        type: 'page',
+        event: 'About',
+        data: {
+          path: this.$route.path,
+        }
+      })
+    }
   },
 
   methods: {

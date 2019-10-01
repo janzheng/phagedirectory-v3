@@ -27,7 +27,7 @@
              :type="type"
              :list="input.options ? 'input_options':undefined"
              @input="emit"
-             @blur="blurEmit"
+             @blur="emitOnBlur"
              @change="emit"
              @keyup.enter="keyEnterHandler"
       >

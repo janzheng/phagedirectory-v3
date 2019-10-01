@@ -17,7 +17,7 @@
         <!-- basic info -->
         <div class="">
 
-          <div class="People-name People-header-block _margin-bottom-2">
+          <div class="People-name People-header-block">
             <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
             <div class="People-name-social _flex-row _margin-bottom-half">
               <div class="Dir-title _flex-1">
@@ -47,16 +47,16 @@
               </div>
 
               <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="">
-                <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
+                <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI"> (PI)</span><!-- <span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span> -->,
               </span>
               <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
                 {{ item.name +'' }}
               </span> -->
 
-              <span v-if="orgs" class="">
+              <p v-if="orgs" class="">
                 <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name"><span v-if="i > 0">; </span><nuxt-link v-if="person.fields['Orgs::Slugs'][0]" :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-else> {{ item.name +'' }}</span><span v-if="item.location">, {{ item.location }}</span>
                 </span>
-              </span>
+              </p>
 
               <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
                 {{ person.fields['Orgs:Custom'] }}
@@ -67,7 +67,7 @@
           </div>
 
 
-          <div class="People-info-block Dir-block">
+          <div class="People-info-block Dir-block _margin-top-2">
             <!-- <div><span class="Dir-label">Website</span></div> -->
             <div v-if="person.fields['Email']" class="Dir-row-half _grid-1-6-xs _align-vertically">
               <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
@@ -75,22 +75,21 @@
             <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-6-xs _align-vertically">
               <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
             </div>
-            <div v-if="url" class="Dir-row-half _grid-1-6-xs _align-vertically">
+            <div v-if="url" class="Dir-row-half _grid-1-6-xs _align-baseline">
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
             </div>
 
             <!-- skills here for now -->
-            <div v-if="person.fields['Skills']" class="People-skills Dir-row _grid-1-6-xs _align-vertically" >
-              <span class="Dir-label">Skills </span><span>
-                <span>{{ person.fields['Skills'].join(', ') }}</span>
+            <div v-if="person.fields['Skills'] || person.fields['Skills:Custom']" class="People-skills Dir-row _grid-1-6-xs _align-baseline" >
+              <span class="Dir-label">Skills </span><p>
+                <span>{{ person.fields['Skills'] ? person.fields['Skills'].join(', ') : person.fields['Skills:Custom'] }}</span>
                 <!-- <span v-for="_item of person.fields['Skills']" :key="_item" class="_wordbreak --url --none">{{ _item }}</span> -->
-              </span>
+              </p>
             </div>
           </div>
 
-          <div class="People-desc-block Dir-block">
-
-            <div v-if="person.fields['Description']" class="People-description Dir-row" >
+          <div v-if="person.fields['Description']" class="People-desc-block Dir-block _margin-top-2">
+            <div class="People-description Dir-row" >
               <div class="_md-pfix" v-html="$md.render(person.fields['Description'] || '')" />
             </div>
           </div>

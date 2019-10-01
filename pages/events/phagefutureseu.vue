@@ -10,7 +10,7 @@
       >
 
         <template #header>
-          <div v-if="intro" :class="intro.fields['Data:Classes']" class="_margin-bottom _divider-bottom" v-html="$md.render(intro.fields['Markdown'] || '')"/>
+          <div v-if="intro" :class="intro.fields['Data:Classes']" class="_margin-bottom _divider-bottom _md-pfix" v-html="$md.render(intro.fields['Markdown'] || '')"/>
         </template>
 
 
@@ -129,6 +129,10 @@
               class="_font-smaller _block _padding-left --active-disabled --link-none">
               Live Staff
             </nuxt-link>
+            <div class="_margin-top-2">
+              <a href="https://www.kisacoresearch.com/events/phage-futures-europe" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/d139e0ac20c52b687eca42db29aeac30/04ede483/ScreenShot2019-09-10at4.06.47PM.png" alt="Phage Futures 2019 details"/></a>
+              <div class="_padding-bottom-half _font-small">Sponsored by <a href="https://www.kisacoresearch.com/">Kisaco Research</a></div>
+            </div>
           </div>
           <!-- just now and what's next -->
           <!-- <Agenda 
@@ -158,17 +162,27 @@ import Posters from '~/components/events/Posters.vue'
 import Staff from '~/components/events/Staff.vue'
 // import EvgPromo from '~/components/events/EvergreenPromo.vue'
 import { loadQuery } from '~/other/loaders'
+import { headMatter } from '~/other/headmatter.js'
 // import NodeForm from '~/components/render/NodeForm.vue'
 // import Toggle from '~/components/Toggle.vue'
 
 export default {
-  head () {
-    const title = "Phage Futures Europe 2019"
 
-    return {
-      title,
-    }
+  head () {
+
+    let head = headMatter({
+
+      twitterCard: "summary_large_image",
+      title: "Phage Futures Europe 2019",
+      description: "Progressing phage therapy to treat acute and chronic infections safely and economically",
+      author: "Phage Directory & Kisacro Research",
+      imageUrl: "https://dl.airtable.com/.attachments/30f5bcaaf32bdc9646d99deb936de9bb/caa96734/pfeu_banner.png", 
+      url: "https://phage.directory/phagefutures",
+    })
+
+    return head
   },
+
 
   components: {
     Template,
@@ -232,8 +246,16 @@ export default {
     
   // },
 
-  // mounted: function () {
-  // },
+  mounted: function () {
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Event/PhageFuturesEU2019',
+      data: {
+        path: this.$route.path,
+      }
+    })
+  },
 
   // methods: {
   // }

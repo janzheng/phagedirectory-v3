@@ -160,8 +160,8 @@ const citationData = function(manuscript, authors) {
       @article{${manuscript.fields['Slug']}${date.getFullYear()},
         author = {${authorNames.join(' and ')}},
         date = {${date.getFullYear()}},
-        day = {${date.getDay()}},
-        month = {${date.getMonth()}},
+        day = {${date.getDate()}},
+        month = {${date.getMonth()+1}},
         title = {{${manuscript.fields['Data:Title:String']}}},
         journal = {Capsid & Tail},  
         publisher = {Phage Directory},
@@ -261,7 +261,6 @@ export default {
         console.error('Capsid caching strategy failed:', err)
       }
 
-
       try {
 
         // fetches the relevant atoms into the store
@@ -277,7 +276,6 @@ export default {
         // caching strategy failed
         console.error('Capsid atoms failed to load:', err)
       }
-
 
       try {
 
@@ -301,8 +299,6 @@ export default {
           authorSlugs.map((_slug) => { authors.push(authorObj[_slug]) })
         }
 
-
-
         // Citations
 
         // for some reason, citation-js crashes Zeit Now, even when included here.
@@ -313,6 +309,7 @@ export default {
         let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
         if(process.env.api_url) // if the API is down (temp. fix)
           cite_url = process.env.api_url + '/api/cite'
+
 
         let citation = {}
         if(manuscript.fields['Data:Citation']) {
@@ -327,7 +324,7 @@ export default {
             // console.log('WT Citation Object:', cite_data.data )
             // citation = JSON.parse(cite_data.data) // webtask returns a stringified obj
           }
-          // console.log('Citation Object ::::', citation)
+          // console.log('>>> Citation Object ::::', citation)
         }
 
         store.dispatch('storePageCache', {
@@ -361,8 +358,18 @@ export default {
 
   beforeCreate () {
   },
+
   mounted () {
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Router/Capsid',
+      data: {
+        path: this.$route.path,
+      }
+    })
   },
+  
   beforeDestroy() {
   },
 

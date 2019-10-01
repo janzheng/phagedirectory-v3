@@ -98,7 +98,8 @@ export default {
     console.log('[Node Router] slug:', slug)
 
     const _this = this
-    const node = app.$cytosis.findOne(slug, store.state['Content'], ['Slug'])
+    // const node = app.$cytosis.findOne(slug, store.state['Content'], ['Slug']) // unable to find connected nodes
+    const node = app.$cytosis.findOne(slug, store.state['Content'], ['Node:AbsolutePath'])
 
     // console.log('Node Router: node :: ', node)
 
@@ -111,7 +112,7 @@ export default {
       }
 
       return {
-        node: node
+        node: node,
       }
     } else {
       console.error('[Node Router] Node not found for slug:', slug)
@@ -120,9 +121,21 @@ export default {
       error({ statusCode: 404, message: "Page not Found" })
     }
 
-
   },
-  
+
+  mounted () {
+    console.log('r-node mounted:', this.$route)
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Router/Node',
+      data: {
+        path: this.$route.fullPath,
+      },
+      log: this.$route.path,
+    })
+  },
+
   methods: {
     // loading _content-nodes through middleware replaces this bit
 

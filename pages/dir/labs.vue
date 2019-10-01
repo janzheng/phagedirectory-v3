@@ -182,6 +182,16 @@ export default {
   },
   
   mounted () {
+    if(this.$segmentize) {
+      this.$segmentize({
+        segment: this.$segment,
+        type: 'page',
+        event: 'Directory/Labs',
+        data: {
+          path: this.$route.path,
+        }
+      })
+    }
   },
 
   methods: {

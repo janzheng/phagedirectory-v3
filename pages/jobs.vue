@@ -141,6 +141,17 @@ export default {
       // use query instead
       this.activeTab = this.$router.currentRoute.query.tab.replace(/[-]/g, ' ')
     }
+
+    if(this.$segmentize) {
+      this.$segmentize({
+        segment: this.$segment,
+        type: 'page',
+        event: 'Jobs',
+        data: {
+          path: this.$route.path,
+        }
+      })
+    }
   },
 
   methods: {

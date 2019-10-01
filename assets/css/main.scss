@@ -151,6 +151,10 @@ img {
 // added to griddick
 ._align-baseline {
   display: grid;
+  align-items: baseline; // bottom of grid text
+}
+._align-end {
+  display: grid;
   align-items: end; // bottom of grid text
 }
 

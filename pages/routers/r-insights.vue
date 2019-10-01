@@ -137,8 +137,18 @@ export default {
 
   beforeCreate () {
   },
+
   mounted () {
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Router/Insights',
+      data: {
+        path: this.$route.path,
+      }
+    })
   },
+
   beforeDestroy() {
   },
 

@@ -109,8 +109,18 @@ export default {
   },
 
   mounted() {
-    if(this.$segment)
-      this.$segment.page('PDv3:index')
+    // if(this.$segment)
+    //   this.$segment.page('PDv3:index')
+    if(this.$segmentize) {
+      this.$segmentize({
+        segment: this.$segment,
+        type: 'page',
+        event: 'Feed',
+        data: {
+          path: this.$route.path,
+        }
+      })
+    }
   },
 
   methods: {

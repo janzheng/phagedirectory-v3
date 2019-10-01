@@ -77,6 +77,27 @@ $timeline-post-width: 100%; // 479.05px;
   color: usetheme(copy-gray);
 }
 
+.TimelineCard-twitter {
+  width: 100%;
+
+  .twitter-tweet {
+    max-width: 100% !important;
+    // fits the tweet w/in the grid; for some reason only respects !important
+    // max-width: 420px !important;
+
+    @include screen-xs {
+      // max-width: 280px !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0 auto;
+    }
+
+    @include screen-sm {
+      width: 100% !important;
+    }
+  }
+}
+
 .TimelineCard-sidebar {
   width: $timeline-sidebar;
   .--profile {
@@ -119,6 +140,12 @@ a.TimelineCard-author {
   margin-bottom: 0;
   max-width: 100%; // $phagefutures-maxwidth; // forces twitter cards to shrink
   width: 100%;
+
+  @include screen-xs {
+    // padding: $size/4;
+    // doesn't look good w/ regular posts, but for tweets the padding takes up a lot of room
+    // fix later / todo
+  }
 }
   
   // 

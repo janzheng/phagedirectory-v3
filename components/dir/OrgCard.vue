@@ -82,7 +82,7 @@
 
       <div v-if="linkedPhageCollections.length > 0" class="Dir-phages Dir-block" >
         <div><span class="Dir-label">Phage Collections</span></div>
-        <div v-for="item of linkedPhageCollections" :key="item.id" class="Dir-miniCard">
+        <div v-for="(item, i) of linkedPhageCollections" :key="item.id" class="Dir-miniCard">
           <div class="">
             <div class="Dir-subtitle">{{ item.fields['Name:Nice'] }}</div>
             <div>

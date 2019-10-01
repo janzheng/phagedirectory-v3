@@ -177,8 +177,16 @@ export default {
     
   // },
 
-  // mounted: function () {
-  // },
+  mounted: function () {
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Event/Evergreen2019',
+      data: {
+        path: this.$route.path,
+      }
+    })
+  },
 
   // methods: {
   // }

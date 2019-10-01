@@ -118,6 +118,18 @@ export default {
     }
   },
 
+  mounted () {
+
+    this.$segmentize({
+      segment: this.$segment,
+      type: 'page',
+      event: 'Event/Evergreen2019',
+      data: {
+        path: this.$route.path,
+      }
+    })
+  },
+
   methods: {
     async getData({slug, passcode}) {
       let _slug = slug || this.slug

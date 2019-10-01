@@ -26,6 +26,7 @@
 
             <FormletTextArea
               :input="input_markdown" 
+              :key="`${clearCtr}_textarea`" 
               :submit-handler="saveData"
               class="_margin-top-2"
               @input="(data) => { updateData('Data:Markdown', data) }" 
@@ -33,6 +34,7 @@
 
             <FormletInput
               :input="input_twitterlink" 
+              :key="`${clearCtr}_twitter`" 
               type="text"
               input-attrs="--open"
               :submit-handler="saveData"
@@ -141,7 +143,8 @@ export default {
     let event = this.profileProp.event
     let author = this.profileProp.author
     let postImage
-    let post = { fields: {} }
+    let post = { fields: { 'Data:Markdown': '' } }
+    let clearCtr = 0 // updates every time we save, used as key
 
     return {
       profile: profile, // user's profile
@@ -156,6 +159,7 @@ export default {
       hasChanged: false,
       message: "",
       isStaging: process.env.pd_env,
+      clearCtr, 
 
       input_twitterlink: {
         "initial": "",
@@ -180,7 +184,6 @@ export default {
         "placeholder":"https://phage.directory/icon.png",
         "type":"FLOAT",
       },
-
 
     }
 
@@ -258,7 +261,8 @@ export default {
           "type":"FLOAT",
         }
 
-        this.post = { fields: {} }
+        this.clearCtr = this.clearCtr + 1
+        this.post = { fields: { 'Data:Markdown': '' } }
         this.post.__ob__.dep.notify()
 
         this.files = undefined

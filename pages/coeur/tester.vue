@@ -5,6 +5,8 @@
 
       <h1>Test Room!</h1>
 
+      <button class="_button" @click="analyzethis">Analytics Test</button>
+
       <!-- <h2>Map of Events</h2> -->
 <!-- 
       <div class="Leaflet" id="map-wrap" style="height: 40vh">
@@ -125,8 +127,28 @@ export default {
 
     console.log('Testing Testing!')
 
+    // let base = this.$cytosis.getBase('appZBUJQuXSUckq4d')
+
+    // this.testLoader().then((base) => {
+    //   console.log('base:', base)
+    //   base.find()
+    // })
+
     // if(process.client)
       // this.getData()
+
+
+    // loadQuery({
+    //   _key: process.env.airtable_api, 
+    //   _base: process.env.airtable_base, 
+    //   store: this.$store, 
+    //   routeName: 'test/archive', 
+    //   query: '_archive',
+    // }).then(data => {
+    //   data = this.$cytosis.strip(data) // clean the data
+    //   console.log('tester archive:', data)
+    // })
+
 
     return {
       profiledata: null,
@@ -200,6 +222,35 @@ export default {
     //   }))
     //   return answer
     // }
+
+    analyzethis() {
+      console.log('analyze!', this.$segment)
+      this.$segment.track('Test Event', { fruit: 'banana' })
+    },
+
+    async testLoader() {
+      try {
+        const _cytosis = await new this.$cytosis ({
+          airKey: process.env.PD_AIRTABLE_PUBLIC_API,
+          airBase: process.env.PD_AIRTABLE_PUBLIC_BASE, // Live Public DB — hard coded to remain flexible
+          routeName: '[tester]',
+        });
+
+        // console.log('getting record: ', _cytosis.base)
+        // let record = await this.$cytosis.getRecord ({
+        //   recordId: 'recALa8HZpWexWlMJ', 
+        //   base: _cytosis.base,
+        //   tableName: 'Content',
+        // })
+
+        // console.log('record:', record)
+
+        return _cytosis;
+      } catch(err) {
+        console.error('[tester] Error:', err)
+        return Promise.reject()
+      }
+    },
   },
 
 

@@ -102,7 +102,7 @@ export default {
   },
   
   async asyncData({route}) {
-    let routeevent = route.params.event
+    // let routeevent = route.params.event
     let routeslug = route.params.slug
     let routecode = route.params.passcode
     let _ready = routeslug && routecode

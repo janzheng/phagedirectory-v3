@@ -52,8 +52,8 @@
 
             <div class="Profile-edit-short _grid-3-2 _margin-top-2">
               <FormletInputFloat
-                :input="input_short" 
                 :key="input_short['name']"
+                :input="input_short" 
                 type="text"
                 input-attrs="--open"
                 :submit-handler="saveData"
@@ -61,8 +61,8 @@
               />
               <!-- <div class="Profile-edit-role "> -->
               <FormletInputFloat
-                :input="input_roles"
                 :key="input_roles['name']"
+                :input="input_roles"
                 type="text"
                 input-attrs="--open"
                 :submit-handler="saveData"

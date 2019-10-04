@@ -5,11 +5,11 @@
       <!-- <div class="Home-img-container _section-content _padding-top-2 "> -->
       <div class="Home-img-container _padding-top-2  ">
         <img class="Home-img" alt="Phage Directory logo" width="250px" src="~/static/phagedirectory_home.png">
-        <!-- <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')" /> -->
+        <div class="Home-hero-txt --title _font-normal" v-html="$md.render(mission || '')" />
       </div>
     </div>
     
-    
+    <!-- 
     <div class="Home-promo _margin-top-2 _padding-top-2 _padding-bottom-2 _margin-bottom-2 _color-bg-white">
       <div class="_section-page _margin-center">
         <PhageFuturesEUHome>
@@ -18,7 +18,7 @@
         </PhageFuturesEUHome>
       </div>
     </div>
-    
+     -->
 
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
@@ -79,7 +79,7 @@ import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import NodeForm from '~/components/render/NodeForm.vue'
 
-import PhageFuturesEUHome from '~/components/events/PhageFuturesEUHome.vue'
+// import PhageFuturesEUHome from '~/components/events/PhageFuturesEUHome.vue'
 
 
 const _numLatest = 8 // latest number of Atoms to show in the feed
@@ -94,7 +94,7 @@ export default {
     CapsidStub,
     NodeForm,
 
-    PhageFuturesEUHome,
+    // PhageFuturesEUHome,
   },
 
   layout: 'contentframe',

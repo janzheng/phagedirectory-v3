@@ -92,7 +92,7 @@
         <!-- sidebar -->
         <template #context>
           <div class="Sidebar">
-            <div v-scroll-spy-active="{class: '--scrollspy-active',   selector: '._sidebar-item'}" 
+            <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
                  v-scroll-spy-link="{selector: 'a._sidebar-item'}"
                  class="scrollspy _card --silver" 
             >

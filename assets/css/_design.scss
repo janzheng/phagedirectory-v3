@@ -284,9 +284,10 @@ a, ._link {
   -moz-osx-font-smoothing: grayscale;
 
   vertical-align: middle; 
-  &.icon-mail-alt { font-size: 101% !important; }
+  &.icon-mail-alt { font-size: 101% !important; position: relative; right: 4px;}
   &.icon-linkedin { font-size: 112% !important; }
-  &.icon-researchgate { font-size: 130% !important; }
+  &.icon-researchgate { font-size: 130% !important; position: relative; bottom: 0px;}
+  .icon-google-scholar {  }
 }
 
 

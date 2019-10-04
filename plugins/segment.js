@@ -18,7 +18,7 @@ import VueSegmentAnalytics from 'vue-segment-analytics'
 
 */
 
-export default ({app, env, router}, inject) => {
+export default ({env, router}, inject) => {
 
   // console.log('segg key: ', env.site_segment)
   // const segment = new Segment(env.site_segment);

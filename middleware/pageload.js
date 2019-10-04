@@ -65,7 +65,7 @@ async function loadQueryData(routeName, store, env, tableQuery, keyword, error) 
 }
 
 // export default async function ({route, env, store, error}) {
-export default function ({app, route, env, store, error}) {
+export default function ({route, env, store, error}) {
   // function showStatus(i) {
   //   console.log(i);
   // }

@@ -66,15 +66,15 @@
         <div v-html="$md.render(org.fields['Description'] || '')" />
       </div>
 
-      <div v-if="org.fields['People:OrgMembers::Names']" class="Dir-people Dir-block" >
+      <div v-if="members" class="Dir-people Dir-block" >
         <div><span class="Dir-label">Members</span></div>
         <div class="Dir-miniCard">
-          <span v-for="(item, i) of org.fields['People:OrgMembers::Names']" 
+          <span v-for="(item) of members" 
                 :key="item.id" 
                 class="_commas" >
             <!-- <nuxt-link v-if="org.fields['People:OrgMembers::Slugs']" :to="`/people/${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</nuxt-link> -->
-            <nuxt-link v-if="org.fields['People:OrgMembers::Slugs'][i]" :to="`/people#${org.fields['People:OrgMembers::Slugs'][i]}`" class="--url">{{ item }}</nuxt-link>
-            <span v-else>{{ item }}</span>
+            <nuxt-link v-if="item['slug']" :to="`/people#${item['slug']}`" class="--url">{{ item['name'] }}</nuxt-link>
+            <span v-else>{{ item['name'] }}</span>
             <!-- {{ item }} // {{org.fields['People:OrgMembers::Slugs']}} // {{ i }} -->
           </span>
         </div>
@@ -121,6 +121,46 @@ export default {
     },
     logoUrl() {
       return this.logo ? this.logo['url'] : ''
+    },
+
+    members() {
+      // if (!this.org.fields['People:OrgMembers::Names'])
+      //   return undefined
+      let arr = []
+
+      if(this.org.fields['People:Supervisors::Names']) {
+        this.org.fields['People:Supervisors::Names'].map((item, i) => {
+          let slug = ""
+          // if (this.lab.fields['People:Supervisors::Slugs'])
+          //   slug = this.lab.fields['People:Supervisors::Slugs'][i]
+          if (this.org.fields['People:Supervisors::Slugs'])
+            slug = this.org.fields['People:Supervisors::Slugs'][i]
+
+          arr.push({
+            name: this.org.fields['People:Supervisors::Names'][i],
+            slug: slug, 
+          })
+        })
+      }
+
+      if(this.org.fields['People:OrgMembers::Names']) {
+        this.org.fields['People:OrgMembers::Names'].map((item, i) => {
+          let slug = ""
+          // if (this.lab.fields['People:Supervisors::Slugs'])
+          //   slug = this.lab.fields['People:Supervisors::Slugs'][i]
+          if (this.org.fields['People:OrgMembers::Slugs'])
+            slug = this.org.fields['People:OrgMembers::Slugs'][i]
+
+          arr.push({
+            name: this.org.fields['People:OrgMembers::Names'][i],
+            slug: slug, 
+          })
+        })
+      }
+
+      if (arr.length == 0)
+        return undefined
+      return arr
     },
 
     linkedPhageCollections() {

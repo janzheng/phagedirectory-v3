@@ -25,16 +25,16 @@
             </div>
 
             <FormletTextArea
-              :input="input_markdown" 
               :key="`${clearCtr}_textarea`" 
+              :input="input_markdown" 
               :submit-handler="saveData"
               class="_margin-top-2"
               @input="(data) => { updateData('Data:Markdown', data) }" 
             />
 
             <FormletInput
-              :input="input_twitterlink" 
               :key="`${clearCtr}_twitter`" 
+              :input="input_twitterlink" 
               type="text"
               input-attrs="--open"
               :submit-handler="saveData"
@@ -247,7 +247,7 @@ export default {
 
       // console.log('response:', response)
       if(response.data) {
-        let postImage, profile = response.data.payload
+        // let postImage, profile = response.data.payload
         // this.profile = profile
         this.isSaving = false
         this.message = "Successfully posted to Timeline!"

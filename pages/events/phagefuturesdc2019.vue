@@ -97,7 +97,7 @@
         <!-- sidebar -->
         <template #context>
           <div class="Sidebar">
-            <div v-scroll-spy-active="{class: '--scrollspy-active',   selector: '._sidebar-item'}" 
+            <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
                  v-scroll-spy-link="{selector: 'a._sidebar-item'}"
                  class="scrollspy _card --silver" 
             >
@@ -187,7 +187,7 @@ export default {
   },
 
   // runs on server+generation and page route (but not on first page load)
-  async asyncData({app, store}) {
+  async asyncData({store}) {
     const event = await loadQuery({
       useDataCache: true, 
       _key: 'keyAe6M1KoPfg25aO', // Live Public DB

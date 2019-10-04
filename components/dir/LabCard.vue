@@ -45,6 +45,13 @@
                 <div v-else>{{ item.name }}</div>
               </span>
             </div>
+            <div v-if="contactPersons" class="Dir-block">
+              <div class="Dir-label">Lab Contact<span v-if="contactPersons.length>1">s</span></div>
+              <span v-for="item of contactPersons" :key="item.name">
+                <a v-if="item.slug" :href="`/people#${item.slug}`" class="_wordbreak --url _block">{{ item.name }}</a>
+                <div v-else>{{ item.name }}</div>
+              </span>
+            </div>
             <div v-if="members" class="Dir-block">
               <div class="Dir-label">
                 <!-- Lab members -->
@@ -108,8 +115,9 @@ export default {
       if (!string)
         return undefined
 
-      if(string.substring(0,4) != 'http')
+      if(string.substring(0,4) != 'http') {
         string = 'https://' + string
+      }
 
       return string
     },
@@ -129,6 +137,25 @@ export default {
         arr.push({
           name: this.lab.fields['People:Supervisors::Names'][i],
           slug: this.lab.fields['People:Supervisors::Slugs'] ? this.lab.fields['People:Supervisors::Slugs'][i] : '',
+        })
+      })
+      return arr
+    },
+    contactPersons() {
+      if (!this.lab.fields['People:Contact::Names'])
+        return undefined
+
+      let arr = []
+      this.lab.fields['People:Contact::Names'].map((item, i) => {
+        let slug = ""
+        // if (this.lab.fields['People:Supervisors::Slugs'])
+        //   slug = this.lab.fields['People:Supervisors::Slugs'][i]
+        if (this.lab.fields['People:Contact::Slugs'])
+          slug = this.lab.fields['People:Contact::Slugs'][i]
+
+        arr.push({
+          name: this.lab.fields['People:Contact::Names'][i],
+          slug: slug, 
         })
       })
       return arr

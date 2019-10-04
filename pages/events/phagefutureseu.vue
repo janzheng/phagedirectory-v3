@@ -104,7 +104,7 @@
         <!-- sidebar -->
         <template #context>
           <div class="Sidebar">
-            <div v-scroll-spy-active="{class: '--scrollspy-active',   selector: '._sidebar-item'}" 
+            <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
                  v-scroll-spy-link="{selector: 'a._sidebar-item'}"
                  class="scrollspy _card --silver" 
             >
@@ -130,7 +130,7 @@
               Live Staff
             </nuxt-link>
             <div class="_margin-top-2">
-              <a href="https://www.kisacoresearch.com/events/phage-futures-europe" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/d139e0ac20c52b687eca42db29aeac30/04ede483/ScreenShot2019-09-10at4.06.47PM.png" alt="Phage Futures 2019 details"/></a>
+              <a href="https://www.kisacoresearch.com/events/phage-futures-europe" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/d139e0ac20c52b687eca42db29aeac30/04ede483/ScreenShot2019-09-10at4.06.47PM.png" alt="Phage Futures 2019 details"></a>
               <div class="_padding-bottom-half _font-small">Sponsored by <a href="https://www.kisacoresearch.com/">Kisaco Research</a></div>
             </div>
           </div>

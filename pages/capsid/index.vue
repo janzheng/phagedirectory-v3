@@ -73,7 +73,7 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content-copy", "capsid-previews"]
+    tableQueries: process.env.pd_env == 'stage' ? ["_content-copy", "capsid-previews-prev"] : ["_content-copy", "capsid-previews"],
   },
 
   data () {
@@ -124,7 +124,9 @@ export default {
       ]),
 
     issues() {
-      return this['Manuscripts'].filter(t => t.fields['Status'] == 'Published')
+      return this['Manuscripts']
+      // this is taken care of in airtable instead
+      // return this['Manuscripts'].filter(t => t.fields['Status'] == 'Published')
     },
 
     latest() {

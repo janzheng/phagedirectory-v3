@@ -62,6 +62,10 @@ export default {
         this.on = false
       else
         this.on = true
+
+      // usage: in parent, do: 
+      //    @toggle="(data) => { toggle = data }" to listen to state
+      this.$emit('toggle', this.on)
     },
     open() {
       this.on = true

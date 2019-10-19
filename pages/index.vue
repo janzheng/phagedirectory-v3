@@ -196,8 +196,12 @@ export default {
       _key: env.airtable_api, 
       _base: env.airtable_base, 
       store: store, 
-      routeName: 'Index-capsid-latest', 
-      query: 'capsid-latest',
+      // routeName: 'Index-capsid-latest', 
+
+      routeName: 'Index-capsid-latest',
+
+      query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
+
     })
 
     // let latestAtoms, featureAtoms, latestCapsid

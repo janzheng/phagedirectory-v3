@@ -1,5 +1,5 @@
 <template>
-  <div class="Template-Manuscript-Capsid _margin-top-2 _margin-bottom-2 _grid-3-1-sm _grid-gap-small _center-margin _container _padding ">
+  <div class="Template-Manuscript-Capsid _margin-bottom-2 _grid-3-1-sm _grid-gap-small _center-margin _container _padding ">
 
 
     <!-- Side bar / Side menu -->

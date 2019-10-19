@@ -1,7 +1,7 @@
 
 {
   "version": 2,
-  "alias":["phage.directory", "phagedirectory.org", "www.phage.directory"],
+  "alias":["phage.directory", "phagedirectory.org", "phagedirectory.com", "www.phage.directory", "staging.yawnxyz.now.sh"],
 	"name":"phagedirectory",
   "public":false,
   "env": {
@@ -89,7 +89,12 @@
     { "src": "/apply/phagebanks", "status": 301, "headers": { "Location": "https://airtable.com/shrPtmSf5dxdeBnoy" } },
     { "src": "/apply/orgs", "status": 301, "headers": { "Location": "https://airtable.com/shrYdNUwSLMKUvRhz" } },
 
-    { "src": "/staging", "status": 301, "headers": { "Location": "https://staging.phage.directory" } },
+    { "src": "/staging", "status": 301, "headers": { "Location": "https://phagedirectory-staging.yawnxyz.now.sh" } },
+    { "src": "/stage", "status": 301, "headers": { "Location": "https://phagedirectory-staging.yawnxyz.now.sh" } },
+
+
+    { "src": "/capsid/author-schedule", "status": 301, "headers": { "Location": "https://docs.google.com/spreadsheets/d/1rmUF9x-sihs_DqUhSwGTZbJWrY5-RUxdR0ZFjDThHP4/edit?usp=sharing" } },
+
 
     { "src": "/(.*)", "dest": "/" },
     { "handle": "filesystem" },

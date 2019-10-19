@@ -154,6 +154,28 @@ $article-width: 60ch;
   }
 }
 
+  // for wider articles; mainly to extend the cover image (but not too wide)
+  $article-wide-width: 88ch;
+  ._section-article-wide {
+
+    &.--roomy {
+      @extend %roomy;
+    }
+    &.--roomier {
+      @extend %roomier;
+    }
+    &.--roomiest {
+      @extend %roomiest;
+    }
+
+    // used for pages outside of just Capsid!! including Classroom Initiative
+    @include screen-sm {
+      max-width: $article-wide-width;
+      // margin-left: auto;
+      // margin-right: auto;
+    }
+  }
+
 
 // for narrow intro sections
 $width-narrow: 44ch;

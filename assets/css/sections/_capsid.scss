@@ -3,8 +3,11 @@
 $capsid_: (
   capsid-section-featured: usetheme(silver-lighter), // usetheme(silver-lighter),
   capsid-section-new: usetheme(mono-5),
+  capsid-section-new-bright: usetheme(brand-60),
   capsid-section-jobs: usetheme(pink--1),
-  capsid-section-community: usetheme(yellow-0),
+  capsid-section-jobs-bright: usetheme(pink-30),
+  capsid-section-community: usetheme(yellow-5),
+  capsid-section-community-bright: usetheme(yellow-40),
 );
 
 @include addtheme($capsid_)
@@ -156,36 +159,76 @@ $capsid_: (
 }
 .Capsid-section-new {
   background: usetheme(capsid-section-new);
+  .Capsid-section-heading {
+    &:before {
+      background-color: usetheme(capsid-section-new-bright);
+    }
+  }
+  ._card {
+    border-color: usetheme(capsid-section-new-bright);
+  }
 }
 .Capsid-section-jobs {
   background: usetheme(capsid-section-jobs);
+  .Capsid-section-heading {
+    &:before {
+      background-color: usetheme(capsid-section-jobs-bright);
+    }
+  }
+  ._card {
+    border-color: usetheme(capsid-section-jobs-bright);
+  }
 }
 .Capsid-section-community {
   background: usetheme(capsid-section-community);
+  .Capsid-section-heading {
+    &:before {
+      background-color: usetheme(capsid-section-community-bright);
+    }
+  }
+  ._card {
+    border-color: usetheme(capsid-section-community-bright);
+  }
 }
 
 
 .Capsid-section {
-  @extend %width-content-paragraph;
-  margin-left: auto;
-  margin-right: auto;
+  // @extend %width-content-paragraph;
+  // margin-left: auto;
+  // margin-right: auto;
   padding-bottom: $size;
 
   // padding: $size;
   @include screen-sm {
-    padding: $size-2x;
-    padding-left: $size;
-    padding-right: $size;
+    // padding: $size-2x;
+    // padding-left: $size;
+    // padding-right: $size;
   }
-
+}
   .Capsid-section-header {
-    padding-bottom: $size;
     @include screen-xs {
       padding: $size;
     }
 
-    h2.Capsid-section-heading {
-      padding-top: $size-half;
+    .Capsid-section-heading {
+      padding: $size-half;
+      padding-left: $size-3;
+      font-size: usetheme(font-2);
+      line-height: usetheme(font-2-lh);
+      position: relative;
+
+      &:before {
+        content: ' ';
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: $size-half;
+      }
+    }
+
+    .Capsid-section-heading-description {
+      @extend ._font-small;
     }
 
     h5 {
@@ -193,7 +236,10 @@ $capsid_: (
       padding-bottom: $size-half;
     }
   }
-}
+  .Capsid-section-content {
+    // margin-top: $size;
+    padding: $size;
+  }
 
 // capsid card sections are encapsulated in this
 .Capsid-item {
@@ -213,6 +259,9 @@ $capsid_: (
 }
 
 .Capsid-article {
+  margin-top: $size-2;
+  @extend ._divider-top;
+
   .Capsid-lede {
     font-weight: normal;
     font-size: usetheme(font-large);

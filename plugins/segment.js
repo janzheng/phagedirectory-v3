@@ -47,4 +47,5 @@ export default ({env, router}, inject) => {
   }
 
   inject('initSegment', initSegment)
+  inject('segmentize', ()=>{})
 }

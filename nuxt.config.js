@@ -281,7 +281,7 @@ export default {
     // ['@nuxtjs/google-tag-manager', { 
     //   id: 'GTM-WCR3X43' 
     // }],
-
+    '@nuxtjs/robots',
     '@nuxtjs/dotenv',
     // ['@nuxtjs/pwa'],
     ['nuxt-leaflet', { /* module options */ }],
@@ -298,6 +298,12 @@ export default {
     // { path: '/capsid.xml', handler: '~/api/rss.js' },
     // '~serverMiddleware/override404.js' // https://medium.com/finn-no/hacking-nuxts-404-logic-for-maximum-awesome-and-easy-proxying-e4efaeb03d66
   ],
+
+  // @nuxtjs/robots
+  robots: {
+    UserAgent: pd_env =='stage' ? '*' : '',
+    Disallow: pd_env =='stage' ? '/' : '',
+  },
 
   manifest: {
     name: 'Phage Directory',
@@ -526,6 +532,14 @@ export default {
           name: 'capsid & tail router',
           path: '/capsid/:slug*',
           component: resolve(__dirname, 'pages/routers/r-capsid.vue')
+        },
+        {
+          // Dynamic Template Router
+          // catches all routes and attempts to find a template
+          // throws error if it can't
+          name: 'capsid & tail router',
+          path: '/capsidnew/:slug*',
+          component: resolve(__dirname, 'pages/routers/r-capsid-new.vue')
         },
         {
           name: 'capsid & tail email generator',

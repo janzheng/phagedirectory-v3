@@ -444,7 +444,11 @@ export default {
       // every article will have one corr. author, plus a variable # of authors
       const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
       if(this.authors && this.authors[0] && this.authors.length == authorCount + 1) {
-        const date = new Date(this.issue.fields['Data:Date'])
+        // const date = new Date(this.issue.fields['Data:Date'])
+        const date = this.issue.fields['Data:Date'] // using new Date creates localization issues
+        const year = this.$dayjs(String(date)).format('YYYY') 
+        const month = this.$dayjs(String(date)).format('MMMM') 
+        const day = this.$dayjs(String(date)).format('D') 
 
         let authorNames = []
         this.authors.map((item) => authorNames.push(item.fields['Name']))
@@ -452,11 +456,11 @@ export default {
 
         return {
           source: `
-            @article{${this.issue.fields['Slug']}${date.getFullYear()},
+            @article{${this.issue.fields['Slug']}${year},
               author = {${authorNames.join(' and ')}},
-              date = {${date.getFullYear()}},
-              day = {${date.getDay()}},
-              month = {${date.getMonth()}},
+              date = {${year}},
+              day = {${day}},
+              month = {${month}},
               title = {{${this.issue.fields['Data:Title:String']}}},
               journal = {Capsid & Tail},  
               publisher = {Phage Directory},

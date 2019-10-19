@@ -271,8 +271,8 @@
       .People-name {
         display: block !important;
         margin-bottom: $size-2;
-
       }
+
       .People-roles {
         span {
           // display: block;
@@ -309,8 +309,34 @@
   }
   .People-only-header { // only show basic header info
     
+    &.Dir-card {
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    img.--profile.--medium {
+      width: $size-8;
+      height: $size-8;
+      min-width: $size-8;
+    }
+    .Dir-title {
+      padding-bottom: 0;
+    }
+    .People-container {
+      @extend ._grid-auto-1;
+      @extend ._align-vertically;
+    }
     .People-name {
       margin-bottom: 0 !important;
+    }
+      .People-name-social {
+        margin-bottom: 0;
+      }
+    .People-name-short {
+      display: none;
+    }
+    .People-orgs {
+      display: none;
     }
     .People-info-block {
       display: none;

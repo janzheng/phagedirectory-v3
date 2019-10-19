@@ -28,8 +28,11 @@ h1, h2, h3, h4, h5, h6 {
   &.--roomy {
     padding-bottom: $size-2x;
   }
-  &.--title {
+  &.--title, &.--ceiling {
     padding-top: 0 !important;
+  }
+  &.--floor {
+    padding-bottom: 0 !important;
   }
   &.--normal {
     font-weight: normal;
@@ -60,6 +63,7 @@ h2 {
 h3 {
 // used to introduce subtopics, hugs content but still needs to breathe
   padding-top: $size-2;
+  // line-height: $size-2 * 1.33;
 
   &.--large {
     font-size: $font-h2;
@@ -274,7 +278,7 @@ a, ._link {
   font-variant: normal;
   text-transform: none;
   // line-height: 1em;
-  font-size: 123% !important;
+  font-size: 103% !important;
   line-height: $size;
  
   position: relative;
@@ -284,10 +288,10 @@ a, ._link {
   -moz-osx-font-smoothing: grayscale;
 
   vertical-align: middle; 
-  &.icon-mail-alt { font-size: 101% !important; position: relative; right: 4px;}
-  &.icon-linkedin { font-size: 112% !important; }
-  &.icon-researchgate { font-size: 130% !important; position: relative; bottom: 0px;}
-  .icon-google-scholar {  }
+  &.icon-mail-alt { font-size: 91% !important; position: relative; right: 4px;}
+  &.icon-linkedin { font-size: 91% !important; position: relative; bottom: -2px; }
+  &.icon-researchgate { font-size: 116% !important; position: relative; bottom: 0px;}
+  .icon-google-scholar { font-size: 95% !important; }
 }
 
 

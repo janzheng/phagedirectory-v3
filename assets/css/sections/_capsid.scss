@@ -4,10 +4,13 @@ $capsid_: (
   capsid-section-featured: usetheme(silver-lighter), // usetheme(silver-lighter),
   capsid-section-new: usetheme(mono-5),
   capsid-section-new-bright: usetheme(brand-60),
+  capsid-section-new-headerbg: usetheme(brand-20),
   capsid-section-jobs: usetheme(pink--1),
-  capsid-section-jobs-bright: usetheme(pink-30),
+  capsid-section-jobs-bright: usetheme(pink-40),
+  capsid-section-jobs-headerbg: usetheme(pink-10),
   capsid-section-community: usetheme(yellow-5),
   capsid-section-community-bright: usetheme(yellow-40),
+  capsid-section-community-headerbg: usetheme(yellow-20),
 );
 
 @include addtheme($capsid_)
@@ -154,40 +157,58 @@ $capsid_: (
  */
 
 
-.Capsid-section-featured {
-  background: usetheme(capsid-section-featured);
-}
+// .Capsid-section-featured {
+//   background: usetheme(capsid-section-featured);
+// }
 .Capsid-section-new {
-  background: usetheme(capsid-section-new);
+  background-color: usetheme(capsid-section-new);
+
+  .Capsid-section-header {
+    background-color: usetheme(capsid-section-new-headerbg);
+  }
+
   .Capsid-section-heading {
+
     &:before {
       background-color: usetheme(capsid-section-new-bright);
     }
   }
   ._card {
-    border-color: usetheme(capsid-section-new-bright);
+    border-color: usetheme(capsid-section-new-headerbg);
   }
 }
 .Capsid-section-jobs {
-  background: usetheme(capsid-section-jobs);
+  background-color: usetheme(capsid-section-jobs);
+
+  .Capsid-section-header {
+    background-color: usetheme(capsid-section-jobs-headerbg);
+  }
+
   .Capsid-section-heading {
+
     &:before {
       background-color: usetheme(capsid-section-jobs-bright);
     }
   }
   ._card {
-    border-color: usetheme(capsid-section-jobs-bright);
+    border-color: usetheme(capsid-section-jobs-headerbg);
   }
 }
 .Capsid-section-community {
   background: usetheme(capsid-section-community);
+
+  .Capsid-section-header {
+    background: usetheme(capsid-section-community-headerbg);
+  }
+
   .Capsid-section-heading {
+
     &:before {
       background-color: usetheme(capsid-section-community-bright);
     }
   }
   ._card {
-    border-color: usetheme(capsid-section-community-bright);
+    border-color: usetheme(capsid-section-community-headerbg);
   }
 }
 
@@ -206,9 +227,11 @@ $capsid_: (
   }
 }
   .Capsid-section-header {
-    @include screen-xs {
-      padding: $size;
-    }
+    // padding-top: $size;
+
+    // @include screen-xs {
+    //   padding: $size;
+    // }
 
     .Capsid-section-heading {
       padding: $size-half;

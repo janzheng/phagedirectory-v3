@@ -7,7 +7,7 @@
 -->
 
 <template>
-  <div class="Router-Capsid-email Capsid-email">
+  <div class="Router-Capsid-email">
 
     <!-- the route should match against a slug and only the first matched slug should be relevant -->
     <Capsid :issue="manuscript" :atoms="atoms" />

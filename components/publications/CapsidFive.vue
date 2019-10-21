@@ -65,6 +65,7 @@
 
           <figure v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover-container">
             <img class="Capsid-cover" 
+                 :class="issue.fields['Cover:attrs'] || '_img-fit-cover'"
                  :src="issue.fields['Cover:url']" alt="Capsid and Tail"
             >
             <figcaption v-if="issue.fields['Cover:description']" class="Capsid-cover-description _font-smaller _padding _color-disabled" v-html="$md.render(issue.fields['Cover:description'] ||'')" />
@@ -111,8 +112,8 @@
             <div v-scroll-spy class="scrollspy">
 
               <!-- What's New -->
-              <div id="whats-new" class="Capsid-section Capsid-section-new _margin-bottom" >
-                <div class="Capsid-section-header _grid-1-auto _align-vertically">
+              <div id="whats-new" class="Capsid-section Capsid-section-new" >
+                <div class="Capsid-section-header _grid-1-auto-xs _align-vertically">
                   <h2 class="Capsid-section-heading" >What’s New</h2>
                   <div class="Capsid-section-heading-description _padding-half ">
                     <a href="/capsid/tips" class="_padding-right">Suggest an article</a>
@@ -130,8 +131,8 @@
               </div>
 
               <!-- Jobs -->
-              <div id="jobs" class="Capsid-section Capsid-section-jobs _margin-bottom" >
-                <div class="Capsid-section-header _grid-1-auto _align-vertically">
+              <div id="jobs" class="Capsid-section Capsid-section-jobs" >
+                <div class="Capsid-section-header _grid-1-auto-xs _align-vertically">
                   <h2 class="Capsid-section-heading" >Latest Jobs</h2>
                   <div class="Capsid-section-heading-description">
                     <nuxt-link to="/jobs" class="_padding-right">All Jobs</nuxt-link>
@@ -151,8 +152,8 @@
               </div>
 
               <!-- Community -->
-              <div id="community" class="Capsid-section Capsid-section-community _margin-bottom" >
-                <div class="Capsid-section-header _grid-1-auto _align-vertically">
+              <div id="community" class="Capsid-section Capsid-section-community" >
+                <div class="Capsid-section-header _grid-1-auto-xs _align-vertically">
                   <h2 class="Capsid-section-heading" >Community Board</h2>
                   <div class="Capsid-section-heading-description">
                     <nuxt-link to="/community" class="_padding-right">All posts</nuxt-link>

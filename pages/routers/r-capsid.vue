@@ -42,7 +42,7 @@
                   Community
                 </nuxt-link>
                 <nuxt-link to="#article" class="_sidebar-item _block --active-disabled">
-                  Feature 
+                  Feature Article
                 </nuxt-link>
                 <!-- <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
                   Comments

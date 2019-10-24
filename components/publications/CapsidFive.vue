@@ -28,7 +28,7 @@
 
   <div class="Capsid Capsid-Issue _section-article-wide _margin-center">
     <!-- <h2> Capsid Five Prototype </h2> -->
-
+    <!-- #2c4a54 -->
     <div v-if="issue" class="" >
 
       <div>
@@ -42,7 +42,7 @@
               </nuxt-link>
             </div>
 
-            <div class="_padding-top _padding-bottom _margin-center _margin-top-none-i _margin-bottom-none-i">
+            <div class="_padding-top _margin-center _margin-top-none-i _margin-bottom-none-i">
 
               <!-- <nuxt-link :to="`/capsid/${issue.fields['Slug']}`"> -->
               <h1 class="Capsid-title _padding-top" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
@@ -66,6 +66,7 @@
           <figure v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover-container">
             <img class="Capsid-cover" 
                  :class="issue.fields['Cover:attrs'] || '_img-fit-cover'"
+                 :style="issue.fields['Cover:style']"
                  :src="issue.fields['Cover:url']" alt="Capsid and Tail"
             >
             <figcaption v-if="issue.fields['Cover:description']" class="Capsid-cover-description _font-smaller _padding _color-disabled" v-html="$md.render(issue.fields['Cover:description'] ||'')" />
@@ -110,6 +111,13 @@
             </div>
 
             <div v-scroll-spy class="scrollspy">
+
+              <!-- Meta / intro -->
+              <div v-if="issue.fields['Data:Meta']" id="whats-meta" class="Capsid-section Capsid-section-meta" >
+                <div class="Capsid-section-header _grid-1-auto-xs _align-vertically">
+                  <div class="Capsid-section-heading Capsid-section-heading-lite" v-html="$md.strip($md.render(issue.fields['Data:Meta'] || ''))" />
+                </div>
+              </div>
 
               <!-- What's New -->
               <div id="whats-new" class="Capsid-section Capsid-section-new" >

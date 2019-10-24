@@ -10,19 +10,24 @@
 
 <template>
 
-  <div class="_Capsid-email-container">
+  <div class="_Capsid-email-wrapper" style="width: 600px; margin: 0 auto;">
     <div class="_Capsid-email-body" id="email">
 
       <div class="_Capsid-header _Capsid-section">
-        <!-- <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover" 
-                 :src="issue.fields['Cover:url']" alt="Capsid and Tail"
-        > -->
+
+        <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="_Capsid-cover" 
+             :src="issue.fields['Cover:url']" alt="Capsid and Tail"
+             style="width: 600px; height: 330px;"
+        >
+        <div v-if="issue.fields['Cover:description']" class="Capsid-cover-description" style="font-size: 14px; padding: 12px; padding-top: 0px" v-html="$md.strip($md.render(issue.fields['Cover:description'] ||''))" />
 
         <div class="">
           <div class="_Capsid-meta _padding">
-            <div class="_Capsid-name"><strong>{{ issue.fields['Name'] }}</strong></div>
-            <div class="_Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</div>
-            <div class="_Capsid-readtime">{{ readtimeContent | readtime }} min read</div>
+            <span class="_Capsid-name"><strong>{{ issue.fields['Name'] }}</strong></span>
+            <div>
+              <span class="_Capsid-date">{{ issue.fields['Data:Date'] | niceDate }}</span> | 
+              <span class="_Capsid-readtime">{{ readtimeContent | readtime }} min read</span>
+            </div>
           </div>
 
           <!-- <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`"> -->
@@ -37,10 +42,18 @@
             </div>
 
             <div class="_padding-bottom">
-              <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`">
-                <img src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/abd04207-4e0b-4cac-976c-e26139ce5239.png" width="23" style="margin-right: 8px; position: relative; bottom: -5px" >Read this issue on Phage Directory
-              </a>
-              <CapsidShare :link="twitterLink" message="Tweet this issue!" style="padding-top: 8px;" />
+              <div class="_Capsid-header-social _Capsid-side-by-side">
+                <div style="vertical-align: baseline; padding-bottom: 16px; padding-right: 16px;">
+                  <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`">
+                    <img src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/abd04207-4e0b-4cac-976c-e26139ce5239.png" width="23" style="margin-right: 8px; position: relative; bottom: -7px" >Read on Phage Directory
+                  </a>
+                </div>
+                <div style="vertical-align: baseline;">
+                  <a :href="twitterLink">
+                    <img src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/a39bb182-0852-4662-a1dc-dc4cfcd20a3f.png" width="23px" height="19px" style="margin-right: 8px; position: relative; bottom: -5px" >Tweet this issue
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -69,25 +82,21 @@
 
       <div class="_Capsid-email-intro _margin-center">
 
+        <!-- Intro -->
+        <div v-if="issue.fields['Data:Meta']" id="whats-meta" class="_Capsid-section _Capsid-email-block _Capsid-section-new" style="background: #FAFEFF; margin-bottom: 16px;">
+          <div class="_Capsid-section-header" style="border-left: solid 8px #0085FF;">
+            <div class="_Capsid-section-table" style="background-color: #FAFEFF; padding: 8px; padding-left: 21px;">
+              <div v-html="$md.render(issue.fields['Data:Meta'] || '')" />
+            </div>
+          </div>
+        </div>
+
         <!-- What's New -->
         <div id="whats-new" class="_Capsid-section _Capsid-email-block _Capsid-section-new" style="background: #F2F8FD;">
           <div class="_Capsid-section-header" style="border-left: solid 8px #50CDE0;">
-            <table class="_Capsid-section-table" style="background-color: #D6F9FE; ">
-              <tr>
-                <td>
-                  <h2 class="_Capsid-section-heading" >What’s New</h2>
-                </td>
-                <td>
-                  <div class="_Capsid-section-table-ctas">
-                    <a href="https://phage.directory/capsid/tips" class="_button-link">Send a suggestion</a>
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <!-- <h2 class="Capsid-section-heading" >What’s New</h2>
-            <div class="Capsid-section-heading-description">
-              <span style="padding-right: 16px;">Have an idea for us?</span> <a href="https://phage.directory/capsid/tips" class="_button --short CTA --outline _margin-left-half">Send us a tip!</a>
-            </div> -->
+            <div class="_Capsid-section-table" style="background-color: #D6F9FE; ">
+                <h2 class="_Capsid-section-heading" >What’s New</h2>
+            </div>
           </div>
           <div class="_Capsid-section-content" v-if="updates.length > 0" >
             <div v-for="item of updates" :key="item.id" class="_margin-bottom" >
@@ -95,60 +104,38 @@
             </div>
           </div>
           <div v-else class="_card _color-bg-white _padding">Nothing new this week</div>
+
+          <div class="_Capsid-section-content _Capsid-suggest">
+            Have an interesting idea? <a href="https://phage.directory/capsid/tips">Suggest an article</a>!
+          </div>
         </div>
 
         <!-- Jobs -->
         <div id="jobs" class="_Capsid-section _Capsid-email-block _Capsid-section-jobs" style="background: #FFF1F3;">
           <div class="_Capsid-section-header" style="border-left: solid 8px #FA5486;">
-            <table class="_Capsid-section-table" style="background-color: #FFCFDC;">
-              <tr>
-                <td>
-                  <h2 class="_Capsid-section-heading" >Latest Jobs</h2>
-                </td>
-                <td>
-                  <div class="_Capsid-section-table-ctas">
-                    <a href="https://phage.directory/jobs" class="_button-link">All jobs</a>
-                    <a href="https://phage.directory/jobs?tab=Post-a-Job" class="_button-link">Post a job</a>
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <!-- <h2 class="Capsid-section-heading" >Latest Jobs</h2>
-            <div class="Capsid-section-heading-description">
-              <a href="https://phage.directory/jobs" class="_button --short CTA --outline _margin-right-half-i _margin-bottom-none">View all jobs</a>
-              <a href="https://phage.directory/jobs?tab=Post-a-Job" target="_blank" class="_button --short CTA --outline _margin-bottom-none">Post a job for free</a> -->
+            <div class="_Capsid-section-table" style="background-color: #FFCFDC;">
+              <h2 class="_Capsid-section-heading" >Latest Jobs</h2>
             </div>
-            <div class="_Capsid-section-content" v-if="jobs.length > 0" >
-              <div v-for="item of jobs" :key="item.id" class="_margin-bottom">
-                <CapsidJob :atom="item" />
-              </div>
+          </div>
+          <div class="_Capsid-section-content" v-if="jobs.length > 0" >
+            <div v-for="item of jobs" :key="item.id" class="_margin-bottom">
+              <CapsidJob :atom="item" />
             </div>
-            <div v-else class="_card _color-bg-white _padding _md-pfix" v-html="$md.render(emptyJobs || '')" />
+          </div>
+          <div v-else class="_card _color-bg-white _padding _md-pfix" v-html="$md.strip($md.render(emptyJobs || ''))" />
+
+          <div class="_Capsid-section-content _Capsid-suggest">
+            Looking for more phage jobs? <a href="https://phage.directory/jobs">Browse more jobs</a> <br/>
+            Looking to hire phage experts? <a href="https://phage.directory/jobs?tab=Post-a-Job" class="_button-link">Post a job</a>
           </div>
         </div>
 
         <!-- Community -->
         <div id="community" class="_Capsid-section _Capsid-email-block _Capsid-section-community" style="background: #FFFCCB;">
           <div class="_Capsid-section-header" style="border-left: solid 8px #FCCB4C">
-            <table class="_Capsid-section-table" style="background-color: #FFEFA7;">
-              <tr>
-                <td>
-                  <h2 class="_Capsid-section-heading" >Community Board</h2>
-                </td>
-                <td>
-                  <div class="_Capsid-section-table-ctas">
-                    <a href="https://phage.directory/community" class="_button-link">All posts</a>
-                    <a href="https://phage.directory/community?tab=Post-a-Message" class="_button-link">Post a message</a>
-                  </div>
-                </td>
-              </tr>
-            </table>
-            <!-- <div class="Capsid-section-heading-description">
-              <div class="_padding-bottom">
-                <a href="https://phage.directory/community" class="_button --short CTA --outline _margin-right-half-i">View all posts</a>
-                <a href="https://phage.directory/community?tab=Post-a-Message" class="_button --short CTA --outline">Post a message</a>
-              </div>
-            </div> -->
+            <div class="_Capsid-section-table" style="background-color: #FFEFA7;">
+              <h2 class="_Capsid-section-heading" >Community Board</h2>
+            </div>
           </div>
           <div class="_Capsid-section-content">
 
@@ -162,6 +149,9 @@
             <div v-else class="" >
               <div class="_card _color-bg-white _padding _md-pfix" v-html="$md.strip($md.render(emptyCommunity || ''))" />
             </div>
+          </div>
+          <div class="_Capsid-section-content _Capsid-suggest">
+            Take a look at <a href="https://phage.directory/community">our community board</a> for more posts, or <a href="https://phage.directory/community?tab=Post-a-Message">post a new message</a>
           </div>
         </div>
 
@@ -186,19 +176,21 @@
 
       <div class="_Capsid-email-footer _Capsid-section _padding-top">
 
-        <div v-if="issue.fields['Manuscripts:Related']" class="_Capsid-related _Capsid-print-hidden _margin-top-2" >
+        <div v-if="issue.fields['Manuscripts:Related']" class="_Capsid-related _Capsid-print-hidden" style="margin-bottom: 32px;" >
           <!-- <h6 class="_padding-bottom-none">Related Article</h6> -->
-          <h6 class="_padding-bottom-none">Related Article<span v-if="relatedIssues.length>0">s</span></h6>
+          <h6 class="">Related Article<span v-if="relatedIssues.length>0">s</span></h6>
 
-          <div v-for="item of relatedIssues" :key="item.fields['Name']" class="_card _margin-bottom _padding">
+          <div v-for="item of relatedIssues" :key="item.fields['Name']" class="_card" style="margin-bottom: 8px; padding: 8px;">
             <div class="_Capsid-Stub" style="font-size: 14px;">
               <div class="_Capsid-header _grid-gap-small" >
-                <span class="_Capsid-name _font-bold ">{{ item.fields['Name'] }}</span> | 
+                <span class="_Capsid-name " style="font-weight: bold">{{ item.fields['Name'] }}</span> | 
                 <span class="_Capsid-date _right-sm">{{ item.fields['Data:Date'] | niceDate }}</span>
               </div>
             </div>
-            <h4 style="margin-top: 8px; padding-top: 0; padding-bottom: 4px" v-html="$md.strip($md.render(item.fields['Data:Title'] || ''))" />
-            <a :href="`https://phage.directory/capsid/${item.fields.Slug}`" v-html="$md.strip($md.render(item.fields['Data:Lede'] || ''))" />
+            <a :href="`https://phage.directory/capsid/${item.fields.Slug}`">
+              <h4 style="margin-top: 8px; padding-top: 0; padding-bottom: 8px; font-weight: bold;" v-html="$md.strip($md.render(item.fields['Data:Title'] || ''))" />
+            </a>
+            <div v-html="$md.strip($md.render(item.fields['Data:Lede'] || ''))" />
           </div>
           <!-- <CapsidStub :issue="relatedIssue" show-lede="true" class="--related" /> -->
         </div>
@@ -209,7 +201,7 @@
         <div v-else-if="issue.fields['Data:AuthorDescription']" class="_Capsid-author _Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
         <div id="_Capsid-cite" class="_Capsid-cite" v-if="citationData">
-          <h6 class="--inline">How to Cite</h6>
+          <h6 class="">How to Cite</h6>
           <div v-if="issue.fields['Meta:Citation:Text']" >
             <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
           </div>
@@ -223,33 +215,22 @@
             <div slot-scope="{ loading, response: data }">
               <div v-if="loading">Loading...</div>
               <div v-else>
-                <div class="_font-smaller" style="padding-bottom: 6px;">To cite this issue , please use:</div>
-                <div class="_Capsid-apa _font-smaller _card _padding" v-html="$md.render(data.apa )" />
-                <!-- <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
-                <div class="_Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(data.bibtex)" /> -->
+                <div style="padding-bottom: 6px;">To cite this issue , please use:</div>
+                <div class="_Capsid-apa _card _padding" v-html="$md.render(data.apa )" />
               </div>
             </div>
           </AxiosPost>
         </div>
 
+        <div class="_Capsid-Email-footer-share" style="padding-top: 16px; padding-bottom: 16px;">
+          <h6>Share this link</h6>
+          <div class="_Capsid-email-footer-share">
+            <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`" target="_blank">https://phage.directory/capsid/{{issue.fields['Slug']}}/</a>
+          </div>
+        </div>
 
-        <div class="_Capsid-Email-footer-twitter">
-          <h6 style="padding-top: 16px;">Like this issue?</h6> 
-          <!-- <div style="padding-top: 8px;">
-            <table>
-              <tr>
-                <td style="vertical-align: middle; padding-right: 16px;">
-                  <CapsidShare :link="twitterLink" message="Tweet this issue!" />
-                </td>
-                <td style="vertical-align: middle">
-                  <div style="margin-bottom: 16px">
-                    <img width="23" style="margin-right: 4px; vertical-align: top;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/2811e7ca-2266-4877-9eef-d1b1b32a34c2.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div> -->
-          <div>
+        <div class="_Capsid-Email-footer-twitter _Capsid-side-by-side">
+          <div style="padding-right: 16px">
             <CapsidShare :link="twitterLink" message="Tweet this issue!" />
           </div>
           <div style="margin-top: 16px">
@@ -258,12 +239,6 @@
 
         </div>
 
-        <div class="_Capsid-Email-footer-share" style="padding-top: 16px;">
-          <h6>Share this link:</h6>
-          <div class="_Capsid-email-footer-share _padding-top">
-            <a :href="`https://phage.directory/capsid/${issue.fields['Slug']}`" target="_blank">https://phage.directory/capsid/{{issue.fields['Slug']}}/</a>
-          </div>
-        </div>
 
       </div>
 
@@ -603,10 +578,34 @@ export default {
 
 /* mailchimp styles*/
 
-.mcnImageCardBlockInner {
+#templateBody {
+  padding-top: 0;
+}
+
+.headerContainer {
+  padding: 12px;
+}
+
+/* banner image*/
+.mcnImageCardBlock td.mcnImageCardBlockInner {
+  padding-top: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+.mcnImageCardBlockInner img {
+  width: 100%;
+}
+.mcnImageCardBlockInner .mcnTextContent div {
+  padding-top: 0px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.mcnImageCardBlockInner td {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .mcnTextContent {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
@@ -624,9 +623,10 @@ img {
 
 
 ._Capsid-cover {
-  max-height: 300px;
+  max-height: 300px !important;
   object-fit: cover;
-  padding-bottom: 12px;
+  width: 100%;
+  padding-bottom: 0;
 }
 
 ._Capsid-content {
@@ -645,6 +645,14 @@ img {
 ._Capsid-lede {
   padding-top: 0px;
   padding-bottom: 24px;
+}
+
+
+
+@media only screen and (min-width: 481px) {
+  ._Capsid-side-by-side div {
+    display: table-cell;
+  }
 }
 ._Capsid-twitter {
   font-weight: bold;
@@ -671,11 +679,11 @@ h5 {
 }
 h6 {
   font-weight: 700;
-  font-size: 14px;
-  line-height: 35px;
+  font-size: 12px;
+  line-height: 18px;
   text-transform: uppercase;
   letter-spacing: 1.2px;
-  padding-bottom: 0 !important;
+  padding-bottom: 8px;
 }
 
 a {
@@ -686,29 +694,12 @@ a {
   display: block;
 }
 
-.Dir-title {
-  /*white-space: pre-line;*/
-}
-
-/*@media only screen and (max-width: 480px) {*/
-  /*.People-card-email td {
-    display: block !important;
-  }*/
-
   .People-profile {
-    /*padding-bottom: 0 !important;*/
-    /*margin-bottom: 16px;*/
     padding: 0 !important;
   }
   .People-info {
     padding: 0 0 0 12px !important;
-  }
-
-  .People-info {
-    /*
-    padding-top: 0 !important;
-    margin-top: 16px;
-    */
+    vertical-align: baseline; 
   }
 
   .Dir-social.Dir-title {
@@ -716,7 +707,6 @@ a {
     padding-top: 8px;
     padding-bottom: 12px;
   }
-/*}*/
 
 ._Capsid-section-content .Capsid-item {
   padding: 12px;
@@ -740,35 +730,22 @@ img {
     width: 100%;
   }
 
-
-
+._Capsid-suggest {
+  font-size: 14px;
+  padding-top: 0 !important;
+}
 
 ._Capsid-email-block {
-  /*padding: 8px;*/
   padding-left: 0px;
   padding-right: 0px;
 }
-  /*._Capsid-section-heading {
-    padding-left: 8px;
-    padding-right: 8px;
-  }*/
-
   h2._Capsid-section-heading {
     padding: 8px;
     padding-left: 21px;
-    font-size: 21px;
+    font-size: 18px;
     line-height: 31.5px;
     position: relative;
   }
-    /*.Capsid-section-heading:before {
-      content: ' ';
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
-      width: 8px;
-    }*/
-
   ._Capsid-section-heading-description {
     padding-left: 6px;
     padding-right: 6px;
@@ -795,58 +772,24 @@ img {
       border: 2px solid #FFEFA7;
     }
 
-  ._Capsid-section-table {
-    width: 100%;
-  }
-
   ._Capsid-section-content {
     padding: 12px;
   }
 
-  ._Capsid-section-table td:nth-child(1) {
-    width: 50%;
-  }
-
-  ._Capsid-section-table td:nth-child(2) {
-    vertical-align: middle;
-    width: 50%;
-    padding-right: 8px;
-  }
-
   ._Capsid-section-table-ctas {
-    text-align: right;
+    text-align: left;
+    padding-left: 21px;
+    padding-top: 0px;
+    padding-bottom: 12px;
   }
-
-    @media only screen and (max-width: 480px){
-      ._Capsid-section-table td:nth-child(1) {
-        display: block;
-        width: 100% !important;
-      }
-      ._Capsid-section-table td:nth-child(2) {
-        display: block;
-        width: 100% !important;
-        padding-left: 21px;
-      }
-      ._Capsid-section-table-ctas {
-        text-align: left !important;
-        padding-top: 12px;
-        padding-bottom: 11px;
-      }
-    }
-
-  @media only screen and (max-width: 480px){
-    ._Capsid-section-title {
-      padding: 16px;
-    }
-  } 
 
 ._Capsid-email-footer-share {
   background-color: #4C6882;
-  padding: 16px;
+  padding: 4px 16px;
   word-break: break-all;
 }
   ._Capsid-email-footer-share a { 
-    font-size: 18px !important;
+    font-size: 16px !important;
     color: white !important;
     font-weight: normal !important;
   }
@@ -879,7 +822,7 @@ img {
   }
 
 ._card {
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);*/
   border: 1px solid #EEEEEE;
   overflow: auto;
   border-radius: 4px;
@@ -891,44 +834,13 @@ img {
   padding-right: 8px;
 }
 
-._button.--short {
-  padding-left: 8px;
-  padding-right: 8px;
-  font-size: 14px;
-  line-height: 8px;
-  border-width: 2px;
-  border-style: solid;
-  background-color: #F1FBFF;
-  padding-top: 9.5px;
-  padding-bottom: 9.5px;
-  display: inline-block;
-  cursor: pointer;
-  outline: none;
-  border-radius: 4px;
-
-  text-decoration: none;
-  margin-right: 8px;
-  border-color: #2E81AA;
-  color: #2E81AA !important;
-
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-weight: bold !important;
-  text-decoration: none !important;
-
-}
-._button.--short:hover {
-  border-color: #71EFF5 !important;
-  background-color: #FFF !important;
-}
-
 table._Capsid-author-header td {
   vertical-align: middle;
   padding: 8px;
 }
 
   ._Capsid-author-full .People-container {
-    padding: 8px;
+    padding: 16px;
   }
 
 
@@ -940,23 +852,6 @@ li {
 }
 
 
-.Alert.Urgent {
-  margin-top: 16px;
-  border-top: 2px solid #D43615;
-  border-radius: 4px;
-  padding: 16px;
-}
-  .Alert.Urgent .Alert-status-tag {
-    display: block !important;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background-color: #D43615;
-    color: #FAFAFA;
-    margin-top: 8px;
-    margin-bottom: 8px;
-  }
-
-
 ._publons img {
   width: 0.9em;
 }
@@ -966,13 +861,6 @@ li {
 }
 
 
-._font-small {
-  margin-bottom: 8px;
-  font-size: 14px;
-}
-._margin-top-half {
-  margin-top: 8px;
-}
 ._margin-right {
   margin-right: 12px;
 }
@@ -982,26 +870,12 @@ li {
 ._padding {
   padding: 12px;
 }
-._padding-left {
-  padding-left: 12px;
-}
 ._padding-top {
   padding-top: 12px;
-}
-._padding-top-2 {
-  padding-top: 24px;
 }
 ._padding-bottom {
   padding-bottom: 12px;
 }
-._padding-bottom-2 {
-  padding-bottom: 24px;
-}
-
-._color-bg-brand-5 {
-  background-color: #F1FBFF;
-}
-
 
 ._Capsid-table {
   margin-top: 12px;
@@ -1021,8 +895,6 @@ li {
   border-color: #71EFF5;
 }
 
-
-
 ._Capsid-email-body, ._Capsid-email-footer {
   background-color: #FAFAFA;
 }
@@ -1041,6 +913,26 @@ li {
   .People-only-header .People-info {
     vertical-align: middle !important;
   }
+  .People-only-header h3 {
+    font-size: 18px;
+    font-weight: normal;
+  }
+  .People-only-header td {
+    vertical-align: middle;
+  }
+
+
+.Job-action-apply {
+  border: 2px solid #FA5486 !important;
+  text-decoration: none !important;
+  font-weight: bold !important;
+  color: black !important;
+  border-radius: 4px; 
+  padding: 6px 12px;
+  margin-top: 4px;
+  margin-right: 8px;
+  display: inline-block;
+}
 
 </style>
 

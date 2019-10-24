@@ -21,7 +21,11 @@
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
         </div> -->
         <div v-if="showLogo || showHeader" class="Capsid-logo ">
-          <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" class="Capsid-cover --stub" :class="issue.fields['Cover:attrs'] || '_img-fit-cover'"
+
+          <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" 
+               class="Capsid-cover --stub" 
+               :class="issue.fields['Cover:attrs'] || '_img-fit-cover'"
+               :style="issue.fields['Cover:style']"
                :src="issue.fields['Cover:url']" alt="Capsid and Tail"
           >
           <div v-if="showLogo && !issue.fields['Cover:showOnIssue']" class="     Capsid-masthead Capsid-section _margin-center _padding 

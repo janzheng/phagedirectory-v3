@@ -7,6 +7,11 @@
 
 <template>
   <div :id="person.fields['Slug']" class="People People-card Dir-card " >
+
+    <div v-if="person.fields['Status'] != 'Published'" class="_Stage">
+      Preview
+    </div>
+
     <div class="People-container _flex-row">
       <div class="People-profile _margin-right">
         <img alt="Profile Image" :src="profileUrl" class="--profile --medium" >
@@ -19,6 +24,12 @@
 
           <div class="People-name People-header-block">
             <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
+
+            <div v-if="roles || jobTitle" class="People-roles _font-small ">
+              <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
+              <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
+            </div>
+
             <div class="People-name-social _flex-row _margin-bottom-half">
               <div class="Dir-title _flex-1">
                 <!-- link from name is useful for C&T and other places where the card appears -->
@@ -37,31 +48,21 @@
             </div>
 
             <div v-if="person.fields['Short']" class="People-name-short _margin-bottom">
-              <div v-html="$md.render(person.fields['Short'] || '')" />
+              <div v-html="$md.strip($md.render(person.fields['Short'] || ''))" />
             </div>
 
             <div class="People-orgs Dir-row _margin-top _margin-bottom-2">
-              <div v-if="roles || jobTitle" class="People-roles _font-small ">
-                <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
-                <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
-              </div>
 
-              <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="">
-                <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI"> (PI)</span><!-- <span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span> -->,
-              </span>
-              <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
-                {{ item.name +'' }}
-              </span> -->
-
-              <p v-if="orgs" class="">
-                <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name"><span v-if="i > 0">; </span><nuxt-link v-if="person.fields['Orgs::Slugs'][0]" :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-else> {{ item.name +'' }}</span><span v-if="item.location">, {{ item.location }}</span>
+              <div v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="_margin-bottom-half">
+                <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI"> (PI)</span>,
+                <span v-if="orgs" class="_margin-bottom-half">
+                  <div v-for="(item) of orgs" :key="item.name" class="People-orgs-name _padding-bottom-half _padding-top-half"><!-- <span v-if="i > 0"><br> </span> --><nuxt-link v-if="person.fields['Orgs::Slugs'][0]" :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-else> {{ item.name +'' }}</span><span v-if="item.location">, {{ item.location }}</span>
+                  </div>
                 </span>
-              </p>
-
-              <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
-                {{ person.fields['Orgs:Custom'] }}
-              </span>
-
+                <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
+                  {{ person.fields['Orgs:Custom'] }}
+                </span>
+              </div>
             </div>
 
           </div>
@@ -212,5 +213,15 @@ export default {
   }
 }
 </script>
+
+
+<style lang="scss">
+  ._Stage {
+    font-size: 14px; 
+    margin-bottom: 16px;
+    padding: 6px;
+  }
+</style>
+
 
 

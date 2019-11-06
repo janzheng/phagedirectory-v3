@@ -110,14 +110,14 @@
               </div>
             </div>
 
-            <div v-scroll-spy class="scrollspy">
-
-              <!-- Meta / intro -->
-              <div v-if="issue.fields['Data:Meta']" id="whats-meta" class="Capsid-section Capsid-section-meta" >
-                <div class="Capsid-section-header _grid-1-auto-xs _align-vertically">
-                  <div class="Capsid-section-heading Capsid-section-heading-lite" v-html="$md.strip($md.render(issue.fields['Data:Meta'] || ''))" />
-                </div>
+            <!-- Meta / intro -->
+            <div v-if="issue.fields['Data:Meta']" id="whats-meta" class="Capsid-section Capsid-section-meta" >
+              <div class="Capsid-section-header _grid-1-auto-xs _align-vertically">
+                <div class="Capsid-section-heading Capsid-section-heading-lite" v-html="$md.strip($md.render(issue.fields['Data:Meta'] || ''))" />
               </div>
+            </div>
+            
+            <div v-scroll-spy class="scrollspy">
 
               <!-- What's New -->
               <div id="whats-new" class="Capsid-section Capsid-section-new" >
@@ -336,6 +336,7 @@ export default {
     }
 
     let head = headMatter({
+      twitterCard: "summary_large_image",
       title: this.issue.fields['Data:Title'],
       description: this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages",
       author: author ? author.fields['Name'] : undefined,
@@ -352,9 +353,12 @@ export default {
     // if(process.server && process.pd_env == 'stage') {
     // console.log('capsid data:', process.env.pd_env)
     if(process.env.pd_env == 'stage') {
-      console.log('[Capsid] Cached data conversion:')
+      // console.log('[Capsid] Cached data conversion:')
+      // console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
+
+
+      
       // console.log('[Capsid] Cached data conversion:', this.$store.state['cytosisStore'][this.issue.fields['Slug']])
-      console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
     }
 
     return {

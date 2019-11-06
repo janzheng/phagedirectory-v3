@@ -318,7 +318,10 @@ export default {
         // this is slow (5-10s), but SUPER important for bots to crawl
         // cache it in Airtable (under Manuscript>Data:Citation) if you can
         // let api_url =  'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
-        let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
+        // let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
+        // webtask is sunsetting
+
+        let cite_url = ''
         if(process.env.api_url) // if the API is down (temp. fix)
           cite_url = process.env.api_url + '/api/cite'
 
@@ -328,6 +331,7 @@ export default {
           // this is added to airtable manually, after generation
           citation = JSON.parse(manuscript.fields['Data:Citation'])
         } else {
+
           let cite_data = await axios.post(cite_url, citationData(manuscript, authors, app))
           citation = cite_data.data // JSON.parse(cite_data.data)
 

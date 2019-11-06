@@ -1,43 +1,8 @@
-/*
-
-  Creates an RSS feed for Capsid & Tail
-  - uses redirect to get phage.directory/feed.xml
-
-  Usage:
-
-    Post to this endpoint with a string that looks like: (bibtex format)
-    const source =  `
-      @article{${this.issue.fields['Slug']}${date.getFullYear()},
-        author = {${authorNames.join(' and ')}},
-        date = {${date.getFullYear()}},
-        day = {${date.getDay()}},
-        month = {${date.getMonth()}},
-        title = {{${this.issue.fields['Data:Title:String']}}},
-        journal = {Capsid & Tail},  
-        publisher = {Phage Directory},
-        number = {${this.issue.fields['Data:Issue']}},
-        url = {${this.issue.fields['URL']}},
-      }
-    `
-
-*/
+// get JSON citation from [url]/[doi]
 
 const app = require('../app')
-
-// weird Now error prevents requiring citation-js
-// need to proxy the webtask lambda
-
-// const Cite = require('citation-js')
-// const Cite = require('citation-js')
-// import Cite from 'citation-js'
-// import Cite from './../citation.min.js'
-
-// const Cytosis = require('cytosis')
 const cors = require('cors');
-const axios = require('axios');
-
-// const Cytosis = require('../../other/cytosis.js');
-// app.use(express.static('tmp'));
+const Cite = require("citation-js");
 
 app.use(require('express').json());
 
@@ -51,54 +16,66 @@ app.use(cors({
   ]
 }))
 
-// example: http://localhost:2929/api/exocytosis/config/delete
-// app.get('/api/cite', (req, res, next) => {
-//   res.send('BANANARAMA LAMA WAMA')
-// })
 
 
-// parse object to string and write the respose
-// const writeJSON = function(res, obj) {
-//   let objJSON;
-//   if (typeof obj === 'object') objJSON = JSON.stringify(obj);
-//   else objJSON = '{}';
-
-//   res.writeHead(200, { 'Content-Type': 'application/json' });
-//   res.write(objJSON);
-// };
-
-// function loadCytosis(req) {
-//   const table = 'capsid-feed';
-//   // console.log('cytosis loading... searching for tableQuery:', table);
-
-//   const _cytosis = new Cytosis({
-//     airKey: req.webtaskContext.secrets.airtable_api,
-//     airBase: req.webtaskContext.secrets.airtable_base,
-//     tableQuery: table,
-//   });
-//   // console.log('cytosis loaded... ');
-//   return _cytosis;
-// }
+async function getCite(lookup) {
+	// return await Cite.inputAsync(lookup);
+	return await Cite.async(lookup);
+}
 
 
+// [url]/api/cite/[doi, etc.] — merely for fetching full citation
+app.get("/api/cite/*", async (req, res, next) => {
+  let input = req.params[0];
+  console.log('input:', input)
+  let citation = await getCite(input);
+
+  let result = {
+    _source: input,
+    _data: citation,
+    citation: citation.format('citation'),
+    bibtex: citation.format('bibtex', { format: 'html' }),
+    apa: citation.format('bibliography', {
+      format: 'html',
+      template: 'apa',
+      lang: 'en-US',
+    }),
+  };
+
+	res.json(result);
+});
 
 
 
-// main entry // THIS IS THE PROXY!!
-// better to get citation-js working natively 
-app.post('/api/cite', async function(req, res, next) {
+// [url]/api/cite/[doi, etc.] — post data for citation, meant for C&T
+app.post('/api/cite', async (req, res, next) => {
   try {
-    console.time(`/api/cite/`)
     const request = req.body;
-    const api_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
-    // console.log('[Cite] Building Citation ...', request)
+    // const api_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
+    console.log('[Cite] Building Citation (req) ...', request)
     
-    // pass it on to webtask........ :P 
-    // there's a bug on Zeit Now that prevents citation-js from being added
-    let citation = await axios.post(api_url, request)
-    // console.log('[Cite] Citation received!', citation.config.data)
-    console.timeEnd(`/api/cite/`)
-    res.send(citation.data)
+    // // pass it on to webtask........ :P 
+    // // there's a bug on Zeit Now that prevents citation-js from being added
+    // let citation = await axios.post(api_url, request)
+    // // console.log('[Cite] Citation received!', citation.config.data)
+    // console.timeEnd(`/api/cite/`)
+
+  	let citation = await getCite(request.source);
+
+	  let result = {
+	    _source: request,
+	    _data: citation,
+	    citation: citation.format('citation'),
+	    bibtex: citation.format('bibtex', { format: 'html' }),
+	    apa: citation.format('bibliography', {
+	      format: 'html',
+	      template: 'apa',
+	      lang: 'en-US',
+	    }),
+	  };
+
+		res.json(result);
+
   } catch(err) {
     console.log('[Cite] Error:', err)
     next()
@@ -131,14 +108,4 @@ app.post('/api/cite', async function(req, res, next) {
 
 
 
-// error handling
-app.use(function (err, req, res, next) {
-  // All errors are already displayed elswehere
-  // console.error("[EXO:ERROR]", err.stack);
-  res.end(false);
-});
-
 module.exports = app
-
-
-

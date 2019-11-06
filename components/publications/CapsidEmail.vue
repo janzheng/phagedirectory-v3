@@ -494,7 +494,8 @@ export default {
       const url = this.issue.fields['URL']
       const tags = this.issue.fields['Social:Twitter:Tags']
 
-      return `https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${tags}`
+      const uri = `https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${tags}`
+      return encodeURI(uri)
     },
 
     citationData() {
@@ -926,7 +927,7 @@ li {
   border: 2px solid #FA5486 !important;
   text-decoration: none !important;
   font-weight: bold !important;
-  color: black !important;
+  color: #202326 !important;
   border-radius: 4px; 
   padding: 6px 12px;
   margin-top: 4px;

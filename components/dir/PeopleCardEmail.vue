@@ -26,7 +26,22 @@
                 <div class="People-name-social">
                   <div class="People-name-social--name" style="">
                     <h3 style="padding: 0 !important; padding-right: 8px !important; margin-right: 8px; display: inline-block">{{ person.fields['Name'] }} <span v-if="person.fields['Title']" class="Dir-personTitle" style="font-size:14px;">{{ person.fields['Title'] }}</span></h3>
+
+                    <div v-if="isCompact == false " class="People-orgs Dir-row _font-small">
+                      <div v-if="roles || jobTitle" class="People-roles _margin-top-half">
+                        <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
+                        <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
+                      </div>
+
+                      <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
+                        <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
+                      </span>
+                      <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
+                        {{ item.name +'' }}
+                      </span>
+                    </div>
                   </div>
+                  
                   <div v-if="hasSocial && isCompact == false" class="People-name-social--social" >
                     <div v-if="hasSocial" class="Dir-social Dir-title">
                       <a v-if="person.fields['Email']" :href="`mailto:${person.fields['Email']}`" class="Dir-icon --url"><img alt="Email Logo" width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/e3602ac6-ebb1-46f6-9e7f-bdf9162a496a.png"></a>
@@ -49,23 +64,6 @@
 
         </tr>
       </table>
-
-      <div v-if="isCompact == false " class="People-orgs Dir-row _font-small">
-        <div v-if="roles || jobTitle" class="People-roles _margin-top-half">
-          <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
-          <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
-        </div>
-
-        <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
-          <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
-        </span>
-        <!-- <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="">
-          {{ item.name +'' }}
-        </span> -->
-        <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
-          {{ item.name +'' }}
-        </span>
-      </div>
 
       <div v-if="isCompact == false ">
         <hr style="border-top: 2px #f0f0f0 solid; margin-top: 16px; margin-top: 16px;"> 
@@ -168,7 +166,8 @@ export default {
       return string
     },
     roles() {
-      return this.person.fields['Roles']
+      // wrap the custom role in an array
+      return this.person.fields['Roles:Custom'] ? [this.person.fields['Roles:Custom']] : this.person.fields['Roles']
     },
     jobTitle() {
       return this.person.fields['JobTitle']

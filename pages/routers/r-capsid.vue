@@ -113,7 +113,7 @@ const getAuthors = function(store, manuscript, app) {
   if (manuscript.fields['Data:AuthorSlugs'])
     authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]
 
-  if(authorSlugs) {
+  if(authorSlugs && authorSlugs.length > 0) {
     authorPromises = loadQuery({
       _key: process.env.db_api, 
       _base: process.env.db_base, 
@@ -152,6 +152,7 @@ const citationData = function(manuscript, authors, app) {
     let authorNames = []
     authors.map((item) => authorNames.push(`${item.fields['FamilyName']}, ${item.fields['FirstName']}`))
     // console.log('author names:', authorNames.join(' and '))
+
 
     // const source =  `
     //   @article{${this.authors[0].fields['FamilyName']}${date.getFullYear()},
@@ -307,8 +308,10 @@ export default {
           // pushes the authors in order of slugs
           authorData.map((author) => { authorObj[author.fields['Slug']] = author })
 
-          // add the authors in order
-          authorSlugs.map((_slug) => { authors.push(authorObj[_slug]) })
+          if(authorSlugs && authorSlugs.length > 0) {
+            // add the authors in order
+            authorSlugs.map((_slug) => { authors.push(authorObj[_slug]) })
+          }
         }
 
         // Citations

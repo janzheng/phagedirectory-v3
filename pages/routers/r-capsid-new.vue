@@ -1,37 +1,37 @@
-
-<!--  
+<!--
+<!~~  
 
   Router for Capsid & Tail issues
   // basis for other manuscript routers
 
--->
+~~>
 
 <template>
   <div class="Router-Capsid">
 
-    <!-- the route should match against a slug and only the first matched slug should be relevant -->
+    <!~~ the route should match against a slug and only the first matched slug should be relevant ~~>
 
     <div class="_section-page _margin-center">
 
-      <!-- <a href="/capsid" class="--quiet _inline-block _padding-bottom">Browse all issues of Capsid &amp; Tail</a> -->
+      <!~~ <a href="/capsid" class="--quiet _inline-block _padding-bottom">Browse all issues of Capsid &amp; Tail</a> ~~>
 
       <Capsid v-if="manuscript && atoms && authors && citation" :issue="manuscript" :atoms="atoms" :authors="authors" :citation="citation" class="Template-Main">
         
         <template v-slot:sidebar>
           <nav class="">
             <div class="">
-              <!-- <div class="_sidebar-content-group">
+              <!~~ <div class="_sidebar-content-group">
                 <div v-if="manuscript" class="_sidebar-item _sidebar-heading _sidebar-label">
                   {{ manuscript.fields['Name'] }}
                 </div>
-              </div> -->
+              </div> ~~>
               <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
                    v-scroll-spy-link="{selector: 'a._sidebar-item'}"
                    class="scrollspy _card --silver" 
               >
-                <!-- <nuxt-link to="#intro" class="_sidebar-item _block --active-disabled">
+                <!~~ <nuxt-link to="#intro" class="_sidebar-item _block --active-disabled">
                   Intro
-                </nuxt-link> -->
+                </nuxt-link> ~~>
                 <nuxt-link to="#whats-new" class="_sidebar-item _sidebar-content-group _block --active-disabled">
                   What's New
                 </nuxt-link>
@@ -44,9 +44,9 @@
                 <nuxt-link to="#article" class="_sidebar-item _block --active-disabled">
                   Feature 
                 </nuxt-link>
-                <!-- <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
+                <!~~ <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
                   Comments
-                </nuxt-link> -->
+                </nuxt-link> ~~>
               </div>
               <div clas="_sidebar-footer">
                 <nuxt-link
@@ -80,7 +80,7 @@
 
       </Capsid>
 
-      <!-- <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" /> -->
+      <!~~ <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" /> ~~>
     </div>
 
   </div>
@@ -395,3 +395,4 @@ export default {
 <style>
 </style>
 
+-->

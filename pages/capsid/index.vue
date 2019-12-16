@@ -209,10 +209,12 @@ export default {
       const _this = this
       let authors = []
 
-      authorSlugs.map((slug) => {
-      // console.log('authorSlugs.map', slug, _this.$cytosis.findOne(slug, _this['People'], 'Slug'))
-        authors.push(_this.$cytosis.findOne(slug, _this['People'], ['Slug'] ))
-      })
+      if(authorSlugs && authorSlugs.length > 0) {
+        authorSlugs.map((slug) => {
+        // console.log('authorSlugs.map', slug, _this.$cytosis.findOne(slug, _this['People'], 'Slug'))
+          authors.push(_this.$cytosis.findOne(slug, _this['People'], ['Slug'] ))
+        })
+      }
 
       return authors
     },

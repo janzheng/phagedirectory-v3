@@ -66,7 +66,7 @@
 
     { "src": "/api/timeline(.*)", "dest": "api/routes/timeline.js" },
     { "src": "/api/profile(.*)", "dest": "api/routes/profile.js" },
-    { "src": "/api/cite", "dest": "api/routes/cite.js" },
+    { "src": "/api/cite(.*)", "dest": "api/routes/cite.js" },
     { "src": "/api/exocytosis(.*)", "dest": "api/routes/exocytosis.js" },
 
     { "src": "/api/(.*)", "dest": "api/routes/$1" },

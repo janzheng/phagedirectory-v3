@@ -17,32 +17,35 @@
 
             <template slot="Upcoming Events">
               <div class="_padding-top">
-                <div id="map-wrap" class="Leaflet _hidden-xs _margin-bottom" style="height: 50vh">
-                  <no-ssr>
-                    <!-- ssr breaks for maps -->
-                    <l-map :zoom="1" :center="[47.413220, -1.219482]" class="Leaflet-map" >
-                      <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-                                    attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
-                      />
-                      <l-marker v-for="item of upcoming" 
-                                :key="item.id" 
-                                :lat-lng="item.fields['Meta:LatLng'][0].split(',')" 
-                                class="Leaflet-marker"
-                      >
-                        <l-tooltip class="Leaflet-tooltip">
-                          {{ item.fields['Name'] }}
-                          <div class="_font-small"> 
-                            <span>{{ item.fields['Data:Date'] | niceDate }}</span>
-                            <span v-if="item.fields['Data:DateEnd']" > – {{ item.fields['Data:DateEnd'] | niceDate }}</span>
-                          </div>
-                        </l-tooltip>
-                      </l-marker>
-                      <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
-                    </l-map>
-                  </no-ssr>
-                </div>
 
-                <Event v-for="item of upcoming" :key="item.id" :atom="item" />
+                <!-- ssr breaks for maps -->
+                <no-ssr>
+                  <div v-if="upcoming">
+                    <div id="map-wrap" class="Leaflet _hidden-xs _margin-bottom" style="height: 50vh">
+                      <l-map :zoom="1" :center="[47.413220, -1.219482]" class="Leaflet-map" >
+                        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                                      attribution="Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a>" 
+                        />
+                        <l-marker v-for="item of upcoming" 
+                                  :key="item.id" 
+                                  :lat-lng="item.fields['Meta:LatLng'][0].split(',')" 
+                                  class="Leaflet-marker"
+                        >
+                          <l-tooltip class="Leaflet-tooltip">
+                            {{ item.fields['Name'] }}
+                            <div class="_font-small"> 
+                              <span>{{ item.fields['Data:Date'] | niceDate }}</span>
+                              <span v-if="item.fields['Data:DateEnd']" > – {{ item.fields['Data:DateEnd'] | niceDate }}</span>
+                            </div>
+                          </l-tooltip>
+                        </l-marker>
+                        <l-tile-layer url="http://{s}.tile.osm.org/{z}/{x}/{y}.png" />
+                      </l-map>
+                    </div>
+                    <Event v-for="item of upcoming" :key="item.id" :atom="item" />
+                  </div>
+                </no-ssr>
+
               </div>
             </template>
 

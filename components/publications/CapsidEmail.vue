@@ -328,7 +328,7 @@ export default {
       if (_this.issue.fields['Data:AuthorSlugs'])
         authorSlugs = [... _this.issue.fields['Data:MainAuthorSlug'], ... _this.issue.fields['Data:AuthorSlugs']]
 
-      if(authorSlugs) {
+      if(authorSlugs && authorSlugs.length > 0) {
         authorSlugs.map(function(slug) {
           const item = loadQuery({
             _key: process.env.db_api, 

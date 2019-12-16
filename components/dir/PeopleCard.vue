@@ -25,11 +25,6 @@
           <div class="People-name People-header-block">
             <!-- <nuxt-link :to="`/people/${person.fields['Slug']}`">{{ person.fields['Name'] }}</nuxt-link> -->
 
-            <div v-if="roles || jobTitle" class="People-roles _font-small ">
-              <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
-              <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
-            </div>
-
             <div class="People-name-social _flex-row _margin-bottom-half">
               <div class="Dir-title _flex-1">
                 <!-- link from name is useful for C&T and other places where the card appears -->
@@ -49,6 +44,12 @@
 
             <div v-if="person.fields['Short']" class="People-name-short _margin-bottom">
               <div v-html="$md.strip($md.render(person.fields['Short'] || ''))" />
+            </div>
+
+
+            <div v-if="roles || jobTitle" class="People-roles _font-small ">
+              <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
+              <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
             </div>
 
             <div class="People-orgs Dir-row _margin-top _margin-bottom-2">

@@ -230,7 +230,7 @@
       </div>
       <div v-else-if="issue.fields['Data:AuthorDescription']" class="Capsid-author Capsid-author-card" v-html="$md.render(issue.fields['Data:AuthorDescription'])" />
 
-      <div v-if="citation" id="Capsid-cite" class="Capsid-cite _divider-top " >
+      <div v-if="authors && authors[0] && citation" id="Capsid-cite" class="Capsid-cite _divider-top " >
         <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
         <h6 class="--inline">How to Cite</h6>
         <div v-if="issue.fields['Meta:Citation:Text']" >
@@ -353,8 +353,8 @@ export default {
     // if(process.server && process.pd_env == 'stage') {
     // console.log('capsid data:', process.env.pd_env)
     if(process.env.pd_env == 'stage') {
-      // console.log('[Capsid] Cached data conversion:')
-      // console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
+      console.log('[Capsid] Cached data conversion:')
+      console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
 
 
       

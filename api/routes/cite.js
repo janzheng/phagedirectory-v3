@@ -13,6 +13,7 @@ app.use(cors({
     'https://www.phage.directory',
     'https://phagedirectory.yawnxyz.now.sh',
     'https://phagedirectory-spa.yawnxyz.now.sh',
+    'https://phagedirectory-staging.yawnxyz.now.sh',
   ]
 }))
 

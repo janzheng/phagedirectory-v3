@@ -81,12 +81,12 @@
     { "src": "/slack", "status": 301, "headers": { "Location": "https://phagedirectory.slack.com/join/shared_invite/enQtNzA2OTI0MTk4Mzc0LTU4Yjg0NTY2NWEyMzUyZDMxMDJjMmEyZGFiNDcyYmIxMzYxYTRkZjBjZGY3YjNlODc2MWFhNTAwNjBmYzQyYmY" }},
     { "src": "/chat", "status": 301, "headers": { "Location": "https://calendly.com/phage/quick-chat" }},
 
-    { "src": "/slides/gt", "status": 301, "headers": { "Location": "https://docs.google.com/presentation/d/1KuULY6MWHAcjQnv55fywuTT3_luyn5KnijPH8BAD8io/edit#slide=id.p10" }},
-
+    { "src": "/slides/canada", "status": 301, "headers": { "Location": "https://docs.google.com/presentation/d/17Vyz53a_KQ-k_8dUR4KEJZ1JODgdG1Gw9k6807ZDZlE/edit?usp=sharing" }},
+    { "src": "/slides/background", "status": 301, "headers": { "Location": "https://docs.google.com/presentation/d/117uZQp8CfDjM-t2Lo7K3jm6V1NOQTDIOpD52cfd4XzU/edit?usp=sharing" }},
 
     { "src": "/apply/profile", "status": 301, "headers": { "Location": "https://airtable.com/shrbZHMw6R2dCij9v" } },
-    { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrJzoZ7LocbmuTNP" } },
-    { "src": "/apply/professionals", "status": 301, "headers": { "Location": "https://airtable.com/shrJzoZ7LocbmuTNP" } },
+    { "src": "/apply/researchers", "status": 301, "headers": { "Location": "https://airtable.com/shrGMrWM274i1xv6I" } },
+    { "src": "/apply/professionals", "status": 301, "headers": { "Location": "https://airtable.com/shrbZHMw6R2dCij9v" } },
     { "src": "/apply/labs", "status": 301, "headers": { "Location": "https://airtable.com/shrRZfnjvaKOx3eeK" } },
     { "src": "/apply/medical", "status": 301, "headers": { "Location": "https://airtable.com/shrdIUxOsr411hNwR" } },
     { "src": "/apply/phagebanks", "status": 301, "headers": { "Location": "https://airtable.com/shrPtmSf5dxdeBnoy" } },
@@ -97,6 +97,8 @@
 
 
     { "src": "/capsid/author-schedule", "status": 301, "headers": { "Location": "https://docs.google.com/spreadsheets/d/1rmUF9x-sihs_DqUhSwGTZbJWrY5-RUxdR0ZFjDThHP4/edit?usp=sharing" } },
+
+    { "src": "/capsid/author-guide", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Capsid-Tail-Guest-Writer-Guide-8206f242215d4f008a27a4f8c07096a1" } },
 
 
     { "src": "/(.*)", "dest": "/" },

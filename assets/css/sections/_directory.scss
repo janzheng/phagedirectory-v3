@@ -323,6 +323,10 @@
     .Dir-title {
       padding-bottom: 0;
     }
+    .Dir-social {
+      position: relative;
+      bottom: $size-quart;
+    }
     .People-container {
       @extend ._grid-auto-1;
       @extend ._align-vertically;

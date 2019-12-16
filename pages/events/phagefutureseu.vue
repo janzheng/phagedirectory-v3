@@ -76,12 +76,12 @@
                 :show-now="false"
                 :show-next="false"
 
-                :show-future="true"
-                :show-past="false"
+                :show-future="false"
+                :show-past="true"
                 :show-all="false"
                 :agenda="agenda"
                 :count="8"
-                class="_card _padding"
+                class="_card _padding --archive"
               />
             </div>
 

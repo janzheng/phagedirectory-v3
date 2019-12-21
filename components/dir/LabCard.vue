@@ -38,6 +38,10 @@
               <div class="Dir-label">Website</div>
               <a :href="url" class="_wordbreak --url">{{ url }}</a>
             </div>
+            <div v-if="lab.fields['Social:Twitter']" class="Dir-link Dir-block">
+              <div class="Dir-label">Twitter</div>
+              <a :href="`https://twitter.com/${lab.fields['Social:Twitter']}`" class="_wordbreak --url">{{ getTwitter }}</a>
+            </div>
             <div v-if="PIs" class="Dir-block">
               <div class="Dir-label">Principal Investigator<span v-if="PIs.length>1">s</span></div>
               <span v-for="item of PIs" :key="item.name">
@@ -109,6 +113,14 @@ export default {
     'phageCollections': Array,
   },
   computed: {
+    getTwitter() {
+      let twitter = this.lab.fields['Social:Twitter']
+      if(twitter.substring(0,1) == '@')
+        return twitter
+      else
+        return '@'+twitter
+    },
+
     url() {
       let string = this.lab.fields['URL']
 

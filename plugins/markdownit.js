@@ -11,6 +11,8 @@ import MarkdownItFootnote from 'markdown-it-footnote'
 import MarkdownItDeflist from 'markdown-it-deflist'
 import MarkdownItMark from 'markdown-it-mark'
 
+import sanitize from 'sanitize-html'
+
 // this one's great but MASSIVE
 // import markdownItTocAndAnchor from "markdown-it-toc-and-anchor"
 
@@ -39,6 +41,19 @@ export default ({ }, inject) => {
   //   anchorLink: false,
   // })
 
+  md['removeHTML'] = function strip(html) {
+    let clean = sanitize(html, {
+      allowedTags: [], // allow nothing
+      // allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
+      // allowedAttributes: {
+      //   'a': [ 'href' ]
+      // },
+    })
+    // console.log('clean html:', clean)
+
+    return clean
+  }
+
   md['strip'] = function (md, start='<p>', end="</p>") {
     // add functionality to strip the annoying <p></p> from a rendered markdown
     // really useful for rendering markdown content in to an H1, etc.
@@ -48,7 +63,6 @@ export default ({ }, inject) => {
   }
 
   inject('md', md)
-
 
 }
 

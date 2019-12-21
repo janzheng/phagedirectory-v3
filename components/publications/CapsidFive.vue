@@ -337,7 +337,7 @@ export default {
 
     let head = headMatter({
       twitterCard: "summary_large_image",
-      title: this.issue.fields['Data:Title:String'],
+      title: this.$md.removeHTML(this.$md.render(this.issue.fields['Data:Title'] || '')),
       description: this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages",
       author: author ? author.fields['Name'] : undefined,
       twitterCreator: author ? author.fields['Social:Twitter'] : undefined,

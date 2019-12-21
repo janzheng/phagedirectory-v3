@@ -66,14 +66,14 @@ export default {
 
   components: {
     Cytosis,
-    // NodeForm,
+    NodeForm,
     Template,
   },
 
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content-copy"],
+    tableQueries: ["_content"],
     // tableQueries: ["_content-copy","atoms-events"],
   },
 
@@ -154,6 +154,7 @@ export default {
       profiledata: null,
       slug: "",
       passcode: "",
+      form: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
     }
 
     // let item = await this.$cytosis.getRecord({
@@ -198,8 +199,8 @@ export default {
 
     // console.log('Citing:', this.cite())
     return {
-      hello: "banana"
-      // form: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
+      hello: "banana",
+      form: this.$cytosis.findOne('form-tester', this.$store.state['Content'] ),
     }
   },
   

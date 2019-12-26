@@ -5,11 +5,11 @@
 import MarkdownIt from 'markdown-it'
 
 import MarkdownItAttrs from 'markdown-it-attrs'
-import MarkdownItSup from 'markdown-it-sup'
-import MarkdownItFootnote from 'markdown-it-footnote'
+// import MarkdownItSup from 'markdown-it-sup'
+// import MarkdownItFootnote from 'markdown-it-footnote'
 // import LinkifyIt from 'linkify-it'
-import MarkdownItDeflist from 'markdown-it-deflist'
-import MarkdownItMark from 'markdown-it-mark'
+// import MarkdownItDeflist from 'markdown-it-deflist'
+// import MarkdownItMark from 'markdown-it-mark'
 
 import sanitize from 'sanitize-html'
 
@@ -31,11 +31,11 @@ export default ({ }, inject) => {
     breaks: true,
   })
   md.use(MarkdownItAttrs)
-  md.use(MarkdownItSup)
-  md.use(MarkdownItFootnote)
+  // md.use(MarkdownItSup)
+  // md.use(MarkdownItFootnote)
   // md.use(LinkifyIt) // really good at detecting links
-  md.use(MarkdownItDeflist) // http://johnmacfarlane.net/pandoc/README.html#definition-lists
-  md.use(MarkdownItMark) // == this text is marked == this text is not
+  // md.use(MarkdownItDeflist) // http://johnmacfarlane.net/pandoc/README.html#definition-lists
+  // md.use(MarkdownItMark) // == this text is marked == this text is not
 
   // md.use(markdownItTocAndAnchor, {
   //   anchorLink: false,

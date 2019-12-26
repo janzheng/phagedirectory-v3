@@ -61,7 +61,7 @@ import { mapState } from 'vuex'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import CapsidSignup from '~/components/layout/FooterSignups-capsid.vue'
 import { loadQuery } from '~/other/loaders'
-import _ from 'lodash'
+import _ from '~/other/lodash.custom.min.js'
 
 export default {
 

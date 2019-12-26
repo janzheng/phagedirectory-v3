@@ -48,7 +48,7 @@ const airtable_base = process.env.PD_AIRTABLE_PUBLIC_BASE;
 const db_api = process.env.PD_AIRTABLE_DB_API; 
 const db_base = process.env.PD_AIRTABLE_DB_BASE;
 
-const analyze = false; // analyzer (webpack; turn off for prod)
+// const analyze = false; // analyzer (webpack; turn off for prod) use --analyze instead for visualizer
 const offline = false;
 let mode = 'universal';
 // let mode = 'spa' // FOR ZEIT: universal/ssr seems broken, but spa mode seems to work like surge
@@ -246,14 +246,6 @@ export default {
   plugins: [
     { src: '~/plugins/syslog.js' },
     { src: '~/plugins/sizeup.js' },
-    // { src: '~/plugins/cite.js' },
-    // '~plugins/filters.js',nuxtjs/google-tag-manager
-    // { src: '~/plugins/plugintest.js', ssr: false }
-    // { src: '~/plugins/lazyload.js', ssr: false },
-    // { src: '~/plugins/pictureswipe.js', ssr: false },
-    // { src: '~/plugins/paypal.js', ssr: false },
-    // { src: '~/plugins/disqus.js', ssr: false },
-    // { src: '~/plugins/twitter.js', ssr: false }, // very heavy
     { src: '~/plugins/markdownit.js' },
     { src: '~/plugins/cytosis.js' },
     { src: '~/plugins/date.js' },
@@ -354,7 +346,7 @@ export default {
     // },
 
     // https://willbrowning.me/reducing-the-vendor-bundle-size-in-nuxt-js/
-    analyze: analyze, // use --analyze instead for visualizer
+    // analyze: analyze, // use --analyze instead for visualizer
     minimize: true,
     // cache: true,
     extractCSS: true, // moves css out to its own file in gen

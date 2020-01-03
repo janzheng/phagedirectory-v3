@@ -9,6 +9,10 @@
   &.--sponsor, &.--highlight {
     background-color: usetheme(highlight); //$color-teal-50;
   }
+  
+  &.--tall {
+  	line-height: $size-2;
+  }
 }
 
 

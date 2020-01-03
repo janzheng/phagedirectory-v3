@@ -252,12 +252,12 @@ export default {
     { src: '~/plugins/readtime.js' },
     { src: '~/plugins/headmatter.js' },
     { src: '~/plugins/slugify.js' },
-    { src: '~plugins/vue-scrollto.js' },
     // https://github.com/Developmint/nuxt-purgecss
     // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
     { src: '~/plugins/drift.js', mode: 'client' }, // ssr: false is deprecated
     { src: '~/plugins/scrollspy.js', mode: 'client' },
+    { src: '~/plugins/vue-scrollto.js', mode: 'client' },
     { src: '~/plugins/segment.js', mode: 'client' },
 
     // needs to be loaded last (after all the other analytics etc.)
@@ -525,14 +525,14 @@ export default {
           path: '/capsid/:slug*',
           component: resolve(__dirname, 'pages/routers/r-capsid.vue')
         },
-        {
-          // Dynamic Template Router
-          // catches all routes and attempts to find a template
-          // throws error if it can't
-          name: 'capsid & tail router',
-          path: '/capsidnew/:slug*',
-          component: resolve(__dirname, 'pages/routers/r-capsid-new.vue')
-        },
+        // {
+        //   // Dynamic Template Router
+        //   // catches all routes and attempts to find a template
+        //   // throws error if it can't
+        //   name: 'capsid & tail router',
+        //   path: '/capsidnew/:slug*',
+        //   component: resolve(__dirname, 'pages/routers/r-capsid-new.vue')
+        // },
         {
           name: 'capsid & tail email generator',
           path: '/capsidemail/:slug*',

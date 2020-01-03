@@ -3,7 +3,7 @@
 
   <div :class="atom.fields['Data:Status']" class="Job _card _padding " >
 
-    <div class="Job-header ">
+    <div v-if="atom.fields['Data:Categories']" class="Job-header ">
 
       <div v-if="getCover" class="Job-logo" >
         <img :src="getCover" alt="Job logo">
@@ -37,11 +37,14 @@
     </div>
 
     <div class="Job-content">
-      <div v-html="$md.render(atom.fields['Markdown'] || '')" />
+      <!-- 2019 style w/ lots of metadata-->
+      <div v-if="atom.fields['Data:Categories']" v-html="$md.render(atom.fields['Markdown'] || '')" />
+      <!-- no metadata -->
+      <div v-if="!atom.fields['Data:Categories']" v-html="$md.strip($md.render(atom.fields['Markdown'] || ''))" />
     </div>
 
-    <div v-if="!isExpired && atom.fields['URL']" class="Job-action ">
-      <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply _button --short --outline _margin-bottom-none _margin-right-half" target="_blank">More Details</a>
+    <div v-if="!isExpired && atom.fields['URL']" class="Job-action _margin-top">
+      <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply _button --short --outline _margin-bottom-none-i _margin-right-half" target="_blank">More Details</a>
       <span v-if="atom.fields['Data:DateEnd']" class="Job-expiry _font-small --nowrap">
         Last day to apply: <span class="_font-bold">{{ atom.fields['Data:DateEnd'] | niceDate }} </span>
       </span>

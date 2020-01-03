@@ -133,10 +133,20 @@
   }
 
 }
+// .Dir-label {
+//   color: usetheme(copy-light);
+//   line-height: usetheme(font-1-lh);
+//   // @extend ._label;
+// }
+// }
 .Dir-label {
   color: usetheme(copy-light);
-  line-height: usetheme(font-1-lh);
+  line-height: usetheme(font-2-lh);
   // @extend ._label;
+
+  & + span {
+    line-height: usetheme(font-2-lh);
+  }
 }
 
 .Dir-card {

@@ -177,7 +177,10 @@ img {
       cursor: text;
       position: absolute;
       padding-left: $size +2px;
+      padding-bottom: 0; // fixes a click bug
       z-index: 1;
+      width: 100%;  // these take care of a weird focus bug
+      pointer-events: none;
       // color: usetheme(disabled-text);
       &, p { // sometimes markdown generates a p
         line-height: $size-6;
@@ -194,6 +197,7 @@ img {
 
     // shrunken
     ._form-input:focus, 
+    ._form-input:focus-within,
     ._form-input:active,
     ._form-input.--data,
     ._form-input.--open, {
@@ -205,8 +209,9 @@ img {
           color: usetheme(disabled-text);
           font-size: usetheme(font-small);
           line-height: $size;
-          padding-top: $size-quart;
+          padding-top: $size-half;
           @extend %ease-fast;
+          width: 100%;  // these take care of a weird focus bug
         }
       }
     }

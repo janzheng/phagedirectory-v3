@@ -36,7 +36,7 @@
 import _ from '~/other/lodash.custom.min.js'
 
 import { mapState } from 'vuex'
-import VueScrollTo from 'vue-scrollto'
+// import VueScrollTo from 'vue-scrollto'
 
 import Header from '~/components/layout/Header.vue'
 import Footer from '~/components/layout/Footer.vue'
@@ -125,7 +125,7 @@ export default {
       } 
       if(_this.$route.hash) {
         const scroll = _.throttle(function () {
-          VueScrollTo.scrollTo(_this.$route.hash, 900, {
+          _this.$scrollTo(_this.$route.hash, 900, {
            offset: -50
          })
         }, 600)

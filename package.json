@@ -2,7 +2,7 @@
   "name": "PhageDirectory3",
   "version": "3.0.0",
   "description": "Phage Directory main site",
-  "author": "janzheng <janeazy@gmail.com>",
+  "author": "Jan Zheng <jan@phage.directory>",
   "private": true,
   "engines": {
     "node": "10.x"
@@ -71,7 +71,7 @@
     "slugify": "^1.3.4",
     "uuid-by-string": "^2.1.5",
     "vue": "2.6.11",
-    "vue-scrollto": "^2.15.0",
+    "vue-scrollto": "^2.17.1",
     "vue-segment-analytics": "^0.3.1",
     "vue-template-compiler": "^2.6.11",
     "vue2-scrollspy": "^2.3.1",

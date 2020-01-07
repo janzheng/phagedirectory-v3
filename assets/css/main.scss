@@ -215,6 +215,11 @@ img {
         }
       }
     }
+
+    textarea._form-input  {
+      padding-top: $size-6;
+      height: inherit;
+    }
   }
 
   // .Formlet-textarea {
@@ -235,3 +240,21 @@ img {
   // }
 }
 
+
+._width-fit-content {
+  width: fit-content;
+}
+
+
+// forms
+  ._success {
+    @extend ._card;
+    padding: $size-half $size;
+    margin-top: $size-half;
+    border: $border-thin solid usetheme(success);
+    background-color: lighten(usetheme(success), 40%);
+  }
+
+
+// for buttons with --text, consider removing left/right borders b/c they prevent text from aligning properly
+// if they're above/below each other — but don't remove top/bottom borders or they won't align w/ buttons!

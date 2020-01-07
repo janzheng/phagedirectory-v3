@@ -14,10 +14,11 @@ export function headMatter({
   author, 
   twitterCreator, // author's twitter
   twitterCard,
+  meta,
 }) {
   let head = {
     title: title,
-    meta: [],
+    meta: meta || [],
   }
 
   head['title'] = title 

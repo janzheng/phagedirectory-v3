@@ -130,7 +130,7 @@
 
                 <div class="Capsid-section-content" >
                   <div v-if="updates.length > 0" >
-                    <div v-for="item of updates" :key="item.id" class="_margin-top" >
+                    <div v-for="item of updates" :key="item.id" class="Capsid-section-content-wrapper" >
                       <CapsidNew :atom="item" />
                     </div>
                   </div>
@@ -150,7 +150,7 @@
 
                 <div class="Capsid-section-content" >
                   <div v-if="jobs.length > 0" >
-                    <div v-for="item of jobs" :key="item.id" class="_margin-top">
+                    <div v-for="item of jobs" :key="item.id" class="Capsid-section-content-wrapper">
                       <CapsidJob :atom="item" />
                     </div>
                   </div>

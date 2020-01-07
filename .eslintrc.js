@@ -43,6 +43,9 @@ module.exports = {
   plugins: [
     'vue'
   ],
+  "globals": {
+      "twttr": false, // twitter widgets include is an external source
+  },
   // add your custom rules here
   rules: {
     "no-unused-vars": "warn",

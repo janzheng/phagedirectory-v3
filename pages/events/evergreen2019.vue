@@ -26,6 +26,7 @@
               :authors="authors"
               :show-now="false"
               :show-next="false"
+              @showMore="refresh"
             />
 
             <!-- <div class="post">
@@ -112,16 +113,28 @@ import Timeline from '~/components/events/Timeline.vue'
 // import Posters from '~/components/events/Posters.vue'
 import EvgPromo from '~/components/events/EvergreenPromo.vue'
 import { loadQuery } from '~/other/loaders'
+import { headMatter } from '~/other/headmatter.js'
 // import NodeForm from '~/components/render/NodeForm.vue'
 // import Toggle from '~/components/Toggle.vue'
 
 export default {
   head () {
-    const title = "Evergreen 2019: LIVE"
 
-    return {
-      title,
-    }
+    let head = headMatter({
+
+      // twitterCard: "summary_large_image",
+      title: "Evergreen 2019: LIVE",
+      // description: "Progressing phage therapy to treat acute and chronic infections safely and economically",
+      // author: "Phage Directory & Kisacro Research",
+      // imageUrl: "https://dl.airtable.com/.attachments/30f5bcaaf32bdc9646d99deb936de9bb/caa96734/pfeu_banner.png", 
+      url: "https://phage.directory/events/evergreen2019",
+    })
+
+    head['script'] = [
+      { src: 'https://platform.twitter.com/widgets.js', defer: true, async: true }
+    ]
+
+    return head
   },
 
   components: {
@@ -188,8 +201,15 @@ export default {
     })
   },
 
-  // methods: {
-  // }
+  methods: {
+    refresh() {
+      // defined in the include
+      // eslint no-undef: "off"
+      // eslint-env node
+      twttr.widgets.load()
+    }
+  }
+
 
 }
 

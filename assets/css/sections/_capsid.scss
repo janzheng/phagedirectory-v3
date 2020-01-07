@@ -292,6 +292,14 @@ $capsid_: (
     padding: $size;
   }
 
+  .Capsid-section-content-wrapper {
+    margin-top: $size-half;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
 // capsid card sections are encapsulated in this
 .Capsid-item {
   img {

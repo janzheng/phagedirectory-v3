@@ -233,6 +233,9 @@ export default {
 
       if(this.postCount >= 48)
         this.postCount = this.fullAgenda.length
+
+      // necessary for twitter, etc.
+      this.$emit('showMore')
     },
     getAuthor(post) {
       if (post.fields['Author'])

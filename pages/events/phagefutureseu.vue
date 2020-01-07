@@ -1,153 +1,157 @@
 <template>
 
-  <div class="Evergreen">
-    <no-ssr>
+  <div class="EventsLive">
+    <!-- <client-only> -->
 
-      <Template 
-        grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap"
-        header-classes="Template--Header _section-page _margin-bottom _margin-center _margin-top-none-i _padding-none-i" 
-        sidebar-classes="--sticky --top-1"
-      >
+    <Template 
+      grid-classes="Template--Main-Sidebar _grid-3-1-sm _grid-gap"
+      header-classes="Template--Header _section-page _margin-bottom _margin-center _margin-top-none-i _padding-none-i" 
+      sidebar-classes="--sticky --top-1"
+    >
 
-        <template #header>
-          <div v-if="intro" :class="intro.fields['Data:Classes']" class="_margin-bottom _divider-bottom _md-pfix" v-html="$md.render(intro.fields['Markdown'] || '')"/>
-        </template>
+      <template #header>
+        <div v-if="intro" :class="intro.fields['Data:Classes']" class="_margin-bottom _divider-bottom _md-pfix" v-html="$md.render(intro.fields['Markdown'] || '')"/>
+      </template>
 
 
 
-        <template #default>
+      <template #default>
 
-          <div v-if="announcements" :class="announcements.fields['Data:Classes']" class="_margin-bottom _divider-bottom" v-html="$md.render(announcements.fields['Markdown'] || '')"/>
-          <div v-scroll-spy class="scrollspy" >
+        <div v-if="announcements" :class="announcements.fields['Data:Classes']" class="_margin-bottom _divider-bottom" v-html="$md.render(announcements.fields['Markdown'] || '')"/>
+        <div v-scroll-spy class="scrollspy" >
 
-            <div id="timeline" class=" _divider-bottom" >
-              <h2 class="--title">Live Blog</h2>
-              <Timeline 
-                :timeline="timeline"
-                :agenda="agenda"
-                :authors="authors"
-                :show-now="false"
-                :show-next="false"
-                :count="6"
-                class="_card _padding"
-              />
-
-              <!-- {{ timeline }} -->
-
-              <!-- <div class="post">
-                <a target="_blank" class="_button _width-full CTA _margin-bottom-none-i _center" href="https://airtable.com/shrqc7FzTrk8pRHS3">Post to our Evergreen feed!</a>
-              </div> -->
-
-              <!--<Toggle class="_pointer" :no-close-allowed="true">
-                <template #off>
-                  Post to the feed
-                </template>
-                <template #on>
-                  <iframe class="airtable-embed" src="https://airtable.com/embed/shrqc7FzTrk8pRHS3?backgroundColor=pink" frameborder="0" onmousewheel="" width="100%" height="533" style="background: transparent; border: 1px solid #ccc;"></iframe>
-
-                  <!~~ autosize ~~>
-                  <!~~ <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script><iframe class="airtable-embed airtable-dynamic-height" src="https://airtable.com/embed/shrqc7FzTrk8pRHS3?backgroundColor=pink" frameborder="0" onmousewheel="" width="100%" height="400" style="background: transparent; border: 1px solid #ccc;"></iframe> ~~>
-                </template>
-              </Toggle>-->
-            </div>
-
-            <!-- <Agenda 
-              :show-now="true"
-              :show-next="true"
-
-              :show-future="true"
-              :show-past="false"
-              :show-all="true"
+          <div id="timeline" class=" _divider-bottom" >
+            <h2 class="--title">Live Blog</h2>
+            <Timeline 
+              :timeline="timeline"
               :agenda="agenda"
-              /> -->
+              :authors="authors"
+              :show-now="false"
+              :show-next="false"
+              :count="6"
+              class="_card _padding"
+              @showMore="refresh"
+            />
 
-            <!-- <EvgPromo class="_hidden-sm-up" /> -->
+            <!-- {{ timeline }} -->
 
-            <div v-if="agenda" id="agenda" class=" _divider-bottom">
+            <!-- <div class="post">
+              <a target="_blank" class="_button _width-full CTA _margin-bottom-none-i _center" href="https://airtable.com/shrqc7FzTrk8pRHS3">Post to our Evergreen feed!</a>
+            </div> -->
 
-              <div class="_grid-2-xs _align-baseline _padding-bottom">
-                <h2 class="_padding-none">Agenda</h2>
-                <div class="_font-small _right">
-                  <!-- <a>Full Agenda</a> |  --><a href="https://dl.airtable.com/.attachments/9c9ab102121cdd9b46bc2a9aeacd4742/b68ef9f3/phagefutureseurope2019main8.pdf">Download PDF</a>
-                </div>
-              </div>
+            <!--<Toggle class="_pointer" :no-close-allowed="true">
+              <template #off>
+                Post to the feed
+              </template>
+              <template #on>
+                <iframe class="airtable-embed" src="https://airtable.com/embed/shrqc7FzTrk8pRHS3?backgroundColor=pink" frameborder="0" onmousewheel="" width="100%" height="533" style="background: transparent; border: 1px solid #ccc;"></iframe>
 
-              <Agenda 
-                :show-now="false"
-                :show-next="false"
-
-                :show-future="false"
-                :show-past="true"
-                :show-all="false"
-                :agenda="agenda"
-                :count="8"
-                class="_card _padding --archive"
-              />
-            </div>
-
-            <Posters v-if="posters && posters.length>0" id="posters" :posters="posters" class="_card _padding _divider-bottom">
-              <h6>Posters</h6>
-              <!-- <NodeForm class="_margin-bottom-2" :src="formPosters"/> -->
-            </Posters>
-
-            <div id="staff" >
-              <h2>Live Staff</h2>
-              <Staff v-if="authors && authors.length>0" :staff="authors" class="_card _padding _divider-bottom">
-                <!-- <NodeForm class="_margin-bottom-2" :src="formPosters"/> -->
-              </Staff>
-            </div>
-
+                <!~~ autosize ~~>
+                <!~~ <script src="https://static.airtable.com/js/embed/embed_snippet_v1.js"></script><iframe class="airtable-embed airtable-dynamic-height" src="https://airtable.com/embed/shrqc7FzTrk8pRHS3?backgroundColor=pink" frameborder="0" onmousewheel="" width="100%" height="400" style="background: transparent; border: 1px solid #ccc;"></iframe> ~~>
+              </template>
+            </Toggle>-->
           </div>
-        </template>
 
-
-        <!-- sidebar -->
-        <template #context>
-          <div class="Sidebar">
-            <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
-                 v-scroll-spy-link="{selector: 'a._sidebar-item'}"
-                 class="scrollspy _card --silver" 
-            >
-              <nuxt-link to="#timeline" class="_sidebar-item _block --active-disabled">
-                Live Blog
-              </nuxt-link>
-              <nuxt-link v-if="agenda" to="#agenda" class="_sidebar-item _block --active-disabled">
-                Agenda
-              </nuxt-link>
-              <nuxt-link v-if="posters && posters.length>0" to="#posters" class="_sidebar-item _block --active-disabled">
-                Posters
-              </nuxt-link>
-            </div>
-          </div>
-          
-          <div clas="_sidebar-footer">
-            <nuxt-link
-              v-scroll-to="{
-                el: '#staff'
-              }"
-              to="#staff" 
-              class="_font-smaller _block _padding-left --active-disabled --link-none">
-              Live Staff
-            </nuxt-link>
-            <div class="_margin-top-2">
-              <a href="https://www.kisacoresearch.com/events/phage-futures-europe" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/d139e0ac20c52b687eca42db29aeac30/04ede483/ScreenShot2019-09-10at4.06.47PM.png" alt="Phage Futures 2019 details"></a>
-              <div class="_padding-bottom-half _font-small">Sponsored by <a href="https://www.kisacoresearch.com/">Kisaco Research</a></div>
-            </div>
-          </div>
-          <!-- just now and what's next -->
           <!-- <Agenda 
-            :agenda="agenda"
             :show-now="true"
             :show-next="true"
-            :show-all="false"
-          /> -->
 
-        </template>
+            :show-future="true"
+            :show-past="false"
+            :show-all="true"
+            :agenda="agenda"
+            /> -->
 
-      </Template>
-    </no-ssr>
+          <!-- <EvgPromo class="_hidden-sm-up" /> -->
 
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
+          <div v-if="agenda" id="agenda" class=" _divider-bottom">
+
+            <div class="_grid-2-xs _align-baseline _padding-bottom">
+              <h2 class="_padding-none">Agenda</h2>
+              <div class="_font-small _right">
+                <!-- <a>Full Agenda</a> |  --><a href="https://dl.airtable.com/.attachments/9c9ab102121cdd9b46bc2a9aeacd4742/b68ef9f3/phagefutureseurope2019main8.pdf">Download PDF</a>
+              </div>
+            </div>
+
+            <Agenda 
+              :show-now="false"
+              :show-next="false"
+
+              :show-future="false"
+              :show-past="true"
+              :show-all="false"
+              :agenda="agenda"
+              :count="8"
+              class="_card _padding --archive"
+            />
+          </div>
+
+          <Posters v-if="posters && posters.length>0" id="posters" :posters="posters" class="_card _padding _divider-bottom">
+            <h6>Posters</h6>
+            <!-- <NodeForm class="_margin-bottom-2" :src="formPosters"/> -->
+          </Posters>
+
+          <div id="staff" >
+            <h2>Live Staff</h2>
+            <Staff v-if="authors && authors.length>0" :staff="authors" class="_card _padding _divider-bottom">
+              <!-- <NodeForm class="_margin-bottom-2" :src="formPosters"/> -->
+            </Staff>
+          </div>
+
+        </div>
+      </template>
+
+
+      <!-- sidebar -->
+      <template #context>
+        <div class="Sidebar">
+          <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
+               v-scroll-spy-link="{selector: 'a._sidebar-item'}"
+               class="scrollspy _card --silver" 
+          >
+            <nuxt-link to="#timeline" class="_sidebar-item _block --active-disabled">
+              Live Blog
+            </nuxt-link>
+            <nuxt-link v-if="agenda" to="#agenda" class="_sidebar-item _block --active-disabled">
+              Agenda
+            </nuxt-link>
+            <nuxt-link v-if="posters && posters.length>0" to="#posters" class="_sidebar-item _block --active-disabled">
+              Posters
+            </nuxt-link>
+          </div>
+        </div>
+        
+        <div clas="_sidebar-footer">
+          <nuxt-link
+            v-scroll-to="{
+              el: '#staff'
+            }"
+            to="#staff" 
+            class="_font-smaller _block _padding-left --active-disabled --link-none">
+            Live Staff
+          </nuxt-link>
+          <div class="_margin-top-2">
+            <a href="https://www.kisacoresearch.com/events/phage-futures-europe" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/d139e0ac20c52b687eca42db29aeac30/04ede483/ScreenShot2019-09-10at4.06.47PM.png" alt="Phage Futures 2019 details"></a>
+            <div class="_padding-bottom-half _font-small">Sponsored by <a href="https://www.kisacoresearch.com/">Kisaco Research</a></div>
+          </div>
+        </div>
+        <!-- just now and what's next -->
+        <!-- <Agenda 
+          :agenda="agenda"
+          :show-now="true"
+          :show-next="true"
+          :show-all="false"
+        /> -->
+
+      </template>
+
+    </Template>
+    <!-- </client-only> -->
+    <!-- 
+      <client-only>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8" />
+      </client-only> 
+    -->
 
   </div>
 </template>
@@ -177,8 +181,12 @@ export default {
       description: "Progressing phage therapy to treat acute and chronic infections safely and economically",
       author: "Phage Directory & Kisacro Research",
       imageUrl: "https://dl.airtable.com/.attachments/30f5bcaaf32bdc9646d99deb936de9bb/caa96734/pfeu_banner.png", 
-      url: "https://phage.directory/phagefutures",
+      url: "https://phage.directory/events/phagefutureseu",
     })
+
+    head['script'] = [
+      { src: 'https://platform.twitter.com/widgets.js', defer: true, async: true }
+    ]
 
     return head
   },
@@ -257,8 +265,11 @@ export default {
     })
   },
 
-  // methods: {
-  // }
+  methods: {
+    refresh() {
+      twttr.widgets.load()
+    }
+  }
 
 }
 

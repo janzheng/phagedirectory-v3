@@ -12,13 +12,13 @@
     </div>
 
     <div class="_flex-1">
-      <h4 class="" v-if="atom.fields['Data:Title']" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
+      <h4 v-if="atom.fields['Data:Title']" v-html="$md.strip($md.render(atom.fields['Data:Title'] || ''))" />
       <div v-if="atom.fields['Data:Source']" class="_md-pfix _font-bold" v-html="$md.render(atom.fields['Data:Source'] || '')" />
       <div v-if="atom.fields['Data:Subtitle']" v-html="$md.render(atom.fields['Data:Subtitle'] || '')" />
       <div v-if="atom.fields['Markdown']" v-html="$md.strip($md.render(atom.fields['Markdown'] || ''))" />
     </div>
 
-    <div class="Capsid-item-taglist _margin-top-half" >
+    <div v-if="atom.fields['Data:Categories']" class="Capsid-item-taglist _margin-top-half" >
       <span v-if="atom.fields['Data:Categories']" class="_tag --highlight --nowrap" >{{ atom.fields['Data:Categories'][0] }}</span> 
       <span v-for="item of atom.fields['Data:Tags']" :key="item" :class="item == 'Sponsor' || item == 'Promotion' ? '--sponsor' : ''" class="Capsid-item-tag _tag --nowrap" >{{ item }}</span>
     </div>

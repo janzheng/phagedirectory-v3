@@ -40,9 +40,14 @@ input, .input, %input {
 textarea, .textarea { 
   border-radius: $radius;
   background-color: usetheme(purewhite); // purewhite stands out w/ colored bg
-  border-color: usetheme(brand-10); // grabs attention w/ border color
-  border-bottom-color: usetheme(border-brand, $forms);
+  // border-color: usetheme(brand-10); // grabs attention w/ border color
+  // border-bottom-color: usetheme(border-brand, $forms);
 
+  border: solid $border-thin usetheme(border-brand, $forms);
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  
   @extend %font-sans;
 
   &:focus, &:active, &:hover {

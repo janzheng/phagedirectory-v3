@@ -63,6 +63,9 @@
 }
 
 .Dir-social { // icons
+  // icons need to show up in a row
+  white-space: nowrap;
+  @extend ._wordbreak; // text-overflow wrap
 }
   .Dir-icon {
     text-decoration: none;
@@ -91,9 +94,13 @@
 
 .Dir-title {
   // padding-top: $size-half;
-  padding-bottom: $size;
   // margin-bottom: $size-half;
-  line-height: $size-5;
+  // padding-bottom: $size;
+  // line-height: $size-5; // this is too tall for wrapped
+
+  // padding-bottom: $size-2;
+  line-height: $size-4; // this is too tall for wrapped lines
+
   font-weight: 500;
 
   &, * {
@@ -336,6 +343,9 @@
     .Dir-social {
       position: relative;
       bottom: $size-quart;
+      white-space: nowrap;
+      @extend ._wordbreak; // text-overflow wrap
+      padding-left: $size-2;
     }
     .People-container {
       @extend ._grid-auto-1;

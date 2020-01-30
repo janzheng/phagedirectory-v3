@@ -7,7 +7,7 @@
       </div>
 
       <div id="mc_embed_signup_footer">
-        <form id="mc-embedded-subscribe-form" action="https://directory.us19.list-manage.com/subscribe/post?u=a95319e0a6f57b754b11012a8&amp;id=98ef5d6bca" method="post" name="mc-embedded-subscribe-form" class="validate" target="_blank">
+        <form id="mc-embedded-subscribe-form-footer" action="https://directory.us19.list-manage.com/subscribe/post?u=a95319e0a6f57b754b11012a8&amp;id=98ef5d6bca" method="post" name="mc-embedded-subscribe-form-footer" class="validate" target="_blank">
           <div id="mc_embed_signup_footer-scroll">
             <div id="mce-responses" class="clear hhoney">
               <div id="mce-error-response" style="display:none" class="response" />

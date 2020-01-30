@@ -93,7 +93,7 @@
     </div>
 
     <!-- Type: Speaker -->
-    <div v-else-if="agendaType == 'Speaker' " :class="[agendaType, expiredClass]" class="AgendaEvent-item --speaker">
+    <div v-else-if="agendaType == 'Speaker' || agendaType == 'Discussion'" :class="[agendaType, expiredClass]" class="AgendaEvent-item --speaker">
       <AgendaCard>
         <div slot="type">{{ agendaType }}</div>
         <div slot="date">{{ event.fields['Time:Nice'] }}</div>

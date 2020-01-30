@@ -339,10 +339,10 @@ export default {
           citation = cite_data.data // JSON.parse(cite_data.data)
 
           // console.log('WT Citation URL:', cite_url )
-          if(!process.env.api_url) {
+          // if(!process.env.api_url) {
             // console.log('WT Citation Object:', cite_data.data )
             // citation = JSON.parse(cite_data.data) // webtask returns a stringified obj
-          }
+          // }
           // console.log('>>> Citation Object ::::', citation)
         }
 

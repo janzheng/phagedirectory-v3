@@ -54,6 +54,19 @@ export default ({ }, inject) => {
     return clean
   }
 
+  md['removeLinks'] = function strip(html) {
+    let clean = sanitize(html, {
+      allowedTags: ['p', 'div', 'b', 'i', 'em', 'strong', 'ul', 'li'], // allow nothing
+      // allowedTags: [ 'b', 'i', 'em', 'strong', 'a' ],
+      // allowedAttributes: {
+      //   'a': [ 'href' ]
+      // },
+    })
+    // console.log('clean html:', clean)
+
+    return clean
+  }
+
   md['strip'] = function (md, start='<p>', end="</p>") {
     // add functionality to strip the annoying <p></p> from a rendered markdown
     // really useful for rendering markdown content in to an H1, etc.

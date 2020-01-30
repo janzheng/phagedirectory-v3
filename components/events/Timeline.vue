@@ -41,7 +41,7 @@
         :post="item"
         :author="getAuthor(item)"
         v-if="item.fields['Data:Type'] == 'Timeline'" 
-        class="Timeline-post _grid-gap _margin-bottom-2" 
+        class="_padding-bottom-2 _grid-gap _margin-bottom-2" 
       />
       <!-- <StreamCard v-if="!post['isAgenda']" class="PhageFutures-post _grid-gap-small">
         <div v-if="getAuthor(post)" slot="sidebar" class="PhageFutures-post-sidebar _margin-bottom-half-xs" >

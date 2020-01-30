@@ -9,16 +9,16 @@
       </div>
     </div>
     
-    <!-- 
-    <div class="Home-promo _margin-top-2 _padding-top-2 _padding-bottom-2 _margin-bottom-2 _color-bg-white">
+    
+    <!-- <div class="Home-promo _margin-top-2 _padding-top-2 _padding-bottom-2 _margin-bottom-2 _color-bg-white">
       <div class="_section-page _margin-center">
-        <PhageFuturesEUHome>
+        <PhageFuturesHome>
           <div slot="default" class="" v-html="$md.render(promo || '') "/>
           <div slot="footer" class="" v-html="$md.render(promofooter || '') "/>
-        </PhageFuturesEUHome>
+        </PhageFuturesHome>
       </div>
-    </div>
-     -->
+    </div> -->
+    
 
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
@@ -79,7 +79,7 @@ import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import NodeForm from '~/components/render/NodeForm.vue'
 
-// import PhageFuturesEUHome from '~/components/events/PhageFuturesEUHome.vue'
+// import PhageFuturesHome from '~/components/events/PhageFuturesHome.vue'
 
 
 const _numLatest = 8 // latest number of Atoms to show in the feed
@@ -94,7 +94,7 @@ export default {
     CapsidStub,
     NodeForm,
 
-    // PhageFuturesEUHome,
+    // PhageFuturesHome,
   },
 
   layout: 'contentframe',
@@ -119,8 +119,8 @@ export default {
     return {
       isStaging: process.env.pd_env == 'stage' ? true : false,
 
-      promo: this.$cytosis.findField('pfeu-promo', this.$store.state['Content'], 'Markdown' ),
-      promofooter: this.$cytosis.findField('pfeu-promofooter', this.$store.state['Content'], 'Markdown' ),
+      promo: this.$cytosis.findField('pf-promo', this.$store.state['Content'], 'Markdown' ),
+      promofooter: this.$cytosis.findField('pf-promofooter', this.$store.state['Content'], 'Markdown' ),
 
       mission: this.$cytosis.findField('home-mission', this.$store.state['Content'], 'Markdown' ),
       featured: this.$cytosis.findField('home-featured', this.$store.state['Content'], 'Markdown' ),

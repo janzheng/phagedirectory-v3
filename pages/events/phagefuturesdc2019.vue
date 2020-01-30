@@ -31,7 +31,7 @@
                 :authors="authors"
                 :show-now="false"
                 :show-next="false"
-                :count="6"
+                :count="1000"
                 @showMore="refresh"
               />
 
@@ -76,7 +76,7 @@
                 :show-past="true"
                 :show-all="false"
                 :agenda="agenda"
-                :count="6"
+                :count="1000"
                 class="--archive"
               />
             </div>

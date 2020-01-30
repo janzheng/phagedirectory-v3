@@ -113,6 +113,7 @@ app.use(formData.union());
 
 function loadProfile(capsId) {
   try {
+    console.log('loadProfile w/ capsId:', capsId)
     // console.log('ONE:', process.env.PD_AIRTABLE_PRIVATE_MGR_API, 'TWO:', process.env.PD_AIRTABLE_DB_BASE)
     const _cytosis = new Cytosis({
       airKey: process.env.PD_AIRTABLE_DB_API,
@@ -134,6 +135,7 @@ function loadProfile(capsId) {
 
 function loadEvent(eventName) {
   try {
+    console.log('loadEvent w/ eventName:', eventName)
     // console.log('ONE:', process.env.PD_AIRTABLE_PRIVATE_MGR_API, 'TWO:', process.env.PD_AIRTABLE_DB_BASE)
     const _cytosis = new Cytosis({
       airKey: process.env.PD_AIRTABLE_DB_API,
@@ -146,13 +148,14 @@ function loadEvent(eventName) {
     });
     return _cytosis;
   } catch(err) {
-    console.error('[Timeline/loadProfile] Error:', err)
+    console.error('[Timeline/loadEvent] Error:', err)
     return Promise.reject()
   }
 }
 
 async function loadTimelineBase(event) {
   try {
+    console.log('loadTimelineBase w/ event:', event)
     const _cytosis = await new Cytosis({
       airKey: process.env.PD_AIRTABLE_PRIVATE_MGR_API,
       airBase: 'appEuZLle3bAy2g2g', // Live Public DB — hard coded to remain flexible
@@ -186,6 +189,7 @@ async function loadTimelineAuthor(authorslug, config) {
 
 function loadManager(profileslug) {
   try {
+    console.log('[Timeline/loadManager] w/ profile:', profileslug)
     const _cytosis = new Cytosis({
       airKey: process.env.PD_AIRTABLE_PRIVATE_MGR_API,
       airBase: process.env.PD_AIRTABLE_PRIVATE_MGR_BASE,

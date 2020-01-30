@@ -430,7 +430,7 @@ export default {
         {
           name: 'phage futures temporary',
           path: '/phagefutures',
-          component: resolve(__dirname, 'pages/events/phagefutureseu.vue')
+          component: resolve(__dirname, 'pages/events/phagefuturesdc2020.vue')
         },
           {
             name: 'phage futures feedback',

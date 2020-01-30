@@ -4,11 +4,11 @@
   <div :class="classes" class="Signup _card --tertiary-80 _margin-none">
     <!-- Begin Mailchimp Signup Form -->
     <div id="mc_embed_signup">
-      <form id="mc-embedded-subscribe-form"
+      <form id="mc-embedded-subscribe-form-request"
             class="Signup-form _height-100 validate"
             action="https://directory.us19.list-manage.com/subscribe/post?u=a95319e0a6f57b754b11012a8&amp;id=95f1c1372a"
             method="post"
-            name="mc-embedded-subscribe-form"
+            name="mc-embedded-subscribe-form-request"
             target="_blank" novalidate
       >
         <div id="mc_embed_signup_scroll">

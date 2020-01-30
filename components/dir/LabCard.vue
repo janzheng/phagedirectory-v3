@@ -76,13 +76,13 @@
             </div>
             <div v-if="linkedPhageCollections.length == 0" class="Dir-miniCard">
               <!-- empty state -->
-              No phages added yet
+              No phage hosts added yet
             </div>
             <div v-for="item of linkedPhageCollections" :key="item.id" class="Dir-miniCard">
               <div class="">
                 <div class="Dir-row">{{ item.fields['Name:Nice'] }}</div>
                 <div class="Dir-row">
-                  <nuxt-link :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}</nuxt-link>, {{ item.fields['Owners:People::Roles'].join(', ') }}
+                  <nuxt-link v-if="item.fields['Owners:People::Name'][0]" :to="`/people#${item.fields['Owners:People::Slug']}`" class="--url">{{ item.fields['Owners:People::Name'][0] }}, </nuxt-link>{{ item.fields['Owners:People::Roles'].join(', ') }}
                 </div>
               </div>
               <div class="Dir-block">
@@ -100,6 +100,7 @@
       </div>
     
     </div>
+
   </div>
 </template>
 

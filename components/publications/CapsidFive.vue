@@ -352,7 +352,7 @@ export default {
 
     // if(process.server && process.pd_env == 'stage') {
     // console.log('capsid data:', process.env.pd_env)
-    if(process.env.pd_env == 'stage') {
+    if(process.env.pd_env == 'stage' && process.client) {
       console.log('[Capsid] Cached data conversion:')
       console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
 

@@ -69,9 +69,9 @@
         </div>
 
         <!-- leave Alerts ABOVE the whats new area to call it out -->
-        <div v-if="alerts.length>0" class="_Capsid-alerts " >
+        <div v-if="alerts.length>0" class="_Capsid-alerts _Capsid-section-content" >
           <div v-for="item of alerts" :key="item.id" class="_margin-bottom" >
-            <Alert :atom="item" />
+            <CapsidAlert :atom="item" />
           </div>
         </div>
       </div>
@@ -202,7 +202,7 @@
 
         <div id="_Capsid-cite" class="_Capsid-cite" v-if="citationData">
           <h6 class="">How to Cite</h6>
-          <div v-if="issue.fields['Meta:Citation:Text']" >
+          <div v-if="issue.fields['Meta:Citation:Text']">
             <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
           </div>
 
@@ -216,7 +216,7 @@
               <div v-if="loading">Loading...</div>
               <div v-else>
                 <div style="padding-bottom: 6px;">To cite this issue , please use:</div>
-                <div class="_Capsid-apa _card _padding" v-html="$md.render(data.apa )" />
+                <div class="_Capsid-apa _card _padding --bg_white" v-html="$md.render(data.apa )" />
               </div>
             </div>
           </AxiosPost>
@@ -256,18 +256,19 @@ import CapsidShare from '~/components/publications/CapsidShare'
 import CapsidSponsor from '~/components/publications/CapsidSponsor'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
+import CapsidAlert from '~/components/publications/CapsidAlert'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCardEmail.vue'
-import Alert from '~/components/Alert.vue'
+// import Alert from '~/components/Alert.vue'
 
 import AxiosPost from '~/components/AxiosPost.vue'
 
 export default {
 
   components: {
-    Alert,
+    CapsidAlert,
     CapsidSponsor,
     CapsidShare,
     CapsidNew,
@@ -801,6 +802,11 @@ img {
   padding-bottom: 12px;
 }
 
+._font-small {
+  font-size: 14px;
+  line-height: 18px;
+}
+
 ._Capsid-bibtex, ._Capsid-bibtex .csl-entry, ._Capsid-bibtex li {
   font-family: monospace;
 }
@@ -821,6 +827,13 @@ img {
   .--highlight {
     background-color: #D6F9FF;
   }
+  .--alert {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #D43615 !important;
+    color: white !important;
+    margin-bottom: 16px !important;
+  }
 
 ._card {
   /*box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);*/
@@ -830,6 +843,9 @@ img {
   margin-bottom: 12px;
   background-color: #FAFAFA;
 }
+  ._card.Urgent {
+    border-top: 3px solid #D43615;
+  }
 
 ._button-link {
   padding-right: 8px;
@@ -933,6 +949,10 @@ li {
   margin-top: 4px;
   margin-right: 8px;
   display: inline-block;
+}
+
+.--bg_white {
+  background: #ffffff !important;
 }
 
 </style>

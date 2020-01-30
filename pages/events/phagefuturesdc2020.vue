@@ -20,6 +20,7 @@
         <div v-if="announcements" :class="announcements.fields['Data:Classes']" class="_margin-bottom _divider-bottom" v-html="$md.render(announcements.fields['Markdown'] || '')"/>
         <div v-scroll-spy class="scrollspy" >
 
+
           <div id="timeline" class=" _divider-bottom" >
             <h2 class="--title">Live Blog</h2>
             <Timeline 
@@ -28,7 +29,7 @@
               :authors="authors"
               :show-now="false"
               :show-next="false"
-              :count="105"
+              :count="8"
               class="_card _padding"
               @showMore="refresh"
             />
@@ -69,7 +70,7 @@
             <div class="_grid-2-xs _align-baseline _padding-bottom">
               <h2 class="_padding-none">Agenda</h2>
               <div class="_font-small _right">
-                <!-- <a>Full Agenda</a> |  --><a href="https://dl.airtable.com/.attachments/9c9ab102121cdd9b46bc2a9aeacd4742/b68ef9f3/phagefutureseurope2019main8.pdf">Download PDF</a>
+                <!-- <a>Full Agenda</a> |  --><a href="https://dl.airtable.com/.attachments/b6568615fe9ad5229b02df9931e5543e/b6d4198b/phage_futures_agenda_2020.pdf">Download PDF</a>
               </div>
             </div>
 
@@ -78,10 +79,10 @@
               :show-next="false"
 
               :show-future="false"
-              :show-past="true"
-              :show-all="false"
+              :show-past="false"
+              :show-all="true"
               :agenda="agenda"
-              :count="8"
+              :count="24"
               class="_card _padding --archive"
             />
           </div>
@@ -131,7 +132,7 @@
             Live Staff
           </nuxt-link>
           <div class="_margin-top-2">
-            <a href="https://www.kisacoresearch.com/events/phage-futures-europe" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/d139e0ac20c52b687eca42db29aeac30/04ede483/ScreenShot2019-09-10at4.06.47PM.png" alt="Phage Futures 2019 details"></a>
+            <a href="https://phage-futures.com/events/phage-futures-2020" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/3b23ed38e0e1ab0cd60d55b84f019468/9712be9e/pfdc2020.jpg" alt="Phage Futures 2019 details"></a>
             <div class="_padding-bottom-half _font-small">Sponsored by <a href="https://www.kisacoresearch.com/">Kisaco Research</a></div>
           </div>
         </div>
@@ -177,11 +178,11 @@ export default {
     let head = headMatter({
 
       twitterCard: "summary_large_image",
-      title: "Phage Futures Europe 2019",
+      title: "Phage Futures Congress 2020",
       description: "Progressing phage therapy to treat acute and chronic infections safely and economically",
-      author: "Phage Directory & Kisacro Research",
+      author: "Phage Directory & Kisaco Research",
       imageUrl: "https://dl.airtable.com/.attachments/30f5bcaaf32bdc9646d99deb936de9bb/caa96734/pfeu_banner.png", 
-      url: "https://phage.directory/events/phagefutureseu",
+      url: "https://phage.directory/events/phagefuturesdc2020",
     })
 
     head['script'] = [
@@ -222,8 +223,8 @@ export default {
       _key: 'keyAe6M1KoPfg25aO', // Live Public DB
       _base: 'appEuZLle3bAy2g2g', // Live Public DB
       store, 
-      routeName: 'pfeu-2019', 
-      query: 'pfeu-2019'
+      routeName: 'pfdc-2020', 
+      query: 'pfdc-2020'
     })
 
     // no timeline caching
@@ -231,9 +232,12 @@ export default {
       _key: 'keyAe6M1KoPfg25aO', // Live Public DB
       _base: 'appEuZLle3bAy2g2g', // Live Public DB
       store, 
-      routeName: 'pfeu-2019-timeline', 
-      query: 'pfeu-2019-timeline'
+      routeName: 'pfdc-2020-timeline', 
+      query: 'pfdc-2020-timeline'
     })
+
+    if(!event)
+      return {}
 
     return {
       posters: event.tables['Posters'],
@@ -242,8 +246,8 @@ export default {
       agenda: event.tables['Agenda'],
       authors: event.tables['Authors'],
 
-      intro: app.$cytosis.findOne('pfeu-intro', event.tables['Content'] ),
-      announcements: app.$cytosis.findOne('pfeu-announcements', event.tables['Content'] ),
+      intro: app.$cytosis.findOne('pfdc2020-intro', event.tables['Content'] ),
+      announcements: app.$cytosis.findOne('pfdc2020-announcements', event.tables['Content'] ),
     }
   },
 
@@ -258,7 +262,7 @@ export default {
     this.$segmentize({
       segment: this.$segment,
       type: 'page',
-      event: 'Event/PhageFuturesEU2019',
+      event: 'Event/PhageFuturesDC2019',
       data: {
         path: this.$route.path,
       }

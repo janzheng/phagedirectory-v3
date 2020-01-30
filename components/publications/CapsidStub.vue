@@ -8,6 +8,7 @@
 <template>
 
   <div class="Capsid Capsid-Stub _height-100" :data-name="`/capsid/${issue.fields.Slug}`">
+
     <div v-if="isFeatured" >
       <nuxt-link :key="issue.id"
                  :to="`/capsid/${issue.fields.Slug}`"
@@ -39,7 +40,7 @@
         </div>
 
         <h1 class="Capsid-title _padding" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
-        <div v-if="authors" class="Capsid-author-main _padding-left _padding-right">
+        <div v-if="authors && authors.length > 0" class="Capsid-author-main _padding-left _padding-right">
           <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
             <!-- <span class="_flex-row">
               <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
@@ -53,7 +54,7 @@
             </span>
           </div>
         </div>
-        <div class="Capsid-lede _padding" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
+        <div class="Capsid-lede _padding" v-html="$md.removeLinks($md.strip($md.render(issue.fields['Data:Lede'] || '')))" />
       </nuxt-link>
     </div>
 
@@ -72,7 +73,7 @@
             <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
           </div>
           <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
-          <div v-if="authors" class="Capsid-author-main _margin-bottom ">
+          <div v-if="authors && authors.length > 0" class="Capsid-author-main _margin-bottom ">
             <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
               <span class="_flex-row">
                 <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
@@ -82,9 +83,10 @@
             </div>
           </div>
         </div>
-        <div class="Capsid-lede" v-html="$md.strip($md.render(issue.fields['Data:Lede'] || ''))" />
+        <div class="Capsid-lede" v-html="$md.removeLinks($md.strip($md.render(issue.fields['Data:Lede'] || '')))" />
       </nuxt-link>
     </div>
+
   </div>
 </template>
 

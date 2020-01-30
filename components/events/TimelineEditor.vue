@@ -8,7 +8,6 @@
           <Card :author="profile" :post="post" class="Timeline-edit-preview-card" />
         </div>
 
-
         <div class="Timeline-editor _divider-top-half ">
 
           <div class="Timeline-edit-background _card _padding _color-bg-white">
@@ -73,7 +72,7 @@
             </div>
 
             <div :class="!hasChanged ? '--notChanged' : ''" class="Timeline-edit-ctabar _margin-top">
-              <div class="_grid-1-3 _align-vertically">
+              <div class="">
                 <div>
                   <button v-if="!isSaving" class="_button _width-full _margin-bottom-none-i" @click="saveData" >Post to Timeline!</button>
                   <button v-if="isSaving" class="_button _width-full _margin-bottom-none-i --disabled"><span class="_inine-block _margin-right-2 _spinner" /> Posting...</button>

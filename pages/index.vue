@@ -9,17 +9,17 @@
       </div>
     </div>
     
-    
-    <!-- <div class="Home-promo _margin-top-2 _padding-top-2 _padding-bottom-2 _margin-bottom-2 _color-bg-white">
-      <div class="_section-page _margin-center">
-        <PhageFuturesHome>
-          <div slot="default" class="" v-html="$md.render(promo || '') "/>
-          <div slot="footer" class="" v-html="$md.render(promofooter || '') "/>
-        </PhageFuturesHome>
+    <!-- <no-ssr>
+      <div class="Home-promo _margin-top-2 _padding-top-2 _padding-bottom-2 _margin-bottom-2 _color-bg-white">
+        <div class="_section-page _margin-center">
+          <PhageFuturesHome>
+            <div slot="default" class="" v-html="$md.render(promo || '') "/>
+            <div slot="footer" class="" v-html="$md.render(promofooter || '') "/>
+          </PhageFuturesHome>
+        </div>
       </div>
-    </div> -->
+    </no-ssr> -->
     
-
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
                 grid-classes="Template--Main-Sidebar-xs _grid-3-1 _grid-gap"

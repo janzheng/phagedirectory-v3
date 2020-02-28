@@ -11,9 +11,10 @@
 
       <template #header>
         <div v-if="intro" :class="intro.fields['Data:Classes']" class="_margin-bottom _divider-bottom _md-pfix" v-html="$md.render(intro.fields['Markdown'] || '')"/>
+
+        <div v-if="questions" :class="questions.fields['Data:Classes']" class="_margin-bottom _divider-bottom _md-pfix" v-html="$md.render(questions.fields['Markdown'] || '')"/>
+
       </template>
-
-
 
       <template #default>
 
@@ -248,6 +249,7 @@ export default {
 
       intro: app.$cytosis.findOne('pfdc2020-intro', event.tables['Content'] ),
       announcements: app.$cytosis.findOne('pfdc2020-announcements', event.tables['Content'] ),
+      questions: app.$cytosis.findOne('pfdc2020-questions', event.tables['Content'] ),
     }
   },
 
@@ -271,7 +273,8 @@ export default {
 
   methods: {
     refresh() {
-      twttr.widgets.load()
+      if(typeof(twttr) !== 'undefined')
+        twttr.widgets.load()
     }
   }
 

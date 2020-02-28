@@ -6,34 +6,34 @@
  -->
 
 <template>
-  <div class="Template-Documentation">
+  <div class="route-node">
     <!-- generated ssr gets screwy with these, but zeit now is fine -->
-    <!-- <no-ssr> -->
-    <!-- 
-    <div class="_section-page">
-      <h6>[ t-router ] </h6>
-      <div class="_card _padding">Node: {{ node }}</div>
-      <div class="_card _padding">Source: {{ source }}</div>
-    </div> -->
+    <client-only>
+      <!-- 
+      <div class="_section-page">
+        <h6>[ t-router ] </h6>
+        <div class="_card _padding">Node: {{ node }}</div>
+        <div class="_card _padding">Source: {{ source }}</div>
+      </div> -->
 
-    <!-- consider using dynamic loading only after too many templates (> 7) -->
-    <div v-if="node">
+      <!-- consider using dynamic loading only after too many templates (> 7) -->
+      <div v-if="node">
 
-      <!-- For landing pages and basic articles -->
-      <TemplateArticle v-if="node && node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
+        <!-- For landing pages and basic articles -->
+        <TemplateArticle v-if="node && node.fields['Render:Template'] == 'Article'" :node="node" :route="route" />
 
-      <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
-      <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
+        <!-- For lists like alerts, jobs, etc. (not developed, curr. using documentation -->
+        <!-- <TemplateDatalist v-if="node.fields['Render:Template'] == 'Article'" :node="node" :route="route" /> -->
 
-      <!-- <TemplateDocs :node="node" :route="route" /> -->
-      <TemplateDocumentation v-if="node && node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
+        <!-- <TemplateDocs :node="node" :route="route" /> -->
+        <TemplateDocumentation v-if="node && node.fields['Render:Template'] == 'Documentation'" :node="node" :route="route" />
 
-      <!-- scroll spy alt -->
-      <TemplateScrollDocumentation v-if="node && node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
-    </div>
+        <!-- scroll spy alt -->
+        <TemplateScrollDocumentation v-if="node && node.fields['Render:Template'] == 'ScrollDocumentation'" :node="node" :route="route" />
+      </div>
 
 
-    <!-- </no-ssr> -->
+    </client-only>
   </div>
 </template>
 
@@ -74,7 +74,7 @@ export default {
 
     return {
       route: this.$router.history.current,
-      node: undefined
+      // node: undefined
     }
   },
 
@@ -97,28 +97,42 @@ export default {
     // const slug = '/' + unescape(this.$router.history.current.params.slug)
     console.log('[Node Router] slug:', slug)
 
-    const _this = this
+    // const _this = this
     // const node = app.$cytosis.findOne(slug, store.state['Content'], ['Slug']) // unable to find connected nodes
-    const node = app.$cytosis.findOne(slug, store.state['Content'], ['Node:AbsolutePath'])
 
-    // console.log('Node Router: node :: ', node)
+    try {
+      const node = app.$cytosis.findOne(slug, store.state['Content'], ['Node:AbsolutePath'])
 
-    if(node && node.fields) {
-        _this.node = node
+      // console.log('[Node Router] node:', node, node.fields)
 
-      // special type of node that redirects to another page
-      if(node.fields['Type'] && node.fields['Type'] == 'Node:Redirect' && node.fields['Data:String']) {
-        window.location.replace(node.fields['Data:String'])
+      // console.log('Node Router: node :: ', node)
+
+      if(node && node.fields) {
+        // this.node = node
+
+        // console.log('[Node Router] node fields:', node.fields)
+
+        // special type of node that redirects to another page
+        if(node.fields['Type'] && node.fields['Type'] == 'Node:Redirect' && node.fields['Data:String']) {
+          window.location.replace(node.fields['Data:String'])
+        }
+
+        console.log('[Node Router] node no redirect:')
+
+        return {
+          node: node,
+        }
+      } else {
+        console.error('[Node Router] Else: Node not found for slug:', slug)
+        // put in a SENTRY thing here that catches all the weird routes
+        // bots sometimes try to get to
+        error({ statusCode: 404, message: "Page not Found [node empty]" })
       }
-
-      return {
-        node: node,
-      }
-    } else {
-      console.error('[Node Router] Node not found for slug:', slug)
+    } catch(err) {
+      console.error('[Node Router] Caught: Node not found for slug:', err)
       // put in a SENTRY thing here that catches all the weird routes
       // bots sometimes try to get to
-      error({ statusCode: 404, message: "Page not Found" })
+      error({ statusCode: 404, message: "Page not Found [node error]" })
     }
 
   },

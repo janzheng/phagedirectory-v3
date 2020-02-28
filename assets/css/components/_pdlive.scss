@@ -283,10 +283,12 @@ a.TimelineCard-author {
       font-weight: bold;
     }
     .AgendaEvent-item-speakers {
-      margin-top: $size-half;
-      font-size: $font-small;
-      line-height: $font-small * 1.5;
-      padding-bottom: $size;
+      &, * {
+        margin-top: $size-half;
+        font-size: $font-small;
+        line-height: $font-small * 1.5;
+        padding-bottom: $size;
+      }
     }
 
     &.--meta-major {

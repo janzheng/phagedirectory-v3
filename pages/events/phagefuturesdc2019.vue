@@ -251,7 +251,8 @@ export default {
 
   methods: {
     refresh() {
-      twttr.widgets.load()
+      if(typeof(twttr) !== 'undefined')
+        twttr.widgets.load()
     }
   }
 

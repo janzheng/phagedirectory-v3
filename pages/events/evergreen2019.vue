@@ -206,7 +206,8 @@ export default {
       // defined in the include
       // eslint no-undef: "off"
       // eslint-env node
-      twttr.widgets.load()
+      if(typeof(twttr) !== 'undefined')
+        twttr.widgets.load()
     }
   }
 

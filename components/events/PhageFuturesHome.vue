@@ -62,6 +62,7 @@
 import Template from '~/templates/context.vue'
 import Timeline from '~/components/events/Timeline.vue'
 import { loadQuery } from '~/other/loaders'
+import { headMatter } from '~/other/headmatter.js'
 
 export default {
 
@@ -92,6 +93,7 @@ export default {
   },
 
   mounted: function () {
+    this.refresh()
   },
 
   methods: {
@@ -121,7 +123,14 @@ export default {
       this['content'] = event.tables['Content']
       this['agenda'] = event.tables['Agenda']
       this['authors'] = event.tables['Authors']
-    }
+
+      this.refresh()
+    },
+
+    refresh() {
+      if(typeof(twttr) !== 'undefined')
+        twttr.widgets.load()
+    },
   }
 
 }

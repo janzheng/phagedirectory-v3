@@ -14,7 +14,7 @@
         />
 
         <div>
-          <div v-if="formJson.action" class="Form-cta" >
+          <div v-if="formJson.action" class="Form-cta _margin-top" >
             <button v-if="!isSending" 
                     class="Form-btn _button _margin-none _center _padding-left _padding-right"
                     @click="submitHandler" 
@@ -137,7 +137,7 @@ export default {
 
         this.isSending = true
 
-        // console.log('Submitting data: ', data)
+        console.log('Submitting data: ', data, this.payload)
         axios.post(this.payload.handler, data)
         .then(function (response) {
           console.log('Message sent! Status:', response.status)

@@ -19,7 +19,7 @@
     <div class="TimelineCard-main" >
       <!-- <slot name="main" /> -->
       <div v-if="author" class="TimelineCard-header _margin-bottom-half" >
-        <div class="TimelineCard-post-meta _grid-3-2 _grid-gap-small">
+        <div class="TimelineCard-post-meta _grid-2 _grid-gap-small">
           <div>
             <!--<span v-if="author.fields['Twitter']">
               <!~~ <span class="TimelineCard-author" target="_blank">{{ author.fields['Name'] }}</span> ~~>

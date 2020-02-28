@@ -105,7 +105,7 @@ export default function ({route, env, store, error}) {
     keyword = route.params.slug // used to match keyword by field
   })[0]
 
-  console.log('[PageLoad] Loading page data: ', routeName, tableQuery)
+  console.log('[PageLoad] Loading page data: ', routeName, tableQuery, tableQueries, keyword)
 
 
   if(refreshOnLoad) {

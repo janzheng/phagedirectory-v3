@@ -97,7 +97,7 @@
             <CapsidShare :link="twitterLink" message="Tweet this issue!" class="_margin-top _margin-bottom-2" />
 
             <!-- leave Sponsors ABOVE the whats new area to call it out -->
-            <div v-if="sponsors.length>0" class="Capsid-sponsor _padding" >
+            <div v-if="sponsors.length>0" class="Capsid-sponsor " >
               <div v-for="item of sponsors" :key="item.id" class="_margin-bottom" >
                 <CapsidSponsor :atom="item" />
               </div>
@@ -190,11 +190,13 @@
                 <div class="Capsid-body Capsid-section _margin-center">
                   <div class="_section-article _padding-xs">
                     <!-- <h1 v-if="issue.fields['Data:Title']" id="article" class="Capsid-title" v-html="issue.fields['Data:Title']" /> -->
-                    <h1 class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
+
+                    <!-- only show title if we also have a body; Round Up issues won't show title  -->
+                    <h1 v-if="issue.fields['Data:Body']" class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
                     <!-- short description / name -->
 
                     <div v-if="authors && authors[0]" >
-                      <AuthorCard v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
+                      <AuthorCard v-if="item" v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
                     </div>
                     <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
                     <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
@@ -237,9 +239,9 @@
           <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
         </div>
         <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
-        <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render(citation.apa || '' )" />
+        <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render((citation && citation.apa) || '' )" />
         <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
-        <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render(citation.bibtex || '' )" />
+        <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render((citation && citation.bibtex) || '' )" />
       </div>
 
 
@@ -337,7 +339,7 @@ export default {
 
     let head = headMatter({
       twitterCard: "summary_large_image",
-      title: this.$md.removeHTML(this.$md.render(this.issue.fields['Data:Title'] || '')),
+      title: this.issue.fields['Data:Title'], //this.$md.removeHTML(this.$md.render(this.issue.fields['Data:Title'] || '')),
       description: this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages",
       author: author ? author.fields['Name'] : undefined,
       twitterCreator: author ? author.fields['Social:Twitter'] : undefined,
@@ -353,11 +355,13 @@ export default {
     // if(process.server && process.pd_env == 'stage') {
     // console.log('capsid data:', process.env.pd_env)
     if(process.env.pd_env == 'stage' && process.client) {
-      console.log('[Capsid] Cached data conversion:')
+    // if(process.client) {
+      console.group()
+      console.log('[Capsid] Cached data:')
       console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
-
-
-      
+      console.log('[Capsid] Citation')
+      console.log(JSON.stringify(this.citation))
+      console.groupEnd()
       // console.log('[Capsid] Cached data conversion:', this.$store.state['cytosisStore'][this.issue.fields['Slug']])
     }
 

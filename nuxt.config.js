@@ -86,9 +86,9 @@ if(pd_env=='prod' && mode=='universal') {
 // on zeit now staging
 if(pd_env=='stage' && mode=='universal') {
 // if(pd_env=='stage') {
-  useCytosisConfigCache = true
-  useCytosisDataCache = true
-  useCytosisPageCache = true
+  useCytosisConfigCache = false
+  useCytosisDataCache = false
+  useCytosisPageCache = false
 }
 
 // use stage / SPA to test uncached previews `yarn dev-spa`
@@ -424,6 +424,13 @@ export default {
       // to people and orgs; easier w/ a uniform id resolver
 
       routes.push(
+
+        // eligo temporary 4/24/2020
+        {
+          name: 'eligo biosciences job',
+          path: '/jobs/eligo',
+          component: resolve(__dirname, 'pages/jobs/eligo-4-24.vue')
+        },
 
 
         // phage futures temporary

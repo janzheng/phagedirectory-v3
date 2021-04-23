@@ -1,7 +1,7 @@
 <template>
   <div class="FooterSignups-alerts _radius">
     <div class="_padding _flex-col _height-100">
-      <div class="_flex-1" v-html="$md.render('We send [Phage Alerts](/alerts) to the community when doctors require phages to treat their patient’s infections. If you need phages, [please email us](staff@phage.directory).')" />
+      <div class="_flex-1" v-html="$md.render('We send [Phage Alerts](/alerts) to the community when doctors require phages to treat their patient’s infections. If you need phages, [please email us](mailto:staff@phage.directory).')" />
       <form class="" 
             action="https://tinyletter.com/phagedirectory" 
             method="post" target="popupwindow" 

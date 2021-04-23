@@ -279,6 +279,7 @@ export default {
         options: {
           'view': 'Latest:Published',
           'maxRecords': numLatest,
+          'sort': [{field:"Data:PubDate", "direction":"desc"}]
         }
       }).then((data) => {
 

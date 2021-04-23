@@ -7,10 +7,8 @@
 
 <template>
   <div :class="atom.fields['Data:Status']" class="Capsid-item Capsid-alert _card _color-bg-white _padding _margin-none _font-small" >
-    <div :class="atom.fields['Data:Status']" class="Alert-status-tag _tag --alert " >{{ atom.fields['Data:Status'] }}</div>
-    <div class="">{{ atom.fields['Data:Date'] | niceDate }}</div>
-
-
+    <div v-if="atom.fields['Data:Status']" :class="atom.fields['Data:Status']" class="Alert-status-tag _tag --alert " >{{ atom.fields['Data:Status'] }}</div>
+    <div v-if="atom.fields['Data:Date']" class="">{{ atom.fields['Data:Date'] | niceDate }}</div>
 
 
     <div class="_flex-1 _md-p_fix" v-html="$md.render(atom.fields['Markdown'] || '')" />

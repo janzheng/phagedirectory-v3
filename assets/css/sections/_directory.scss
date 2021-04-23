@@ -397,6 +397,8 @@
 // Right sidebar
 
 .Dir-sidebar {
+  position: relative;
+  
   .Dir-search {
     // @include screen-xs {
     width: 100%;

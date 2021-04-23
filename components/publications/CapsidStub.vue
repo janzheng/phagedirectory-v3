@@ -22,7 +22,6 @@
           <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
         </div> -->
         <div v-if="showLogo || showHeader" class="Capsid-logo ">
-
           <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" 
                class="Capsid-cover --stub" 
                :class="issue.fields['Cover:attrs'] || '_img-fit-cover'"
@@ -41,7 +40,7 @@
 
         <h1 class="Capsid-title _padding" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
         <div v-if="authors && authors.length > 0" class="Capsid-author-main _padding-left _padding-right">
-          <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
+          <div v-if="item" v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
             <!-- <span class="_flex-row">
               <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
               <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
@@ -74,9 +73,9 @@
           </div>
           <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
           <div v-if="authors && authors.length > 0" class="Capsid-author-main _margin-bottom ">
-            <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
+            <div v-if="item" v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
               <span class="_flex-row">
-                <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
+                <img v-if="item.fields['ProfileImage'] && item.fields['ProfileImage'].length > 0 && item.fields['ProfileImage'][0].thumbnails" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
                 <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
                 <div class="_font-normal _padding-left-half _align-vertically">{{ item.fields['Name'] }}</div>
               </span>

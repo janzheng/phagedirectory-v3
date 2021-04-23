@@ -21,7 +21,7 @@
                 </p>
               </div>
               <div class="_right-sm">
-                <a href="https://phage.directory/apply/researchers" class="_button CTA --inverse _width-100 _center">Sign Up</a>
+                <a href="https://phage.directory/apply/labs" class="_button CTA --inverse _width-100 _center">Sign Up</a>
               </div>
             </div>
 

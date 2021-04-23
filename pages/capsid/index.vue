@@ -125,17 +125,23 @@ export default {
 
     issues() {
       return this['Manuscripts']
+      
       // this is taken care of in airtable instead
       // return this['Manuscripts'].filter(t => t.fields['Status'] == 'Published')
     },
 
     latest() {
       // NOTE: this always pulls the TOP item from airtable. Make sure it's the right one!
-      return this.issues[0]
+
+      let arr = [...this.issues]
+      arr.sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
+      return arr[0]
     },
 
     notLatest() {
-      return this.issues.slice(1)
+      let arr = [...this.issues.slice(1)]
+      arr.sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
+      return arr
     },
 
 

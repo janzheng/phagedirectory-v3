@@ -9,6 +9,7 @@ app.use(require('express').json());
 app.use(cors({
   origin: [
     'http://localhost:1919',
+    'http://localhost:1919/capsid/',
     'https://phage.directory',
     'https://www.phage.directory',
     'https://phagedirectory.yawnxyz.now.sh',
@@ -28,7 +29,7 @@ async function getCite(lookup) {
 // [url]/api/cite/[doi, etc.] — merely for fetching full citation
 app.get("/api/cite/*", async (req, res, next) => {
   let input = req.params[0];
-  console.log('input:', input)
+  // console.log('citation input:', input)
   let citation = await getCite(input);
 
   let result = {
@@ -51,10 +52,14 @@ app.get("/api/cite/*", async (req, res, next) => {
 // [url]/api/cite/[doi, etc.] — post data for citation, meant for C&T
 app.post('/api/cite', async (req, res, next) => {
   try {
+    // return res.json({'banana':true});
+    
+
     const request = req.body;
     // const api_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
-    console.log('[Cite] Building Citation (req) ...', request)
+    // console.log('[Cite] Building Citation (req) ...', request)
     
+
     // // pass it on to webtask........ :P 
     // // there's a bug on Zeit Now that prevents citation-js from being added
     // let citation = await axios.post(api_url, request)
@@ -75,10 +80,11 @@ app.post('/api/cite', async (req, res, next) => {
 	    }),
 	  };
 
-		res.json(result);
+
+		return res.json(result);
 
   } catch(err) {
-    console.log('[Cite] Error:', err)
+    console.error('[Cite] Error:', err)
     next()
   }
   // let citation = new Cite(request.source);

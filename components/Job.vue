@@ -3,32 +3,34 @@
 
   <div :class="atom.fields['Data:Status']" class="Job _card _padding " >
 
-    <div v-if="atom.fields['Data:Categories']" class="Job-header ">
-
-      <div v-if="getCover" class="Job-logo" >
-        <img :src="getCover" alt="Job logo">
-      </div>
+    <div v-if="atom.fields['Data:Categories'] || atom.fields['Data:Type'] || atom.fields['Data:Tags']" class="Job-header">
 
       <div class="_grid-1-auto _align-vertically _margin-bottom _grid-gap-small">
-        <div>
-          <span v-if="atom.fields['Data:Categories']" class="Job-type _tag --highlight --nowrap _margin-bottom-none-i">
+        <div v-if="atom.fields['Data:Type']" >
+          <span class="Job-type _tag --highlight --nowrap _margin-bottom-none-i">{{ atom.fields['Data:Type'] }}</span><span v-if="atom.fields['Data:Categories']" class="Job-type _tag --nowrap _margin-bottom-none-i">
             {{ atom.fields['Data:Categories'][0] }}
           </span>
+        </div>
+
+        <div v-if="atom.fields['Data:Tags']" class="Job-tags">
+          <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="Job-tag _tag --nowrap">{{ item }}</span>
         </div>
         <div class="Job-date _right-sm _font-small">
           <span>Posted {{ atom.fields['Data:Date'] | dateTo }}</span>
         </div>
       </div>
 
-      <div class="Job-title _font-bold _margin-top-half ">
-        <h5 v-if="atom.fields['Data:Title']" class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
-      </div>
+      <!-- <div v-if="atom.fields['Data:Title']" class="Job-title _font-bold _margin-top-half ">
+        <h5 class="_inline _md-p_fix _padding-bottom-half" v-html="$md.strip($md.render( atom.fields['Data:Title'] || ''))" />
+      </div> -->
 
-      <div class="Job-tags _margin-bottom-half">
-        <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="Job-tag _tag --nowrap">{{ item }}</span>
-      </div>
 
       <div class="Job-info _margin-bottom _margin-top">
+
+        <div v-if="getCover" class="Job-logo _margin-top-2 _margin-bottom-2" >
+          <img :src="getCover" alt="Job logo" style="max-width: 240px">
+        </div>
+        
         <div v-if="atom.fields['Data:Source']">
           <strong>{{ atom.fields['Data:Source'] }}</strong>
         </div>
@@ -44,7 +46,8 @@
     </div>
 
     <div v-if="!isExpired && atom.fields['URL']" class="Job-action _margin-top">
-      <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply _button --short --outline _margin-bottom-none-i _margin-right-half" target="_blank">More Details</a>
+      <a v-if="atom.fields['Data:CTA']" :href="atom.fields['Data:CTA']" class="Job-action-apply CTA _button --short --bright _margin-bottom-none-i _margin-right-half" target="_blank">Apply Here</a>
+      <a v-if="atom.fields['Slug']" :href="`/jobs/${atom.fields['Slug']}`" class="Job-action-apply _button --short --outline _margin-bottom-none-i _margin-right-half" >Read more about the job</a>
       <span v-if="atom.fields['Data:DateEnd']" class="Job-expiry _font-small --nowrap">
         Last day to apply: <span class="_font-bold">{{ atom.fields['Data:DateEnd'] | niceDate }} </span>
       </span>

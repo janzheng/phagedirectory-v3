@@ -138,7 +138,6 @@ export default function ({route, env, store, error}) {
 
     // const data = await getData()
     const data = getData()
-    // console.log('finally', data.flat(2))
     return data
   }
   console.error("Don't forget to set a query to load from for pageload ")

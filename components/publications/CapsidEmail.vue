@@ -158,7 +158,9 @@
         <div id="article" class=" _padding" >
           <div class="_Capsid-body">
             <div class="">
-              <h1 class="_Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
+
+              <!-- only show title if we also have a body; Round Up issues won't show title  -->
+              <h1 v-if="issue.fields['Data:Body']" class="_Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title']))" />
               <div v-if="authors && authors[0]" >
                 <AuthorCard v-for="item of authors" :key="item.id" :person="item" :is-compact="true" class="_Capsid-author-short People-only-header --compact" />
               </div>
@@ -624,6 +626,13 @@ img {
 } 
 
 
+.Capsid-card {
+  padding: 16px;
+  margin-bottom: 8px;
+  background-color: #EEEEEE;
+  border-radius: 4px;
+}
+
 ._Capsid-cover {
   max-height: 300px !important;
   object-fit: cover;
@@ -851,6 +860,13 @@ img {
   padding-right: 8px;
 }
 
+._button.--bright {
+  background-color: #F1FBFF ; 
+  border-color: #0085FF ;
+  color: #0085FF ;
+}
+
+
 table._Capsid-author-header td {
   vertical-align: middle;
   padding: 8px;
@@ -940,15 +956,28 @@ li {
 
 
 .Job-action-apply {
-  border: 2px solid #FA5486 !important;
+  border: 2px solid #0085FF !important;
   text-decoration: none !important;
   font-weight: bold !important;
-  color: #202326 !important;
+  color: #0085FF !important;
   border-radius: 4px; 
   padding: 6px 12px;
   margin-top: 4px;
   margin-right: 8px;
   display: inline-block;
+  background-color: #F1FBFF;
+}
+.Job-secondary {
+  border: 2px solid transparent !important;
+  text-decoration: none !important;
+  font-weight: bold !important;
+  color: #2c85d6 !important;
+  border-radius: 4px; 
+  padding: 6px 12px;
+  margin-top: 4px;
+  margin-right: 8px;
+  display: inline-block;
+  background-color: #F1FBFF;
 }
 
 .--bg_white {

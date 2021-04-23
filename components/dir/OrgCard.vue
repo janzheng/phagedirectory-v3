@@ -34,9 +34,9 @@
           <div v-else-if="org.fields['Org:Types']" class="_margin-top-half">
             <span v-for="item of org.fields['Org:Types']" :key="item" class="_tag">{{ item }}</span>
           </div>
-          <div v-if="org.fields['URL']" class="">
+          <!-- <div v-if="org.fields['URL']" class="">
             <a v-if="org.fields['URL']" :href="org.fields['URL']" class="--url --none">{{ org.fields['URL'] }}</a>
-          </div>
+          </div> -->
         </div>
       </div>
 

@@ -42,7 +42,8 @@ $height-input: 48px; //inherit; // coeur sets a height limit on inputs, but we d
 
 // selective import for space saving
 @import '../../node_modules/coeur/styles/_utils.scss';
-@import '../../node_modules/coeur/styles/_heart.scss';
+// @import '../../node_modules/coeur/styles/_heart.scss';
+@import 'heart';
 
 
 
@@ -117,8 +118,11 @@ $baseline: $sizeline;
 
 
 $colors: (
+  white: #fafafa,
   // these are a bit stale (6/25/19)
   phdir: #71eff5,
+  green: #54A95D, // added 8-18-2020
+  red: #d43615,
   teal: #71eff5,
   teal_dull: #90D9DD,
   yellow: #FCCB4C,
@@ -284,18 +288,18 @@ $colors-mono: (
 $colorMap: colorTintMap($colors);
 
 $context: (
-  main: usetheme(brand),
-  secondary: usetheme(gray),
-  tertiary: usetheme(pink),
-  tertiary-dark: color(usetheme(pink), 122),
+  main: usetheme("brand"),
+  secondary: usetheme("gray"),
+  tertiary: usetheme("pink"),
+  tertiary-dark: color(usetheme("pink"), 122),
 
-  active: usetheme(pink-active),
-  links: usetheme(brand-dark),
-  hover: usetheme(pink-active), //usetheme(pink-active, $colors), // usetheme(pink, $colors),
-  links-decoration: usetheme(pink),//usetheme(pink, $colors),
+  active: usetheme("pink-active"),
+  links: usetheme("brand-dark"),
+  hover: usetheme("pink-active"), //usetheme(pink-active, $colors), // usetheme(pink, $colors),
+  links-decoration: usetheme("pink"),//usetheme(pink, $colors),
   // highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
-  highlight: usetheme(brand-40),
-  highlight-dark: usetheme(brand-60),
+  highlight: usetheme("brand-40"),
+  highlight-dark: usetheme("brand-60"),
   
   // highlight-light: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
   // advert: map-get($colorMap, pink-300), //usetheme(phdir, $colors),
@@ -304,57 +308,57 @@ $context: (
   // jobs: map-get($colorMap, teal-300),
   // community: map-get($colorMap, pink-300),
 
-  body: usetheme(blue-dark, $colors),
-  body-bg: usetheme(blue-dark),
-  copy: usetheme(brand-copy),
+  body: usetheme("blue-dark", $colors),
+  body-bg: usetheme("blue-dark"),
+  copy: usetheme("brand-copy"),
 
-  copy-dark: usetheme(mono-90),
-  copy-gray: usetheme(mono-80),
-  copy-light: usetheme(mono-60),
+  copy-dark: usetheme("mono-90"),
+  copy-gray: usetheme("mono-80"),
+  copy-light: usetheme("mono-60"),
 
-  header-color: usetheme(brand-100), // used for h1-h6
-  title-color: usetheme(brand), // used for logotype in nav
+  header-color: usetheme("brand-100"), // used for h1-h6
+  title-color: usetheme("brand"), // used for logotype in nav
   // header-bg-top: rgba(usetheme(gray), 0.02),
   // header-bg-scroll: rgba(usetheme(silver-lighter, $colors_), 0.86),
   // header-search-bg: rgba(usetheme(silver-lighter, $colors_), 0.26),
-  header-links: usetheme(gray),
-  header-active: usetheme(active),
+  header-links: usetheme("gray"),
+  header-active: usetheme("active"),
 
-  footer-bg: usetheme(blue-dark),
-  footer-copy: usetheme(white),
-  footer-links: usetheme(white),
-  footer-active: usetheme(brand),
+  footer-bg: usetheme("blue-dark"),
+  footer-copy: usetheme(white, $colors),
+  footer-links: usetheme(white, $colors),
+  footer-active: usetheme("brand"),
 
-  sidebar-bg: usetheme(silver-light),
+  sidebar-bg: usetheme("silver-light"),
 
-  border-color: usetheme(pink),
+  border-color: usetheme("pink"),
 
-  classroom-color: usetheme(pink-5),
+  classroom-color: usetheme("pink-5"),
 
-  bg: usetheme(white, $colors_),
-  bg-white: usetheme(white, $colors_),
-  bg-purewhite: usetheme(purewhite, $color-presets_),
-  bg-silver: usetheme(silver-light, $colors_),
-  bg-lighter: usetheme(silver-lighter, $colors_),
+  bg: usetheme(white, $colors),
+  bg-white: usetheme(white, $colors),
+  bg-purewhite: usetheme("purewhite", $color-presets_),
+  bg-silver: usetheme("silver-light", $color-presets_),
+  bg-lighter: usetheme("silver-lighter", $color-presets_),
 
-  btn-active: usetheme(brand-dark, $colors),
+  btn-active: usetheme("brand-dark", $colors),
   // bg-blue: usetheme(blue-dark, $colors_),
   // bg-blue-silver: usetheme(blue-silver, $colors),
   // tbd refactor later
   // blue: usetheme(blue, $colors_), // useful for alert-signup, when a blue color needed (prb needs fix later)
   // white: usetheme(white, $colors_), // contextually useful for text on dark backgrounds
 
-  card: usetheme(silver-light, $colors_),
+  card: usetheme("silver-light", $colors_),
 
   // alert-color-cta: usetheme(teal_dull, $colors),
 
-  alert: usetheme(brand-20),
-  success: usetheme(green, $colors_),
-  warning: usetheme(yellow, $colors_),
-  info: usetheme(_brown, $colors_),
-  danger: usetheme(red, $colors_),
-  disabled: usetheme(silver, $colors_),
-  disabled-text: usetheme(mono-80),
+  alert: usetheme("brand-20"),
+  success: usetheme(green, $colors),
+  warning: usetheme("yellow", $colors),
+  info: usetheme("brown", $colors_),
+  danger: usetheme(red, $colors),
+  disabled: usetheme("silver", $color-presets_),
+  disabled-text: usetheme("mono-80"),
   transparent: usetheme(transparent, $colors_),
 );
 

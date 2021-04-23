@@ -30,7 +30,7 @@
               :authors="authors"
               :show-now="false"
               :show-next="false"
-              :count="8"
+              :count="300"
               class="_card _padding"
               @showMore="refresh"
             />

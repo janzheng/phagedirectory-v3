@@ -6,7 +6,6 @@
       <div v-for="item of atoms" :key="item.id" class="Latest-atom --img">
         <!-- {{ item.fields }} -->
         <div v-if="item.fields['Atom:Type'] == 'Alert'" class="Latest-alert">
-          <!-- <CapsidAlert :atom="item" /> -->
           <Alert class="_padding" :atom="item" />
         </div>
         <div v-if="item.fields['Atom:Type'] == 'Update'" class="Latest-update">
@@ -29,7 +28,7 @@
 <script>
 
 // import { mapState } from 'vuex'
-import Alert from '~/components/Alert.vue'
+import Alert from './Alert.vue'
 // import CapsidAlert from '~/components/publications/CapsidAlert'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'

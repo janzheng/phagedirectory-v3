@@ -299,7 +299,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 // import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCard.vue'
-import Alert from '~/components/Alert.vue'
+import Alert from '../Alert.vue'
 
 import Template from '~/templates/manuscript-capsid.vue'
 

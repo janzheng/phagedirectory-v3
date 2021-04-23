@@ -14,7 +14,7 @@
     "precommit": "npm run lint",
     "commit": "npm run precommit; git add . -A ; git commit ; git push origin master ",
     "dirty": "git add . -A ; git commit ; git push origin master ",
-    "gitdeploy": "git add . -A ; git commit ; git push origin deploy ",
+    "gitdeploy": "git add . -A ; git commit ; git push deploy ",
     "local": "PD_ENV=prod MODE=universal npm run build; npm run start",
     "dev": "concurrently \"npm:dev-api\" \"npm:dev-nuxt\"",
     "dev-api": "PD_ENV=dev now dev --port 2929 --local-config=now-dev.json",

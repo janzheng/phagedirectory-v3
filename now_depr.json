@@ -1,6 +1,7 @@
 
 {
   "version": 2,
+  "alias":["phage.directory", "www.phagedirectory.org", "www.phagedirectory.com", "www.phage.directory", "staging.yawnxyz.now.sh"],
 	"name":"phagedirectory",
   "public":false,
   "env": {

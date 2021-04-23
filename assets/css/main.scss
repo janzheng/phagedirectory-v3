@@ -21,9 +21,9 @@
 }
 
 
-.Header-title {
+// .Header-title {
   
-}
+// }
 
 // $splash: 450px;
 ._splash-container {
@@ -200,7 +200,7 @@ img {
     ._form-input:focus-within,
     ._form-input:active,
     ._form-input.--data,
-    ._form-input.--open, {
+    ._form-input.--open {
       height: $size-8;
       // line-height: $size-10;
       // padding-bottom: $size-half;

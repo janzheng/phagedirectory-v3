@@ -1,3 +1,7 @@
+// fix a nuxt problem
+const tls = require('tls')
+tls.DEFAULT_ECDH_CURVE = 'auto'
+
 process.env.DEBUG = 'nuxt:*'
 // process.env.NUXT_ENV_DEVALUE_LOG_LIMIT = -1
 process.env.NUXT_ENV_DEVALUE_LOG_LEVEL = 'silent' // default is 'warn'

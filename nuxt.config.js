@@ -47,6 +47,8 @@ const site_fb = '409001986635448'; // phage directory fb id
 const airtable_api = process.env.PD_AIRTABLE_PUBLIC_API; 
 const airtable_base = process.env.PD_AIRTABLE_PUBLIC_BASE;
 
+const dev_mode = process.env.DEVMODE // specifically "local" or "vercel" — enables citation only on local machine
+
 // const db_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
 // const db_base = 'appZBUJQuXSUckq4d'; // PDv3 DB repo
 const db_api = process.env.PD_AIRTABLE_DB_API; 
@@ -79,6 +81,7 @@ const api_url = process.env.API_URL;
 let useCytosisConfigCache = false
 let useCytosisDataCache = false
 let useCytosisPageCache = false
+let useStaticData = true // THIS REQUIRES REBUILD ON EDIT
 
 // in full production
 if(pd_env=='prod' && mode=='universal') {
@@ -121,6 +124,9 @@ export default {
     airtable_base: airtable_base,
     db_api: db_api,  
     db_base: db_base,
+    dev_mode: dev_mode,
+
+    useStaticData, // static data loaded into _config.json and content.json
 
     useCytosisConfigCache: useCytosisConfigCache,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
     useCytosisDataCache: useCytosisDataCache,    // works like config caching but for airtable requests
@@ -438,16 +444,16 @@ export default {
 
 
         // phage futures temporary
-        {
-          name: 'phage futures temporary',
-          path: '/phagefutures',
-          component: resolve(__dirname, 'pages/events/phagefuturesdc2020.vue')
-        },
-          {
-            name: 'phage futures feedback',
-            path: '/phagefutures/feedback',
-            component: resolve(__dirname, 'pages/phagefutureseu-questions.vue')
-          },
+        // {
+        //   name: 'phage futures temporary',
+        //   path: '/phagefutures',
+        //   component: resolve(__dirname, 'pages/events/phagefuturesdc2020.vue')
+        // },
+          // {
+          //   name: 'phage futures feedback',
+          //   path: '/phagefutures/feedback',
+          //   component: resolve(__dirname, 'pages/phagefutureseu-questions.vue')
+          // },
 
 
         {
@@ -511,11 +517,11 @@ export default {
           component: resolve(__dirname, 'pages/dir/labs.vue')
         },
 
-        {
-          name: 'events timeline tool slug+passcode',
-          path: '/events/:event/:slug/:passcode',
-          component: resolve(__dirname, 'pages/events/posttimeline.vue')
-        },
+        // {
+        //   name: 'events timeline tool slug+passcode',
+        //   path: '/events/:event/:slug/:passcode',
+        //   component: resolve(__dirname, 'pages/events/posttimeline.vue')
+        // },
 
         {
           name: 'alerts / misspelling',

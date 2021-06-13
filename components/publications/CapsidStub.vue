@@ -15,12 +15,6 @@
                  :class="isFeatured ? '--featured' :''"
                  class="Capsid-Stub-item _block _card">
 
-        <!-- <h6 class="Capsid-Stub-latest">Latest Issue</h6> -->
-        <!-- 
-        <div class="Capsid-header _font--1 _grid-2 _grid-gap-small">
-          <div class="Capsid-name">{{ issue.fields['Name'] }}</div>
-          <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
-        </div> -->
         <div v-if="showLogo || showHeader" class="Capsid-logo ">
           <img v-if="issue.fields['Cover:url'] && issue.fields['Cover:showOnIssue']" 
                class="Capsid-cover --stub" 
@@ -40,13 +34,8 @@
 
         <h1 class="Capsid-title _padding" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
         <div v-if="authors && authors.length > 0" class="Capsid-author-main _padding-left _padding-right">
-          <div v-if="item" v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
-            <!-- <span class="_flex-row">
-              <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
-              <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
-              <div class="_font-normal _padding-left-half _align-vertically">{{ item.fields['Name'] }}</div>
-            </span> -->
-            <span>
+          <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
+            <span v-if="item" >
               <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile _v-middle">
               <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile _v-middle" height="42" width="42">
               <span class="_font-normal _padding-left-half _v-middle">{{ item.fields['Name'] }}</span>
@@ -62,10 +51,6 @@
                  :to="`/capsid/${issue.fields.Slug}`"
                  :class="isFeatured ? '--featured' :''"
                  class="Capsid-Stub-item _card _padding _height-100 _margin-none _block">
-        <!-- <div class="Capsid-header _font--1 _color-mono-90 _grid-2 _grid-gap-small">
-          <div class="Capsid-name">{{ issue.fields['Name'] }}</div>
-          <div class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</div>
-        </div> -->
         <div class="Capsid-stub-meta _flex-1">
           <div class="Capsid-header _font--1 _grid-gap-small">
             <span class="Capsid-name _font-bold ">{{ issue.fields['Name'] }}</span> | 
@@ -73,8 +58,8 @@
           </div>
           <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
           <div v-if="authors && authors.length > 0" class="Capsid-author-main _margin-bottom ">
-            <div v-if="item" v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
-              <span class="_flex-row">
+            <div v-for="item of authors" :key="item.id" class="_inline-block _margin-right">
+              <span v-if="item" class="_flex-row">
                 <img v-if="item.fields['ProfileImage'] && item.fields['ProfileImage'].length > 0 && item.fields['ProfileImage'][0].thumbnails" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
                 <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
                 <div class="_font-normal _padding-left-half _align-vertically">{{ item.fields['Name'] }}</div>

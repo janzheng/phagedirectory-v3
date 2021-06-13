@@ -6,6 +6,8 @@ import limiter from 'async-limiter'
 import oibackoff from 'oibackoff'
 import axios from 'axios'
 
+import { cacheGet, cacheSet, cacheClear } from "../other/cache.js"
+
 const limiter_jobs = new limiter({concurrency: 4})
 
 
@@ -21,6 +23,13 @@ let backoff = oibackoff.backoff({
 // 
 // SERVER INIT / SETUP CONFIG CODE 
 // 
+
+// just pulls the data locally
+async function setupConfigLocal(airtables, app) {
+  console.log('[setupConfigLocal] Getting config from local file ...')
+	let config = require('../static/data/_config.json')
+  return config
+}
 
 async function setupConfig(airtables, app) {
   // Cache the config w/ zeit now lambda
@@ -97,6 +106,9 @@ async function setupConfig(airtables, app) {
       _config[base] = _configArr[i]
     })
 
+
+    console.log('>>>>>>>', JSON.stringify(_config))
+
     return _config
   
   } catch(err) {
@@ -124,7 +136,25 @@ const debouncedUpdate = _.debounce(function(commit, object){
 function fetchCytosis({data, _this}, callback, ) {
 
   try {
-    // console.log(' Fetch Cytosis!', data)
+    // console.log('Fetch Cytosis!', data)
+    let query = data['tableQuery']
+    let _data
+
+    // pull from Airtable if options — requires AT for options filtering
+    if(process.env.useStaticData && !data['options']) {
+	    _data = require('../static/data/content.json')
+      if(_data[query]) {
+        console.log('[fetchCytosis/static] >>>>>>>>>', query, Object.keys(_data[query]))
+
+        callback(null, {
+          ...data,
+          tables: _data[query]
+        })
+        return
+      }
+    }
+
+
     let results, err
     // oibackoff uses callbacks, can't handle promises
     // return new Promise((resolve, reject) => {
@@ -140,7 +170,7 @@ function fetchCytosis({data, _this}, callback, ) {
     })
 
     limiter_jobs.onDone(() => {
-      // console.log('fetchCytosis Resolving: ', err, results)
+      console.log('fetchCytosis Resolving: ', err, results)
       callback(err, results)
     })
     // }) 
@@ -305,7 +335,11 @@ export default {
           base: process.env.db_base
         }
       ]
-      let config = await setupConfig(airtables, context.app)
+
+      // this takes too long
+      // let config = await setupConfig(airtables, context.app)
+      // pull from local file — needs to be updated if config is updated
+      let config = await setupConfigLocal()
 
       // update the store cache
       if(config){
@@ -330,7 +364,7 @@ export default {
 
   // async loadCytosis ({ commit, state }, {env, tableQuery, options, caller}) {
   // async loadCytosis ({ commit }, {routeName, env, tableQuery, options, payloads, config, _key, _base}) {
-  async loadCytosis ({ state, commit }, data) {
+  async loadCytosis({ state, commit }, data) {
 
     try {
       // async loadCytosis ({ commit }, {env, tableQuery, options, payloads, caller, _key, _base}) {
@@ -341,7 +375,7 @@ export default {
       let cytosis = undefined
       const _this = this
 
-      console.log('[action/loadCytosis] Loading Cytosis [routeName]:[tableQuery]:',`[${routeName}]:[${tableQuery}]`,`[useDataCache: ${useDataCache}]`)
+      // console.log('[action/loadCytosis] Loading Cytosis [routeName]:[tableQuery]:',`[${routeName}]:[${tableQuery}]`,`[useDataCache: ${useDataCache}]`)
 
       if(!cytosis) {
         

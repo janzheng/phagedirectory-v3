@@ -6,10 +6,11 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
   // todo: need some other way to keep track of what we've grabbed
   // esp. important for site generation
 
-  // console.log(`loadQuery triggered >>>>>>>>>>>>>>>>> routename: ${routeName} , query: ${query}, _base:${_base}, store state _base:`, store.state.config[_base] )
+
+  console.log(`[loadQuery] >>> routename: ${routeName}, options: ${options}, query: ${query}:` )
+  // console.log(`[loadQuery] >>> routename: ${routeName}, options: ${options}, query: ${query}, store state _base:`, store.state.config[_base] )
   // console.log(`loadQuery triggered >>>>>>>>>>>>>>>>> routename: ${routeName} , query: ${query}, _base:${_base}` )
     
-
   // return error({statusCode: 500, message: "Test Error"})
   // error() doesn't work as a mechanism
   

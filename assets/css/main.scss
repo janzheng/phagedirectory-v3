@@ -68,6 +68,8 @@ img {
       border-radius: 100%;
       border: $border-medium solid usetheme(mono-disabled);
       object-fit: cover;
+      width: usetheme(profile-small);
+      height: usetheme(profile-small); 
     }
 
     &.--medium {

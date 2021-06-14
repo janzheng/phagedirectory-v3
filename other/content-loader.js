@@ -21,6 +21,7 @@ require("dotenv").config();
 // const fetch = require("node-fetch")
 const fs = require('fs')
 const cytosisPath = 'static/data/content.json'
+const routePath = 'static/data/'
 const configPath = 'static/data/_config.json'
 let config = require('../static/data/_config.json')
 
@@ -57,7 +58,7 @@ const loadContent = async () => {
 
     await Promise.all(tasks)
     // console.log('[content]', data)
-    await saveJson(data, cytosisPath)
+    // await saveJson(data, cytosisPath)
     console.log('[content saved] ------------------------------')
     
 	} catch(err) {
@@ -73,7 +74,7 @@ const saveJson = (async (data, path) => {
   try {
     data['_date'] = new Date()
 	  const fileStream = await fs.writeFileSync(path, JSON.stringify(data))
-    console.log('[saving]', data, path, fileStream)
+    // console.log('[saving]', data, path, fileStream)
 	} catch(e) {
 		console.error('[saveJson] error', e)
 	}
@@ -105,6 +106,8 @@ const getContentFromLoaders = async (queries, apiKey, baseId) => {
         // console.log(route + ' ------> TABLES ', tables)
 
         // add to main data object here
+
+        await saveJson(data, routePath + route + '.json')
         data[route] = tables
       }
 

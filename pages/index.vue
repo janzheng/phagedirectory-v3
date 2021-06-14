@@ -200,7 +200,8 @@ export default {
 
       routeName: 'Index-capsid-latest',
 
-      query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
+      // query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
+      query: process.env.pd_env == 'stage' ? "capsid-previews-prev" : "capsid-latest",
 
     })
 

@@ -160,7 +160,7 @@ export default {
       phageCollections = data.tables['PhageCollections']
     }
 
-    console.log('[Labs]:', labs)
+    // console.log('[Labs]:', labs)
 
     return {
       labs,

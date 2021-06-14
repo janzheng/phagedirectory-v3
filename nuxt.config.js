@@ -47,8 +47,6 @@ const site_fb = '409001986635448'; // phage directory fb id
 const airtable_api = process.env.PD_AIRTABLE_PUBLIC_API; 
 const airtable_base = process.env.PD_AIRTABLE_PUBLIC_BASE;
 
-const dev_mode = process.env.DEVMODE // specifically "local" or "vercel" — enables citation only on local machine
-
 // const db_api = 'keyAe6M1KoPfg25aO'; // cytosisreader@zeee.co handler
 // const db_base = 'appZBUJQuXSUckq4d'; // PDv3 DB repo
 const db_api = process.env.PD_AIRTABLE_DB_API; 
@@ -81,13 +79,13 @@ const api_url = process.env.API_URL;
 let useCytosisConfigCache = false
 let useCytosisDataCache = false
 let useCytosisPageCache = false
-let useStaticData = true // THIS REQUIRES REBUILD ON EDIT
+let useStaticData = false // THIS REQUIRES REBUILD ON EDIT // creates massive files for front-end; disabled
 
 // in full production
 if(pd_env=='prod' && mode=='universal') {
-  useCytosisConfigCache = true
-  useCytosisDataCache = true
-  useCytosisPageCache = true
+  // useCytosisConfigCache = true
+  // useCytosisDataCache = true
+  // useCytosisPageCache = true
 }
 
 // on zeit now staging
@@ -124,7 +122,6 @@ export default {
     airtable_base: airtable_base,
     db_api: db_api,  
     db_base: db_base,
-    dev_mode: dev_mode,
 
     useStaticData, // static data loaded into _config.json and content.json
 

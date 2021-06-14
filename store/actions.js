@@ -138,24 +138,43 @@ function fetchCytosis({data, _this}, callback, ) {
   try {
     // console.log('Fetch Cytosis!', data)
     let query = data['tableQuery']
-    let _data
+    let results, err
 
     // pull from Airtable if options — requires AT for options filtering
     if(process.env.useStaticData && !data['options']) {
-	    _data = require('../static/data/content.json')
-      if(_data[query]) {
-        console.log('[fetchCytosis/static] >>>>>>>>>', query, Object.keys(_data[query]))
-
-        callback(null, {
-          ...data,
-          tables: _data[query]
-        })
+      results = cacheGet(query) 
+      console.log('Pre > Data Nodecache ::', query, typeof(results))
+      if(results) {
+        callback(null, { ...data, tables: results })
         return
       }
+
+      console.log('[fetchCytosis/static]  ?????? >>>>>>>>>', query, `../static/data/${query}.json`)
+      try {
+        results = require(`../static/data/${query}.json`)
+      } catch (e) {
+        console.error('heyy', e)
+      }
+      if(results) {
+        console.log('[fetchCytosis/static] >>>>>>>>>', query)
+        cacheSet(query, results)
+        console.log('Post > Data Nodecache ::', typeof(cacheGet(query)) )
+        callback(null, { ...data, tables: results })
+        return
+      }
+    } else {
+      console.log('Skipping staticLoad:', data['tableQuery'], data['routeName'], process.env.useStaticData, data['options'])
     }
 
 
-    let results, err
+    
+    results = cacheGet(query) 
+    console.log('[fetchCytosis] cache:', query, typeof(results))
+    if(results) {
+      callback(null, results)
+      return
+    }
+
     // oibackoff uses callbacks, can't handle promises
     // return new Promise((resolve, reject) => {
     limiter_jobs.push(function(done) {
@@ -170,7 +189,8 @@ function fetchCytosis({data, _this}, callback, ) {
     })
 
     limiter_jobs.onDone(() => {
-      console.log('fetchCytosis Resolving: ', err, results)
+      // console.log('fetchCytosis Resolving: ', err, results)
+      cacheSet(query, results)
       callback(err, results)
     })
     // }) 
@@ -256,7 +276,7 @@ async function fetchData({data, _this, state}) {
         }
 
         backoff(fetchCytosis, {data, _this}, intermediate, function(err, _data) {
-          if (retry)
+          // if (retry)
             // console.log('Retrying... #:', retries)
           // console.log('backoff callback:', err, data)
           if(err) {
@@ -268,6 +288,7 @@ async function fetchData({data, _this, state}) {
               console.log('>>> # retries:', retries)
             }
             // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
+            // console.log('fetchData::::', _data)
             resolve(_data)
           }
         })
@@ -339,7 +360,14 @@ export default {
       // this takes too long
       // let config = await setupConfig(airtables, context.app)
       // pull from local file — needs to be updated if config is updated
-      let config = await setupConfigLocal()
+      let config = cacheGet('config') 
+
+      console.log('config nodecache?!', config)
+      if(!config) {
+        config = await setupConfigLocal()
+      } else {
+        console.log('[nuxServerInit] Config loaded from nodecache')
+      }
 
       // update the store cache
       if(config){

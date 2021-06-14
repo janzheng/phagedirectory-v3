@@ -253,13 +253,13 @@ import CapsidSponsor from '~/components/publications/CapsidSponsor'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
-import CapsidStub from '~/components/publications/CapsidStub.vue'
+import CapsidStub from '~/components/publications/CapsidStub'
 // import { loadQuery } from '~/other/loaders'
-import AuthorCard from '~/components/dir/PeopleCard.vue'
-import Alert from '~/components/Alert.vue'
+import AuthorCard from '~/components/dir/PeopleCard'
+import Alert from '~/components/Alert'
 
 // import AxiosPost from '~/components/AxiosPost.vue'
-import NodeForm from '~/components/render/NodeForm.vue'
+import NodeForm from '~/components/render/NodeForm'
 import { headMatter } from '~/other/headmatter.js'
 
 export default {

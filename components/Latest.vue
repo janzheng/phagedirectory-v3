@@ -28,7 +28,7 @@
 <script>
 
 // import { mapState } from 'vuex'
-import Alert from './Alert.vue'
+import Alert from './Alert'
 // import CapsidAlert from '~/components/publications/CapsidAlert'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'

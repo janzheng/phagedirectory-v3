@@ -219,7 +219,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCardEmail.vue'
-import Alert from '~/components/Alert.vue'
+import Alert from '~/components/Alert'
 
 import AxiosPost from '~/components/AxiosPost.vue'
 import NodeForm from '~/components/render/NodeForm.vue'

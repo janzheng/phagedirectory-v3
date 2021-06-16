@@ -144,7 +144,7 @@ const citationData = function(manuscript, authors, app) {
     return undefined
   }
 
-  console.log('---- citation:', authors)
+  // console.log('---- citation:', authors)
 
   // all author data loaded in async, so need to verify data is complete by using array len
   // every article will have one corr. author, plus a variable # of authors
@@ -197,7 +197,7 @@ const citationData = function(manuscript, authors, app) {
       }
     `
 
-    console.log('citation source:', source )
+    console.log('[citationData]:', source )
     return {
       source
     }
@@ -349,23 +349,23 @@ export default {
 
         let cite_url = ''
         if(process.env.api_url) // if the API is down (temp. fix)
-          cite_url = process.env.api_url + '/api/cite'
-
+          cite_url = process.env.utility_url + '/api/citation'
 
         let citation = undefined
         if(manuscript.fields['Data:Citation']) {
           // this is added to airtable manually, after generation
           citation = JSON.parse(manuscript.fields['Data:Citation'])
         } else {
-
           let citDataSource = citationData(manuscript, authors, app)
           
-          if(citDataSource && process.env.pd_env == 'stage') {
-            console.log('---> getting citation from:', cite_url, citDataSource)
-            let cite_data = await axios.post(cite_url, citDataSource)
+          if(citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
+            console.log('---> getting citation from:', cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
+            // let cite_data = await axios.post(cite_url, citDataSource)
+            let cite_data = await axios.post(cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
+
             if(cite_data && cite_data.data) {
               citation = cite_data.data // JSON.parse(cite_data.data)
-              console.log('---> citation:', JSON.stringify(cite_data.data))
+              // console.log('---> citation:', JSON.stringify(cite_data.data))
             }
           }
 

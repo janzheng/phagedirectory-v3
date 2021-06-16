@@ -916,6 +916,11 @@ class Cytosis {
   // Output: 
   //    a table array where each object only has id and fields, no helpers
   static cleanTable (table) {
+    if(!table || !table.map) {
+      console.log('[cleanTable] Cleaning Error:', table)
+      return null
+    }
+
     // clean up the cytosis table by only keeping id, fields, and basics of _table
     return table.map(entry => {
       // console.log('cleanData . entry', entry)
@@ -954,7 +959,7 @@ class Cytosis {
   static strip (cytosis) {
 
     let _cytosis = {}
-    _cytosis['config'] = { _cytosis: Cytosis.cleanTable(cytosis.config._cytosis) }
+    _cytosis['config'] = { _cytosis: cytosis.config._cytosis ? Cytosis.cleanTable(cytosis.config._cytosis) : cytosis.config} // v3-api minimal schema support
     _cytosis['airBase'] = cytosis['airBase']
     _cytosis['airKey'] = cytosis['airKey']
     _cytosis['endpointUrl'] = cytosis['endpointUrl']
@@ -962,6 +967,9 @@ class Cytosis {
     _cytosis['tables'] = {}
 
     Object.keys(cytosis.tables).map((tableName) => {
+      if(!cytosis.tables[tableName]) {
+        console.log('[strip|Error]:', cytosis.tables)
+      }
       _cytosis['tables'][tableName] = Cytosis.cleanTable(cytosis.tables[tableName])
     })
 

@@ -133,67 +133,93 @@ const debouncedUpdate = _.debounce(function(commit, object){
 
 
 
+
+async function fetchCytosisAPI({data, _this}) {
+
+  try {
+    // console.log('Fetch Cytosis API!!!!!', data, false)
+    let cacheStr = JSON.stringify(data)
+    let results, err
+
+    // this will probably never hit, as fetchData grabs it immediately
+    results = cacheGet(cacheStr, false) 
+    if(results) {
+      console.log('[fetchCytosisAPI][cache]:', data['routeName'], data['tableQuery'])
+      return results
+    }
+
+    if(process.env.v3_api) {
+      let config = Object.assign({},{...data['config']})
+
+      if(data['config']) // don't upload config
+        delete data['config']
+
+      // console.log('[fetchCytosisAPI] Using v3 API:', process.env.v3_api)
+      let response = await axios.post(`${process.env.v3_api}/api/v3/query`, data)
+
+      if(response.status == 200) {
+        results = await response.data
+        // console.log('[fetchCytosisAPI] API Data:: results—output', { ...data, config, tables: results })
+        let _results = { ...data, config, tables: results, airBase: {
+          // conform to v3 schema
+          id: results['airBase'],
+          tables: Object.keys(results),
+          tableQuery: data['tableQuery'],
+          options: data['options'],
+          payloads: data['payloads'],
+        } }
+
+        cacheSet(cacheStr, _results)
+        return _results
+      } else {
+        console.log('[fetchCytosisAPI] API Failure', response)
+      }
+    }
+
+  } catch(err) {
+    console.log('[fetchCytosisAPI] Error: Cytosis not fetched from API', `${process.env.v3_api}/api/v3/query`, err)
+    return null
+  }
+}
+
+
+
+
 function fetchCytosis({data, _this}, callback, ) {
 
   try {
-    // console.log('Fetch Cytosis!', data)
-    let query = data['tableQuery']
+    // console.log('Fetch Cytosis!', data, false)
+    let cacheStr = JSON.stringify(data)
     let results, err
 
-    // pull from Airtable if options — requires AT for options filtering
-    if(process.env.useStaticData && !data['options']) {
-      results = cacheGet(query) 
-      console.log('Pre > Data Nodecache ::', query, typeof(results))
-      if(results) {
-        callback(null, { ...data, tables: results })
-        return
-      }
-
-      console.log('[fetchCytosis/static]  ?????? >>>>>>>>>', query, `../static/data/${query}.json`)
-      try {
-        results = require(`../static/data/${query}.json`)
-      } catch (e) {
-        console.error('heyy', e)
-      }
-      if(results) {
-        console.log('[fetchCytosis/static] >>>>>>>>>', query)
-        cacheSet(query, results)
-        console.log('Post > Data Nodecache ::', typeof(cacheGet(query)) )
-        callback(null, { ...data, tables: results })
-        return
-      }
-    } else {
-      console.log('Skipping staticLoad:', data['tableQuery'], data['routeName'], process.env.useStaticData, data['options'])
-    }
-
-
-    
-    results = cacheGet(query) 
-    console.log('[fetchCytosis] cache:', query, typeof(results))
+    results = cacheGet(cacheStr, false) 
     if(results) {
+      console.log('[fetchCytosis] cache:', typeof(results))
       callback(null, results)
       return
+    } else {
+    
+        // oibackoff uses callbacks, can't handle promises
+        return new Promise((resolve, reject) => {
+        limiter_jobs.push(function(done) {
+          let cytosisPromise = new _this.$cytosis(data)
+          cytosisPromise.then((_cytosis) => {
+            done() 
+            results = _cytosis
+          }, (_err) => {
+            done()
+            err = _err
+          })
+        })
+    
+        limiter_jobs.onDone(() => {
+          // console.log('fetchCytosis Resolving: ', err, results)
+          cacheSet(cacheStr, results)
+          callback(err, results)
+        })
+        }) 
     }
 
-    // oibackoff uses callbacks, can't handle promises
-    // return new Promise((resolve, reject) => {
-    limiter_jobs.push(function(done) {
-      let cytosisPromise = new _this.$cytosis(data)
-      cytosisPromise.then((_cytosis) => {
-        done() 
-        results = _cytosis
-      }, (_err) => {
-        done()
-        err = _err
-      })
-    })
-
-    limiter_jobs.onDone(() => {
-      // console.log('fetchCytosis Resolving: ', err, results)
-      cacheSet(query, results)
-      callback(err, results)
-    })
-    // }) 
   } catch(err) {
     console.log('Cytosis not fetched')
     callback(new Error('[fetchCytosis] Cytosis not fetched'))
@@ -205,55 +231,20 @@ function fetchCytosis({data, _this}, callback, ) {
 async function fetchData({data, _this, state}) { 
 
   try {
-    // console.log(' >>>>> Fetching data for:' , data.tableQuery, '/' ,data.routeName, ' useDataCache', data.useDataCache)
-    // let keyword = data.payloads ? data.payloads.keyword : undefined
-    // console.time(`${data.tableQuery}-${data.routeName}//${keyword}`)
 
-    // if a loadQuery's useDataCache is on ...
-    // NOTE: some queries (like latest atoms) you don't want to cache!
-    // - first check the state cytosis store ... (for both cached tablequery and pagequery)
-    // - then check the cache 
-    // - then get it locally
-    if(data.useDataCache) {
-      // let storeQuery = data.pageQuery || data.tableQuery
-      // console.log(' >>>>> Trying caching strategies.')
+    let results
 
-      // if pageQuery, the data might exist in one of the stored page objects (not built yet)
-      // if(data.pageQuery) {
-      //   if(state.cytosisStore[pageQuery][data.tableQuery]) {
-      //     // console.log('Cytosis found in store:' , data.tableQuery, state.cytosisStore[data.tableQuery])
-      //     return Promise.resolve(state.cytosisStore[pageQuery][data.tableQuery])
-      //   }
-      // }
-
-      if(state.cytosisStore && state.cytosisStore[data.tableQuery]) {
-        // console.log(' >>>>> Cytosis found in store:' , data.tableQuery, state.cytosisStore[data.tableQuery])
-        // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
-        return Promise.resolve(state.cytosisStore[data.tableQuery])
+    if(process.env.v3_api) {
+      try {
+        results = await fetchCytosisAPI({data, _this})
+        // console.log('[fetchCytosisAPI] API Results:', apiResults) 
+  
+        if(results)
+          return results
+      } catch(e) {
+        console.error('[fetchData] Failed to fetch from Content AP — continuing w/ local Airtable strat')
       }
-
-      // check the data cache w/ fetch — grabs from cache AND cytosis
-      if(process.env.useCytosisDataCache && process.env.api_url) {
-        // too long w/ json data lol
-        // let cachedata = await axios.get(`${process.env.api_url}/api/exocytosis/data/fetch?airBase=${data.airBase}&tableQuery=${data.tableQuery}&routeName=${data.routeName}`, {timeout: process.env.cache_timeout})
-        
-        try {
-          let cachedata = await axios.post(`${process.env.api_url}/api/exocytosis/data/fetch?airBase=${data.airBase}&tableQuery=${data.tableQuery}&routeName=${data.routeName}`, {
-              airBase: data.airBase,
-              tableQuery: data.tableQuery,
-              routeName: data.routeName,
-              config: data.config
-            }, {timeout: process.env.cache_timeout})
-          
-          // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
-          return Promise.resolve(cachedata.data)
-        } catch(err) {
-          console.error('[action/loadCytosis] API Data cache timed out... getting data from Cytosis.')
-        }
-      }   
     }
-
-    // console.log(' >>>>> Trying local strategy.')
 
     return new Promise((resolve, reject) => {
 
@@ -288,6 +279,8 @@ async function fetchData({data, _this, state}) {
               console.log('>>> # retries:', retries)
             }
             // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
+            delete _data['base']
+            // delete _data['airBase']
             // console.log('fetchData::::', _data)
             resolve(_data)
           }

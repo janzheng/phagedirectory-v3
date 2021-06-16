@@ -1,5 +1,9 @@
 /*
 
+  ### UNUSED — using content API instead, as more performant
+
+
+
     content-loader.js
 
     - loads content (cytosis.results) for this project
@@ -101,6 +105,7 @@ const getContentFromLoaders = async (queries, apiKey, baseId) => {
         let _cytosis = await getCytosis(apiKey, baseId, route, fields['Tables'], fields['view'], queries)
         let tables = {}
         Object.keys(_cytosis['tables']).map(table => {
+          // console.log('[getContentFromLoaders] tables:', table, _cytosis['tables'][table])
           tables[table] = Cytosis.cleanTable(_cytosis['tables'][table])
         })
         // console.log(route + ' ------> TABLES ', tables)

@@ -52,6 +52,8 @@ const airtable_base = process.env.PD_AIRTABLE_PUBLIC_BASE;
 const db_api = process.env.PD_AIRTABLE_DB_API; 
 const db_base = process.env.PD_AIRTABLE_DB_BASE;
 
+const locality = process.env.LOCALITY; // for citation to only work locally
+
 // const analyze = false; // analyzer (webpack; turn off for prod) use --analyze instead for visualizer
 const offline = false;
 let mode = 'universal';
@@ -73,6 +75,7 @@ console.log('[Config] Environment:', pd_env)
 const site_static = false; // if set to true, the client will never pull data 
 let site_routes; // used for the generate process to save on airtable pulls
 const api_url = process.env.API_URL;
+const utility_url = "https://utility.phage.directory"
 
 
 // set up caching data
@@ -80,6 +83,10 @@ let useCytosisConfigCache = false
 let useCytosisDataCache = false
 let useCytosisPageCache = false
 let useStaticData = false // THIS REQUIRES REBUILD ON EDIT // creates massive files for front-end; disabled
+
+// v3 / v4 API endpoint — better caching
+let useV3API = true
+let v3_api = useV3API ? "https://content.phage.directory" : null
 
 // in full production
 if(pd_env=='prod' && mode=='universal') {
@@ -118,10 +125,16 @@ export default {
     pd_env: pd_env, // 'stage' or 'prod'
     site_fb: site_fb,
     api_url: api_url,
+    utility_url: utility_url,
     airtable_api: airtable_api,  
     airtable_base: airtable_base,
     db_api: db_api,  
     db_base: db_base,
+
+    useV3API,
+    v3_api,
+    locality,
+
 
     useStaticData, // static data loaded into _config.json and content.json
 

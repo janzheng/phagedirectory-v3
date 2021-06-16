@@ -7,7 +7,7 @@ export async function loadQuery({ store, routeName, query, options, keyword, con
   // esp. important for site generation
 
 
-  console.log(`[loadQuery] >>> routename: ${routeName}, options: ${options}, query: ${query}:` )
+  console.log(`[loadQuery][route: ${routeName}][query: ${query}]` )
   // console.log(`[loadQuery] >>> routename: ${routeName}, options: ${options}, query: ${query}, store state _base:`, store.state.config[_base] )
   // console.log(`loadQuery triggered >>>>>>>>>>>>>>>>> routename: ${routeName} , query: ${query}, _base:${_base}` )
     

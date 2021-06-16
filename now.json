@@ -3,30 +3,6 @@
   "version": 2,
 	"name":"phagedirectory",
   "public":false,
-  "env": {
-    "PD_AIRTABLE_PUBLIC_API": "@pd-airtable-public-api",
-    "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
-    "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
-    "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
-    "PD_AIRTABLE_PRIVATE_MGR_API": "@pd-airtable-private-mgr-api",
-    "PD_AIRTABLE_PRIVATE_MGR_BASE": "@pd-airtable-private-mgr-base",
-    "MODE": "universal",
-    "PD_ENV": "prod",
-    "API_URL": "https://phagedirectory.yawnxyz.now.sh"
-  },
-  "build": {
-    "env": {
-      "PD_AIRTABLE_PUBLIC_API": "@pd-airtable-public-api",
-      "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",
-      "PD_AIRTABLE_DB_API": "@pd-airtable-db-api",
-      "PD_AIRTABLE_DB_BASE": "@pd-airtable-db-base",
-      "PD_AIRTABLE_PRIVATE_MGR_API": "@pd-airtable-private-mgr-api",
-      "PD_AIRTABLE_PRIVATE_MGR_BASE": "@pd-airtable-private-mgr-base",
-      "MODE": "universal",
-      "PD_ENV": "prod",
-      "API_URL": "https://phagedirectory.yawnxyz.now.sh"
-    }
-  },
   "builds": [
     {
       "src": "404.html",
@@ -59,23 +35,10 @@
   "routes": [
     { "src": "/404.html", "dest": "404.html" },
 
-    { "src": "/api/hello(.*)", "dest": "api/routes/hello" },
-    { "src": "/api/users(.*)", "dest": "api/routes/hello" },
-    { "src": "/api/allusers(.*)", "dest": "api/routes/hello" },
-
-    { "src": "/api/timeline(.*)", "dest": "api/routes/timeline.js" },
-    { "src": "/api/profile(.*)", "dest": "api/routes/profile.js" },
-    { "src": "/api/cite(.*)", "dest": "api/routes/cite.js" },
-    { "src": "/api/exocytosis(.*)", "dest": "api/routes/exocytosis.js" },
-
-    { "src": "/api/(.*)", "dest": "api/routes/$1" },
-    { "src": "/api", "dest": "api/routes/index.js" },
-
-
-
     { "src": "/_nuxt/.+", "headers": { "cache-control": "s-maxage=31536000" } },
 
-    { "src": "/feed.xml", "dest": "https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-rss" },
+    { "src": "/rss", "status": 301, "headers": { "Location": "https://content.phage.directory/api/rss" }},
+    { "src": "/feed.xml", "status": 301, "headers": { "Location": "https://content.phage.directory/api/rss" }},
 
     { "src": "/slack", "status": 301, "headers": { "Location": "https://phagedirectory.slack.com/join/shared_invite/enQtNzA2OTI0MTk4Mzc0LTU4Yjg0NTY2NWEyMzUyZDMxMDJjMmEyZGFiNDcyYmIxMzYxYTRkZjBjZGY3YjNlODc2MWFhNTAwNjBmYzQyYmY" }},
     { "src": "/notion", "status": 301, "headers": { "Location": "https://www.notion.so/?r=5eb42727210944beb04d578a4950ef50" }},
@@ -84,18 +47,15 @@
     { "src": "/zoomweb", "status": 301, "headers": { "Location": "https://us04web.zoom.us/wc/9679909725/join" }},
     { "src": "/zoom", "status": 301, "headers": { "Location": "https://zoom.us/j/9679909725" }},
 
-    { "src": "/whereby", "status": 301, "headers": { "Location": "https://whereby.com/phage-directory" }},
     { "src": "/vom-awards", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Apply-for-Phage-Directory-VoM-Writing-Awards-7fd995b017264bddb08b5af26755a4ff" }},
     { "src": "/covid-amr", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/COVID-AMR-Secondary-Infections-45ca8c5d0cda4fad89e441fdc1013f0e" }},
-    { "src": "/video", "status": 301, "headers": { "Location": "https://8x8.vc/phagedirectory" }},
     { "src": "/guestwriter", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Capsid-Tail-Guest-Writer-Guide-8206f242215d4f008a27a4f8c07096a1" }},
     { "src": "/sponsor", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Phage-Directory-Sponsorship-Options-65c1f4758a634fb4b8fe648abe3eead2" }},
     { "src": "/phaves", "status": 301, "headers": { "Location": "https://seminars.phage.directory/" }},
     { "src": "/faves", "status": 301, "headers": { "Location": "https://seminars.phage.directory/" }},
     { "src": "/youtube", "status": 301, "headers": { "Location": "https://www.youtube.com/channel/UC9YZWR4wmUj6fFnPhCRQZBA/" }},
-    { "src": "/instill", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Instill-Science-A-community-for-constructive-peer-reviews-d39cd91ff5c24606aae9213f72c7507f" }},
+    { "src": "/instill", "status": 301, "headers": { "Location": "https://instill.xyz" }},
     { "src": "/club", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Phage-Club-Notes-d06899ad9be340a4adbb2f4334d26032" }},
-
 
     { "src": "/scener", "status": 301, "headers": { "Location": "https://scener.com/join/1BWH-B6TZ-P1RG-LCL9" }},
 
@@ -108,6 +68,7 @@
 
 
     { "src": "/chat", "status": 301, "headers": { "Location": "https://calendly.com/phage/quick-chat" }},
+    { "src": "/calendly", "status": 301, "headers": { "Location": "https://calendly.com/phage/quick-chat" }},
 
     { "src": "/slides/canada", "status": 301, "headers": { "Location": "https://docs.google.com/presentation/d/17Vyz53a_KQ-k_8dUR4KEJZ1JODgdG1Gw9k6807ZDZlE/edit?usp=sharing" }},
     { "src": "/slides/background", "status": 301, "headers": { "Location": "https://docs.google.com/presentation/d/117uZQp8CfDjM-t2Lo7K3jm6V1NOQTDIOpD52cfd4XzU/edit?usp=sharing" }},

@@ -333,8 +333,6 @@ export default {
         }
       })
 
-      console.log('----> data', cytosis.tables['People'])
-
       this['People'] = cytosis.tables['People']
       this['authors'] = cytosis.tables['People']
 

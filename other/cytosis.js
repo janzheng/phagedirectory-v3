@@ -917,7 +917,7 @@ class Cytosis {
   //    a table array where each object only has id and fields, no helpers
   static cleanTable (table) {
     if(!table || !table.map) {
-      console.log('[cleanTable] Cleaning Error:', table)
+      // console.log('[cleanTable] Cleaning Error:', table)
       return null
     }
 

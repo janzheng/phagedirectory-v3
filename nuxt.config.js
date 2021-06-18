@@ -86,7 +86,7 @@ let useStaticData = false // THIS REQUIRES REBUILD ON EDIT // creates massive fi
 
 // v3 / v4 API endpoint — better caching
 let useV3API = true
-let v3_api = useV3API ? "https://content.phage.directory" : null
+let v3_api = useV3API ? process.env.V3_API : null
 
 // in full production
 if(pd_env=='prod' && mode=='universal') {
@@ -120,6 +120,7 @@ export default {
   // export default {
   // mode: 'universal', // use this for deployment; need to rebuild the site every time airtable content changes
   mode: mode, // for development, or for real-time airtable changes
+  ssr: mode == 'spa' ? false : true,
   env: {
     mode: mode,
     pd_env: pd_env, // 'stage' or 'prod'

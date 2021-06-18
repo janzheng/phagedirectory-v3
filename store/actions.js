@@ -161,16 +161,26 @@ async function fetchCytosisAPI({data, _this}) {
       let cacheStatus = process.env.pd_env == 'stage' ? 'cache=false' : ''
 
       if(cacheStatus != '')
-        console.log('[fetchCytosisAPI][external cache:', cacheStatus)
+        console.log('[fetchCytosisAPI][external cache]:', cacheStatus)
 
+        
       // POST doesn't get cached properly
       // let response = await axios.post(`${process.env.v3_api}/api/v3/query${cacheStatus}`, data)
-
+      
       // use GET w/ x-body headers instead — these are better cached
-      let encodedData = escape(encodeURIComponent(JSON.stringify(data)))
-      // console.dir(`${process.env.v3_api}/api/v3/query${cacheStatus}&data=${encodedData}&dataMode=encoded`)
-
-      let response = await axios.get(`${process.env.v3_api}/api/v3/query?${cacheStatus}&data=${encodedData}&dataMode=encoded`)
+      console.log('[fetchCytosisAPI] query:', data)
+      let encodedData, response
+      
+      // if no keywords and options, just do a tableQuery (e.g. "_content")
+      // if complex data, do a complete data-driven query
+      
+      if(!data.config && !data.options && !data.payloads.keywords) {
+        response = await axios.get(`${process.env.v3_api}/api/v3/query?query=${data['tableQuery']}`)
+      } else {
+        encodedData = escape(encodeURIComponent(JSON.stringify(data)))
+        // console.dir(`${process.env.v3_api}/api/v3/query${cacheStatus}&data=${encodedData}&dataMode=encoded`)
+        response = await axios.get(`${process.env.v3_api}/api/v3/query?${cacheStatus}&data=${encodedData}&dataMode=encoded`)
+      }
 
       // console.log('------', process.env.v3_api, JSON.stringify(data))
       // console.log('------', response)
@@ -190,12 +200,12 @@ async function fetchCytosisAPI({data, _this}) {
         cacheSet(cacheStr, _results)
         return _results
       } else {
-        console.log('[fetchCytosisAPI] API Failure', response)
+        console.error('[fetchCytosisAPI] API Failure', response)
       }
     }
 
   } catch(err) {
-    console.log('[fetchCytosisAPI] Error: Cytosis not fetched from API', `${process.env.v3_api}/api/v3/query`, err)
+    console.error('[fetchCytosisAPI] Error: Cytosis not fetched from API', `${process.env.v3_api}/api/v3/query`, err)
     return null
   }
 }
@@ -431,7 +441,7 @@ export default {
             options,
             config,
             payloads,
-            useDataCache,
+            // useDataCache,
           }
 
           cytosis = await fetchData({state, data: _data, _this})
@@ -513,6 +523,7 @@ export default {
           airKey: airKey || process.env.airtable_api,
           baseId: baseId || process.env.airtable_base,
         })
+        
         return cache
         // item = this.$cytosis.cleanRecord(item)
       } catch(err) {

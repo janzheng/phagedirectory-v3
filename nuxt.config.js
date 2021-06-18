@@ -79,10 +79,9 @@ const utility_url = "https://utility.phage.directory"
 
 
 // set up caching data
-let useCytosisConfigCache = false
-let useCytosisDataCache = false
-let useCytosisPageCache = false
-let useStaticData = false // THIS REQUIRES REBUILD ON EDIT // creates massive files for front-end; disabled
+// let useCytosisConfigCache = false // not used since v3.1
+let useCytosisDataCache = false // stores stuff into VueX store
+let useCytosisPageCache = false // loads C&T from _cache straight into the store — bad for previewing Capsid
 
 // v3 / v4 API endpoint — better caching
 let useV3API = true
@@ -91,14 +90,14 @@ let v3_api = useV3API ? process.env.V3_API : null
 // in full production
 if(pd_env=='prod' && mode=='universal') {
   // useCytosisConfigCache = true
-  // useCytosisDataCache = true
-  // useCytosisPageCache = true
+  useCytosisDataCache = true
+  useCytosisPageCache = true
 }
 
 // on zeit now staging
 if(pd_env=='stage' && mode=='universal') {
 // if(pd_env=='stage') {
-  useCytosisConfigCache = false
+  // useCytosisConfigCache = false
   useCytosisDataCache = false
   useCytosisPageCache = false
 }
@@ -137,9 +136,7 @@ export default {
     locality,
 
 
-    useStaticData, // static data loaded into _config.json and content.json
-
-    useCytosisConfigCache: useCytosisConfigCache,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
+    // useCytosisConfigCache: useCytosisConfigCache,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
     useCytosisDataCache: useCytosisDataCache,    // works like config caching but for airtable requests
     useCytosisPageCache: useCytosisPageCache,
     cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 

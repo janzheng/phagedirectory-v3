@@ -265,6 +265,7 @@ export default {
     if(manuscript) {
 
       // if cache exist on the record, load manuscript data from cache
+      
       try {
         if(manuscript.fields['_cache:recordId']) {
           cache = await store.dispatch('loadPageCache', {
@@ -275,7 +276,7 @@ export default {
           if(cache && cache.fields['Payload']) {
             cache = app.$cytosis.cleanRecord(cache)
             cachedata = JSON.parse(cache.fields['Payload'])
-            // console.log('Capsid cache found; sending the Cytosis cached page data.')
+            console.log('Capsid cache found; sending the Cytosis cached page data.')
             // store the cache data into the store's page cache
             store.dispatch('storePageCache', {
               key: manuscript.fields['Slug'],
@@ -347,8 +348,8 @@ export default {
         // let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
         // webtask is sunsetting
 
-        let cite_url = ''
-        if(process.env.api_url) // if the API is down (temp. fix)
+        let cite_url = null
+        if(process.env.utility_url)
           cite_url = process.env.utility_url + '/api/citation'
 
         let citation = undefined
@@ -358,7 +359,7 @@ export default {
         } else {
           let citDataSource = citationData(manuscript, authors, app)
           
-          if(citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
+          if(cite_url && citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
             console.log('---> getting citation from:', cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
             // let cite_data = await axios.post(cite_url, citDataSource)
             let cite_data = await axios.post(cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})

@@ -168,17 +168,19 @@ async function fetchCytosisAPI({data, _this}) {
       // let response = await axios.post(`${process.env.v3_api}/api/v3/query${cacheStatus}`, data)
       
       // use GET w/ x-body headers instead — these are better cached
-      console.log('[fetchCytosisAPI] query:', data)
+      console.log('[fetchCytosisAPI] query:', process.env.v3_api, data)
       let encodedData, response
       
       // if no keywords and options, just do a tableQuery (e.g. "_content")
       // if complex data, do a complete data-driven query
       
-      if(!data.config && !data.options && !data.payloads.keywords) {
-        response = await axios.get(`${process.env.v3_api}/api/v3/query?query=${data['tableQuery']}`)
+      if(!data.config && !data.options && !data.payloads.keyword) {
+        console.log('[fetchCytosisAPI] Quick query', data['tableQuery'], 'cache:', cacheStatus)
+        response = await axios.get(`${process.env.v3_api}/api/v3/query?${cacheStatus}&query=${data['tableQuery']}`)
       } else {
         encodedData = escape(encodeURIComponent(JSON.stringify(data)))
         // console.dir(`${process.env.v3_api}/api/v3/query${cacheStatus}&data=${encodedData}&dataMode=encoded`)
+        console.log('[fetchCytosisAPI] Full query', data['tableQuery'], 'cache:', cacheStatus)
         response = await axios.get(`${process.env.v3_api}/api/v3/query?${cacheStatus}&data=${encodedData}&dataMode=encoded`)
       }
 

@@ -225,6 +225,10 @@
         <CapsidStub v-for="item of relatedIssues" :key="item.fields['Name']" :issue="item" show-lede="true" class="--related _margin-top" />
       </div>
 
+      <div v-if="issue && issue.fields['Use:TwitterEmbed']" >
+        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
+
       <!-- <NodeForm v-if="form" :src="form" class="Capsid-form" /> -->
       
       <div v-if="authors && authors[0]" id="Capsid-authors" class="Capsid-authors " >

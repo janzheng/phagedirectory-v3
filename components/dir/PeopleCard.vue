@@ -119,6 +119,9 @@
           </div>
         </div>
 
+        <div class="People-share _font-small _margin-top-2">
+          Share: <a :href="`https://phage.directory/people#${person.fields['Slug']}`" >https://phage.directory/people#{{person.fields['Slug'] }}</a>
+        </div>
       </div>
     
     </div>

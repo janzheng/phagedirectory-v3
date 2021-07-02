@@ -358,9 +358,9 @@ export default {
     // if(process.client) {
       console.group()
       console.log('[Capsid] Cached data:')
-      console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
+      console.log(`%c ${JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']])}`, 'color: skyblue')
       console.log('[Capsid] Citation')
-      console.log(JSON.stringify(this.citation))
+      console.log(`%c ${JSON.stringify(this.citation)}`, 'color: pink')
       console.groupEnd()
       // console.log('[Capsid] Cached data conversion:', this.$store.state['cytosisStore'][this.issue.fields['Slug']])
     }

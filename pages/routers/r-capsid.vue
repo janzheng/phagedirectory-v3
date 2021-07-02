@@ -198,9 +198,7 @@ const citationData = function(manuscript, authors, app) {
     `
 
     console.log('[citationData]:', source )
-    return {
-      source
-    }
+    return source
   }
   return undefined
 }
@@ -352,6 +350,9 @@ export default {
         if(process.env.utility_url)
           cite_url = process.env.utility_url + '/api/citation'
 
+        // local testing
+        // cite_url = 'http://localhost:2022/api/citation'
+
         let citation = undefined
         if(manuscript.fields['Data:Citation']) {
           // this is added to airtable manually, after generation
@@ -366,7 +367,12 @@ export default {
 
             if(cite_data && cite_data.data) {
               citation = cite_data.data // JSON.parse(cite_data.data)
-              // console.log('---> citation:', JSON.stringify(cite_data.data))
+
+              if(citation['citation'])
+                citation['apa'] = citation['citation'] // schema adapt
+
+              console.log('---> citation:', citation)
+              // console.log('---> citation:', JSON.parse(citation))
             }
           }
 

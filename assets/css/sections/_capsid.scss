@@ -16,7 +16,7 @@ $capsid_: (
   capsid-section-community-headerbg: usetheme(yellow-20),
 );
 
-@include addtheme($capsid_)
+@include addtheme($capsid_);
 
 
 

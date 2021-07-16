@@ -14,6 +14,8 @@ process.env.NUXT_ENV_DEVALUE_LOG_LEVEL = 'silent' // default is 'warn'
 */
 
 import Cytosis from 'cytosis'
+import { resolve } from 'path'
+
 
 const pkg = require('./package')
 const env = require('dotenv').config()
@@ -109,6 +111,10 @@ if(pd_env=='stage' && mode=='universal') {
 
 // export default (async function() {
 export default {
+
+  alias: {
+    '~': resolve(__dirname, './'),
+  },
   // let site_data
   // if (mode == 'universal') 
   //   site_data = await initData()

@@ -196,7 +196,9 @@
                     <!-- short description / name -->
 
                     <div v-if="authors && authors[0]" >
-                      <AuthorCard v-if="item" v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
+                      <div v-for="item of authors" :key="item.id" >
+                        <AuthorCard :person="item" class="Capsid-author-short People-only-header --compact" />
+                      </div>
                     </div>
                     <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
                     <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
@@ -226,7 +228,7 @@
       </div>
 
       <div v-if="issue && issue.fields['Use:TwitterEmbed']" >
-        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8" />
       </div>
 
       <!-- <NodeForm v-if="form" :src="form" class="Capsid-form" /> -->

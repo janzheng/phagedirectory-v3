@@ -45,7 +45,7 @@ import FooterSignups from '~/components/layout/FooterSignups.vue'
 import PolicyBanner from '~/components/org/PolicyBanner.vue'
 
 // import Directory from '~/components/Directory.vue'
-// import SignupAlert from '~/components/SignupAlert.vue'
+// import SignupAlert from '~/components/SignupAlert'
 // import SignupRequest from '~/components/SignupRequest.vue'
 // import SignupCapsid from '~/components/SignupCapsid.vue'
 

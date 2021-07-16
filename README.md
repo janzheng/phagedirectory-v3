@@ -50,3 +50,10 @@ For detailed explanation on how things work, checkout the [Nuxt.js docs](https:/
 		- SPA mode; as backup in case SSR fails
 
 
+
+
+
+# Notes
+
+
+For new _config.json updates, use `https://content.phage.directory/v3` to get updated configs, and paste it in

@@ -42,9 +42,9 @@
     </div>
     
     <div class="_section-content _margin-center">
-      <div class="_grid-2 _margin-left-xs _margin-right-xs">
+      <div class="_margin-left-xs _margin-right-xs">
         
-        <CapsidStub v-for="issue of notLatest" :key="issue.id" :issue="issue" :authors="getAuthorsOfManuscript(issue)" show-lede="true" class="" />
+        <CapsidStub v-for="issue of notLatest" :key="issue.id" :issue="issue" :authors="getAuthorsOfManuscript(issue)" show-lede="true" class="_margin-bottom-2" />
       </div>
 
     </div>

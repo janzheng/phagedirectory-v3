@@ -16,7 +16,7 @@ $capsid_: (
   capsid-section-community-headerbg: usetheme(yellow-20),
 );
 
-@include addtheme($capsid_)
+@include addtheme($capsid_);
 
 
 
@@ -370,7 +370,7 @@ $capsid_: (
 
   &.--stub {
     // homepage, highlight, etc.
-    max-height: 250px;
+    max-height: 350px;
   }
 }
 

@@ -6,7 +6,7 @@
 
         <div class="_padding-bottom-2 _margin-bottom-2" v-html="$md.render(betatext || '') "/>
 
-        <iframe id="betasignup" class="airtable-embed" src="https://airtable.com/embed/shr0Zo4PlvLYkEtTM?backgroundColor=blue" frameborder="0" onmousewheel="" width="100%" height="2220" style="background: transparent; border: 1px solid #ccc;"></iframe>
+        <iframe id="betasignup" class="airtable-embed" src="https://airtable.com/embed/shr0Zo4PlvLYkEtTM?backgroundColor=blue" frameborder="0" onmousewheel="" width="100%" height="2220" style="background: transparent; border: 1px solid #ccc;" />
 
         <!-- <NodeForm v-if="form" :src="form"/> -->
       </template>
@@ -21,12 +21,12 @@
 <script>
 
 import Context from '~/templates/article.vue'
-import NodeForm from '~/components/render/NodeForm.vue'
+// import NodeForm from '~/components/render/NodeForm.vue'
 
 export default {
 
   components: {
-    NodeForm,
+    // NodeForm,
     Context,
   },
 

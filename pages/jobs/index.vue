@@ -82,7 +82,7 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content-copy", "atoms-jobs"],
+    tableQueries: process.env.pd_env == 'stage' ? ["_content-copy", "atoms-jobs-preview"] : ["_content-copy", "atoms-jobs"],
     refreshOnLoad: true,
   },
 

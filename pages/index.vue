@@ -109,7 +109,7 @@ export default {
 
     // this loads in the latest capsid on client; but do it on server instead
     // b/c that's better for SEO
-    // this.getLatestCapsid()
+    this.getLatestCapsid()
 
     // load these in the client so server is faster; can't be cached, so can skip SEO
     this.getLatestAtoms(_numLatest)
@@ -200,7 +200,8 @@ export default {
 
       routeName: 'Index-capsid-latest',
 
-      query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
+      // query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
+      query: process.env.pd_env == 'stage' ? "capsid-previews-prev" : "capsid-latest",
 
     })
 

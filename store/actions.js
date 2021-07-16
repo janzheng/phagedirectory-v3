@@ -6,6 +6,8 @@ import limiter from 'async-limiter'
 import oibackoff from 'oibackoff'
 import axios from 'axios'
 
+import { cacheGet, cacheSet } from "../other/cache.js"
+
 const limiter_jobs = new limiter({concurrency: 4})
 
 
@@ -22,88 +24,98 @@ let backoff = oibackoff.backoff({
 // SERVER INIT / SETUP CONFIG CODE 
 // 
 
-async function setupConfig(airtables, app) {
-  // Cache the config w/ zeit now lambda
-  // populate config with cache on first hit; once it's loaded it'll end up in the store
-  // if config exists, skip it
-
-  // this will get cached in the store
-  let _configArr = []
-
-  // final config object
-  let _config = {}
-
-  console.log('[nuxtServerInit/setupConfig] env:', process.env.useCytosisConfigCache)
-  // console.log('env mode:', process.env.mode)
-  // console.log('env pdenv:', process.env.pd_env)
-
-  try {
-    if(process.env.useCytosisConfigCache && process.env.api_url) {
-      console.log('[nuxtServerInit/setupConfig] Pulling config from cache.')
-      // this grabs config from cache if it exists, otherwise gets configs from airtable and saves them to cache
-      try {
-        _config = await axios.get(`${process.env.api_url}/api/exocytosis/config/setup?airtables=${JSON.stringify(airtables)}`, {timeout: process.env.cache_timeout})
-        _config = _config.data
-        return _config
-      } catch(err) {
-        console.error('[nuxtServerInit/setupConfig] Config cache API timed out')
-        // continue pulling configs w/ Cytosis if no API
-      }
-    }
-
-    console.log('[nuxtServerInit/setupConfig] loading configs w/o cache.')
-    // load the configs here in the client
-    let configsP = []
-    airtables.map(async function({api, base}) {
-
-      // with backoff; don't need limiter b/c only a few configs so far
-      configsP.push(new Promise((resolve, reject) => {
-        backoff((data, cb) => {
-            cb(null, app.$cytosis.getConfig(data))
-          },
-          {
-            airKey: api,
-            airBase: base,
-            routeName: "nuxtServerInit-setup-config",
-          }, function(err, data) {
-            if(err)
-              reject(err)
-            if(data) {
-              resolve(data)
-              // resolve({
-              //   base: base,
-              //   data: data
-              // })
-            }
-          })
-        }
-      ))
-      // without backoff
-      // configsP.push(app.$cytosis.getConfig({
-      //   airKey: api,
-      //   airBase: base,
-      //   routeName: "[nuxtServerInit/setupConfig]",
-      // }))
-    })
-
-    let configs = await Promise.all(configsP)
-    // console.log('[nuxtServerInit/setupConfig] final configs :::' , configs)
-    await configs.map(async function(configObj) {
-      _configArr.push(configObj)
-    })
-
-    // return a config object that can be added to the store
-    airtables.map(({base}, i) => {
-      _config[base] = _configArr[i]
-    })
-
-    return _config
-  
-  } catch(err) {
-    console.log('[nuxtServerInit] Config cache timed out or errored. Proceeding w/o cache ... ', err)
-    return Promise.reject()
-  }
+// just pulls the data locally
+async function setupConfigLocal() {
+  console.log('[setupConfigLocal] Getting config from local file ...')
+	let config = require('../static/data/_config.json')
+  return config
 }
+
+// async function setupConfig(airtables, app) {
+//   // Cache the config w/ zeit now lambda
+//   // populate config with cache on first hit; once it's loaded it'll end up in the store
+//   // if config exists, skip it
+
+//   // this will get cached in the store
+//   let _configArr = []
+
+//   // final config object
+//   let _config = {}
+
+//   console.log('[nuxtServerInit/setupConfig] env:', process.env.useCytosisConfigCache)
+//   // console.log('env mode:', process.env.mode)
+//   // console.log('env pdenv:', process.env.pd_env)
+
+//   try {
+//     if(process.env.useCytosisConfigCache && process.env.api_url) {
+//       console.log('[nuxtServerInit/setupConfig] Pulling config from cache.')
+//       // this grabs config from cache if it exists, otherwise gets configs from airtable and saves them to cache
+//       try {
+//         _config = await axios.get(`${process.env.api_url}/api/exocytosis/config/setup?airtables=${JSON.stringify(airtables)}`, {timeout: process.env.cache_timeout})
+//         _config = _config.data
+//         return _config
+//       } catch(err) {
+//         console.error('[nuxtServerInit/setupConfig] Config cache API timed out')
+//         // continue pulling configs w/ Cytosis if no API
+//       }
+//     }
+
+//     console.log('[nuxtServerInit/setupConfig] loading configs w/o cache.')
+//     // load the configs here in the client
+//     let configsP = []
+//     airtables.map(async function({api, base}) {
+
+//       // with backoff; don't need limiter b/c only a few configs so far
+//       configsP.push(new Promise((resolve, reject) => {
+//         backoff((data, cb) => {
+//             cb(null, app.$cytosis.getConfig(data))
+//           },
+//           {
+//             airKey: api,
+//             airBase: base,
+//             routeName: "nuxtServerInit-setup-config",
+//           }, function(err, data) {
+//             if(err)
+//               reject(err)
+//             if(data) {
+//               resolve(data)
+//               // resolve({
+//               //   base: base,
+//               //   data: data
+//               // })
+//             }
+//           })
+//         }
+//       ))
+//       // without backoff
+//       // configsP.push(app.$cytosis.getConfig({
+//       //   airKey: api,
+//       //   airBase: base,
+//       //   routeName: "[nuxtServerInit/setupConfig]",
+//       // }))
+//     })
+
+//     let configs = await Promise.all(configsP)
+//     // console.log('[nuxtServerInit/setupConfig] final configs :::' , configs)
+//     await configs.map(async function(configObj) {
+//       _configArr.push(configObj)
+//     })
+
+//     // return a config object that can be added to the store
+//     airtables.map(({base}, i) => {
+//       _config[base] = _configArr[i]
+//     })
+
+
+//     console.log('>>>>>>>', JSON.stringify(_config))
+
+//     return _config
+  
+//   } catch(err) {
+//     console.log('[nuxtServerInit] Config cache timed out or errored. Proceeding w/o cache ... ', err)
+//     return Promise.reject()
+//   }
+// }
 
 
 
@@ -121,29 +133,124 @@ const debouncedUpdate = _.debounce(function(commit, object){
 
 
 
+
+async function fetchCytosisAPI({data}) {
+
+  try {
+    // console.log('Fetch Cytosis API!!!!!', data, false)
+    let cacheStr = JSON.stringify(data)
+    let results
+
+    // this will probably never hit, as fetchData grabs it immediately
+    results = cacheGet(cacheStr, false) 
+    if(results && process.env.pd_env !== 'stage') {
+      console.log('[fetchCytosisAPI][cache]:', data['routeName'], data['tableQuery'])
+      return results
+    }
+    // if(results && process.env.pd_env == 'stage') {
+    //   console.log('[fetchCytosisAPI][cache] STAGE :: Skipping cache' )
+    // }
+
+    if(process.env.v3_api) {
+      let config = Object.assign({},{...data['config']})
+
+      if(data['config']) // don't upload config
+        delete data['config']
+
+      // console.log('[fetchCytosisAPI] Using v3 API:', process.env.v3_api)
+      let cacheStatus = process.env.pd_env == 'stage' ? 'cache=false' : ''
+
+      if(cacheStatus != '')
+        console.log('[fetchCytosisAPI][external cache]:', cacheStatus)
+
+        
+      // POST doesn't get cached properly
+      // let response = await axios.post(`${process.env.v3_api}/api/v3/query${cacheStatus}`, data)
+      
+      // use GET w/ x-body headers instead — these are better cached
+      console.log('[fetchCytosisAPI] query:', process.env.v3_api, data)
+      let encodedData, response
+      
+      // if no keywords and options, just do a tableQuery (e.g. "_content")
+      // if complex data, do a complete data-driven query
+      
+      if(!data.config && !data.options && !data.payloads.keyword) {
+        console.log('[fetchCytosisAPI] Quick query', data['tableQuery'], 'cache:', cacheStatus)
+        response = await axios.get(`${process.env.v3_api}/api/v3/query?${cacheStatus}&query=${data['tableQuery']}`)
+      } else {
+        encodedData = escape(encodeURIComponent(JSON.stringify(data)))
+        // console.dir(`${process.env.v3_api}/api/v3/query${cacheStatus}&data=${encodedData}&dataMode=encoded`)
+        console.log('[fetchCytosisAPI] Full query', data['tableQuery'], 'cache:', cacheStatus)
+        response = await axios.get(`${process.env.v3_api}/api/v3/query?${cacheStatus}&data=${encodedData}&dataMode=encoded`)
+      }
+
+      // console.log('------', process.env.v3_api, JSON.stringify(data))
+      // console.log('------', response)
+
+      if(response.status == 200) {
+        results = await response.data
+        // console.log('[fetchCytosisAPI] API Data:: results—output', { ...data, config, tables: results })
+        let _results = { ...data, config, tables: results, airBase: {
+          // conform to v3 schema
+          id: results['airBase'],
+          tables: Object.keys(results),
+          tableQuery: data['tableQuery'],
+          options: data['options'],
+          payloads: data['payloads'],
+        } }
+
+        cacheSet(cacheStr, _results)
+        return _results
+      } else {
+        console.error('[fetchCytosisAPI] API Failure', response)
+      }
+    }
+
+  } catch(err) {
+    console.error('[fetchCytosisAPI] Error: Cytosis not fetched from API', `${process.env.v3_api}/api/v3/query`, err)
+    return null
+  }
+}
+
+
+
+
 function fetchCytosis({data, _this}, callback, ) {
 
   try {
-    // console.log(' Fetch Cytosis!', data)
+    // console.log('Fetch Cytosis!', data, false)
+    let cacheStr = JSON.stringify(data)
     let results, err
-    // oibackoff uses callbacks, can't handle promises
-    // return new Promise((resolve, reject) => {
-    limiter_jobs.push(function(done) {
-      let cytosisPromise = new _this.$cytosis(data)
-      cytosisPromise.then((_cytosis) => {
-        done() 
-        results = _cytosis
-      }, (_err) => {
-        done()
-        err = _err
-      })
-    })
 
-    limiter_jobs.onDone(() => {
-      // console.log('fetchCytosis Resolving: ', err, results)
-      callback(err, results)
-    })
-    // }) 
+    results = cacheGet(cacheStr, false) 
+    if(results) {
+      console.log('[fetchCytosis] cache:', data['routeName'], typeof(results))
+      callback(null, results)
+      return
+    } else {
+    
+        console.log('[fetchCytosis] Airtable:', data['routeName'], typeof(results))
+        // oibackoff uses callbacks, can't handle promises
+        return new Promise(() => {
+        limiter_jobs.push(function(done) {
+          let cytosisPromise = new _this.$cytosis(data)
+          cytosisPromise.then((_cytosis) => {
+            done() 
+            results = _cytosis
+          }, (_err) => {
+            done()
+            err = _err
+          })
+        })
+    
+        limiter_jobs.onDone(() => {
+          // console.log('fetchCytosis Resolving: ', err, results)
+          cacheSet(cacheStr, results)
+          callback(err, results)
+        })
+        }) 
+    }
+
   } catch(err) {
     console.log('Cytosis not fetched')
     callback(new Error('[fetchCytosis] Cytosis not fetched'))
@@ -152,58 +259,25 @@ function fetchCytosis({data, _this}, callback, ) {
 
 
 
-async function fetchData({data, _this, state}) { 
+async function fetchData({data, _this}) { 
 
   try {
-    // console.log(' >>>>> Fetching data for:' , data.tableQuery, '/' ,data.routeName, ' useDataCache', data.useDataCache)
-    // let keyword = data.payloads ? data.payloads.keyword : undefined
-    // console.time(`${data.tableQuery}-${data.routeName}//${keyword}`)
 
-    // if a loadQuery's useDataCache is on ...
-    // NOTE: some queries (like latest atoms) you don't want to cache!
-    // - first check the state cytosis store ... (for both cached tablequery and pagequery)
-    // - then check the cache 
-    // - then get it locally
-    if(data.useDataCache) {
-      // let storeQuery = data.pageQuery || data.tableQuery
-      // console.log(' >>>>> Trying caching strategies.')
+    let results
 
-      // if pageQuery, the data might exist in one of the stored page objects (not built yet)
-      // if(data.pageQuery) {
-      //   if(state.cytosisStore[pageQuery][data.tableQuery]) {
-      //     // console.log('Cytosis found in store:' , data.tableQuery, state.cytosisStore[data.tableQuery])
-      //     return Promise.resolve(state.cytosisStore[pageQuery][data.tableQuery])
-      //   }
-      // }
-
-      if(state.cytosisStore && state.cytosisStore[data.tableQuery]) {
-        // console.log(' >>>>> Cytosis found in store:' , data.tableQuery, state.cytosisStore[data.tableQuery])
-        // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
-        return Promise.resolve(state.cytosisStore[data.tableQuery])
+    if(process.env.v3_api) {
+      try {
+        results = await fetchCytosisAPI({data, _this})
+        // console.log('[fetchCytosisAPI] API Results:', apiResults) 
+  
+        if(results)
+          return results
+        else 
+          console.log('[fetchCytosis] API error:', data['routeName'])
+      } catch(e) {
+        console.error('[fetchData] Failed to fetch from Content AP — continuing w/ local Airtable strat')
       }
-
-      // check the data cache w/ fetch — grabs from cache AND cytosis
-      if(process.env.useCytosisDataCache && process.env.api_url) {
-        // too long w/ json data lol
-        // let cachedata = await axios.get(`${process.env.api_url}/api/exocytosis/data/fetch?airBase=${data.airBase}&tableQuery=${data.tableQuery}&routeName=${data.routeName}`, {timeout: process.env.cache_timeout})
-        
-        try {
-          let cachedata = await axios.post(`${process.env.api_url}/api/exocytosis/data/fetch?airBase=${data.airBase}&tableQuery=${data.tableQuery}&routeName=${data.routeName}`, {
-              airBase: data.airBase,
-              tableQuery: data.tableQuery,
-              routeName: data.routeName,
-              config: data.config
-            }, {timeout: process.env.cache_timeout})
-          
-          // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
-          return Promise.resolve(cachedata.data)
-        } catch(err) {
-          console.error('[action/loadCytosis] API Data cache timed out... getting data from Cytosis.')
-        }
-      }   
     }
-
-    // console.log(' >>>>> Trying local strategy.')
 
     return new Promise((resolve, reject) => {
 
@@ -226,7 +300,7 @@ async function fetchData({data, _this, state}) {
         }
 
         backoff(fetchCytosis, {data, _this}, intermediate, function(err, _data) {
-          if (retry)
+          // if (retry)
             // console.log('Retrying... #:', retries)
           // console.log('backoff callback:', err, data)
           if(err) {
@@ -238,6 +312,9 @@ async function fetchData({data, _this, state}) {
               console.log('>>> # retries:', retries)
             }
             // console.timeEnd(`${data.tableQuery}-${data.routeName}//${keyword}`)
+            delete _data['base']
+            // delete _data['airBase']
+            // console.log('fetchData::::', _data)
             resolve(_data)
           }
         })
@@ -290,22 +367,33 @@ async function fetchData({data, _this, state}) {
 
 export default {
 
-  async nuxtServerInit ({ dispatch }, context) {
+  async nuxtServerInit ({ dispatch }) {
 
     console.log('[nuxtServerInit] Initializing Server >>>>>>>>>> ')
 
     try {
-      const airtables = [
-        {
-          api: process.env.airtable_api, 
-          base: process.env.airtable_base,
-        },
-        {
-          api: process.env.airtable_api,
-          base: process.env.db_base
-        }
-      ]
-      let config = await setupConfig(airtables, context.app)
+      // const airtables = [
+      //   {
+      //     api: process.env.airtable_api, 
+      //     base: process.env.airtable_base,
+      //   },
+      //   {
+      //     api: process.env.airtable_api,
+      //     base: process.env.db_base
+      //   }
+      // ]
+
+      // this takes too long
+      // let config = await setupConfig(airtables, context.app)
+      // pull from local file — needs to be updated if config is updated
+      let config = cacheGet('config') 
+
+      // console.log('config nodecache?!', config)
+      if(!config) {
+        config = await setupConfigLocal()
+      } else {
+        console.log('[nuxServerInit] Config loaded from nodecache')
+      }
 
       // update the store cache
       if(config){
@@ -330,7 +418,7 @@ export default {
 
   // async loadCytosis ({ commit, state }, {env, tableQuery, options, caller}) {
   // async loadCytosis ({ commit }, {routeName, env, tableQuery, options, payloads, config, _key, _base}) {
-  async loadCytosis ({ state, commit }, data) {
+  async loadCytosis({ state, commit }, data) {
 
     try {
       // async loadCytosis ({ commit }, {env, tableQuery, options, payloads, caller, _key, _base}) {
@@ -341,7 +429,7 @@ export default {
       let cytosis = undefined
       const _this = this
 
-      console.log('[action/loadCytosis] Loading Cytosis [routeName]:[tableQuery]:',`[${routeName}]:[${tableQuery}]`,`[useDataCache: ${useDataCache}]`)
+      // console.log('[action/loadCytosis] Loading Cytosis [routeName]:[tableQuery]:',`[${routeName}]:[${tableQuery}]`,`[useDataCache: ${useDataCache}]`)
 
       if(!cytosis) {
         
@@ -355,7 +443,7 @@ export default {
             options,
             config,
             payloads,
-            useDataCache,
+            // useDataCache,
           }
 
           cytosis = await fetchData({state, data: _data, _this})
@@ -437,6 +525,7 @@ export default {
           airKey: airKey || process.env.airtable_api,
           baseId: baseId || process.env.airtable_base,
         })
+        
         return cache
         // item = this.$cytosis.cleanRecord(item)
       } catch(err) {

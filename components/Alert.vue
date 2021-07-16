@@ -1,6 +1,6 @@
 
 <template>
-
+  
   <div :class="atom.fields['Data:Status']" class="Alert _card _padding _color-bg-white" >
 
     <div v-if="atom.fields['Data:Status']" class="Alert-status" >
@@ -23,7 +23,7 @@
       <div class="Alert-updates " v-html="$md.render(atom.fields['Updates'] || '')" />
     </div>
 
-  </div>
+  </div>  
 
 </template>
 

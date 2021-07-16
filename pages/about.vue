@@ -78,7 +78,7 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content","_internal"],
+    tableQueries: ["_content-copy","_internal"],
     refreshOnLoad: true,
   },
 

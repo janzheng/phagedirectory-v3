@@ -196,7 +196,9 @@
                     <!-- short description / name -->
 
                     <div v-if="authors && authors[0]" >
-                      <AuthorCard v-if="item" v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
+                      <div v-for="item of authors" :key="item.id" >
+                        <AuthorCard :person="item" class="Capsid-author-short People-only-header --compact" />
+                      </div>
                     </div>
                     <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
                     <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
@@ -223,6 +225,10 @@
       <div v-if="issue.fields['Manuscripts:Related']" class="Capsid-related Capsid-print-hidden _divider-top _margin-bottom" >
         <h6 class="_padding-bottom-none">Related Article<span v-if="relatedIssues.length>0">s</span></h6>
         <CapsidStub v-for="item of relatedIssues" :key="item.fields['Name']" :issue="item" show-lede="true" class="--related _margin-top" />
+      </div>
+
+      <div v-if="issue && issue.fields['Use:TwitterEmbed']" >
+        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8" />
       </div>
 
       <!-- <NodeForm v-if="form" :src="form" class="Capsid-form" /> -->
@@ -299,7 +305,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 // import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCard.vue'
-import Alert from '~/components/Alert.vue'
+import Alert from '~/components/Alert'
 
 import Template from '~/templates/manuscript-capsid.vue'
 
@@ -358,9 +364,9 @@ export default {
     // if(process.client) {
       console.group()
       console.log('[Capsid] Cached data:')
-      console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
+      console.log(`%c ${JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']])}`, 'color: skyblue')
       console.log('[Capsid] Citation')
-      console.log(JSON.stringify(this.citation))
+      console.log(`%c ${JSON.stringify(this.citation)}`, 'color: pink')
       console.groupEnd()
       // console.log('[Capsid] Cached data conversion:', this.$store.state['cytosisStore'][this.issue.fields['Slug']])
     }

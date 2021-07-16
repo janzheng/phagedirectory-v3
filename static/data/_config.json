@@ -725,7 +725,6 @@
             "Tables": ["Atoms"],
             "isPublished": true,
             "Notes": "Query for getting all published Jobs atoms",
-            "sort": "{ \t\"sort\": [{ \t\t\"field\": \"Data:Date\", \t\t\"direction\": \"desc\" \t}] }",
             "view": "Jobs:Preview",
             "Type": "query",
             "Id": "recfMf6VJUb097ZHk"
@@ -737,7 +736,6 @@
           "Tables": ["Atoms"],
           "isPublished": true,
           "Notes": "Query for getting all published Jobs atoms",
-          "sort": "{ \t\"sort\": [{ \t\t\"field\": \"Data:Date\", \t\t\"direction\": \"desc\" \t}] }",
           "view": "Jobs:Preview",
           "Type": "query",
           "Id": "recfMf6VJUb097ZHk"

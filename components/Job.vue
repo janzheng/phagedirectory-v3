@@ -6,14 +6,15 @@
     <div v-if="atom.fields['Data:Categories'] || atom.fields['Data:Type'] || atom.fields['Data:Tags']" class="Job-header">
 
       <div class="_grid-1-auto _align-vertically _margin-bottom _grid-gap-small">
-        <div v-if="atom.fields['Data:Type']" >
-          <span class="Job-type _tag --highlight --nowrap _margin-bottom-none-i">{{ atom.fields['Data:Type'] }}</span><span v-if="atom.fields['Data:Categories']" class="Job-type _tag --nowrap _margin-bottom-none-i">
-            {{ atom.fields['Data:Categories'][0] }}
-          </span>
-        </div>
-
-        <div v-if="atom.fields['Data:Tags']" class="Job-tags">
-          <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="Job-tag _tag --nowrap">{{ item }}</span>
+          <div>
+          <div v-if="atom.fields['Data:Type']" >
+            <span class="Job-type _tag --highlight --nowrap _margin-bottom-none-i">{{ atom.fields['Data:Type'] }}</span><span v-if="atom.fields['Data:Categories']" class="Job-type _tag --nowrap _margin-bottom-none-i">
+              {{ atom.fields['Data:Categories'][0] }}
+            </span>
+          </div>
+          <div v-if="atom.fields['Data:Tags']" class="Job-tags">
+            <span v-for="item of atom.fields['Data:Tags']" :key="atom.id + item" class="Job-tag _tag --nowrap">{{ item }}</span>
+          </div>
         </div>
         <div class="Job-date _right-sm _font-small">
           <span>Posted {{ atom.fields['Data:Date'] | dateTo }}</span>

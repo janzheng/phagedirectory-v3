@@ -50,7 +50,7 @@
     { "src": "/vom-awards", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Apply-for-Phage-Directory-VoM-Writing-Awards-7fd995b017264bddb08b5af26755a4ff" }},
     { "src": "/covid-amr", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/COVID-AMR-Secondary-Infections-45ca8c5d0cda4fad89e441fdc1013f0e" }},
     { "src": "/guestwriter", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Capsid-Tail-Guest-Writer-Guide-8206f242215d4f008a27a4f8c07096a1" }},
-    { "src": "/sponsor", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Phage-Directory-Sponsorship-Options-65c1f4758a634fb4b8fe648abe3eead2" }},
+    { "src": "/sponsor", "status": 301, "headers": { "Location": "https://phagedirectory.notion.site/Phage-Directory-Sponsorship-Options-65c1f4758a634fb4b8fe648abe3eead2" }},
     { "src": "/phaves", "status": 301, "headers": { "Location": "https://seminars.phage.directory/" }},
     { "src": "/faves", "status": 301, "headers": { "Location": "https://seminars.phage.directory/" }},
     { "src": "/youtube", "status": 301, "headers": { "Location": "https://www.youtube.com/channel/UC9YZWR4wmUj6fFnPhCRQZBA/" }},
@@ -58,6 +58,9 @@
     { "src": "/club", "status": 301, "headers": { "Location": "https://www.notion.so/phagedirectory/Phage-Club-Notes-d06899ad9be340a4adbb2f4334d26032" }},
 
     { "src": "/scener", "status": 301, "headers": { "Location": "https://scener.com/join/1BWH-B6TZ-P1RG-LCL9" }},
+
+
+    { "src": "/jobpost", "status": 301, "headers": { "Location": "https://buy.stripe.com/5kA7uf0OL1TYbcIfYY" }},
 
 
 

@@ -62,7 +62,7 @@
 import Template from '~/templates/context.vue'
 import Timeline from '~/components/events/Timeline.vue'
 import { loadQuery } from '~/other/loaders'
-import { headMatter } from '~/other/headmatter.js'
+// import { headMatter } from '~/other/headmatter.js'
 
 export default {
 

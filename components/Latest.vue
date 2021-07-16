@@ -28,11 +28,11 @@
 <script>
 
 // import { mapState } from 'vuex'
-import Alert from '~/components/Alert'
-// import CapsidAlert from '~/components/publications/CapsidAlert'
-import CapsidNew from '~/components/publications/CapsidNew'
-import CapsidJob from '~/components/publications/CapsidJob'
-import CapsidCommunity from '~/components/publications/CapsidCommunity'
+import Alert from './components/Alert'
+// import CapsidAlert from './components/publications/CapsidAlert'
+import CapsidNew from './components/publications/CapsidNew'
+import CapsidJob from './components/publications/CapsidJob'
+import CapsidCommunity from './components/publications/CapsidCommunity'
 
 export default {
 

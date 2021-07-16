@@ -6,7 +6,7 @@
     <div v-if="atom.fields['Data:Categories'] || atom.fields['Data:Type'] || atom.fields['Data:Tags']" class="Job-header">
 
       <div class="_grid-1-auto _align-vertically _margin-bottom _grid-gap-small">
-          <div>
+        <div>
           <div v-if="atom.fields['Data:Type']" >
             <span class="Job-type _tag --highlight --nowrap _margin-bottom-none-i">{{ atom.fields['Data:Type'] }}</span><span v-if="atom.fields['Data:Categories']" class="Job-type _tag --nowrap _margin-bottom-none-i">
               {{ atom.fields['Data:Categories'][0] }}

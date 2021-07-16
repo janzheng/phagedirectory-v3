@@ -295,21 +295,21 @@
 <script>
 
 import { mapState } from 'vuex'
-import CapsidShare from '~/components/publications/CapsidShare'
-import CapsidSponsor from '~/components/publications/CapsidSponsor'
-import CapsidNew from '~/components/publications/CapsidNew'
-import CapsidJob from '~/components/publications/CapsidJob'
-import CapsidCommunity from '~/components/publications/CapsidCommunity'
-import CapsidStub from '~/components/publications/CapsidStub.vue'
+import CapsidShare from '../components/publications/CapsidShare'
+import CapsidSponsor from '../components/publications/CapsidSponsor'
+import CapsidNew from '../components/publications/CapsidNew'
+import CapsidJob from '../components/publications/CapsidJob'
+import CapsidCommunity from '../components/publications/CapsidCommunity'
+import CapsidStub from '../components/publications/CapsidStub.vue'
 // import { loadQuery } from '~/other/loaders'
-import AuthorCard from '~/components/dir/PeopleCard.vue'
-import Alert from '~/components/Alert'
+import AuthorCard from '../components/dir/PeopleCard.vue'
+import Alert from '../components/Alert.vue'
 
-import Template from '~/templates/manuscript-capsid.vue'
+import Template from '../../templates/manuscript-capsid.vue'
 
 // import AxiosPost from '~/components/AxiosPost.vue'
 // import NodeForm from '~/components/render/NodeForm.vue'
-import { headMatter } from '~/other/headmatter.js'
+import { headMatter } from '../../other/headmatter.js'
 
 export default {
 

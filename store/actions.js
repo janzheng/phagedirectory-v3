@@ -6,7 +6,7 @@ import limiter from 'async-limiter'
 import oibackoff from 'oibackoff'
 import axios from 'axios'
 
-import { cacheGet, cacheSet, cacheClear } from "../other/cache.js"
+import { cacheGet, cacheSet } from "../other/cache.js"
 
 const limiter_jobs = new limiter({concurrency: 4})
 
@@ -25,7 +25,7 @@ let backoff = oibackoff.backoff({
 // 
 
 // just pulls the data locally
-async function setupConfigLocal(airtables, app) {
+async function setupConfigLocal() {
   console.log('[setupConfigLocal] Getting config from local file ...')
 	let config = require('../static/data/_config.json')
   return config
@@ -134,12 +134,12 @@ const debouncedUpdate = _.debounce(function(commit, object){
 
 
 
-async function fetchCytosisAPI({data, _this}) {
+async function fetchCytosisAPI({data}) {
 
   try {
     // console.log('Fetch Cytosis API!!!!!', data, false)
     let cacheStr = JSON.stringify(data)
-    let results, err
+    let results
 
     // this will probably never hit, as fetchData grabs it immediately
     results = cacheGet(cacheStr, false) 
@@ -231,7 +231,7 @@ function fetchCytosis({data, _this}, callback, ) {
     
         console.log('[fetchCytosis] Airtable:', data['routeName'], typeof(results))
         // oibackoff uses callbacks, can't handle promises
-        return new Promise((resolve, reject) => {
+        return new Promise(() => {
         limiter_jobs.push(function(done) {
           let cytosisPromise = new _this.$cytosis(data)
           cytosisPromise.then((_cytosis) => {
@@ -259,7 +259,7 @@ function fetchCytosis({data, _this}, callback, ) {
 
 
 
-async function fetchData({data, _this, state}) { 
+async function fetchData({data, _this}) { 
 
   try {
 
@@ -367,21 +367,21 @@ async function fetchData({data, _this, state}) {
 
 export default {
 
-  async nuxtServerInit ({ dispatch }, context) {
+  async nuxtServerInit ({ dispatch }) {
 
     console.log('[nuxtServerInit] Initializing Server >>>>>>>>>> ')
 
     try {
-      const airtables = [
-        {
-          api: process.env.airtable_api, 
-          base: process.env.airtable_base,
-        },
-        {
-          api: process.env.airtable_api,
-          base: process.env.db_base
-        }
-      ]
+      // const airtables = [
+      //   {
+      //     api: process.env.airtable_api, 
+      //     base: process.env.airtable_base,
+      //   },
+      //   {
+      //     api: process.env.airtable_api,
+      //     base: process.env.db_base
+      //   }
+      // ]
 
       // this takes too long
       // let config = await setupConfig(airtables, context.app)

@@ -11,7 +11,7 @@
     <div class="Org-container">
       <div class="Org-info _width-100" :class="logoUrl ? '_grid-1-3' : ''">
         <div v-if="logoUrl" class="Dir-logo" >
-          <a :href="org.fields['URL']" class="_inline-block"><img :src="logoUrl" class="" :alt="`${org.fields['Name']} Logo`"></a>
+          <a :href="org.fields['URL']" class="_inline-block"><img :src="logoUrl" class="" :alt="`${org.fields['Name']} Logo`" loading="lazy"></a>
         </div>
         <div class="">
           <div class="">

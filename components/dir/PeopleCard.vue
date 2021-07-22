@@ -14,7 +14,7 @@
 
     <div class="People-container _flex-row">
       <div class="People-profile _margin-right">
-        <img alt="Profile Image" :src="profileUrl" class="--profile --medium" >
+        <img alt="Profile Image" :src="profileUrl" class="--profile --medium" loading="lazy">
       </div>
       <!-- <div class="People-info _width-100"> -->
       <div class="People-info _flex-1">
@@ -103,7 +103,7 @@
         <div v-if="hostNames && hostNames.length > 0" class="People-phage-block Dir-block">
           <div class="Dir-label">Phage Hosts</div>
           <div class="Dir-miniCard">
-            <div v-for="host of hostNames" :key="host[0]" class="_organism-container">
+            <div v-for="host of hostNames" :key="host[0]+'-'+person.fields['Slug']" class="_organism-container">
               <nuxt-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</nuxt-link>
             </div>
           </div>
@@ -112,7 +112,7 @@
         <div v-if="manuscripts && manuscripts.length > 0" class="People-manuscripts-block Dir-block">
           <div class="Dir-miniCard">
             <h6 class="_padding-bottom-half">Capsid & Tail</h6>
-            <div v-for="item of manuscripts" :key="item.id" class="_manuscripts-container">
+            <div v-for="item of manuscripts" :key="item.id+'-'+person.fields['Slug']" class="_manuscripts-container">
               <nuxt-link :to="`/capsid/${item.fields['Slug']}`" target="_blank" class="_manuscript --nolink _margin-bottom-half _inline-block _font-small" v-html="$md.strip($md.render(item.fields['Data:IssueName'] || ''))" />
             </div>
             <div v-if="manuscripts.length > 3" class="Dir-block _font-small Dir-disabled">Number of articles: {{ manuscripts.length }}</div>
@@ -144,7 +144,7 @@ export default {
       return undefined
     },
     profileUrl() {
-      return this.profile ? this.profile['url'] : 'https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95'
+      return this.profile && this.profile['thumbnails'] ? this.profile['thumbnails']['large']['url'] : 'https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95'
     },
     hostNames() {
       if(!this.person.fields['PhageCollections:Hosts::Names'])

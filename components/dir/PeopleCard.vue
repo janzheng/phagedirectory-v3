@@ -37,7 +37,7 @@
                 <a v-if="person.fields['Social:ResearchGate']" :href="`${person.fields['Social:ResearchGate']}`" class="Dir-icon --url"><span class="_font-phage icon-researchgate" /></a>
                 <a v-if="person.fields['Social:ORCID']" :href="`${person.fields['Social:ORCID']}`" class="Dir-icon --url"><span class="_font-phage icon-orcid"/></a>
                 <a v-if="person.fields['Social:Publons']" :href="`${person.fields['Social:Publons']}`" class="Dir-icon --url"><span class="_font-phage icon-publons"/></a>
-                <a v-if="person.fields['Social:Twitter']" :href="`https://twitter.com/${person.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
+                <a v-if="person.fields['Social:Twitter']" :href="`${getTwitter}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
                 <a v-if="person.fields['Social:Github']" :href="`${person.fields['Social:Github']}`" class="Dir-icon --url"><span class="_font-phage icon-github-circled"/></a>
               </div>
             </div>
@@ -76,7 +76,7 @@
               <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
             </div>
             <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-6-xs _align-vertically">
-              <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
+              <span class="Dir-label">Twitter </span><a :href="`${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
             </div>
             <div v-if="url" class="Dir-row-half _grid-1-6-xs _align-baseline">
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
@@ -103,7 +103,7 @@
         <div v-if="hostNames && hostNames.length > 0" class="People-phage-block Dir-block">
           <div class="Dir-label">Phage Hosts</div>
           <div class="Dir-miniCard">
-            <div v-for="host of hostNames" :key="host[0]+'-'+person.fields['Slug']" class="_organism-container">
+            <div v-for="host of hostNames" :key="host[0]+'-'+person.id" class="_organism-container">
               <nuxt-link :to="`/hosts#${host[1]}`" class="_organism">{{ host[0] }}</nuxt-link>
             </div>
           </div>
@@ -207,9 +207,11 @@ export default {
     getTwitter() {
       let twitter = this.person.fields['Social:Twitter']
       if(twitter.substring(0,1) == '@')
+        return 'https://twitter.com/' + twitter
+      else if(twitter.substring(0,4) == 'http')
         return twitter
       else
-        return '@'+twitter
+        return 'https://twitter.com/' + twitter
     }
 
   },

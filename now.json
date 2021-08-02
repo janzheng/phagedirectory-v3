@@ -40,7 +40,7 @@
     { "src": "/rss", "status": 301, "headers": { "Location": "https://content.phage.directory/api/rss" }},
     { "src": "/feed.xml", "status": 301, "headers": { "Location": "https://content.phage.directory/api/rss" }},
 
-    { "src": "/slack", "status": 301, "headers": { "Location": "https://phagedirectory.slack.com/join/shared_invite/enQtNzA2OTI0MTk4Mzc0LTU4Yjg0NTY2NWEyMzUyZDMxMDJjMmEyZGFiNDcyYmIxMzYxYTRkZjBjZGY3YjNlODc2MWFhNTAwNjBmYzQyYmY" }},
+    { "src": "/slack", "status": 301, "headers": { "Location": "https://join.slack.com/t/phagedirectory/shared_invite/zt-90r8eyg6-WLhFZlojUtMQLCotq0crsQ " }},
     { "src": "/notion", "status": 301, "headers": { "Location": "https://www.notion.so/?r=5eb42727210944beb04d578a4950ef50" }},
     { "src": "/airtable", "status": 301, "headers": { "Location": "https://airtable.com/invite/r/AHQ9XJCx" }},
     

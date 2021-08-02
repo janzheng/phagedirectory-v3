@@ -76,7 +76,7 @@
               <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
             </div>
             <div v-if="person.fields['Social:Twitter']" class="Dir-row-half _grid-1-6-xs _align-vertically">
-              <span class="Dir-label">Twitter </span><a :href="`${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
+              <span class="Dir-label">Twitter </span><a :href="`${getTwitter}`" class="_wordbreak --url --none">{{ getCleanTwitter }}</a>
             </div>
             <div v-if="url" class="Dir-row-half _grid-1-6-xs _align-baseline">
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
@@ -206,13 +206,24 @@ export default {
     },
     getTwitter() {
       let twitter = this.person.fields['Social:Twitter']
+
+      if(!twitter)
+        return undefined 
+        
       if(twitter.substring(0,1) == '@')
         return 'https://twitter.com/' + twitter
       else if(twitter.substring(0,4) == 'http')
         return twitter
       else
         return 'https://twitter.com/' + twitter
-    }
+    },
+    getCleanTwitter() {
+      if(this.getTwitter) {
+        let lastSlash = this.getTwitter.lastIndexOf('@') || this.getTwitter.lastIndexOf('/')
+        return '@'+this.getTwitter.substring(lastSlash + 1)
+      }
+      return undefined
+    },
 
   },
   methods: {

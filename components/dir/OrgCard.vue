@@ -23,7 +23,7 @@
               <div class="Dir-social Dir-title">
                 <a v-if="org.fields['Email']" :href="`mailto:${org.fields['Email']}`" class="Dir-icon --url"><span class="_font-phage icon-mail-alt"/></a>
                 <a v-if="org.fields['Social:Linkedin']" :href="`${org.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin"/></a>
-                <a v-if="org.fields['Social:Twitter']" :href="`https://twitter.com/${org.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
+                <a v-if="org.fields['Social:Twitter']" :href="`${getTwitter}`" class="Dir-icon --url"><span class="_font-phage icon-twitter"/></a>
               </div>
             </div>
           </div>
@@ -54,7 +54,7 @@
         </div>
         <div>
           <div v-if="org.fields['Social:Twitter']" class="Dir-row-half _grid-1-6-xs _align-vertically">
-            <span class="Dir-label">Twitter </span><a :href="`https://twitter.com/${getTwitter}`" class="_wordbreak --url --none">{{ getTwitter }}</a>
+            <span class="Dir-label">Twitter </span><a :href="`${getTwitter}`" class="_wordbreak --url --none">{{ getCleanTwitter }}</a>
           </div>
           <div v-if="org.fields['Social:Linkedin']" class="Dir-row-half _grid-1-6-xs _align-vertically">
             <span class="Dir-label">LinkedIn </span><a :href="`${org.fields['Social:Linkedin']}`" class="_wordbreak --url --none">{{ org.fields['Social:Linkedin'] }}</a>
@@ -179,11 +179,24 @@ export default {
     },
     getTwitter() {
       let twitter = this.org.fields['Social:Twitter']
+
+      if(!twitter)
+        return undefined 
+
       if(twitter.substring(0,1) == '@')
+        return 'https://twitter.com/' + twitter
+      else if(twitter.substring(0,4) == 'http')
         return twitter
       else
-        return '@'+twitter
-    }
+        return 'https://twitter.com/' + twitter
+    },
+    getCleanTwitter() {
+      if(this.getTwitter) {
+        let lastSlash = this.getTwitter.lastIndexOf('@') || this.getTwitter.lastIndexOf('/')
+        return '@'+this.getTwitter.substring(lastSlash + 1)
+      }
+      return undefined
+    },
 
   },
   methods: {

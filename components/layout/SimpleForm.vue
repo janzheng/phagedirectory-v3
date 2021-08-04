@@ -141,7 +141,7 @@ export default {
 
         let form_post_api = process.env.form_post_api || this.payload.handler // used to be webtask but it's gone
 
-        console.log('submitting form to', form_post_api)
+        // console.log('submitting form to', form_post_api)
 
 
         axios.post(form_post_api, data)

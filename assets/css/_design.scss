@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
   &.--normal {
     font-weight: normal;
   }
-  &.--inline {
+  &.__inline {
     padding-bottom: $size-half !important;
   }
 }

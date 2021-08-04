@@ -54,7 +54,7 @@
     <datalist id="datalist">
       <option v-for="item of input.options" :key="item.value" :value="item.value">{{ item.label }}</option>
     </datalist>
-    <!-- <div v-for="option in input.options" :key="option.value" class="_form-radio --inline" >
+    <!-- <div v-for="option in input.options" :key="option.value" class="_form-radio __inline" >
       <label :for="option.value" class="_form-radio-label"> 
         <input :id="option.value"
                v-model.trim="data" 

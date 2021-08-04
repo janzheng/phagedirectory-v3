@@ -240,7 +240,7 @@
 
       <div v-if="authors && authors[0] && citation" id="Capsid-cite" class="Capsid-cite _divider-top " >
         <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
-        <h6 class="--inline">How to Cite</h6>
+        <h6 class="__inline">How to Cite</h6>
         <div v-if="issue.fields['Meta:Citation:Text']" >
           <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
         </div>

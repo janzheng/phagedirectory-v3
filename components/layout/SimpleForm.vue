@@ -138,7 +138,10 @@ export default {
         this.isSending = true
 
         console.log('Submitting data: ', data, this.payload)
-        axios.post(this.payload.handler, data)
+
+        let api_url = process.env.FORM_POST_API || this.payload.handler // used to be webtask but it's gone
+
+        axios.post(api_url, data)
         .then(function (response) {
           console.log('Message sent! Status:', response.status)
           // if(status.status == 200) {

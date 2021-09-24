@@ -139,13 +139,14 @@ blockquote {
   padding-left: $size-2;
   padding-right: $size-2;
 
-  &, p {
+  &, p, a {
+    font-weight: normal;
     font-size: $font-large;
     line-height: $font-large-lineheight * 1;
     @extend %font-serif;
     -webkit-font-smoothing: auto;
     -moz-osx-font-smoothing: unset;
-    font-style: italic;
+    // font-style: italic;
     color: usetheme(brand-copy);
     // @extend .--antialias;
   }
@@ -155,6 +156,11 @@ blockquote {
     font-size: $size;
     font-style: normal;
     color: usetheme(copy);
+  }
+
+  a { 
+    font-weight: 500 !important;
+    color: usetheme(brand-active);
   }
 }
 

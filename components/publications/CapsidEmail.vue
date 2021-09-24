@@ -855,6 +855,12 @@ img {
   ._card.Urgent {
     border-top: 3px solid #D43615;
   }
+  ._card.__fyi {
+    background: #F1FBFF;
+    border-left: solid 6px;
+    border-color: #50CDE0;
+    border-radius: 4px;
+  }
 
 ._button-link {
   padding-right: 8px;

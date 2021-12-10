@@ -365,12 +365,12 @@ $capsid_: (
 .Capsid-cover {
   // cover image
   width: 100%;
-  height: 350px;
+  height: 400px;
   // object-fit: cover;
 
   &.--stub {
     // homepage, highlight, etc.
-    max-height: 350px;
+    max-height: 400px;
   }
 }
 

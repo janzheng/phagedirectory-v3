@@ -189,7 +189,7 @@
           <h6 style="padding:0;">Like this issue?</h6> 
           <div style="padding-top: 8px;">
             <CapsidShare :link="twitterLink" message="Tweet this issue!" />
-            <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://dl.airtable.com/.attachments/c03b568df726d47bb37e53dbfacbbffd/4fa7ef48/Rss.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
+            <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://dl.phage.directory/.attachments/c03b568df726d47bb37e53dbfacbbffd/4fa7ef48/Rss.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
           </div>
         </div>
 

@@ -37,7 +37,7 @@
           <div v-for="(item, index) of authors" :key="index" class="_inline-block _margin-right">
             <span v-if="item" >
               <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile _v-middle">
-              <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile _v-middle" height="42" width="42">
+              <img v-else :src="`https://dl.phage.directory/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile _v-middle" height="42" width="42">
               <span class="_font-normal _padding-left-half _v-middle">{{ item.fields['Name'] }}</span>
             </span>
           </div>
@@ -61,7 +61,7 @@
             <div v-for="(item, index) of authors" :key="index" class="_inline-block _margin-right">
               <span v-if="item" class="_flex-row">
                 <img v-if="item.fields['ProfileImage'] && item.fields['ProfileImage'].length > 0 && item.fields['ProfileImage'][0].thumbnails" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
-                <img v-else :src="`https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
+                <img v-else :src="`https://dl.phage.directory/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
                 <div class="_font-normal _padding-left-half _align-vertically">{{ item.fields['Name'] }}</div>
               </span>
             </div>

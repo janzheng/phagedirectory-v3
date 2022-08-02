@@ -118,7 +118,7 @@ export default {
       return undefined
     },
     profileUrl() {
-      return this.profile ? this.profile['url'] : 'https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95'
+      return this.profile ? this.profile['url'] : 'https://dl.phage.directory/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95'
     },
     hostNames() {
       if(!this.person.fields['PhageCollections:Hosts::Names'])

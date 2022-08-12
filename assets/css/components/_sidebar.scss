@@ -15,7 +15,7 @@ $sidebar: (
   size-bar: 16px, // sidenav is a shorter sidebar just for nav
   sidebar-min-width: 240px, // for larger sidebars w/ info and content
 );
-@include addtheme($sidebar)
+@include addtheme($sidebar);
 
 
 $link-active-weight: 600;
@@ -88,7 +88,7 @@ $link-active-weight: 600;
       // background-color: $color-ui;
       // border-left: $border-medium solid usetheme(sidebar-border);
       // padding: 2px $size;
-      // margin-bottom: $size/2;
+      // margin-bottom: $size * 0.5;
       &:last-child {
         margin-bottom: 0;
       }

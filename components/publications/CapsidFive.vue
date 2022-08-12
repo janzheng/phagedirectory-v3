@@ -353,6 +353,7 @@ export default {
       url: this.issue.fields['URL'],
     })
 
+    console.log('issue data:', this.issue.fields)
     return head
   },
 
@@ -364,7 +365,7 @@ export default {
     // if(process.client) {
       console.group()
       console.log('[Capsid] Cached data:')
-      console.log(`%c ${JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']])}`, 'color: skyblue')
+      console.log(`%c ${JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]).replaceAll('dl.airtable.com','dl.phage.directory')}`, 'color: skyblue')
       console.log('[Capsid] Citation')
       console.log(`%c ${JSON.stringify(this.citation)}`, 'color: pink')
       console.groupEnd()

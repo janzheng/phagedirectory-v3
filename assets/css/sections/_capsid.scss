@@ -480,7 +480,7 @@ table.Capsid-author-header {
   // margin-right: $size;
   // vertical-align: bottom;
   // display: inline;
-  // margin-top: $size/2;
+  // margin-top: $size * 0.5;
   max-width: 80px;
 }
   .Capsid-author-card {
@@ -522,7 +522,7 @@ table.Capsid-author-header {
   .Capsid-twitter {
     img {
       vertical-align: middle;
-      margin-right: $size/4;
+      margin-right: $size * 0.25;
     }
     margin-bottom: $size;
   }
@@ -538,8 +538,8 @@ table.Capsid-author-header {
   margin-bottom: 0;
   
   @include screen-xs {
-    padding-left: $size/2;
-    padding-right: $size/2;
+    padding-left: $size * 0.5;
+    padding-right: $size * 0.5;
   }
 }
 
@@ -549,8 +549,8 @@ table.Capsid-author-header {
   background-color: usetheme(bg-silver);
 
   @include screen-xs {
-    padding-left: $size/2;
-    padding-right: $size/2;
+    padding-left: $size * 0.5;
+    padding-right: $size * 0.5;
   }
 }
   #disqus_thread {

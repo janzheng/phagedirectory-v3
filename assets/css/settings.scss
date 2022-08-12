@@ -91,7 +91,7 @@ $sizes: (
  
 ) !default;
 
-@include addtheme($sizes)
+@include addtheme($sizes);
 
 
 $size: usetheme(size); // 16px;
@@ -363,7 +363,7 @@ $context: (
   transparent: usetheme(transparent, $colors_),
 );
 
-@include addtheme($context)
+@include addtheme($context);
 // @include colorate($context_);
 
 

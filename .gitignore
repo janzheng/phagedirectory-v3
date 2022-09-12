@@ -9,6 +9,8 @@ oldgit
 
 # v2
 node_modules
+node_modules_dev
+node_modules_prod
 npm-debug.log
 .nuxt
 dist
@@ -19,7 +21,6 @@ notes.md
 .now
 .vercel
 .nuxtrc
-.node_modules_dev
 
 
 .cache

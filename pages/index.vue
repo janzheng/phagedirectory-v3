@@ -22,7 +22,7 @@
     
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
-                grid-classes="Template--Main-Sidebar-xs _grid-3-1 _grid-gap"
+                grid-classes="Template--Main-Sidebar-xs "
                 sidebar-classes="_sidebar _height-100">
         <template #default>
           <div class="Home-grid-main">
@@ -38,27 +38,29 @@
               </div>
             </div>
 
-            <div class="Home-latest _margin-center _padding _card">
-              <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
-              <!-- featured has been rolled into Latest — add FeedFeature tag and it should show up here -->
-              <!-- <Latest v-if="featuredAtoms" :atoms="featuredAtoms" /> -->
-              <NodeForm v-if="form" :src="form"/>
-              <!-- <Latest v-if="nonFeaturedAtoms" class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" /> -->
-              <Latest class="_margin-top-2 --tight" :atoms="latestAtoms" />
-              <button class="_button --width-full _center CTA --brand _font-bold _margin-top-2-i _margin-bottom-none-i" @click="getLatestAtoms(numLatest)">
-                <span v-if="!isLoadingMore" class="">Load More</span> 
-                <!-- <div v-else class="_spinner"> </div> -->
-                <div v-else >Loading <span class="_margin-left _spinner" /> </div>
-              </button>
+            <div class="Home-latest _margin-center _padding _card | _grid-3-1 _grid-gap">
+              
+              <div>
+                <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
+                <!-- featured has been rolled into Latest — add FeedFeature tag and it should show up here -->
+                <!-- <Latest v-if="featuredAtoms" :atoms="featuredAtoms" /> -->
+                <NodeForm v-if="form" :src="form"/>
+                <!-- <Latest v-if="nonFeaturedAtoms" class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" /> -->
+                <Latest class="_margin-top-2 --tight" :atoms="latestAtoms" />
+                <button class="_button --width-full _center CTA --brand _font-bold _margin-top-2-i _margin-bottom-none-i" @click="getLatestAtoms(numLatest)">
+                  <span v-if="!isLoadingMore" class="">Load More</span> 
+                  <!-- <div v-else class="_spinner"> </div> -->
+                  <div v-else >Loading <span class="_margin-left _spinner" /> </div>
+                </button>
+              </div>
+
+              <no-ssr>
+                <Twitter class=" _center-xs" />
+              </no-ssr>
             </div>
           </div>
         </template>
 
-        <template #context>
-          <no-ssr>
-            <Twitter class="_height-100 _center-xs" />
-          </no-ssr>
-        </template>
       </Template>
     </no-ssr>
       

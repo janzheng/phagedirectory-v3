@@ -13,7 +13,7 @@
     "precommit": "npm run lint",
     "commit": "npm run precommit; git add . -A ; git commit ; git push origin master ",
     "dirty": "git add . -A ; git commit ; git push origin master ",
-    "deploy": "git add . -A ; git commit ; git push origin deploy ",
+    "prod": "git add . -A ; git commit ; git push origin deploy ",
     "deploydirty": "git add . -A ; git commit ; git push origin deploy --force ",
     "local": "PD_ENV=prod MODE=universal npm run build; npm run start",
     "dev": "nuxt",
@@ -22,7 +22,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "-------": "use these — Vercel is now simplified just to use native cmds",
-    "prod": "now --prod",
+    "nowprod": "now --prod",
     "stage": "now"
   },
   "dependencies": {

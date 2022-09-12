@@ -17,3 +17,10 @@ notes.md
 
 .env
 .now
+
+
+
+.cache
+.output
+/build/
+/public/build

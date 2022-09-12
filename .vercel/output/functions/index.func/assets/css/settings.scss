@@ -1,0 +1,530 @@
+
+/* 
+
+  This needs to be overhauled...
+
+
+  // looks better on large screens / high DPI:
+  // $size: 18px;
+  // $font-lineheight: 28px;
+
+  // $width-content-max: 95ch;
+  // $width-content-paragraph: 85ch;
+  // $width-content-paragraph-narrow: 62ch !default; // deprecated in favor of content-article
+  // $width-content-article: 68ch !default;
+
+ */
+
+
+
+/* 
+
+    COEUR PRESETS, VARIABLES, and OVERRIDES
+
+ */
+
+
+
+$use-cssvars: false;
+$use-colorate: true;
+
+$height-input: 48px; //inherit; // coeur sets a height limit on inputs, but we don't want that here
+
+/* 
+
+  IMPORT COEUR HERE
+  - don't use nuxt, it messes w/ default variables & cascading
+
+ */
+
+
+// @import '../../node_modules/coeur/styles/index.scss';
+
+// selective import for space saving
+@import '../../node_modules/coeur/styles/_utils.scss';
+// @import '../../node_modules/coeur/styles/_heart.scss';
+@import 'heart';
+
+
+
+
+
+
+
+/* 
+
+  Default variable overrides
+  - for buttons, etc.
+
+ */
+
+
+
+$sizes: (
+  size-diff: 0,
+  size: 16px,
+  lineheight: 24px,
+
+  font-large: 19px,
+
+  size-mobile: 19px,
+  size-mobile-input: 24px,
+  line-height-mobile: 26px,
+
+  size-title: 16px,
+  lineheight-title: 16px*1.2,
+
+  // roomier copy for article pages
+  size-copy: 16px,
+  size-copy-lh: 24px,
+
+  copy-large: 18px,
+  copy-large-lh: 28px,
+
+  opacity-expired: 0.5,
+
+  z-top: 90,
+  z-popup: 100,
+
+  profile-small: 42px,
+  profile: 80px,
+ 
+) !default;
+
+@include addtheme($sizes);
+
+
+$size: usetheme(size); // 16px;
+$font-lineheight: usetheme(lineheight); // 24px;
+// $font-size-base: 18px;
+$font-small: usetheme(font-small); // $size - 2px;
+$font-large: usetheme(font-large); // $size + 2px;
+// $offset: 5px;
+$z-popup: 100; // 
+$z-top: 90;
+
+$size-diff: usetheme(size-diff) !default;      // default: 0; in case we’re not using base16, used for some edge cases / alignment
+$size: usetheme(size) - $size-diff !default;   // 16px default; // based on 4*4
+$sizeline: usetheme(lineheight); // $size * 1.5 !default;               // baseline; base lineheight; line-heights follow 1.5 rule
+$baseline: $sizeline;
+
+
+
+
+/* 
+
+  COLOR MANAGEMENT
+
+ */
+
+
+$colors: (
+  white: #fafafa,
+  // these are a bit stale (6/25/19)
+  phdir: #71eff5,
+  green: #54A95D, // added 8-18-2020
+  red: #d43615,
+  teal: #71eff5,
+  teal_dull: #90D9DD,
+  yellow: #FCCB4C,
+  pink: #FA5486,
+  blue-dark: #374F6A,
+  // blue-silver: #F5FDFF,
+  purple: #980b7e,
+
+
+  researchgate: #00CCBA,
+  orcid: #A6CE39,
+  linkedin: #0077B5,
+
+  // brand-active: color(#71EFF5, 142),
+  brand-dark: #374F6A, //color(#71EFF5, 150), —> //this color appears too greenish!?
+  brand-light: #b0c3d8,
+  brand-lighter: color(#71EFF5, 80),
+); 
+@include addtheme($colors);
+
+
+// https://www.colorbox.io/#steps=9#hue_start=208#hue_end=218#hue_curve=easeInQuad#sat_start=13#sat_end=99#sat_curve=easeInOutCubic#sat_rate=78#lum_start=100#lum_end=22#lum_curve=easeOutQuad#lock_hex=71EFF5#minor_steps_map=0
+// https://www.colorbox.io/#steps=12#hue_start=208#hue_end=218#hue_curve=easeInQuad#sat_start=2#sat_end=86#sat_curve=easeInOutCubic#sat_rate=75#lum_start=100#lum_end=25#lum_curve=easeOutQuad#lock_hex=71EFF5#minor_steps_map=0
+
+$colors-brand: (
+  brand: #71EFF5,
+  brand--1: #FAFEFF, // super light blue, good for really light bgs
+  brand-0: #FBFDFF,
+  brand-5: #F1FBFF,
+  brand-10: #E7FBFF,
+  brand-20: #D6F9FF,
+  brand-30: #BEF6FF,
+  brand-40: #9EF3FD,
+  brand-50: #71EFF5, // brand color
+  brand-60: #50CDE0,
+  brand-70: #3AA7C8,
+  brand-80: #2E81AA,
+  brand-90: #275F89,
+  brand-100: #204065,
+  brand-110: #172640,
+  brand-250: #0085FF,
+  brand-copy: #172640,
+  brand-active: #FA5486, // old color not AAA
+  brand-alert: #71EFF5,
+  brand-background: #F1FBFF,
+  brand-border: #9EF3FD, // was 71EFF5; too bright?
+  brand-bright: #0085FF, // #00529E, // replaced w/ more AA color #0085FF,
+  brand-disabled: #E7FBFF,
+);
+
+// old
+// $colors-brand: (
+//   brand-0: #E5F3FF,
+//   brand-5: #D3F0FF,
+//   brand-10: #C0F2FF,
+//   brand-20: #A0F1FE,
+//   brand-30: #71EFF5, // ** brand
+//   brand-40: #48C7DE,
+//   brand-50: #2597C0,
+//   brand-60: #196799,
+//   brand-70: #133D6A,
+//   brand-80: #0D1D38,
+//   brand: #71EFF5,
+//   brand-copy: #0D1D38,
+// );
+@include addtheme($colors-brand);
+@include colorate($colors-brand);
+
+// https://www.colorbox.io/#steps=8#hue_start=208#hue_end=218#hue_curve=easeInQuad#sat_start=13#sat_end=99#sat_curve=easeInOutCubic#sat_rate=78#lum_start=100#lum_end=38#lum_curve=easeOutQuad#lock_hex=71EFF5#minor_steps_map=0
+$colors-secondary: ( // dark blue
+  secondary-0: #EAFAFF,
+  secondary-5: #E6F3F8,
+  secondary-10: #E2EDF1,
+  secondary-20: #D1DEE4,
+  secondary-30: #B2C7D1,
+  secondary-40: #83A4B7,
+  secondary-50: #567A95,
+  secondary-60: #374F6A, // ** brand
+  secondary-70: #21304B,
+  secondary-80: #0F1629,
+  secondary: #374F6A,
+  secondary-copy: #0F1629,
+);
+@include addtheme($colors-secondary);
+@include colorate($colors-secondary);
+
+// https://www.colorbox.io/#steps=8#hue_start=208#hue_end=218#hue_curve=easeInQuad#sat_start=13#sat_end=99#sat_curve=easeInOutCubic#sat_rate=78#lum_start=100#lum_end=38#lum_curve=easeOutQuad#lock_hex=71EFF5#minor_steps_map=0
+$colors-pink: (
+  pink--1: #FFF1F3,           // added later as a much lighter pink as bg
+  pink-0: #FFE3E8,
+  pink-5: #FFD9E2,
+  pink-10: #FFCFDC,
+  pink-20: #FFB3C8,
+  pink-30: #FF89AB,
+  pink-40: #FA5486,           // ** brand
+  pink-50: #DF2C5F,
+  pink-60: #BD053A, 
+  pink-70: #950031,
+  pink-80: #6B0027,
+  pink: #FA5486,
+  pink-copy: #6B0027,
+  pink-active: #b90236, // #DF2C5F,       // brand color not AA // AA: 9c002d // rgb(250, 84, 134);
+  pink-disabled: #FFCFDC, 
+  pink-background: #FFE3E8, 
+  pink-border: #BD053A, 
+);
+@include addtheme($colors-pink);
+@include colorate($colors-pink);
+
+
+// https://www.colorbox.io/#steps=9#hue_start=48#hue_end=17#hue_curve=easeInQuart#sat_start=12#sat_end=78#sat_curve=easeInSine#sat_rate=134#lum_start=99#lum_end=36#lum_curve=easeOutQuad#lock_hex=FCCB4C#minor_steps_map=0
+// https://www.colorbox.io/#steps=9#hue_start=48#hue_end=17#hue_curve=easeInQuart#sat_start=4#sat_end=78#sat_curve=easeInQuad#sat_rate=135#lum_start=99#lum_end=27#lum_curve=linear#lock_hex=FCCB4C#minor_steps_map=0
+$colors-yellow: (
+  yellow-0: #FCFAEF,
+  yellow-5: #FFFBDE,
+  yellow-10: #FFFCCB,
+  yellow-20: #FFEFA7,
+  yellow-30: #FFDF7D,
+  yellow-40: #FCCB4C, // ** brand
+  yellow-50: #CEA033,
+  yellow-60: #A06F19, 
+  yellow-70: #733705,
+  yellow-80: #451400,
+  yellow: #FCCB4C,
+  yellow-copy: #451400,
+);
+@include addtheme($colors-yellow);
+@include colorate($colors-yellow);
+
+// https://www.colorbox.io/#steps=11#hue_start=206#hue_end=218#hue_curve=easeInQuad#sat_start=5#sat_end=33#sat_curve=easeInOutCubic#sat_rate=83#lum_start=100#lum_end=16#lum_curve=easeOutQuad#minor_steps_map=0
+// blue / brand-tinted gray scale colors
+$colors-mono: (
+  mono-0: #F4FAFF,
+  mono-5: #F2F8FD,
+  mono-10: #F0F7FC,
+  mono-20: #E8F0F5,
+  mono-30: #DBE5EC,
+  mono-40: #C8D4DF, 
+  mono-50: #ADBECE,
+  mono-60: #8FA3B7, // ** brand
+  mono-70: #74869B, 
+  mono-80: #586678,
+  mono-90: #3B4451,
+  mono-100: #1E2229,
+  mono: #8FA3B7,
+  mono-disabled: #F2F8FD,
+);
+@include addtheme($colors-mono);
+@include colorate($colors-mono);
+
+
+
+._color-brand { color: usetheme(brand, $colors); }
+._color-brand-active { color: usetheme(active, $colors); }
+._color-brand-dark { color: usetheme(brand-dark, $colors); }
+._color-brand-light { color: usetheme(brand-light, $colors); }
+
+// colorate's been removed to cut down on size, so manually include colors
+._color-bg-white { background-color: #fff; } // usetheme(white); }
+
+
+@include addtheme($colors_); // merge settings colors into working theme 
+$colorMap: colorTintMap($colors);
+
+$context: (
+  main: usetheme("brand"),
+  secondary: usetheme("gray"),
+  tertiary: usetheme("pink"),
+  tertiary-dark: color(usetheme("pink"), 122),
+
+  active: usetheme("pink-active"),
+  links: usetheme("brand-dark"),
+  hover: usetheme("pink-active"), //usetheme(pink-active, $colors), // usetheme(pink, $colors),
+  links-decoration: usetheme("pink"),//usetheme(pink, $colors),
+  // highlight: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
+  highlight: usetheme("brand-40"),
+  highlight-dark: usetheme("brand-60"),
+  
+  // highlight-light: map-get($colorMap, teal-300), //usetheme(phdir, $colors),
+  // advert: map-get($colorMap, pink-300), //usetheme(phdir, $colors),
+  
+  // updates: usetheme(silver-lighter, $colors_),
+  // jobs: map-get($colorMap, teal-300),
+  // community: map-get($colorMap, pink-300),
+
+  body: usetheme("blue-dark", $colors),
+  body-bg: usetheme("blue-dark"),
+  copy: usetheme("brand-copy"),
+
+  copy-dark: usetheme("mono-90"),
+  copy-gray: usetheme("mono-80"),
+  copy-light: usetheme("mono-60"),
+
+  header-color: usetheme("brand-100"), // used for h1-h6
+  title-color: usetheme("brand"), // used for logotype in nav
+  // header-bg-top: rgba(usetheme(gray), 0.02),
+  // header-bg-scroll: rgba(usetheme(silver-lighter, $colors_), 0.86),
+  // header-search-bg: rgba(usetheme(silver-lighter, $colors_), 0.26),
+  header-links: usetheme("gray"),
+  header-active: usetheme("active"),
+
+  footer-bg: usetheme("blue-dark"),
+  footer-copy: usetheme(white, $colors),
+  footer-links: usetheme(white, $colors),
+  footer-active: usetheme("brand"),
+
+  sidebar-bg: usetheme("silver-light"),
+
+  border-color: usetheme("pink"),
+
+  classroom-color: usetheme("pink-5"),
+
+  bg: usetheme(white, $colors),
+  bg-white: usetheme(white, $colors),
+  bg-purewhite: usetheme("purewhite", $color-presets_),
+  bg-silver: usetheme("silver-light", $color-presets_),
+  bg-lighter: usetheme("silver-lighter", $color-presets_),
+
+  btn-active: usetheme("brand-dark", $colors),
+  // bg-blue: usetheme(blue-dark, $colors_),
+  // bg-blue-silver: usetheme(blue-silver, $colors),
+  // tbd refactor later
+  // blue: usetheme(blue, $colors_), // useful for alert-signup, when a blue color needed (prb needs fix later)
+  // white: usetheme(white, $colors_), // contextually useful for text on dark backgrounds
+
+  card: usetheme("silver-light", $colors_),
+
+  // alert-color-cta: usetheme(teal_dull, $colors),
+
+  alert: usetheme("brand-20"),
+  success: usetheme(green, $colors),
+  warning: usetheme("yellow", $colors),
+  info: usetheme("brown", $colors_),
+  danger: usetheme(red, $colors),
+  disabled: usetheme("silver", $color-presets_),
+  disabled-text: usetheme("mono-80"),
+  transparent: usetheme(transparent, $colors_),
+);
+
+@include addtheme($context);
+// @include colorate($context_);
+
+
+
+
+// color overrides / legacy
+$color-active: usetheme(active);
+$color-hover: usetheme(active);
+
+// button defaults
+$button-color-disabled: usetheme(disabled);
+$button-color-disabled-text: usetheme(gray-light, $colors_);
+
+
+%gradient-brand {
+  // background: rgb(88,135,189);
+  // background: linear-gradient(163deg, rgba(88,135,189,1) 0%, rgba(58,100,147,1) 54%);
+  // background: rgb(210,247,250);
+  // background: linear-gradient(163deg, rgba(210,247,250,1) 0%, rgba(139,209,241,1) 89%);
+  background: rgb(250,255,255);
+  background: linear-gradient(163deg, rgba(250,255,255,1) 0%, rgba(181,232,255,1) 100%);
+}
+
+%gradient-brand-bright {
+  background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(99,55,255,1) 0%, rgba(39,170,255,1) 90% );
+}
+
+%gradient-tertiary {
+  // background: rgb(244,115,153);
+  // background: linear-gradient(163deg, rgba(244,115,153,1) 0%, rgba(226,88,130,1) 29%, rgba(236,62,115,1) 45%);
+  // background: rgb(251,211,222);
+  // background: linear-gradient(163deg, rgba(251,211,222,1) 0%, rgba(254,212,225,1) 34%, rgba(255,142,176,1) 89%);
+  background: rgb(255,231,246);
+  background: linear-gradient(163deg, rgba(255,231,246,1) 0%, rgba(255,193,218,1) 89%);
+}
+
+@import '../../node_modules/coeur/styles/_head.scss';
+
+// @import '../../node_modules/coeur/styles/_neck.scss';
+@import '../../node_modules/coeur/styles/_neck-buttons.scss';
+@import '../../node_modules/coeur/styles/_neck-layout.scss';
+@import '../../node_modules/coeur/styles/_neck-design.scss';
+// @import '../../node_modules/coeur/styles/_neck-links.scss';
+@import '../../node_modules/coeur/styles/_neck-code.scss';
+
+// @import '../../node_modules/coeur/styles/_body.scss';
+@import '../../node_modules/coeur/styles/_body-card.scss';
+@import '../../node_modules/coeur/styles/_body-forms';  
+@import '../../node_modules/coeur/styles/_body-tag';  
+@import '../../node_modules/coeur/styles/_body-table';  
+@import '../../node_modules/coeur/styles/_body-buttonGroups';  
+
+// re-cascade
+@import '../../node_modules/coeur/styles/_head-helpers.scss';
+
+
+
+
+
+/* latin-ext */
+// @font-face {
+//   font-family: Baruta;
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url(/fonts/rns-baruta-black/RNS-B.ttf) format("truetype");
+//   // src: local('Baruta') local('RNS Baruta Black'), url('/fonts/rns-baruta-black/RNS-B.ttf') format('truetype');
+// }
+
+
+
+%font-mono,
+._font-mono {
+  font-family: Courier, Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', monospace;
+} ._font-mono, ._font-code { @extend %font-mono; }
+
+
+%font-sans, ._font-sans,
+%font-basic, ._font-basic {
+  font-family: $font-sans;
+  @extend %font-sans;
+}
+
+%font-serif,
+._font-serif {
+  // font-family: "Georgia", serif;
+  font-family: usetheme(font-serif, $settings); // not dynamic
+  // font-family: usetheme(font-serif, $theme-typography);
+
+  // looks bad over white bg, so need to turn on manually
+  // &.--antialias {
+  //   -webkit-font-smoothing: auto;
+  //   -moz-osx-font-smoothing: unset;
+  // }
+}
+
+%font-display,
+._font-display {
+  font-family: $font-display;
+}
+
+// ._font-coffee { 
+//   font-family: $font-coffee;
+//   letter-spacing: 2px;
+// }
+
+
+
+
+._border-solid {
+  border-style: solid;
+}
+
+
+
+$shadows__: (
+  shadow-2: 0 1px 4px hsla(0, 0%, 0%, 0.18),
+  shadow-3: 0 2px 8px hsla(0, 0%, 0%, 0.18),
+  shadow-4: 0 4px 16px hsla(0, 0%, 0%, 0.18),
+  shadow-5: 0 8px 24px hsla(0, 0%, 0%, 0.18),
+  shadow-6: 0 16px 36px hsla(0, 0%, 0%, 0.18),
+) !default;
+
+._shadow-2 {
+  box-shadow: usetheme(shadow-2, $shadows__);
+}
+._shadow-3 {
+  box-shadow: usetheme(shadow-3, $shadows__);
+}
+._shadow-4 {
+  box-shadow: usetheme(shadow-4, $shadows__);
+}
+._shadow-5 {
+  box-shadow: usetheme(shadow-5, $shadows__);
+}
+._shadow-6 {
+  box-shadow: usetheme(shadow-6, $shadows__);
+}
+
+
+
+
+
+$inset__: (
+  inset-2: inset 0 2px 0px hsla(0, 0%, 0%, 0.1),
+  inset-3: inset 0 2px 2px hsla(0, 0%, 0%, 0.15),
+  inset-4: (inset 0 -2px 0 hsla(0, 0%, 100%, 0.14), inset 0 2px 2px hsla(0, 0%, 0%, 0.1)),
+  // inset-5: inset 0 0 0 1000px hsla(0, 0%, 0%, 0.14),
+  // inset-6: inset 0 0 0 1000px hsla(0, 0%, 0%, 0.24),
+) !default;
+
+._inset-2 {
+  box-shadow: usetheme(inset-2, $inset__);
+}
+._inset-3 {
+  box-shadow: usetheme(inset-3, $inset__);
+}
+._inset-4 {
+  box-shadow: usetheme(inset-4, $inset__);
+}
+
+
+
+
+

@@ -1,0 +1,95 @@
+
+.Latest {
+  &.--tight {
+    $size-h1: 21px;
+    $size-h2: 19px;
+    $size-h3: 17px;
+    $size-h4: 16px;
+    $size-h5: 13px;
+    $size-h6: 11px;
+    $size-p: 13px;
+    $size-small: 12px;
+
+    ._card {
+      box-shadow: none;
+      padding: $size;
+      border: 0;
+      border-radius: 0;
+      padding-bottom: $size-half;
+      border-bottom: solid usetheme(mono-10) $border-medium;
+
+      &.--featured {
+        border: solid usetheme(brand) $border-medium;
+        border-radius: $radius;
+        padding: $size;
+      }
+
+      &.--alert {
+        border: solid usetheme(brand) $border-medium;
+        border-radius: $radius;
+        padding: $size;
+        border-color: usetheme(pink-active);
+      }
+    }
+
+    h1 {
+      font-size: $size-h1;
+      line-height: $size-h1 * 1.5;
+    }
+    h2 {
+      font-size: $size-h2;
+      line-height: $size-h2 * 1.5;
+    }
+    h3 {
+      font-size: $size-h3;
+      line-height: $size-h3 * 1.5;
+    }
+    h4 {
+      font-size: $size-h4;
+      line-height: $size-h4 * 1.5;
+      padding-top: $size-half;
+      padding-bottom: $size-half;
+    }
+    h5 {
+      font-size: $size-h5;
+      line-height: $size-h5 * 1.5;
+    }
+    h6 {
+      font-size: $size-h6;
+      line-height: $size-h6 * 1.5;
+    }
+    p, ul, li,  {
+      font-size: $size-p;
+      line-height: $size-p * 1.5;
+    }
+    ._button {
+      font-size: $size-p;
+      line-height: 10px;
+      font-weight: normal;
+      border-width: $border-line;
+    }
+    ._tag, ._font-small, {
+      font-size: $size-small;
+      line-height: 10px;
+    }
+    p {
+      margin-bottom: $size-half;
+    }
+    .Alert-status {
+      font-size: $size-p;
+      line-height: $size-p * 1.5;
+    }
+
+    .Capsid-cta {
+      margin-top: 0;
+      margin-bottom: $size-half;
+    } 
+    .Capsid-item-taglist {
+      margin-top: 0;
+      margin-bottom: $size-half;
+    } 
+  }
+}
+
+
+

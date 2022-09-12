@@ -1,0 +1,434 @@
+
+/* 
+
+    Directory Styles
+    - Sections / Titles
+
+ */
+
+%url {
+  .--url {
+    // color: usetheme(copy-gray);
+    text-decoration: none;
+    // text-decoration-color: usetheme(copy-light);
+    // font-size: usetheme(font--1);
+    // line-height: usetheme(font--1-lh);
+    font-weight: bold; // 500;
+    // font-weight: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+
+    &:hover {
+      text-decoration-color: usetheme(hover);
+    }
+    &.--none {
+      text-decoration: none !important;
+      font-weight: normal;
+    }
+  }
+}
+
+
+.Dir-category {
+  background-color: usetheme(mono-0);
+  @extend %url;
+}
+
+.Dir-alternate {
+  &:nth-child(2n) {
+    background-color: usetheme(mono-0);
+  }
+}
+
+.Dir-section { // a block of larger content
+  // margin-bottom: $size; // use margin for folding
+}
+.Dir-block { // a block of smaller content 
+  margin-top: $size; // use margin for folding
+  margin-bottom: $size; // use margin for folding
+
+  &:first-of-type {
+    margin-top: 0
+  }
+  &:last-child {
+    margin-bottom: 0
+  }
+}
+
+.Dir-section-title { // h6
+  @extend %tight;
+  padding-bottom: $size-half;
+  margin-top: $size-2x;
+  color: usetheme(copy-gray);
+}
+
+.Dir-social { // icons
+  // icons need to show up in a row
+  white-space: nowrap;
+  @extend ._wordbreak; // text-overflow wrap
+}
+  .Dir-icon {
+    text-decoration: none;
+    ._font-phage {
+      color: usetheme(mono-70);
+    }
+    ._font-phage:hover {
+      color: usetheme(hover);
+    }
+    .icon-twitter:hover {
+      color: usetheme(twitter);
+    }
+    .icon-linkedin:hover {
+      color: usetheme(linkedin);
+    }
+    .icon-researchgate:hover {
+      color: usetheme(researchgate);
+    }
+    .icon-orcid:hover {
+      color: usetheme(orcid);
+    }
+    // vertical-align: text-bottom;
+    // the url line is also considered an icon
+
+  }
+
+.Dir-title {
+  // padding-top: $size-half;
+  // margin-bottom: $size-half;
+  // padding-bottom: $size;
+  // line-height: $size-5; // this is too tall for wrapped
+
+  // padding-bottom: $size-2;
+  line-height: $size-4; // this is too tall for wrapped lines
+
+  font-weight: 500;
+
+  &, * {
+    font-size: usetheme(font-1);
+    font-weight: normal;
+    color: usetheme(brand-copy);
+  }
+  a {
+    // text-decoration: none;
+    font-weight: normal;
+    text-decoration-color: usetheme(mono-50);
+    &:hover {
+      text-decoration-color: usetheme(active);
+    }
+  }
+}
+  .Dir-personTitle { // e.g. Master, PhD, etc.
+    font-size: usetheme(font-small) !important;
+    padding-left: $size-quart;
+    display: inline-block;
+  }
+// .Dir-highlight {
+//   &, * {
+//     font-weight: 500 !important;
+//   }
+// }
+.Dir-subtitle {
+  // font-size: usetheme(font--1);
+  // line-height: usetheme(font--1-lh);
+  margin-bottom: $size;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &, * {
+    font-weight: 500 !important;
+  }
+
+}
+// .Dir-label {
+//   color: usetheme(copy-light);
+//   line-height: usetheme(font-1-lh);
+//   // @extend ._label;
+// }
+// }
+.Dir-label {
+  color: usetheme(copy-light);
+  line-height: usetheme(font-2-lh);
+  // @extend ._label;
+
+  & + span {
+    line-height: usetheme(font-2-lh);
+  }
+}
+
+.Dir-card {
+  font-size: usetheme(rem);
+  line-height: usetheme(rem-lh);
+  @extend ._card;
+  overflow: initial;
+  // padding-top: $size;
+  // padding-bottom: $size;
+  margin-bottom: $size;
+  padding: $size-2x;
+  padding-top: $size-2x;
+  padding-bottom: $size-2x;
+
+  background-color: usetheme(purewhite); // $color-teal-50;
+  border-color: usetheme(silver-light);
+  border-width: $border-thin;
+  // border-color: usetheme(mono-0);
+
+  @extend %url;
+
+  @include screen-xs {
+    padding: $size;
+  }
+}
+  .Dir-miniCard {
+    font-size: usetheme(rem);
+    line-height: usetheme(rem-lh);
+    @extend ._card;
+    margin-bottom: $size;
+
+    padding: $size;
+    background-color: usetheme(brand-0); // $color-teal-50;
+    border-color: usetheme(brand-5);
+  
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+
+
+.Dir-description {
+  // font-size: usetheme(font--1);
+  // line-height: usetheme(font--1-lh);
+  // color: usetheme(copy-gray);
+  margin-bottom: $size-half;
+}
+
+.Dir-disabled {
+  color: usetheme(copy-light);
+}
+
+.Dir-basic {
+  color: usetheme(copy-dark);
+}
+.Dir-logo {
+  vertical-align: middle;
+  text-align: left;
+  picture {
+  }
+  img {
+    padding: $size-half;
+    width: 100%; // 120px;
+    max-width: 220px;
+    height: 120px;
+    object-fit: contain;
+    border: $border-medium solid usetheme(mono-disabled);
+    border-radius: $radius;
+    background: usetheme(mono-disabled);
+  }
+}
+
+.Dir-Orgtype {
+  @extend ._tag;
+}
+
+
+.Dir-row {
+  line-height: $size-2;
+  // margin-bottom: $size-quart;
+  // margin-bottom: $size-half;
+  margin-bottom: $size;
+
+  // span {
+  //   @include screen-sm {
+  //     // white-space: pre-line;
+  //     white-space: nowrap;
+  //   }
+  // }
+}
+  .Dir-row-half {
+    margin-bottom: $size-quart; // half is too much
+  }
+
+
+
+/* 
+
+    People -- Card / Profile
+
+ */
+
+.People {
+
+}
+  // This card is used OUTSIDE of the directory, like in C&T!!
+  .People-card {
+    .People-name-social {
+      // name / social icons row
+      @include screen-xs {
+        display: block !important;
+        padding-bottom: $size;
+      }
+    }
+
+    .People-name {
+      .Dir-title {
+        padding-bottom: 0;
+      }
+    }
+    
+    &.--compact {
+      margin-bottom: $size-half;
+      &:last-of-type {
+        margin-bottom: $size;
+      }
+      // used in C&T
+      // .People-container {
+      //   display: block !important;
+      // }
+      .People-name {
+        display: block !important;
+        margin-bottom: $size-2;
+      }
+
+      .People-share {
+        display: none;
+      }
+      
+      .People-roles {
+        span {
+          // display: block;
+        }
+        margin-top: 0;
+      }
+      .People-orgs {
+        font-size: usetheme(font-small);
+        margin-bottom: $size-half;
+      }
+      .People-orgs-labs {
+        font-size: usetheme(font-small);
+      }
+      .People-orgs-name {
+        margin-bottom: $size-half;
+        font-size: usetheme(font-small);
+      }
+
+    }
+
+    .Dir-row {
+      span {
+        @include screen-sm {
+          // white-space: pre-line;
+          // white-space: nowrap;
+        }
+      }
+    }
+    
+    @include screen-xs {
+      .People-container {
+        display: block !important;
+      }
+    }
+  }
+  .People-only-header { // only show basic header info
+    
+    &.Dir-card {
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+    img.--profile.--medium {
+      width: $size-8;
+      height: $size-8;
+      min-width: $size-8;
+    }
+    .Dir-title {
+      padding-bottom: 0;
+    }
+    .Dir-social {
+      position: relative;
+      bottom: $size-quart;
+      white-space: nowrap;
+      @extend ._wordbreak; // text-overflow wrap
+      padding-left: $size-2;
+    }
+    .People-container {
+      @extend ._grid-auto-1;
+      @extend ._align-vertically;
+    }
+    .People-name {
+      margin-bottom: 0 !important;
+    }
+      .People-name-social {
+        margin-bottom: 0;
+      }
+    .People-name-short {
+      display: none;
+    }
+    .People-orgs {
+      display: none;
+    }
+    .People-info-block {
+      display: none;
+    }
+    .People-desc-block {
+      display: none;
+    }
+    .People-phage-block {
+      display: none;
+    }
+  }
+
+
+
+/* 
+
+
+  Components
+
+
+ */
+
+.Dir-notice {
+  @extend ._card;
+  padding: $size-2x;
+  background-color: usetheme(brand--1);
+  margin-bottom: $size-6;
+  // @extend ._font-small;
+  border-width: $border-thin;
+}
+
+
+// Right sidebar
+
+.Dir-sidebar {
+  position: relative;
+  
+  .Dir-search {
+    // @include screen-xs {
+    width: 100%;
+    // }
+  }
+  ._form-label-search {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 48px;
+    line-height: 44px;
+  }
+  ._form-label-cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 48px;
+    line-height: 46px;
+    @extend %ease;
+
+    &:hover {
+      color: usetheme(active);
+      cursor: pointer;
+      @extend %ease;
+    }
+  }
+}
+
+

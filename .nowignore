@@ -2,3 +2,15 @@
 README.md
 yarn.lock
 .nuxt
+
+
+.vercel
+.vercel_cache
+.yarnclean
+.git
+node_modules 
+.cache
+.output
+/build/
+/public/build
+/api/index.js

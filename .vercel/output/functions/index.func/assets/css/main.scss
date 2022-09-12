@@ -1,0 +1,301 @@
+
+@import 'settings.scss';
+@import 'design.scss';
+
+@import 'layout'; // typography, basic design & whitespace
+
+
+@import 'highlightjs'; // for code highlighting
+@import 'print'; // print mode / capsid
+
+
+// modular
+@import 'components';
+@import 'sections';
+@import 'templates';
+
+
+.formFieldAndSubmitContainer {
+  background-color: red !important;
+}
+
+
+// .Header-title {
+  
+// }
+
+// $splash: 450px;
+._splash-container {
+  position: relative;
+  // top: -175px;
+  left: 0;
+  width: 100%;
+  // height: $splash;
+}
+  ._splash-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    // background-position: top;
+    width: 100%;
+    // height: $splash;
+  }
+
+
+
+/* 
+
+  Experiments
+
+ */
+
+
+
+// used for medium-like full-width images
+._image-stretch-bg {
+  margin-top: $size*2;
+  margin-bottom: $size*2;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+img {
+  &.--profile {
+    & > *, & {
+      // width: 100%;
+      border-radius: 100%;
+      border: $border-medium solid usetheme(mono-disabled);
+      object-fit: cover;
+      width: usetheme(profile-small);
+      height: usetheme(profile-small); 
+    }
+
+    &.--medium {
+      width: usetheme(profile);
+      height: usetheme(profile); 
+      min-width: usetheme(profile);
+    }
+  }
+}
+
+
+.Feed-item {
+  h6 {
+    padding: 0;
+    font-weight: normal;
+  }
+  h5 {
+    padding-top: 2px;
+    padding-bottom: 4px;
+  }
+}
+
+
+._label {
+  font-size: $size--2; // usetheme(font--2);
+  line-height: $size--2 * 2;
+  letter-spacing: 0.5px;
+  color: usetheme(copy-light);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.phagey { // tiny little phage thing in the title for the phage pheed / for fun
+  display: inline-block;
+  font-weight: 400;
+  position: relative;
+  bottom: 1px;
+}
+
+._list-faq {
+  // for faq question lists with lots of links
+  
+  a {
+    display: inline-block;
+    padding-bottom: $size-half;
+  }
+}
+
+.--shadow-none-i {
+  box-shadow: none !important;
+}
+
+
+
+
+// circular loading test 
+#nuxt-loading {
+  // background-color: red;
+}
+
+
+
+
+
+._Stage {
+  background-color: rebeccapurple; 
+  color: white;
+  font-weight: bold;
+  width: 100%;
+  font-size: 21px;
+  padding: 16px;
+}
+        
+
+
+
+
+
+
+
+
+
+
+/* 
+
+  To be added to Coeur
+
+ */
+
+// added to griddick
+._align-baseline {
+  display: grid;
+  align-items: baseline; // bottom of grid text
+}
+._align-end {
+  display: grid;
+  align-items: end; // bottom of grid text
+}
+
+ 
+
+._form-control {
+  &.--float {
+    // floating form labels (no descriptions)
+    position: relative;
+    ._form-label {
+      cursor: text;
+      position: absolute;
+      padding-left: $size +2px;
+      padding-bottom: 0; // fixes a click bug
+      z-index: 1;
+      width: 100%;  // these take care of a weird focus bug
+      pointer-events: none;
+      // color: usetheme(disabled-text);
+      &, p { // sometimes markdown generates a p
+        line-height: $size-6;
+        top: 0;
+        @extend %ease-fast;
+      }
+    }
+    ._form-input {
+      position: relative;
+      // line-height: $size-3;
+      height: $size-6;
+      padding-top: $size-2;
+    }
+
+    // shrunken
+    ._form-input:focus, 
+    ._form-input:focus-within,
+    ._form-input:active,
+    ._form-input.--data,
+    ._form-input.--open {
+      height: $size-8;
+      // line-height: $size-10;
+      // padding-bottom: $size-half;
+      & + ._form-label {
+        &, p {
+          color: usetheme(disabled-text);
+          font-size: usetheme(font-small);
+          line-height: $size;
+          padding-top: $size-half;
+          @extend %ease-fast;
+          width: 100%;  // these take care of a weird focus bug
+        }
+      }
+    }
+
+    textarea._form-input  {
+      padding-top: $size-6;
+      height: inherit;
+    }
+  }
+
+  // .Formlet-textarea {
+  //   ._form-input {
+  //     min-height: $size-10;
+  //   }
+  //   &.--float {
+  //     ._form-label {
+  //       &, p {
+  //         padding-top: $size-half;
+  //         color: usetheme(mono-30);
+  //         font-size: usetheme(font-small);
+  //         line-height: usetheme(lineheight-small);
+  //         // line-height: $size;
+  //       }
+  //     }
+  //   }
+  // }
+}
+
+
+._width-fit-content {
+  width: fit-content;
+}
+
+
+// forms
+  ._success {
+    @extend ._card;
+    padding: $size-half $size;
+    margin-top: $size-half;
+    border: $border-thin solid usetheme(success);
+    background-color: lighten(usetheme(success), 40%);
+  }
+
+
+// retroactive fixes for updated coeur 
+
+._button.--text {
+  background-color: transparent!important;
+  color: #333;
+  border-color: transparent!important;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+// for buttons with --text, consider removing left/right borders b/c they prevent text from aligning properly
+// if they're above/below each other — but don't remove top/bottom borders or they won't align w/ buttons!
+
+
+
+
+._img-fit-cover--left {
+  object-position: left;
+  object-fit: cover;
+}
+
+
+
+
+
+
+
+
+._pinned, .--pinned, ._sticky, .--sticky {
+    padding-bottom: 32px;
+    position: -webkit-sticky;
+    position: sticky;
+}
+
+.--top-1, ._top-1 {
+    top: 18px;
+}
+._pinned, .--pinned, ._sticky, .--sticky {
+    padding-bottom: 32px;
+    position: -webkit-sticky;
+    position: sticky;
+}

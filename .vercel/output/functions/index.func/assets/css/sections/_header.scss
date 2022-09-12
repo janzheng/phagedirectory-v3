@@ -1,0 +1,376 @@
+
+$header: (
+  // bg-nav: usetheme(silver-light, $colors_),
+  // bg-nav-secondary: usetheme(silver-lighter, $colors_),
+  bg-nav: usetheme(mono-30),
+  bg-nav-secondary: usetheme(mono-10),
+  bg-nav-links: usetheme(mono-20),
+
+  nav-color-home: usetheme(brand-100),
+  nav-color-active: usetheme(brand-110),
+  nav-color-notactive: usetheme(brand-90),
+  nav-color-border-active: usetheme(brand-90),
+  nav-size: 15px,
+  size-search: 15px,
+);
+
+$header-item-height: $size-4;
+
+.Header-container {
+  background-color: usetheme(bg-nav-secondary, $header);
+  margin-bottom: 0;
+}
+.Header {
+
+  // give a lot more space to links
+  max-width: $width-lg-min;
+  // padding-left: $size-2x;
+  // padding-right: $size-2x;
+
+  .Header-logo {
+    // background-color: usetheme(bg-nav-secondary);
+  }
+
+  .Header-inset {
+    background-color: usetheme(bg-nav, $header); //$color-silver-light;
+    border-radius: 0; //$radius;
+
+    ._button {
+      // height: unset;
+      // line-height: $header-item-height;
+      // padding-top: 0;
+      // max-height: $header-item-height;
+      white-space: nowrap;
+      font-weight: bold;
+      font-size: usetheme(nav-size, $header);
+      color: usetheme(nav-color-home, $header);
+
+      &:hover,&:focus,&:active {
+        // color: usetheme(brand-active);
+        color: usetheme(brand-bright);
+      }
+      &.nuxt-link-active {
+        color: usetheme(brand-bright);
+      }
+
+      @include screen-sm {
+        padding-left: $size-quart;
+        padding-right: $size-quart;
+      }
+    }
+  }
+  .Header-links {
+    background-color: usetheme(bg-nav-links, $header);
+    // padding-left: $size;
+
+    a {
+      padding-top: $size;
+      padding-bottom: $size;
+      // padding-left: 0;
+      // padding-right: 0;
+
+      border-radius: 0;
+
+      margin: 0;
+      // margin-left: $size-quart;
+      // margin-right: $size-quart;
+
+      font-size: usetheme(nav-size, $header);
+      font-weight: normal;
+      color: usetheme(nav-color-notactive, $header);
+
+      &:first-of-type {
+        margin-left: 0;
+      }
+      &:last-of-type {
+        margin-right: 0;
+      }
+      
+      // &.nuxt-link-exact-active {
+      &.nuxt-link-active { // can't use exact b/c it'll unhighlight for anchor links
+        // @extend %links-bg;
+        @extend %font-bold;
+        color: usetheme(nav-color-active);
+        border-bottom: solid $border-medium usetheme(nav-color-border-active, $header) !important;
+      }
+      &:hover, &:active, &:focus {
+        color: usetheme(brand-bright) !important;
+      }
+    }
+    &.--home {
+      // specifically for the home page 
+      a {
+        color: usetheme(nav-color-home, $header);
+      }
+
+    }
+  }
+
+  .Header-content {
+    @include screen-sm {
+      // @include gridAutoCols(2);
+    }
+  }
+
+  .Header-join.--outline {
+    margin: 0;
+    margin-left: $size-half;
+    padding-left: $size;
+    padding-right: $size;
+    background: transparent;
+    // border-color: usetheme(brand-100);
+    // border-color: usetheme(pink-40);
+    // background-color: usetheme(pink-0);
+    // color: usetheme(pink-60);
+    // border-color: usetheme(brand-5);
+    // background-color: usetheme(brand-5);
+    // color: usetheme(brand-80);
+    color: usetheme(brand-bright);
+    // border-color: usetheme(brand-5);
+    border-color: usetheme(brand-bright);
+    background-color: usetheme(brand-5);
+
+    // padding:;
+    &:hover, &:active, &:focus {
+    // border-color: usetheme(brand-80);
+    border-color: usetheme(brand-bright);
+    background-color: usetheme(brand-bright); //usetheme(pink-0);
+    color: usetheme(brand-0);
+    }
+  }
+
+  a {
+    @include screen-sm {
+      // font-size: usetheme(font-large), // $font-large;
+      font-size: usetheme(size), // $font-large;
+    }
+    // font-size: $size-larger;
+    text-decoration: none;
+  }
+    a.nuxt-link-exact-active {
+      @extend %font-bold;
+      color: usetheme(nav-color-active, $header);
+    }
+    .Header-orgs a.nuxt-link-active {
+      // @extend %links-bg;
+      @extend %font-bold;
+    }
+
+  .Header-search-container {
+    position: relative;
+    padding-right: $size;
+
+    // width: 100%; // this is used when search is on the RIGHT side of links
+    // padding-left: $size;
+
+    flex-basis: auto; /* default value */
+    flex-grow: 1;
+
+    // ._form-label-icon { // svg (not text) icons
+    //   left: $size;
+    //   top: 0; // reset native styling
+    //   height: 48px; // forces firefox ipad to work  
+    //   svg {
+    //     fill: usetheme(nav-color);
+    //   }
+    // }
+    ._form-label-search {
+      position: absolute;
+      top: 0;
+      // left: $size-1;
+      height: 48px;
+      line-height: 44px;
+    }
+    ._form-label-cancel {
+      position: absolute;
+      top: 0;
+      right: $size-1;
+      height: 48px;
+      line-height: 46px;
+      @extend %ease;
+
+      &:hover {
+        color: usetheme(active);
+        cursor: pointer;
+        @extend %ease;
+      }
+    }
+
+  }
+  .Header-search { // input
+    border: $border-thin solid usetheme(brand-5); //;$color-ui-light;
+    background: usetheme(brand-5);
+    border-radius: $radius;
+    margin-right: 0;
+    // max-width: 110px; // gives the links to the right more space
+    min-width: 115px;
+    width: 100%;
+    // max-width: 400px;
+
+    line-height: initial; // fixes firefox problem
+    height: 100%;
+    padding-left: $size-4;
+    // height: initial; // resets the input's height limit of 32px
+
+    @include screen-xs {
+      padding-left: $size-5;
+    }
+
+    font-size: usetheme(size-search);
+
+    @include input-placeholder {
+      color: usetheme(mono-50);
+    }
+
+    @extend %ease;
+    &:hover {
+      border-color: usetheme(brand-80); //$color-tertiary;
+      background-color: usetheme(brand-5);
+    }
+    &:focus {
+      border: $border-thin solid usetheme(brand-80); //$color-tertiary;
+      background-color: usetheme(brand-5);
+      // padding: $size-half $size-base;
+      @extend %ease;
+    }
+
+  }
+
+  // header link
+  .Header-logo-link {
+    &:after {
+      content: none !important;
+    }
+  }
+
+}
+
+/* 
+
+  Desktop Specific
+
+ */
+.Header-desktop {
+  @include screen-sm-only {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+
+
+
+
+/* 
+
+  Mobile Nav
+
+ */
+
+
+.Header-mobile {
+  position: relative;
+  &.--open {
+    position: absolute;
+    top: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+
+    background: usetheme(mono-30);
+  }
+
+  .Header-search-container {
+    height: $size-9;
+    padding: 0;
+
+    ._form-label-icon {
+      left: 0;
+    }
+  }
+  .Header-search { // mobile input
+    // plays nicer with mobile default styles
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: usetheme(size-mobile-input);
+    // @include input-placeholder {
+    //   font-size: usetheme(size-mobile-input);
+    // }
+  }
+  .Header-links {
+    background: usetheme(brand-0);
+    border-radius: $radius;
+    margin-top: $size-2;
+    margin-bottom: $size-2;
+  }
+}
+.Header {
+  .Header-mobile-item {
+    a {
+      padding-top: $size-half;
+      padding-bottom: $size-quart;
+      width: 100%;
+    }
+
+    a._button {
+      font-size: usetheme(size-mobile);
+      line-height: usetheme(line-height-mobile);
+      padding-bottom: $size-half;
+    }
+    a.nuxt-link-exact-active {
+      border: 0 !important;
+      color: usetheme(brand-70);
+    }
+
+    ._form-label-search {
+      left: $size-half;
+      // search icon is a little higher on the font
+      height: 79px;
+      line-height: 79px;
+    }
+    ._form-label-cancel {
+      // right: $size-half;
+      height: 75px;
+      line-height: 75px;
+    }
+  }
+}
+
+
+// mobile menu button
+// https://w3bits.com/animated-menu-icon-css/
+.Header-mobile-cta {
+  cursor: pointer;
+}
+.nav-icon {
+  margin: $size-half;
+  width: $size-3;
+
+  $bar-height: 3px;
+  $margin: 5px;
+
+  &:after, &:before, div {
+    background-color: usetheme(brand-100);
+    border-radius: $border-medium;
+    content: '';
+    display: block;
+    height: $bar-height;
+    margin: $margin 0;
+    transition: all .2s ease-in-out;
+  }
+
+  &.--open, {
+    &:before {
+      transform: translateY($bar-height + $margin) rotate(135deg);
+    }
+    &:after {
+      transform: translateY(-($bar-height + $margin)) rotate(-135deg);
+    }
+    div {
+      transform: scale(0);
+    }
+  }
+}

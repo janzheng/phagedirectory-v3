@@ -1,0 +1,609 @@
+{
+  "version": 3,
+  "routes": [
+    {
+      "src": "^/404.html$",
+      "dest": "404.html"
+    },
+    {
+      "src": "^/_nuxt/.+$",
+      "headers": {
+        "cache-control": "s-maxage=31536000"
+      }
+    },
+    {
+      "src": "^/rss$",
+      "status": 301,
+      "headers": {
+        "Location": "https://content.phage.directory/api/rss"
+      }
+    },
+    {
+      "src": "^/feed.xml$",
+      "status": 301,
+      "headers": {
+        "Location": "https://content.phage.directory/api/rss"
+      }
+    },
+    {
+      "src": "^/slack$",
+      "status": 301,
+      "headers": {
+        "Location": "https://join.slack.com/t/phagedirectory/shared_invite/zt-90r8eyg6-WLhFZlojUtMQLCotq0crsQ "
+      }
+    },
+    {
+      "src": "^/notion$",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.notion.so/?r=5eb42727210944beb04d578a4950ef50"
+      }
+    },
+    {
+      "src": "^/airtable$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/invite/r/AHQ9XJCx"
+      }
+    },
+    {
+      "src": "^/zoomweb$",
+      "status": 301,
+      "headers": {
+        "Location": "https://us04web.zoom.us/wc/9679909725/join"
+      }
+    },
+    {
+      "src": "^/zoom$",
+      "status": 301,
+      "headers": {
+        "Location": "https://zoom.us/j/9679909725"
+      }
+    },
+    {
+      "src": "^/vom-awards$",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.notion.so/phagedirectory/Apply-for-Phage-Directory-VoM-Writing-Awards-7fd995b017264bddb08b5af26755a4ff"
+      }
+    },
+    {
+      "src": "^/covid-amr$",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.notion.so/phagedirectory/COVID-AMR-Secondary-Infections-45ca8c5d0cda4fad89e441fdc1013f0e"
+      }
+    },
+    {
+      "src": "^/guestwriter$",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.notion.so/phagedirectory/Capsid-Tail-Guest-Writer-Guide-8206f242215d4f008a27a4f8c07096a1"
+      }
+    },
+    {
+      "src": "^/sponsor$",
+      "status": 301,
+      "headers": {
+        "Location": "https://phagedirectory.notion.site/Phage-Directory-Sponsorship-Options-65c1f4758a634fb4b8fe648abe3eead2"
+      }
+    },
+    {
+      "src": "^/phaves$",
+      "status": 301,
+      "headers": {
+        "Location": "https://seminars.phage.directory/"
+      }
+    },
+    {
+      "src": "^/faves$",
+      "status": 301,
+      "headers": {
+        "Location": "https://seminars.phage.directory/"
+      }
+    },
+    {
+      "src": "^/youtube$",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.youtube.com/channel/UC9YZWR4wmUj6fFnPhCRQZBA/"
+      }
+    },
+    {
+      "src": "^/instill$",
+      "status": 301,
+      "headers": {
+        "Location": "https://instill.xyz"
+      }
+    },
+    {
+      "src": "^/club$",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.notion.so/phagedirectory/Phage-Club-Notes-d06899ad9be340a4adbb2f4334d26032"
+      }
+    },
+    {
+      "src": "^/scener$",
+      "status": 301,
+      "headers": {
+        "Location": "https://scener.com/join/1BWH-B6TZ-P1RG-LCL9"
+      }
+    },
+    {
+      "src": "^/jobpost$",
+      "status": 301,
+      "headers": {
+        "Location": "https://buy.stripe.com/5kA7uf0OL1TYbcIfYY"
+      }
+    },
+    {
+      "src": "^/chat$",
+      "status": 301,
+      "headers": {
+        "Location": "https://calendly.com/phage/quick-chat"
+      }
+    },
+    {
+      "src": "^/calendly$",
+      "status": 301,
+      "headers": {
+        "Location": "https://calendly.com/phage/quick-chat"
+      }
+    },
+    {
+      "src": "^/slides/canada$",
+      "status": 301,
+      "headers": {
+        "Location": "https://docs.google.com/presentation/d/17Vyz53a_KQ-k_8dUR4KEJZ1JODgdG1Gw9k6807ZDZlE/edit?usp=sharing"
+      }
+    },
+    {
+      "src": "^/slides/background$",
+      "status": 301,
+      "headers": {
+        "Location": "https://docs.google.com/presentation/d/117uZQp8CfDjM-t2Lo7K3jm6V1NOQTDIOpD52cfd4XzU/edit?usp=sharing"
+      }
+    },
+    {
+      "src": "^/apply/profile$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/shrbZHMw6R2dCij9v"
+      }
+    },
+    {
+      "src": "^/apply/researchers$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/shrGMrWM274i1xv6I"
+      }
+    },
+    {
+      "src": "^/apply/professionals$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/shrbZHMw6R2dCij9v"
+      }
+    },
+    {
+      "src": "^/apply/labs$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/shrRZfnjvaKOx3eeK"
+      }
+    },
+    {
+      "src": "^/apply/medical$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/shrdIUxOsr411hNwR"
+      }
+    },
+    {
+      "src": "^/apply/phagebanks$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/shrPtmSf5dxdeBnoy"
+      }
+    },
+    {
+      "src": "^/apply/orgs$",
+      "status": 301,
+      "headers": {
+        "Location": "https://airtable.com/shrYdNUwSLMKUvRhz"
+      }
+    },
+    {
+      "src": "^/stage$",
+      "status": 301,
+      "headers": {
+        "Location": "https://stage.phage.directory/"
+      }
+    },
+    {
+      "src": "^/capsid/author-schedule$",
+      "status": 301,
+      "headers": {
+        "Location": "https://docs.google.com/spreadsheets/d/1rmUF9x-sihs_DqUhSwGTZbJWrY5-RUxdR0ZFjDThHP4/edit?usp=sharing"
+      }
+    },
+    {
+      "src": "^/capsid/author-guide$",
+      "status": 301,
+      "headers": {
+        "Location": "https://www.notion.so/phagedirectory/Capsid-Tail-Guest-Writer-Guide-8206f242215d4f008a27a4f8c07096a1"
+      }
+    },
+    {
+      "src": "^/(.*)$",
+      "dest": "/"
+    },
+    {
+      "src": "/_nuxt/.+",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/.DS_Store",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/atlas_share_img.jpg",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/bday.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/bg_dark.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/bg_light.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/classroom_full.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/classroom.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/cnt_sm.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/cnt_tr.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/cnt_twitter_card.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/cnt_twitter_ctr.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/cnt_twitter_sq.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/cnt_twitter.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/cnt.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/data/_config.json",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/data/.DS_Store",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/.DS_Store",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/.DS_Store",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/config.json",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/css/animation.css",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/css/phagedir-codes.css",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/css/phagedir-embedded.css",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/css/phagedir-ie7-codes.css",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/css/phagedir-ie7.css",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/css/phagedir.css",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/demo.html",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/font/phagedir.eot",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/font/phagedir.svg",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/font/phagedir.ttf",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/font/phagedir.woff",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/font/phagedir.woff2",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/LICENSE.txt",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/fonts/fontello/README.txt",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/formats/genomeReports.json",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/formats/miuvig.json",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/github_img.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/ico_bw.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/ico_colors.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/ico_dull.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/ico_rings.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/icon.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/iphone 6s bg.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/kisaco.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phagedirectory_home.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phagedirectory_negative.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phagedirectory.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phagedirectory.svg",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phagefutures.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phageinsights.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/PhageTherapyCrowdsourcing (5).png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phdir_bg.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/phdir.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/README.md",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/share_img.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/snow.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/sticker_roomy.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/sw.js",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "src": "/twitter.png",
+      "headers": {
+        "Cache-Control": "max-age=31557600"
+      }
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "^/.*$",
+      "status": 404,
+      "dest": "/error.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index"
+    }
+  ]
+}

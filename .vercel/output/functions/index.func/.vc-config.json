@@ -1,7 +1,0 @@
-{
-  "handler": "vercel__launcher.launcher",
-  "runtime": "nodejs14.x",
-  "environment": {
-    "NODE_ENV": "production"
-  }
-}

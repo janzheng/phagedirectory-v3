@@ -17,7 +17,9 @@ notes.md
 
 .env
 .now
-
+.vercel
+.nuxtrc
+.node_modules_dev
 
 
 .cache

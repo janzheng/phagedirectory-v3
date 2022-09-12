@@ -1,5 +1,6 @@
 
 {
+  "version": 2,
   "public":false,
   "builds": [
     {
@@ -12,7 +13,7 @@
     },
     {
       "src": "nuxt.config.js",
-      "use": "@nuxtjs/vercel-builder",
+      "use": "@nuxtjs/vercel-builder@0.22.1",
       "config": {
         "serverFiles": [
           "assets/**",

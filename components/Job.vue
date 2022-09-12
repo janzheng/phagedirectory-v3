@@ -3,7 +3,7 @@
 
   <div :class="atom.fields['Data:Status']" class="Job _card _padding " >
 
-    <div v-if="atom.fields['Data:Categories'] || atom.fields['Data:Type'] || atom.fields['Data:Tags']" class="Job-header">
+    <div v-if="atom.fields['Data:Date'] || atom.fields['Data:Categories'] || atom.fields['Data:Type'] || atom.fields['Data:Tags']" class="Job-header">
 
       <div class="_grid-1-auto _align-vertically _margin-bottom _grid-gap-small">
         <div>

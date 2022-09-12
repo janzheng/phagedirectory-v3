@@ -204,11 +204,12 @@
 
         <div id="_Capsid-cite" class="_Capsid-cite" v-if="citationData">
           <h6 class="">How to Cite</h6>
-          <div v-if="issue.fields['Meta:Citation:Text']">
-            <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
-          </div>
+          <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
+          <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render((citation && citation.apa) || '' )" />
+          <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
+          <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render((citation && citation.bibtex) || '' )" />
 
-          <AxiosPost 
+          <!-- <AxiosPost 
             v-if="citationData"
             class="_Capsid-citations"
             url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
@@ -221,7 +222,7 @@
                 <div class="_Capsid-apa _card _padding --bg_white" v-html="$md.render(data.apa )" />
               </div>
             </div>
-          </AxiosPost>
+          </AxiosPost> -->
         </div>
 
         <div class="_Capsid-Email-footer-share" style="padding-top: 16px; padding-bottom: 16px;">
@@ -499,6 +500,11 @@ export default {
 
       const uri = `https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${tags}`
       return encodeURI(uri)
+    },
+
+    citation() {
+      if (this.issue.fields['Data:Citation'])
+        return JSON.parse(this.issue.fields['Data:Citation'] )
     },
 
     citationData() {

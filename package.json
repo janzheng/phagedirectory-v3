@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",
     "lintfix": "eslint --fix --ext .js,.vue --ignore-path .eslintignore .",
     "precommit": "npm run lint",
-    "commit": "npm run precommit; git add . -A ; git commit ; git push origin master ",
+    "commit": "git add . -A ; git commit ; git push origin master ",
     "dirty": "git add . -A ; git commit ; git push origin master ",
     "prod": "git add . -A ; git commit ; git push origin deploy ",
     "deploydirty": "git add . -A ; git commit ; git push origin deploy --force ",

@@ -280,7 +280,7 @@ export default {
     // https://github.com/Developmint/nuxt-purgecss
     // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
-    { src: '~/plugins/drift.js', mode: 'client' }, // ssr: false is deprecated
+    // { src: '~/plugins/drift.js', mode: 'client' }, // ssr: false is deprecated
     { src: '~/plugins/scrollspy.js', mode: 'client' },
     { src: '~/plugins/vue-scrollto.js', mode: 'client' },
     { src: '~/plugins/segment.js', mode: 'client' },

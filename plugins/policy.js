@@ -38,7 +38,7 @@ export default ({app, env, store }, inject) => {
       console.log('[Running policy-enhanced features]')
       // console.log('[Policy.js] Enable ga', app, Vue.$ga)
       // Vue.$ga.enable()
-      app.$drift.init()
+      // app.$drift.init()
       app.$initSegment()
     },
     disablePolicyFeatures: () => {

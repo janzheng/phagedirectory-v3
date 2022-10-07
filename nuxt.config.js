@@ -187,6 +187,13 @@ export default {
     htmlAttrs: {
       lang: 'en-US',
     },
+    script: [
+      {
+        defer: true,
+        ["data-domain"]: "phage.directory",
+        src: 'https://plausible.io/js/plausible.js',
+      }
+    ]
     meta: [
 
       { charset: 'utf-8' },

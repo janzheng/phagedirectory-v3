@@ -193,7 +193,7 @@ export default {
         ["data-domain"]: "phage.directory",
         src: 'https://plausible.io/js/plausible.js',
       }
-    ]
+    ],
     meta: [
 
       { charset: 'utf-8' },

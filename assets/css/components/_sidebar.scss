@@ -29,6 +29,7 @@ $link-active-weight: 600;
     overflow-x: inherit;
     min-width: auto;
     height: auto !important;
+    z-index: 8888;
 
     @include screen-xs {
       // padding-top: $size-base;

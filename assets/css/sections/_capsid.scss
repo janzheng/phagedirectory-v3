@@ -44,6 +44,10 @@ $capsid_: (
   img {
     max-width: 100%;
   }
+
+  a {
+    word-break: break-word;
+  }
 }
 .Capsid-List {
   .Capsid-masthead {

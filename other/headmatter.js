@@ -23,7 +23,7 @@ export function headMatter({
 
   head['title'] = title 
 
-  head['meta'].push({ property: 'author', content: `${author}` })
+  head['meta'].push({ name: 'author', property: 'author', content: `${author}` })
   head['meta'].push({ hid: 'og-title', property: 'og:title', content: `${title}` })
   head['meta'].push({ hid: 'twitter-title', property: 'twitter:title', content: `${title}` })
 

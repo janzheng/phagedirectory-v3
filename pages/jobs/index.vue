@@ -120,7 +120,7 @@ export default {
     },
     expired() {
       // jobs in the past, w/ newest first
-      return this.jobs.filter(t => t.fields['Data:Status'] == 'Expired')
+      return this.jobs.filter(t => t.fields['Data:Status'] == 'Expired').sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
     },
     current() {
       // jobs in the future

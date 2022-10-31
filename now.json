@@ -60,6 +60,7 @@
 
 
     { "src": "/jobpost", "status": 301, "headers": { "Location": "https://buy.stripe.com/5kA7uf0OL1TYbcIfYY" }},
+    { "src": "/msg", "status": 301, "headers": { "Location": "https://phage.directory/community?tab=Post-a-Message" }},
 
 
 

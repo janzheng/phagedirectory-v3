@@ -192,7 +192,12 @@ export default {
         defer: true,
         ["data-domain"]: "phage.directory",
         src: 'https://plausible.io/js/plausible.js',
-      }
+      },
+      // {
+      //   defer: true,
+      //   ["data-domain"]: "phage.directory",
+      //   src: 'https://app.embed.im/snow.js',
+      // }
     ],
     meta: [
 
@@ -276,6 +281,7 @@ export default {
   */
 
   plugins: [
+    { src: '~/plugins/snow.js' },
     { src: '~/plugins/syslog.js' },
     { src: '~/plugins/sizeup.js' },
     { src: '~/plugins/markdownit.js' },

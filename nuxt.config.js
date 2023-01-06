@@ -281,7 +281,7 @@ export default {
   */
 
   plugins: [
-    { src: '~/plugins/snow.client.js' },
+    // { src: '~/plugins/snow.client.js' },
     { src: '~/plugins/syslog.js' },
     { src: '~/plugins/sizeup.js' },
     { src: '~/plugins/markdownit.js' },

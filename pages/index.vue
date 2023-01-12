@@ -38,6 +38,11 @@
               </div>
             </div>
 
+            <div class="Home-latest _margin-center _padding _margin-top-2 _margin-bottom-2 _card ">
+              <iframe title="Instill Science" src="https://instill.xyz/spaces/instill-science" width="100%" height="100vh" style="height: 100vh; border:0; margin: 0 auto;"></iframe>
+            </div>
+
+
             <div class="Home-latest _margin-center _padding _card | _grid-3-1 _grid-gap">
               
               <div>

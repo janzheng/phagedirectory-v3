@@ -48,18 +48,18 @@
 
 
             <div v-if="roles || jobTitle" class="People-roles _font-small ">
-              <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
-              <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
+              <span v-for="role of roles" :key="role"><span class="_tag" v-if="role && role.trim().length>0">{{ role }}</span></span>
+              <span v-if="jobTitle && jobTitle.trim().length>0" class="_tag">{{ jobTitle }}</span>
             </div>
 
-            <div class="People-orgs Dir-row _margin-top _margin-bottom-2">
+            <div class="People-orgs Dir-row _margin-top-half _margin-bottom-2">
 
               <div v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="_margin-bottom-half">
-                <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI"> (PI)</span>,
+                <nuxt-link v-if="labSlugs" :to="`/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI"> (PI)</span>
               </div>
-
+              <span v-if="(person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']) && orgs">, </span>
               <div v-if="orgs" class="_margin-bottom-half">
-                <div v-for="(item) of orgs" :key="item.name" class="People-orgs-name _padding-bottom-half _padding-top-half"><!-- <span v-if="i > 0"><br> </span> --><nuxt-link v-if="person.fields['Orgs::Slugs'][0]" :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-else> {{ item.name +'' }}</span><span v-if="item.location">, {{ item.location }}</span>
+                <div v-for="(item) of orgs" :key="item.name" class="People-orgs-name _margin-bottom-half _margin-top-half"><!-- <span v-if="i > 0"><br> </span> --><nuxt-link v-if="person.fields['Orgs::Slugs'][0]" :to="`/orgs#${person.fields['Orgs::Slugs'][0]}`"> {{ item.name +'' }}</nuxt-link><span v-else> {{ item.name +'' }}</span><span v-if="item.location">, {{ item.location }}</span>
                 </div>
                 <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
                   {{ person.fields['Orgs:Custom'] }}
@@ -70,7 +70,7 @@
           </div>
 
 
-          <div class="People-info-block Dir-block _margin-top-2">
+          <div class="People-info-block Dir-block-half _margin-top">
             <!-- <div><span class="Dir-label">Website</span></div> -->
             <div v-if="person.fields['Email']" class="Dir-row-half _grid-1-6-xs _align-vertically">
               <span class="Dir-label">Email </span><a :href="`mailto:${person.fields['Email']}`" class="_wordbreak --url --none">{{ person.fields['Email'] }}</a>
@@ -82,16 +82,19 @@
               <span class="Dir-label">Website </span><a :href="url" class="_wordbreak --url --none">{{ url }}</a>
             </div>
 
-            <!-- skills here for now -->
-            <div v-if="person.fields['Skills'] || person.fields['Skills:Custom']" class="People-skills Dir-row _grid-1-6-xs _align-baseline" >
+            <!-- filter only non-empty string items from person.fields['Skills'] using .filter -->
+            
+
+
+            <div v-if="(person.fields['Skills'] && person.fields['Skills'].filter(f=>f).length>0) || person.fields['Skills:Custom']" class="People-skills Dir-row _grid-1-6-xs _align-baseline" >
               <span class="Dir-label">Skills </span><p>
-                <span>{{ person.fields['Skills'] ? person.fields['Skills'].join(', ') : person.fields['Skills:Custom'] }}</span>
+                <span>{{ person.fields['Skills'] ? person.fields['Skills'].filter(f=>f).join(', ') : person.fields['Skills:Custom'] }}</span>
                 <!-- <span v-for="_item of person.fields['Skills']" :key="_item" class="_wordbreak --url --none">{{ _item }}</span> -->
               </p>
             </div>
           </div>
 
-          <div v-if="person.fields['Description']" class="People-desc-block Dir-block _margin-top-2">
+          <div v-if="person.fields['Description']" class="People-desc-block Dir-block-half _margin-top-half">
             <div class="People-description Dir-row" >
               <div class="_md-pfix" v-html="$md.render(person.fields['Description'] || '')" />
             </div>
@@ -100,7 +103,7 @@
 
         <!-- phage hosts -->
 
-        <div v-if="hostNames && hostNames.length > 0" class="People-phage-block Dir-block">
+        <div v-if="hostNames && hostNames.length > 0" class="People-phage-block Dir-block-half">
           <div class="Dir-label">Phage Hosts</div>
           <div class="Dir-miniCard">
             <div v-for="host of hostNames" :key="host[0]+'-'+person.id" class="_organism-container">
@@ -109,13 +112,13 @@
           </div>
         </div>
 
-        <div v-if="manuscripts && manuscripts.length > 0" class="People-manuscripts-block Dir-block">
+        <div v-if="manuscripts && manuscripts.length > 0" class="People-manuscripts-block Dir-block-half">
           <div class="Dir-miniCard">
             <h6 class="_padding-bottom-half">Capsid & Tail</h6>
             <div v-for="item of manuscripts" :key="item.id+'-'+person.fields['Slug']" class="_manuscripts-container">
               <nuxt-link :to="`/capsid/${item.fields['Slug']}`" target="_blank" class="_manuscript --nolink _margin-bottom-half _inline-block _font-small" v-html="$md.strip($md.render(item.fields['Data:IssueName'] || ''))" />
             </div>
-            <div v-if="manuscripts.length > 3" class="Dir-block _font-small Dir-disabled">Number of articles: {{ manuscripts.length }}</div>
+            <div v-if="manuscripts.length > 3" class="Dir-block-half _font-small Dir-disabled">Number of articles: {{ manuscripts.length }}</div>
           </div>
         </div>
 

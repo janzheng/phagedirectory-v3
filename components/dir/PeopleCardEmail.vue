@@ -33,12 +33,21 @@
                         <span v-if="jobTitle && jobTitle.trim().length > 0" class="_tag">{{ jobTitle }}</span>
                       </div>
 
-                      <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
+                      <!-- <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
                         <a v-if="labSlugs" :href="`https://phage.directory/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</a><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>
                       </span>
                       <span v-if="(person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']) && orgs">, </span>
                       <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
                         {{ item.name +'' }}
+                      </span> -->
+                      <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="_margin-bottom-half"><nuxt-link v-if="labSlugs" :to="`/labs#${labSlugs}`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI"> (PI)</span></span><span v-if="(person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']) && orgs">, </span>
+                      <span v-if="orgs" class="_margin-bottom-half">
+                        <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name _margin-bottom-half _margin-top-half"><!-- <span v-if="i > 0"><br> </span> --><span v-if="i > 0">, </span><nuxt-link v-if="person.fields['Orgs::Slugs'][i]" :to="`/orgs#${person.fields['Orgs::Slugs'][i]}`"> {{ item.name + '' }}</nuxt-link><span v-else> {{ item.name + '' }}</span><span v-if="item.location">, {{ item.location }}</span>
+                        </span>
+                        <!-- <span v-if="orgs && person.fields['Orgs:Custom']">, </span> -->
+                        <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
+                          {{ person.fields['Orgs:Custom'] }}
+                        </span>
                       </span>
                     </div>
                   </div>

@@ -44,7 +44,7 @@
 
             <div v-if="person.fields['Short']" class="People-name-short _margin-bottom">
               <div v-html="$md.strip($md.render(person.fields['Short'] || ''))" />
-            </div>
+            </div> 
 
 
             <div v-if="roles || jobTitle" class="People-roles _font-small ">

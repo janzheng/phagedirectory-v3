@@ -53,7 +53,7 @@
                     <img src="https://mcusercontent.com/a95319e0a6f57b754b11012a8/images/b998e8ed-0930-13e9-818f-5e67c6a18221.png" width="23px" height="19px" style="margin-right: 8px; position: relative; bottom: -5px" >Tweet this issue
                   </a>
                 </div>
-              </div>
+              </div> 
             </div>
           </div>
 

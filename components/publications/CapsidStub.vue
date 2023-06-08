@@ -36,7 +36,7 @@
         <div v-if="authors && authors.length > 0" class="Capsid-author-main _padding-left _padding-right">
           <div v-for="(item, index) of authors" :key="index" class="_inline-block _margin-right">
             <span v-if="item" >
-              <img v-if="item.fields['ProfileImage']" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile _v-middle">
+              <img v-if="item.fields['ProfileImage']||item.fields['ProfileImage:URL:thumb']" :src="item.fields['ProfileImage'][0].thumbnails ? item.fields['ProfileImage'][0].thumbnails.small.url : item.fields['ProfileImage:URL:thumb']" class="--profile _v-middle">
               <img v-else :src="`https://dl.phage.directory/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile _v-middle" height="42" width="42">
               <span class="_font-normal _padding-left-half _v-middle">{{ item.fields['Name'] }}</span>
             </span>

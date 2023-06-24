@@ -4,6 +4,7 @@
   "alias":["phage.directory", "phagedirectory.org", "www.phage.directory"],
   "name":"phagedirectory-spa",
   "public":false,
+  "buildCommand": "export NODE_OPTIONS=--openssl-legacy-provider nuxt build",
   "env": {
     "PD_AIRTABLE_PUBLIC_API": "@pd-airtable-public-api",
     "PD_AIRTABLE_PUBLIC_BASE": "@pd-airtable-public-base",

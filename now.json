@@ -2,6 +2,7 @@
 {
   "version": 2,
   "public":false,
+  "buildCommand": "export NODE_OPTIONS=--openssl-legacy-provider && nuxt build",
   "builds": [
     {
       "src": "404.html",
@@ -13,9 +14,10 @@
     },
     {
       "src": "nuxt.config.js",
-      "use": "@nuxtjs/vercel-builder@0.17.6",
+      "use": "@nuxtjs/vercel-builder",
       "config": {
         "serverFiles": [
+          "app/**",
           "assets/**",
           "components/**",
           "layouts/**",

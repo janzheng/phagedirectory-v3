@@ -406,7 +406,7 @@ export default {
           }
         }]
       ],
-      plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-syntax-dynamic-import', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
+      plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-transform-optional-chaining', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
     },
     // explicitly transpile these
     transpile: ['cytosis', 'markdownit', 'markdown-it-attrs'],

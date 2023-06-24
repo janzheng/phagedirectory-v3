@@ -177,7 +177,7 @@ img {
     ._form-label {
       cursor: text;
       position: absolute;
-      padding-left: $size +2px;
+      padding-left: $size + 2px;
       padding-bottom: 0; // fixes a click bug
       z-index: 1;
       width: 100%;  // these take care of a weird focus bug

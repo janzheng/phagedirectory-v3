@@ -394,6 +394,11 @@ export default {
           }
         })
 
+        console.log('authors:', authors)
+
+        // filter undefined from authors
+        authors = authors.filter((item) => item)
+
 
         return {
           manuscripts: cytosis.tables['Manuscripts'],

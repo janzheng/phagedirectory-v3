@@ -343,6 +343,17 @@ export default {
       this['People'] = cytosis.tables['People']
       this['authors'] = cytosis.tables['People']
 
+
+      let matchingAuthors = [];
+      authorSlugs.forEach(slug => {
+        let author = this['authors'].find(author => author.fields.Slug === slug);
+        if(author) {
+          matchingAuthors.push(author);
+        }
+      });
+      this['authors'] = matchingAuthors;
+      
+      console.log('[index/getAuthorsOfManuscript] matchingAuthors:', this.authors, authorSlugs, matchingAuthors)
       return cytosis.tables['People'] // not really used
     },
   },

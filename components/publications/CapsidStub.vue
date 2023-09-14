@@ -33,8 +33,8 @@
         </div>
 
         <h1 class="Capsid-title _padding" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
-        <div v-if="authors && authors.length > 0" class="Capsid-author-main _padding-left _padding-right">
-          <div v-for="(item, index) of authors" :key="index" class="_inline-block _margin-right">
+        <div v-if="authorsUnique && authorsUnique.length > 0" class="Capsid-author-main _padding-left _padding-right">
+          <div v-for="(item, index) of authorsUnique" :key="index" class="_inline-block _margin-right">
             <span v-if="item" >
               <img v-if="item.fields['ProfileImage']||item.fields['ProfileImage:URL:thumb']" :src="item.fields['ProfileImage'][0].thumbnails ? item.fields['ProfileImage'][0].thumbnails.small.url : item.fields['ProfileImage:URL:thumb']" class="--profile _v-middle">
               <img v-else :src="`https://dl.phage.directory/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile _v-middle" height="42" width="42">
@@ -57,8 +57,9 @@
             <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
           </div>
           <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
-          <div v-if="authors && authors.length > 0" class="Capsid-author-main _margin-bottom ">
-            <div v-for="(item, index) of authors" :key="index" class="_inline-block _margin-right">
+          baap
+          <div v-if="authorsUnique && authorsUnique.length > 0" class="Capsid-author-main _margin-bottom ">
+            <div v-for="(item, index) of authorsUnique" :key="index" class="_inline-block _margin-right">
               <span v-if="item" class="_flex-row">
                 <img v-if="item.fields['ProfileImage'] && item.fields['ProfileImage'].length > 0 && item.fields['ProfileImage'][0].thumbnails" :src="item.fields['ProfileImage'][0].thumbnails.small.url" class="--profile">
                 <img v-else :src="`https://dl.phage.directory/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95`" class="--profile" height="42" width="42">
@@ -98,6 +99,12 @@ export default {
         return undefined
 
       return this['authors'][0]
+    },
+    authorsUnique() {
+      // use new Set to only show unique authors in this['authors']
+      let unique = [...new Set(this['authors'])]; 
+      console.log(this['authors'], unique)
+      return [...new Set(this['authors'])]
     },
   },
 

@@ -195,6 +195,7 @@
                     <h1 v-if="issue.fields['Data:Body']" class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
                     <!-- short description / name -->
 
+                    <!-- BANANA {{ authors?.[0].id }} -->
                     <div v-if="authors && authors[0]" >
                       <div v-for="item of authors" :key="item.id" >
                         <AuthorCard :person="item" class="Capsid-author-short People-only-header --compact" />

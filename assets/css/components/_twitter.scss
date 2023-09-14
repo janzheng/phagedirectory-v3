@@ -25,7 +25,7 @@
   }
 
   @include screen-xs {
-    max-width: calc(100%-#{$size}*2) !important;
+    max-width: calc(100% - #{2 * $size}) !important;
     // height: 600px;
     padding: $size;
   }

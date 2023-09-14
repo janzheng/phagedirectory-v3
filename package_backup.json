@@ -5,7 +5,7 @@
   "author": "Jan Zheng <jan@phage.directory>",
   "private": true,
   "engines": {
-    "node": "14.x"
+    "node": "18.x"
   },
   "scripts": {
     "lint": "eslint --ext .js,.vue --ignore-path .eslintignore .",

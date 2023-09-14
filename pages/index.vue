@@ -353,7 +353,7 @@ export default {
       });
       this['authors'] = matchingAuthors;
       
-      console.log('[index/getAuthorsOfManuscript] matchingAuthors:', this.authors, authorSlugs, matchingAuthors)
+      // console.log('[index/getAuthorsOfManuscript] matchingAuthors:', this.authors, authorSlugs, matchingAuthors)
       return cytosis.tables['People'] // not really used
     },
   },

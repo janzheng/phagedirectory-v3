@@ -103,7 +103,7 @@ export default {
     authorsUnique() {
       // use new Set to only show unique authors in this['authors']
       let unique = [...new Set(this['authors'])]; 
-      console.log(this['authors'], unique)
+      // console.log(this['authors'], unique)
       return [...new Set(this['authors'])]
     },
   },

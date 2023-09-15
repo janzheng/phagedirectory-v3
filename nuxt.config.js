@@ -425,7 +425,7 @@ export default {
     // transpile: ['cytosis', 'vuex-cache', 'markdownit'],
 
     extend(config) {
-      config.resolve.alias['node-fetch-native'] = require.resolve('node-fetch')
+      // config.resolve.alias['node-fetch-native'] = require.resolve('node-fetch')
     },
 
     // extend(config, ctx) {

@@ -26,3 +26,5 @@ notes.md
 .output
 /build/
 /public/build
+
+._vercel

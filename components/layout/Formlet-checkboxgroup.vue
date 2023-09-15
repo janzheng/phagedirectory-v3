@@ -18,7 +18,7 @@
 
     <!-- <label v-if="isFieldInvalid(input)" class="_error" >{{ errorMessage(input) }}</label> -->
 
-    <div v-for="option in input.options" :key="option.value" class="_form-checkbox --inline" >
+    <div v-for="option in input.options" :key="option.value" class="_form-checkbox __inline" >
       <label :for="option.value" class="_form-checkbox-label">
         <input :id="option.value"
                v-model.trim="data[input.name+'.'+option.value]"

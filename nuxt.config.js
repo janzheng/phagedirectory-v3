@@ -1,3 +1,7 @@
+// fix a nuxt problem
+const tls = require('tls')
+tls.DEFAULT_ECDH_CURVE = 'auto'
+
 process.env.DEBUG = 'nuxt:*'
 // process.env.NUXT_ENV_DEVALUE_LOG_LIMIT = -1
 process.env.NUXT_ENV_DEVALUE_LOG_LEVEL = 'silent' // default is 'warn'
@@ -10,6 +14,8 @@ process.env.NUXT_ENV_DEVALUE_LOG_LEVEL = 'silent' // default is 'warn'
 */
 
 import Cytosis from 'cytosis'
+import { resolve } from 'path'
+
 
 const pkg = require('./package')
 const env = require('dotenv').config()
@@ -48,6 +54,8 @@ const airtable_base = process.env.PD_AIRTABLE_PUBLIC_BASE;
 const db_api = process.env.PD_AIRTABLE_DB_API; 
 const db_base = process.env.PD_AIRTABLE_DB_BASE;
 
+const locality = process.env.LOCALITY; // for citation to only work locally
+
 // const analyze = false; // analyzer (webpack; turn off for prod) use --analyze instead for visualizer
 const offline = false;
 let mode = 'universal';
@@ -69,16 +77,21 @@ console.log('[Config] Environment:', pd_env)
 const site_static = false; // if set to true, the client will never pull data 
 let site_routes; // used for the generate process to save on airtable pulls
 const api_url = process.env.API_URL;
+const utility_url = "https://utility.phage.directory"
 
 
 // set up caching data
-let useCytosisConfigCache = false
-let useCytosisDataCache = false
-let useCytosisPageCache = false
+// let useCytosisConfigCache = false // not used since v3.1
+let useCytosisDataCache = false // stores stuff into VueX store
+let useCytosisPageCache = false // loads C&T from _cache straight into the store — bad for previewing Capsid
+
+// v3 / v4 API endpoint — better caching
+let useV3API = true
+let v3_api = useV3API ? process.env.V3_API : null
 
 // in full production
 if(pd_env=='prod' && mode=='universal') {
-  useCytosisConfigCache = true
+  // useCytosisConfigCache = true
   useCytosisDataCache = true
   useCytosisPageCache = true
 }
@@ -86,7 +99,7 @@ if(pd_env=='prod' && mode=='universal') {
 // on zeit now staging
 if(pd_env=='stage' && mode=='universal') {
 // if(pd_env=='stage') {
-  useCytosisConfigCache = false
+  // useCytosisConfigCache = false
   useCytosisDataCache = false
   useCytosisPageCache = false
 }
@@ -98,6 +111,10 @@ if(pd_env=='stage' && mode=='universal') {
 
 // export default (async function() {
 export default {
+
+  alias: {
+    '~': resolve(__dirname, './'),
+  },
   // let site_data
   // if (mode == 'universal') 
   //   site_data = await initData()
@@ -108,17 +125,25 @@ export default {
   // export default {
   // mode: 'universal', // use this for deployment; need to rebuild the site every time airtable content changes
   mode: mode, // for development, or for real-time airtable changes
+  ssr: mode == 'spa' ? false : true,
   env: {
     mode: mode,
     pd_env: pd_env, // 'stage' or 'prod'
     site_fb: site_fb,
     api_url: api_url,
+    utility_url: utility_url,
     airtable_api: airtable_api,  
     airtable_base: airtable_base,
     db_api: db_api,  
     db_base: db_base,
+    form_post_api: process.env.FORM_POST_API,
 
-    useCytosisConfigCache: useCytosisConfigCache,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
+    useV3API,
+    v3_api,
+    locality,
+
+
+    // useCytosisConfigCache: useCytosisConfigCache,  // pulls a cached version off lambda if config exists; pushes a cached version if it doesn't
     useCytosisDataCache: useCytosisDataCache,    // works like config caching but for airtable requests
     useCytosisPageCache: useCytosisPageCache,
     cache_timeout: pd_env == 'prod' ? 3000 : 20000, // dev now takes a long time to spin up sometimes 
@@ -162,6 +187,18 @@ export default {
     htmlAttrs: {
       lang: 'en-US',
     },
+    script: [
+      {
+        defer: true,
+        ["data-domain"]: "phage.directory",
+        src: 'https://plausible.io/js/plausible.js',
+      },
+      // {
+      //   defer: true,
+      //   ["data-domain"]: "phage.directory",
+      //   src: 'https://app.embed.im/snow.js',
+      // }
+    ],
     meta: [
 
       { charset: 'utf-8' },
@@ -244,6 +281,7 @@ export default {
   */
 
   plugins: [
+    // { src: '~/plugins/snow.client.js' },
     { src: '~/plugins/syslog.js' },
     { src: '~/plugins/sizeup.js' },
     { src: '~/plugins/markdownit.js' },
@@ -255,7 +293,7 @@ export default {
     // https://github.com/Developmint/nuxt-purgecss
     // { src: '~/plugins/dynamicData.js' } // done as middleware instead
 
-    { src: '~/plugins/drift.js', mode: 'client' }, // ssr: false is deprecated
+    // { src: '~/plugins/drift.js', mode: 'client' }, // ssr: false is deprecated
     { src: '~/plugins/scrollspy.js', mode: 'client' },
     { src: '~/plugins/vue-scrollto.js', mode: 'client' },
     { src: '~/plugins/segment.js', mode: 'client' },
@@ -368,7 +406,7 @@ export default {
           }
         }]
       ],
-      plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-syntax-dynamic-import', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
+      plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-transform-optional-chaining', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
     },
     // explicitly transpile these
     transpile: ['cytosis', 'markdownit', 'markdown-it-attrs'],
@@ -434,16 +472,16 @@ export default {
 
 
         // phage futures temporary
-        {
-          name: 'phage futures temporary',
-          path: '/phagefutures',
-          component: resolve(__dirname, 'pages/events/phagefuturesdc2020.vue')
-        },
-          {
-            name: 'phage futures feedback',
-            path: '/phagefutures/feedback',
-            component: resolve(__dirname, 'pages/phagefutureseu-questions.vue')
-          },
+        // {
+        //   name: 'phage futures temporary',
+        //   path: '/phagefutures',
+        //   component: resolve(__dirname, 'pages/events/phagefuturesdc2020.vue')
+        // },
+          // {
+          //   name: 'phage futures feedback',
+          //   path: '/phagefutures/feedback',
+          //   component: resolve(__dirname, 'pages/phagefutureseu-questions.vue')
+          // },
 
 
         {
@@ -507,11 +545,11 @@ export default {
           component: resolve(__dirname, 'pages/dir/labs.vue')
         },
 
-        {
-          name: 'events timeline tool slug+passcode',
-          path: '/events/:event/:slug/:passcode',
-          component: resolve(__dirname, 'pages/events/posttimeline.vue')
-        },
+        // {
+        //   name: 'events timeline tool slug+passcode',
+        //   path: '/events/:event/:slug/:passcode',
+        //   component: resolve(__dirname, 'pages/events/posttimeline.vue')
+        // },
 
         {
           name: 'alerts / misspelling',

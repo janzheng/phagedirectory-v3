@@ -193,7 +193,7 @@
 
       <div v-if="citation" id="Capsid-cite" class="Capsid-cite" >
         <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
-        <h6 class="--inline">How to Cite</h6>
+        <h6 class="__inline">How to Cite</h6>
         <div v-if="issue.fields['Meta:Citation:Text']" >
           <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
         </div>
@@ -253,13 +253,13 @@ import CapsidSponsor from '~/components/publications/CapsidSponsor'
 import CapsidNew from '~/components/publications/CapsidNew'
 import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
-import CapsidStub from '~/components/publications/CapsidStub.vue'
+import CapsidStub from '~/components/publications/CapsidStub'
 // import { loadQuery } from '~/other/loaders'
-import AuthorCard from '~/components/dir/PeopleCard.vue'
-import Alert from '~/components/Alert.vue'
+import AuthorCard from '~/components/dir/PeopleCard'
+import Alert from '~/components/Alert'
 
 // import AxiosPost from '~/components/AxiosPost.vue'
-import NodeForm from '~/components/render/NodeForm.vue'
+import NodeForm from '~/components/render/NodeForm'
 import { headMatter } from '~/other/headmatter.js'
 
 export default {

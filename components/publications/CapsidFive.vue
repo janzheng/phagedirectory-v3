@@ -195,8 +195,11 @@
                     <h1 v-if="issue.fields['Data:Body']" class="Capsid-title --title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
                     <!-- short description / name -->
 
+                    <!-- BANANA {{ authors?.[0].id }} -->
                     <div v-if="authors && authors[0]" >
-                      <AuthorCard v-if="item" v-for="item of authors" :key="item.id" :person="item" class="Capsid-author-short People-only-header --compact" />
+                      <div v-for="item of authors" :key="item.id" >
+                        <AuthorCard :person="item" class="Capsid-author-short People-only-header --compact" />
+                      </div>
                     </div>
                     <div v-else-if="issue.fields['Data:Author']" class="Capsid-author _padding-bottom" v-html="$md.render(issue.fields['Data:Author'] || '')" />
                     <div v-if="issue.fields['Data:Body']" class="Capsid-content" v-html="$md.render(issue.fields['Data:Body'] || '')" />
@@ -225,6 +228,10 @@
         <CapsidStub v-for="item of relatedIssues" :key="item.fields['Name']" :issue="item" show-lede="true" class="--related _margin-top" />
       </div>
 
+      <div v-if="issue && issue.fields['Use:TwitterEmbed']" >
+        <script async defer src="https://platform.twitter.com/widgets.js" charset="utf-8" />
+      </div>
+
       <!-- <NodeForm v-if="form" :src="form" class="Capsid-form" /> -->
       
       <div v-if="authors && authors[0]" id="Capsid-authors" class="Capsid-authors " >
@@ -234,7 +241,7 @@
 
       <div v-if="authors && authors[0] && citation" id="Capsid-cite" class="Capsid-cite _divider-top " >
         <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
-        <h6 class="--inline">How to Cite</h6>
+        <h6 class="__inline">How to Cite</h6>
         <div v-if="issue.fields['Meta:Citation:Text']" >
           <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
         </div>
@@ -299,7 +306,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 // import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCard.vue'
-import Alert from '~/components/Alert.vue'
+import Alert from '~/components/Alert'
 
 import Template from '~/templates/manuscript-capsid.vue'
 
@@ -347,6 +354,7 @@ export default {
       url: this.issue.fields['URL'],
     })
 
+    console.log('issue data:', this.issue.fields)
     return head
   },
 
@@ -358,9 +366,9 @@ export default {
     // if(process.client) {
       console.group()
       console.log('[Capsid] Cached data:')
-      console.log(JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]))
+      console.log(`%c ${JSON.stringify(this.$store.state['cytosisStore'][this.issue.fields['Slug']]).replaceAll('dl.airtable.com','dl.phage.directory')}`, 'color: skyblue')
       console.log('[Capsid] Citation')
-      console.log(JSON.stringify(this.citation))
+      console.log(`%c ${JSON.stringify(this.citation)}`, 'color: pink')
       console.groupEnd()
       // console.log('[Capsid] Cached data conversion:', this.$store.state['cytosisStore'][this.issue.fields['Slug']])
     }
@@ -507,4 +515,3 @@ export default {
 
 }
 </script>
-

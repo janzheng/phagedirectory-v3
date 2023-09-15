@@ -1,37 +1,42 @@
-<!--
-<!~~  
+
+<!--  
 
   Router for Capsid & Tail issues
   // basis for other manuscript routers
 
-~~>
+-->
 
 <template>
   <div class="Router-Capsid">
 
-    <!~~ the route should match against a slug and only the first matched slug should be relevant ~~>
+    <!-- the route should match against a slug and only the first matched slug should be relevant -->
 
     <div class="_section-page _margin-center">
 
-      <!~~ <a href="/capsid" class="--quiet _inline-block _padding-bottom">Browse all issues of Capsid &amp; Tail</a> ~~>
+      <!-- <a href="/capsid" class="--quiet _inline-block _padding-bottom">Browse all issues of Capsid &amp; Tail</a> -->
 
-      <Capsid v-if="manuscript && atoms && authors && citation" :issue="manuscript" :atoms="atoms" :authors="authors" :citation="citation" class="Template-Main">
+      <!-- <Capsid v-if="manuscript && atoms && authors && citation" :issue="manuscript" :atoms="atoms" :authors="authors" :citation="citation" class="Template-Main"> -->
+        
+      <!-- <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" /> -->
+
+      <!-- <Capsid :issue="manuscript" :atoms="atoms" :authors="authors" :citation="citation" class="Template-Main"> -->
+      <Capsid :issue="manuscript" :atoms="atoms" :authors="authors" :citation="citation" class="Template-Main">
         
         <template v-slot:sidebar>
           <nav class="">
             <div class="">
-              <!~~ <div class="_sidebar-content-group">
+              <!-- <div class="_sidebar-content-group">
                 <div v-if="manuscript" class="_sidebar-item _sidebar-heading _sidebar-label">
                   {{ manuscript.fields['Name'] }}
                 </div>
-              </div> ~~>
+              </div> -->
               <div v-scroll-spy-active="{class: '--scrollspy-active', selector: '._sidebar-item'}" 
                    v-scroll-spy-link="{selector: 'a._sidebar-item'}"
                    class="scrollspy _card --silver" 
               >
-                <!~~ <nuxt-link to="#intro" class="_sidebar-item _block --active-disabled">
+                <!-- <nuxt-link to="#intro" class="_sidebar-item _block --active-disabled">
                   Intro
-                </nuxt-link> ~~>
+                </nuxt-link> -->
                 <nuxt-link to="#whats-new" class="_sidebar-item _sidebar-content-group _block --active-disabled">
                   What's New
                 </nuxt-link>
@@ -42,11 +47,11 @@
                   Community
                 </nuxt-link>
                 <nuxt-link to="#article" class="_sidebar-item _block --active-disabled">
-                  Feature 
+                  Feature Article
                 </nuxt-link>
-                <!~~ <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
+                <!-- <nuxt-link to="#comments" class="_sidebar-item _block --active-disabled">
                   Comments
-                </nuxt-link> ~~>
+                </nuxt-link> -->
               </div>
               <div clas="_sidebar-footer">
                 <nuxt-link
@@ -80,7 +85,7 @@
 
       </Capsid>
 
-      <!~~ <Capsid :issue="manuscript" :atoms="atoms" class="Template-Main" /> ~~>
+
     </div>
 
   </div>
@@ -113,7 +118,7 @@ const getAuthors = function(store, manuscript, app) {
   if (manuscript.fields['Data:AuthorSlugs'])
     authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]
 
-  if(authorSlugs) {
+  if(authorSlugs && authorSlugs.length > 0) {
     authorPromises = loadQuery({
       _key: process.env.db_api, 
       _base: process.env.db_base, 
@@ -134,6 +139,13 @@ const getAuthors = function(store, manuscript, app) {
 
 
 const citationData = function(manuscript, authors, app) {
+
+  if(!manuscript || !manuscript.fields) {
+    return undefined
+  }
+
+  // console.log('---- citation:', authors)
+
   // all author data loaded in async, so need to verify data is complete by using array len
   // every article will have one corr. author, plus a variable # of authors
   const mainAuthorCount = manuscript.fields['Data:MainAuthorSlug'] ? manuscript.fields['Data:MainAuthorSlug'].length : 0
@@ -150,8 +162,12 @@ const citationData = function(manuscript, authors, app) {
     const day = app.$dayjs(String(date)).format('D') 
 
     let authorNames = []
-    authors.map((item) => authorNames.push(`${item.fields['FamilyName']}, ${item.fields['FirstName']}`))
+    authors.map((item) => {
+      if(item && item.fields)
+        authorNames.push(`${item.fields['FamilyName']}, ${item.fields['FirstName']}`)
+    })
     // console.log('author names:', authorNames.join(' and '))
+
 
     // const source =  `
     //   @article{${this.authors[0].fields['FamilyName']}${date.getFullYear()},
@@ -167,14 +183,13 @@ const citationData = function(manuscript, authors, app) {
     //   }
     // `
 
-    // console.log('raw date:', manuscript.fields['Data:Date'], year, month, day )
     const source =  `
       @article{${manuscript.fields['Slug']}${year},
         author = {${authorNames.join(' and ')}},
         date = {${year}},
         day = {${day}},
         month = {${month}},
-        title = {{${manuscript.fields['Data:Title:String']}}},
+        title = {${manuscript.fields['Data:Title:String']}},
         journal = {Capsid & Tail},  
         publisher = {Phage Directory},
         number = {${manuscript.fields['Data:Issue']}},
@@ -182,9 +197,8 @@ const citationData = function(manuscript, authors, app) {
       }
     `
 
-    return {
-      source
-    }
+    console.log('[citationData]:', source )
+    return source
   }
   return undefined
 }
@@ -205,6 +219,7 @@ export default {
   },
 
   data () {
+    
     return {
       manuscript: undefined,
       atoms: undefined,
@@ -221,7 +236,7 @@ export default {
   async asyncData({env, store, route, app, error}) {
 
 
-    const slug = unescape(route.params.slug)
+    const slug = 'state-of-phage-2020-phage-collections'
     // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
     // console.log('matched node: ', node, ' @ ', slug)
 
@@ -232,9 +247,8 @@ export default {
       env, 
       store, 
       _base: env.airtable_base,
-      routeName:'Capsid-router-article', 
-      query:'capsid-single', 
-      keyword: slug,
+      routeName:'Capsid-latest', 
+      query:'capsid-latest',
     })
 
     let manuscript = cytosis.tables['Manuscripts'][0]
@@ -244,9 +258,11 @@ export default {
     //   error({statusCode: 'Cytosis', message: 'The Capsid issue could not be loaded'})
 
     // otherwise load it from scratch
+
     if(manuscript) {
 
       // if cache exist on the record, load manuscript data from cache
+      
       try {
         if(manuscript.fields['_cache:recordId']) {
           cache = await store.dispatch('loadPageCache', {
@@ -257,7 +273,7 @@ export default {
           if(cache && cache.fields['Payload']) {
             cache = app.$cytosis.cleanRecord(cache)
             cachedata = JSON.parse(cache.fields['Payload'])
-            // console.log('Capsid cache found; sending the Cytosis cached page data.')
+            console.log('Capsid cache found; sending the Cytosis cached page data.')
             // store the cache data into the store's page cache
             store.dispatch('storePageCache', {
               key: manuscript.fields['Slug'],
@@ -307,10 +323,18 @@ export default {
           // pushes the authors in order of slugs
           authorData.map((author) => { authorObj[author.fields['Slug']] = author })
 
-          // add the authors in order
-          authorSlugs.map((_slug) => { authors.push(authorObj[_slug]) })
+          if(authorSlugs && authorSlugs.length > 0) {
+            // add the authors in order
+            authorSlugs.map((_slug) => { authors.push(authorObj[_slug]) })
+          }
         }
 
+      // } catch(err) {
+      //   console.error('Capsid loading Cytosis from scratch failed:', err)
+      // }
+
+
+      // try {
         // Citations
 
         // for some reason, citation-js crashes Zeit Now, even when included here.
@@ -318,24 +342,44 @@ export default {
         // this is slow (5-10s), but SUPER important for bots to crawl
         // cache it in Airtable (under Manuscript>Data:Citation) if you can
         // let api_url =  'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
-        let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
-        if(process.env.api_url) // if the API is down (temp. fix)
-          cite_url = process.env.api_url + '/api/cite'
+        // let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
+        // webtask is sunsetting
 
+        let cite_url = null
+        if(process.env.utility_url)
+          cite_url = process.env.utility_url + '/api/citation'
 
-        let citation = {}
+        // local testing
+        // cite_url = 'http://localhost:2022/api/citation'
+
+        let citation = undefined
         if(manuscript.fields['Data:Citation']) {
           // this is added to airtable manually, after generation
           citation = JSON.parse(manuscript.fields['Data:Citation'])
         } else {
-          let cite_data = await axios.post(cite_url, citationData(manuscript, authors, app))
-          citation = cite_data.data // JSON.parse(cite_data.data)
+          let citDataSource = citationData(manuscript, authors, app)
+          
+          if(cite_url && citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
+            console.log('---> getting citation from:', cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
+            // let cite_data = await axios.post(cite_url, citDataSource)
+            let cite_data = await axios.post(cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
 
-          // console.log('WT Citation URL:', cite_url )
-          if(!process.env.api_url) {
+            if(cite_data && cite_data.data) {
+              citation = cite_data.data // JSON.parse(cite_data.data)
+
+              if(citation['citation'])
+                citation['apa'] = citation['citation'] // schema adapt
+
+              console.log('---> citation:', citation)
+              // console.log('---> citation:', JSON.parse(citation))
+            }
+          }
+
+          // console.log('WT Citation URL:', citation )
+          // if(!process.env.api_url) {
             // console.log('WT Citation Object:', cite_data.data )
             // citation = JSON.parse(cite_data.data) // webtask returns a stringified obj
-          }
+          // }
           // console.log('>>> Citation Object ::::', citation)
         }
 
@@ -349,14 +393,16 @@ export default {
           }
         })
 
+
         return {
+          manuscripts: cytosis.tables['Manuscripts'],
           manuscript: manuscript,
           atoms: atoms.tables.Atoms,
           authors: authors,
           citation: citation,
         }
       } catch(err) {
-        console.error('Capsid loading Cytosis from scratch failed:', err)
+        console.error('Citation error:', err)
       }
     } else {
       console.error('[Capsid Router] Capsid not found for slug:', slug)
@@ -395,4 +441,3 @@ export default {
 <style>
 </style>
 
--->

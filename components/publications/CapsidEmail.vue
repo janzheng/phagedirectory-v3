@@ -50,10 +50,10 @@
                 </div>
                 <div style="vertical-align: baseline;">
                   <a :href="twitterLink">
-                    <img src="https://gallery.mailchimp.com/a95319e0a6f57b754b11012a8/images/a39bb182-0852-4662-a1dc-dc4cfcd20a3f.png" width="23px" height="19px" style="margin-right: 8px; position: relative; bottom: -5px" >Tweet this issue
+                    <img src="https://mcusercontent.com/a95319e0a6f57b754b11012a8/images/b998e8ed-0930-13e9-818f-5e67c6a18221.png" width="23px" height="19px" style="margin-right: 8px; position: relative; bottom: -5px" >Tweet this issue
                   </a>
                 </div>
-              </div>
+              </div> 
             </div>
           </div>
 
@@ -204,11 +204,12 @@
 
         <div id="_Capsid-cite" class="_Capsid-cite" v-if="citationData">
           <h6 class="">How to Cite</h6>
-          <div v-if="issue.fields['Meta:Citation:Text']">
-            <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
-          </div>
+          <div class="_font-smaller _padding-bottom-half">To cite this, please use:</div>
+          <div class="Capsid-apa _font-smaller _card _padding" v-html="$md.render((citation && citation.apa) || '' )" />
+          <div class="_font-smaller _padding-bottom-half _margin-top-2">BibTeX citation:</div>
+          <div class="Capsid-bibtex _font-smaller _card _padding" v-html="$md.render((citation && citation.bibtex) || '' )" />
 
-          <AxiosPost 
+          <!-- <AxiosPost 
             v-if="citationData"
             class="_Capsid-citations"
             url="https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite"
@@ -221,7 +222,7 @@
                 <div class="_Capsid-apa _card _padding --bg_white" v-html="$md.render(data.apa )" />
               </div>
             </div>
-          </AxiosPost>
+          </AxiosPost> -->
         </div>
 
         <div class="_Capsid-Email-footer-share" style="padding-top: 16px; padding-bottom: 16px;">
@@ -263,7 +264,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCardEmail.vue'
-// import Alert from '~/components/Alert.vue'
+// import Alert from '~/components/Alert'
 
 import AxiosPost from '~/components/AxiosPost.vue'
 
@@ -499,6 +500,11 @@ export default {
 
       const uri = `https://twitter.com/intent/tweet?url=${url}&text=${text}&hashtags=${tags}`
       return encodeURI(uri)
+    },
+
+    citation() {
+      if (this.issue.fields['Data:Citation'])
+        return JSON.parse(this.issue.fields['Data:Citation'] )
     },
 
     citationData() {
@@ -854,6 +860,12 @@ img {
 }
   ._card.Urgent {
     border-top: 3px solid #D43615;
+  }
+  ._card.__fyi {
+    background: #F1FBFF;
+    border-left: solid 6px;
+    border-color: #50CDE0;
+    border-radius: 4px;
   }
 
 ._button-link {

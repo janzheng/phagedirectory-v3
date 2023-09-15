@@ -44,7 +44,7 @@
 
 
         <template #context>
-          <a href="https://phage-futures.com/events/phage-futures-2020" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.airtable.com/.attachments/3b23ed38e0e1ab0cd60d55b84f019468/9712be9e/pfdc2020.jpg" alt="Phage Futures 2019 details"></a>
+          <a href="https://phage-futures.com/events/phage-futures-2020" target="_blank"><img style="width: 100%; max-width: 250px" src="https://dl.phage.directory/.attachments/3b23ed38e0e1ab0cd60d55b84f019468/9712be9e/pfdc2020.jpg" alt="Phage Futures 2019 details"></a>
           <div class="_padding-bottom-half _font-small">Sponsored by <a href="https://www.kisacoresearch.com/">Kisaco Research</a></div>
         </template>
 
@@ -62,7 +62,7 @@
 import Template from '~/templates/context.vue'
 import Timeline from '~/components/events/Timeline.vue'
 import { loadQuery } from '~/other/loaders'
-import { headMatter } from '~/other/headmatter.js'
+// import { headMatter } from '~/other/headmatter.js'
 
 export default {
 

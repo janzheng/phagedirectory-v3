@@ -134,8 +134,11 @@ export default {
 
         this.isSending = true
 
+        let form_post_api = process.env.form_post_api || this.payload.handler // used to be webtask but it's gone
+
+        // console.log('submitting form to', form_post_api)
         // console.log('Submitting data: ', data)
-        axios.post(this.payload.handler, data)
+        axios.post(form_post_api, data)
         .then(function (response) {
           console.log('Message sent! Status:', response.status)
           // if(status.status == 200) {
@@ -146,6 +149,7 @@ export default {
           // }
         })
         .catch(function (error) {
+          _this.$scrollTo(`#Form--${_this.formName}`)
           console.log('error', error)
           _this.error = error
           _this.isSending = false

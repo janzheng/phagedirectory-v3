@@ -7,7 +7,6 @@
 
 <template>
   <div :id="lab.fields['Slug']" class="Lab Lab-Card Dir-card " >
-
     <div class="Lab-container">
       <!-- <div class="Lab-profile "> -->
       <!-- <img :src="profileUrl" class="--profile --medium _margin-right"/> -->
@@ -20,7 +19,7 @@
             <span>{{ lab.fields['Name'] }}</span>
           </div>
           <div class="Dir-social ">
-            <a v-if="lab.fields['Social:Twitter']" :href="`https://twitter.com/${lab.fields['Social:Twitter']}`" class="Dir-icon --url"><span class="_font-phage icon-twitter" /></a>
+            <a v-if="lab.fields['Social:Twitter']" :href="`${getTwitter}`" class="Dir-icon --url"><span class="_font-phage icon-twitter" /></a>
             <a v-if="lab.fields['Social:Linkedin']" :href="`${lab.fields['Social:Linkedin']}`" class="Dir-icon --url"><span class="_font-phage icon-linkedin" /></a>
           </div>
         </div>
@@ -40,7 +39,7 @@
             </div>
             <div v-if="lab.fields['Social:Twitter']" class="Dir-link Dir-block">
               <div class="Dir-label">Twitter</div>
-              <a :href="`https://twitter.com/${lab.fields['Social:Twitter']}`" class="_wordbreak --url">{{ getTwitter }}</a>
+              <a :href="`${getTwitter}`" class="_wordbreak --url">{{ getCleanTwitter }}</a>
             </div>
             <div v-if="PIs" class="Dir-block">
               <div class="Dir-label">Principal Investigator<span v-if="PIs.length>1">s</span></div>
@@ -116,10 +115,24 @@ export default {
   computed: {
     getTwitter() {
       let twitter = this.lab.fields['Social:Twitter']
+
+      if(!twitter)
+        return undefined 
+        
+
       if(twitter.substring(0,1) == '@')
+        return 'https://twitter.com/' + twitter
+      else if(twitter.substring(0,4) == 'http')
         return twitter
       else
-        return '@'+twitter
+        return 'https://twitter.com/' + twitter
+    },
+    getCleanTwitter() {
+      if(this.getTwitter) {
+        let lastSlash = this.getTwitter.lastIndexOf('@') || this.getTwitter.lastIndexOf('/')
+        return '@'+this.getTwitter.substring(lastSlash + 1)
+      }
+      return undefined
     },
 
     url() {

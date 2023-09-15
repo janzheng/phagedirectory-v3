@@ -144,7 +144,7 @@ const citationData = function(manuscript, authors, app) {
     return undefined
   }
 
-  console.log('---- citation:', authors)
+  // console.log('---- citation:', authors)
 
   // all author data loaded in async, so need to verify data is complete by using array len
   // every article will have one corr. author, plus a variable # of authors
@@ -197,10 +197,8 @@ const citationData = function(manuscript, authors, app) {
       }
     `
 
-    console.log('citation source:', source )
-    return {
-      source
-    }
+    console.log('[citationData]:', source )
+    return source
   }
   return undefined
 }
@@ -265,6 +263,7 @@ export default {
     if(manuscript) {
 
       // if cache exist on the record, load manuscript data from cache
+      
       try {
         if(manuscript.fields['_cache:recordId']) {
           cache = await store.dispatch('loadPageCache', {
@@ -275,7 +274,7 @@ export default {
           if(cache && cache.fields['Payload']) {
             cache = app.$cytosis.cleanRecord(cache)
             cachedata = JSON.parse(cache.fields['Payload'])
-            // console.log('Capsid cache found; sending the Cytosis cached page data.')
+            console.log('Capsid cache found; sending the Cytosis cached page data.')
             // store the cache data into the store's page cache
             store.dispatch('storePageCache', {
               key: manuscript.fields['Slug'],
@@ -347,25 +346,33 @@ export default {
         // let cite_url = 'https://wt-ece6cabd401b68e3fc2743969a9c99f0-0.sandbox.auth0-extend.com/PDv3-cite'
         // webtask is sunsetting
 
-        let cite_url = ''
-        if(process.env.api_url) // if the API is down (temp. fix)
-          cite_url = process.env.api_url + '/api/cite'
+        let cite_url = null
+        if(process.env.utility_url)
+          cite_url = process.env.utility_url + '/api/citation'
 
+        // local testing
+        // cite_url = 'http://localhost:2022/api/citation'
 
         let citation = undefined
         if(manuscript.fields['Data:Citation']) {
           // this is added to airtable manually, after generation
           citation = JSON.parse(manuscript.fields['Data:Citation'])
         } else {
-
           let citDataSource = citationData(manuscript, authors, app)
           
-          if(citDataSource && process.env.pd_env == 'stage') {
-            console.log('---> getting citation from:', cite_url, citDataSource)
-            let cite_data = await axios.post(cite_url, citDataSource)
+          if(cite_url && citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
+            console.log('---> getting citation from:', cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
+            // let cite_data = await axios.post(cite_url, citDataSource)
+            let cite_data = await axios.post(cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
+
             if(cite_data && cite_data.data) {
               citation = cite_data.data // JSON.parse(cite_data.data)
-              console.log('---> citation:', JSON.stringify(cite_data.data))
+
+              if(citation['citation'])
+                citation['apa'] = citation['citation'] // schema adapt
+
+              console.log('---> citation:', citation)
+              // console.log('---> citation:', JSON.parse(citation))
             }
           }
 
@@ -386,6 +393,11 @@ export default {
             citation: citation,
           }
         })
+
+        console.log('authors:', authors)
+
+        // filter undefined from authors
+        authors = authors.filter((item) => item)
 
 
         return {

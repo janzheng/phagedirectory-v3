@@ -86,11 +86,12 @@ $sizes: (
   z-top: 90,
   z-popup: 100,
 
+  profile-small: 42px,
   profile: 80px,
  
 ) !default;
 
-@include addtheme($sizes)
+@include addtheme($sizes);
 
 
 $size: usetheme(size); // 16px;
@@ -315,6 +316,7 @@ $context: (
   copy-dark: usetheme("mono-90"),
   copy-gray: usetheme("mono-80"),
   copy-light: usetheme("mono-60"),
+  code-bg: #eaf2f7,
 
   header-color: usetheme("brand-100"), // used for h1-h6
   title-color: usetheme("brand"), // used for logotype in nav
@@ -362,7 +364,7 @@ $context: (
   transparent: usetheme(transparent, $colors_),
 );
 
-@include addtheme($context)
+@include addtheme($context);
 // @include colorate($context_);
 
 
@@ -399,6 +401,33 @@ $button-color-disabled-text: usetheme(gray-light, $colors_);
   background: linear-gradient(163deg, rgba(255,231,246,1) 0%, rgba(255,193,218,1) 89%);
 }
 
+
+
+
+
+
+
+
+p code, ol code, ul code {
+  white-space: break-spaces;
+}
+pre code {
+  display: block;
+  overflow: scroll;
+  white-space: inherit;
+}
+
+$code-color: usetheme("brand-100"),;
+$code-color-bg: usetheme("code-bg"),;
+
+
+
+
+
+
+
+
+
 @import '../../node_modules/coeur/styles/_head.scss';
 
 // @import '../../node_modules/coeur/styles/_neck.scss';
@@ -418,7 +447,9 @@ $button-color-disabled-text: usetheme(gray-light, $colors_);
 // re-cascade
 @import '../../node_modules/coeur/styles/_head-helpers.scss';
 
-
+code {
+  padding: 2px 4px;
+}
 
 
 
@@ -522,6 +553,7 @@ $inset__: (
 ._inset-4 {
   box-shadow: usetheme(inset-4, $inset__);
 }
+
 
 
 

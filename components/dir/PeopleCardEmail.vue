@@ -29,15 +29,25 @@
 
                     <div v-if="isCompact == false " class="People-orgs Dir-row _font-small">
                       <div v-if="roles || jobTitle" class="People-roles _margin-top-half">
-                        <span v-for="role of roles" :key="role" class="_tag">{{ role }}</span>
-                        <span v-if="jobTitle" class="_tag">{{ jobTitle }}</span>
+                        <span v-for="role of roles" :key="role"><span class="_tag" v-if="role && role.trim().length > 0">{{ role }}</span></span>
+                        <span v-if="jobTitle && jobTitle.trim().length > 0" class="_tag">{{ jobTitle }}</span>
                       </div>
 
-                      <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
-                        <a v-if="labSlugs" :href="`https://phage.directory/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</a><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>,
+                      <!-- <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']">
+                        <a v-if="labSlugs" :href="`https://phage.directory/labs#${ labSlugs }`" class="People-orgs-labs --url">{{ labs }}</a><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI _margin-left-half _tag">PI</span>
                       </span>
+                      <span v-if="(person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']) && orgs">, </span>
                       <span v-for="item of orgs" :key="item.name" :to="`/orgs/${person.fields['Orgs::Slugs'][0]}`" class="People-orgs-name">
                         {{ item.name +'' }}
+                      </span> -->
+                      <span v-if="person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']" class="_margin-bottom-half"><nuxt-link v-if="labSlugs" :to="`/labs#${labSlugs}`" class="People-orgs-labs --url">{{ labs }}</nuxt-link><span v-else>{{ labs }}</span><span v-if="isPI" class="People-orgs-PI"> (PI)</span></span><span v-if="(person.fields['Orgs:Labs::Name'] || person.fields['Orgs:SupervisorOf::Name']) && orgs">, </span>
+                      <span v-if="orgs" class="_margin-bottom-half">
+                        <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name _margin-bottom-half _margin-top-half"><!-- <span v-if="i > 0"><br> </span> --><span v-if="i > 0">, </span><nuxt-link v-if="person.fields['Orgs::Slugs'][i]" :to="`/orgs#${person.fields['Orgs::Slugs'][i]}`"> {{ item.name + '' }}</nuxt-link><span v-else> {{ item.name + '' }}</span><span v-if="item.location">, {{ item.location }}</span>
+                        </span>
+                        <!-- <span v-if="orgs && person.fields['Orgs:Custom']">, </span> -->
+                        <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
+                          {{ person.fields['Orgs:Custom'] }}
+                        </span>
                       </span>
                     </div>
                   </div>
@@ -113,12 +123,16 @@ export default {
               )
     },
     profile() {
+      if(this.person.fields['ProfileImage:URL:thumb'])
+        return {
+          url: this.person.fields['ProfileImage:URL:thumb']
+        }
       if(this.person.fields['ProfileImage'])
         return this.person.fields['ProfileImage'][0]
       return undefined
     },
     profileUrl() {
-      return this.profile ? this.profile['url'] : 'https://dl.airtable.com/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95'
+      return this.profile ? this.profile['url'] : 'https://dl.phage.directory/.attachmentThumbnails/5f73211953262a41d993a9cd077a4ec9/370c6e95'
     },
     hostNames() {
       if(!this.person.fields['PhageCollections:Hosts::Names'])

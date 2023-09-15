@@ -82,7 +82,7 @@ export default {
   layout: 'contentframe',
   middleware: 'pageload',
   meta: {
-    tableQueries: ["_content-copy", "atoms-jobs"],
+    tableQueries: process.env.pd_env == 'stage' ? ["_content-copy", "atoms-jobs-preview"] : ["_content-copy", "atoms-jobs"],
     refreshOnLoad: true,
   },
 
@@ -120,7 +120,7 @@ export default {
     },
     expired() {
       // jobs in the past, w/ newest first
-      return this.jobs.filter(t => t.fields['Data:Status'] == 'Expired')
+      return this.jobs.filter(t => t.fields['Data:Status'] == 'Expired').sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
     },
     current() {
       // jobs in the future

@@ -1,4 +1,4 @@
-
+@use "sass:math";
 
 /* 
 
@@ -58,62 +58,63 @@ $baseline: $sizeline;
 // all sizes must be set RELATIVE to $size
 
 // minus sizes
-$size--5:       $size * 4/16     !default; // 4px
-$size--4:       $size * 8/16     !default; // 8px
-$size--3:       $size * 10/16    !default; // 10px
-$size--2:       $size * 12/16    !default; // 12px;  Minus Sizes [m]
-$size--1:       $size * 14/16    !default; // 14px
+$size--5:       math.div($size * 4, 16)     !default; // 4px
+$size--4:       math.div($size * 8, 16)     !default; // 8px
+$size--3:       math.div($size * 10, 16)    !default; // 10px
+$size--2:       math.div($size * 12, 16)    !default; // 12px;  Minus Sizes [m]
+$size--1:       math.div($size * 14, 16)    !default; // 14px
 
-$size-smaller:  $size * 14/16    !default; // 14px; dumb but super useful
-$size-small:    $size * 15/16    !default; // 14px; dumb but super useful
+$size-smaller:  math.div($size * 14, 16)    !default; // 14px; dumb but super useful
+$size-small:    math.div($size * 15, 16)    !default; // 14px; dumb but super useful
 $size-base:     $size            !default; // default is 16px
-$size-large:    $size * 18/16    !default; // 18px
-$size-larger:   $size * 21/16    !default; // 20px; hard choice; 20 div by 2,4,5 and halfway; 18 div by 3, 6, 9 
-$size-quart:    $size/4          !default;
-$size-half:     $size/2          !default;
+$size-large:    math.div($size * 18, 16)    !default; // 18px
+$size-larger:   math.div($size * 21, 16)    !default; // 20px; hard choice; 20 div by 2,4,5 and halfway; 18 div by 3, 6, 9 
+$size-quart:    math.div($size, 16)          !default;
+$size-half:     math.div($size, 2)          !default;
 $size-2x:       $size * 2        !default; // convenience name
 $size-3x:       $size * 3        !default; // convenience name
 
 // plus sizes
-$size-1:        $size * 18/16    !default; // 18 — Note!!! These have been shifted; old references to size-2 aren't 2x anymore
-$size-2:        $size * 21/16    !default; // 20
-$size-3:        $size * 24/16    !default; // 24
-$size-4:        $size * 32/16    !default; // 32
-$size-5:        $size * 40/16    !default; // 40
-$size-6:        $size * 48/16    !default; // 48
-$size-7:        $size * 56/16    !default; // 56
-$size-8:        $size * 64/16    !default; // 64
-$size-9:        $size * 80/16    !default; // 80
-$size-10:       $size * 96/16    !default; // 96
-$size-11:       $size * 112/16   !default; // 112
-$size-12:       $size * 128/16   !default; // 128
-$size-13:       $size * 144/16   !default; // 144
-$size-14:       $size * 192/16   !default; // 192
-$size-15:       $size * 256/16   !default; // 256
-$size-16:       $size * 384/16   !default; // 384
-$size-17:       $size * 512/16   !default; // 512
-$size-18:       $size * 640/16   !default; // 640
-$size-19:       $size * 768/16   !default; // 768
+$size-1:        math.div($size * 18, 16)    !default; // 18 — Note!!! These have been shifted; old references to size-2 aren't 2x anymore
+$size-2:        math.div($size * 21, 16)    !default; // 20
+$size-3:        math.div($size * 24, 16)    !default; // 24
+$size-4:        math.div($size * 32, 16)    !default; // 32
+$size-5:        math.div($size * 40, 16)    !default; // 40
+$size-6:        math.div($size * 48, 16)    !default; // 48
+$size-7:        math.div($size * 56, 16)    !default; // 56
+$size-8:        math.div($size * 64, 16)    !default; // 64
+$size-9:        math.div($size * 80, 16)    !default; // 80
+$size-10:       math.div($size * 96, 16)    !default; // 96
+$size-11:       math.div($size * 112, 16)   !default; // 112
+$size-12:       math.div($size * 128, 16)   !default; // 128
+$size-13:       math.div($size * 144, 16)   !default; // 144
+$size-14:       math.div($size * 192, 16)   !default; // 192
+$size-15:       math.div($size * 256, 16)   !default; // 256
+$size-16:       math.div($size * 382, 16)   !default; // 384
+$size-17:       math.div($size * 512, 16)   !default; // 512
+$size-18:       math.div($size * 640, 16)   !default; // 640
+$size-19:       math.div($size * 768, 16)   !default; // 768
+
 
 
 // useful vh sizes
-$size-100vh:    100vh;
-$size-50vh:     50vh;
-$size-12vh:     12vh;
-$size-8vh:      8vh;
-$size-4vh:      4vh;
+$size-100vh: 100vh;
+$size-50vh: 50vh;
+$size-12vh: 12vh;
+$size-8vh: 8vh;
+$size-4vh: 4vh;
 
 
 // radius sizes
 $radius: map-get($heart_, radius) !default; // 4px
 $radius-none: 0px !default;
-$radius-sm: $radius / 2 !default; // subtle borders
-$radius-md: $radius * 3/2 !default; // 6px
+$radius-sm: math.div($radius, 2) !default; // subtle borders
+$radius-md: math.div($radius * 3, 2) !default; // 6px
 $radius-md: $radius * 2 !default;
 $radius-lg: $radius * 4 !default;
 $radius-xl: $radius * 6 !default;
 $radius-100: 100%;
-$gutter: $size-base/2   !default;
+$gutter: math.div($size-base, 2) !default;
 
 
 

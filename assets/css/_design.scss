@@ -1,4 +1,4 @@
-
+@use "sass:math";
 
 /* 
 
@@ -37,7 +37,7 @@ h1, h2, h3, h4, h5, h6 {
   &.--normal {
     font-weight: normal;
   }
-  &.--inline {
+  &.__inline {
     padding-bottom: $size-half !important;
   }
 }
@@ -56,7 +56,7 @@ h2 {
 
   &.--large {
     font-size: $size-4;
-    padding-bottom: $size-4 * 3/2;
+    padding-bottom: $size-4 * 1.5;
   }
 }
 
@@ -77,7 +77,7 @@ h4 {
   padding-top: $size;
   // line-height: $size-3;
   font-size: $font-h4;
-  line-height: $font-h4 * 3/2;
+  line-height: $font-h4 * 1.5;
 
   &.--large {
     font-size: $font-h3;
@@ -139,13 +139,14 @@ blockquote {
   padding-left: $size-2;
   padding-right: $size-2;
 
-  &, p {
+  &, p, a {
+    font-weight: normal;
     font-size: $font-large;
     line-height: $font-large-lineheight * 1;
     @extend %font-serif;
     -webkit-font-smoothing: auto;
     -moz-osx-font-smoothing: unset;
-    font-style: italic;
+    // font-style: italic;
     color: usetheme(brand-copy);
     // @extend .--antialias;
   }
@@ -155,6 +156,11 @@ blockquote {
     font-size: $size;
     font-style: normal;
     color: usetheme(copy);
+  }
+
+  a { 
+    font-weight: 500 !important;
+    color: usetheme(brand-active);
   }
 }
 
@@ -366,31 +372,31 @@ a, ._link {
 
 // PX to REM - Usage: font-size: rem(37px);
 @function rem($px, $size-base: $size) {
-  @return ($px / $size-base) * 1rem;
+  @return (math.div($px,$size-base)) * 1rem;
 }
 
 
 $typography: (
   rem--2: $size--1,
-  rem--2-lh: $size--1 * 5/2,
+  rem--2-lh: $size--1 * 2.5,
   rem--1: $size-smaller,
-  rem--1-lh: $size-smaller * 3/2,
+  rem--1-lh: $size-smaller * 1.5,
   rem: rem($size),
-  rem-lh: rem($size * 3/2),
+  rem-lh: rem($size * 1.5),
   rem-1: rem($size-1),
-  rem-1-lh: rem($size-1 * 3/2),
+  rem-1-lh: rem($size-1 * 1.5),
   rem-2: rem($size-2),
-  rem-2-lh: rem($size-2 * 3/2),
+  rem-2-lh: rem($size-2 * 1.5),
   rem-3: $size-3,
-  rem-3-lh: $size-3 * 4/3,
+  rem-3-lh: $size-3 * 1.33333,
   rem-4: $size-4,
-  rem-4-lh: $size-4 * 5/4,
+  rem-4-lh: $size-4 * 1.25,
   rem-5: $size-5,
-  rem-5-lh: $size-5 * 6/5,
+  rem-5-lh: $size-5 * 1.2,
   rem-6: $size-6,
-  rem-6-lh: $size-6 * 6/5,
+  rem-6-lh: $size-6 * 1.2,
   rem-7: $size-7,
-  rem-7-lh: $size-7 * 6/5,
+  rem-7-lh: $size-7 * 1.2,
   rem-8: $size-8,
   rem-8-lh: $size-8,
   rem-9: $size-9,

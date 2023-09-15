@@ -142,7 +142,7 @@ a.TimelineCard-author {
   width: 100%;
 
   @include screen-xs {
-    // padding: $size/4;
+    // padding: $size * 0.25;
     // doesn't look good w/ regular posts, but for tweets the padding takes up a lot of room
     // fix later / todo
   }

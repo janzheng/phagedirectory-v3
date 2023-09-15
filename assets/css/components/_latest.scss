@@ -58,7 +58,7 @@
       font-size: $size-h6;
       line-height: $size-h6 * 1.5;
     }
-    p, ul, li,  {
+    p, ul, li {
       font-size: $size-p;
       line-height: $size-p * 1.5;
     }
@@ -68,7 +68,7 @@
       font-weight: normal;
       border-width: $border-line;
     }
-    ._tag, ._font-small, {
+    ._tag, ._font-small {
       font-size: $size-small;
       line-height: 10px;
     }
@@ -87,6 +87,11 @@
     .Capsid-item-taglist {
       margin-top: 0;
       margin-bottom: $size-half;
+
+      ._tag {
+        padding-top: $size-half;
+        padding-bottom: $size-half;
+      }
     } 
   }
 }

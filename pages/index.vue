@@ -22,7 +22,7 @@
     
     <no-ssr>
       <Template class="Home-grid _divider-bottom" 
-                grid-classes="Template--Main-Sidebar-xs _grid-3-1 _grid-gap"
+                grid-classes="Template--Main-Sidebar-xs "
                 sidebar-classes="_sidebar _height-100">
         <template #default>
           <div class="Home-grid-main">
@@ -38,27 +38,34 @@
               </div>
             </div>
 
-            <div class="Home-latest _margin-center _padding _card">
-              <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
-              <!-- featured has been rolled into Latest — add FeedFeature tag and it should show up here -->
-              <!-- <Latest v-if="featuredAtoms" :atoms="featuredAtoms" /> -->
-              <NodeForm v-if="form" :src="form"/>
-              <!-- <Latest v-if="nonFeaturedAtoms" class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" /> -->
-              <Latest class="_margin-top-2 --tight" :atoms="latestAtoms" />
-              <button class="_button --width-full _center CTA --brand _font-bold _margin-top-2-i _margin-bottom-none-i" @click="getLatestAtoms(numLatest)">
-                <span v-if="!isLoadingMore" class="">Load More</span> 
-                <!-- <div v-else class="_spinner"> </div> -->
-                <div v-else >Loading <span class="_margin-left _spinner" /> </div>
-              </button>
+            <div class="Home-latest _margin-center _padding _margin-top-2 _margin-bottom-2 _card ">
+              <iframe title="Instill Science" src="https://instill.xyz/spaces/instill-science" width="100%" height="100vh" style="height: 100vh; border:0; margin: 0 auto;"></iframe>
+            </div>
+
+
+            <div class="Home-latest _margin-center _padding _card | _grid-3-1 _grid-gap">
+              
+              <div>
+                <h6 class="_padding-bottom-half"><span class="phagey _padding-right">⬢-{</span> Phage Pheed <span class="phagey  _padding-left">}-⬢</span></h6>
+                <!-- featured has been rolled into Latest — add FeedFeature tag and it should show up here -->
+                <!-- <Latest v-if="featuredAtoms" :atoms="featuredAtoms" /> -->
+                <NodeForm v-if="form" :src="form"/>
+                <!-- <Latest v-if="nonFeaturedAtoms" class="_margin-top-2 --tight" :atoms="nonFeaturedAtoms" /> -->
+                <Latest class="_margin-top-2 --tight" :atoms="latestAtoms" />
+                <button class="_button --width-full _center CTA --brand _font-bold _margin-top-2-i _margin-bottom-none-i" @click="getLatestAtoms(numLatest)">
+                  <span v-if="!isLoadingMore" class="">Load More</span> 
+                  <!-- <div v-else class="_spinner"> </div> -->
+                  <div v-else >Loading <span class="_margin-left _spinner" /> </div>
+                </button>
+              </div>
+
+              <no-ssr>
+                <Twitter class=" _center-xs" />
+              </no-ssr>
             </div>
           </div>
         </template>
 
-        <template #context>
-          <no-ssr>
-            <Twitter class="_height-100 _center-xs" />
-          </no-ssr>
-        </template>
       </Template>
     </no-ssr>
       
@@ -109,7 +116,7 @@ export default {
 
     // this loads in the latest capsid on client; but do it on server instead
     // b/c that's better for SEO
-    // this.getLatestCapsid()
+    this.getLatestCapsid()
 
     // load these in the client so server is faster; can't be cached, so can skip SEO
     this.getLatestAtoms(_numLatest)
@@ -200,7 +207,8 @@ export default {
 
       routeName: 'Index-capsid-latest',
 
-      query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
+      // query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
+      query: process.env.pd_env == 'stage' ? "capsid-previews-prev" : "capsid-latest",
 
     })
 
@@ -335,6 +343,17 @@ export default {
       this['People'] = cytosis.tables['People']
       this['authors'] = cytosis.tables['People']
 
+
+      let matchingAuthors = [];
+      authorSlugs.forEach(slug => {
+        let author = this['authors'].find(author => author.fields.Slug === slug);
+        if(author) {
+          matchingAuthors.push(author);
+        }
+      });
+      this['authors'] = matchingAuthors;
+      
+      // console.log('[index/getAuthorsOfManuscript] matchingAuthors:', this.authors, authorSlugs, matchingAuthors)
       return cytosis.tables['People'] // not really used
     },
   },

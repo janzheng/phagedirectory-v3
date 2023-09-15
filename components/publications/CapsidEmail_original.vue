@@ -161,7 +161,7 @@
 
         <div id="Capsid-cite" class="Capsid-cite" v-if="citationData">
           <!-- NOTE: no citation data should show if we can't pull in dynamic author info -->
-          <h6 class="--inline">How to Cite</h6>
+          <h6 class="__inline">How to Cite</h6>
           <div v-if="issue.fields['Meta:Citation:Text']" >
             <span v-html="$md.strip($md.render(issue.fields['Meta:Citation:Text'] || ''))" /><span> {{ '' | today }}.</span>
           </div>
@@ -189,7 +189,7 @@
           <h6 style="padding:0;">Like this issue?</h6> 
           <div style="padding-top: 8px;">
             <CapsidShare :link="twitterLink" message="Tweet this issue!" />
-            <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://dl.airtable.com/.attachments/c03b568df726d47bb37e53dbfacbbffd/4fa7ef48/Rss.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
+            <img width="23" style="position: relative; bottom: -3px; margin-right: 4px;" src="https://dl.phage.directory/.attachments/c03b568df726d47bb37e53dbfacbbffd/4fa7ef48/Rss.png" class=""/> <a href="https://phage.directory/feed.xml" target="_blank" class="">RSS Feed</a>
           </div>
         </div>
 
@@ -219,7 +219,7 @@ import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCardEmail.vue'
-import Alert from '~/components/Alert.vue'
+import Alert from '~/components/Alert'
 
 import AxiosPost from '~/components/AxiosPost.vue'
 import NodeForm from '~/components/render/NodeForm.vue'

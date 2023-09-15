@@ -65,7 +65,7 @@
     "@babel/plugin-transform-typeof-symbol": "7.0.0",
     "@babel/polyfill": "7.4.4",
     "@babel/preset-env": "^7.22.15",
-    "@babel/runtime": "7.4.4",
+    "@babel/runtime": "^7.22.15",
     "@nuxt/core": "^2.17.0",
     "@nuxtjs/dotenv": "1.4.0",
     "@nuxtjs/manifest": "3.0.0-beta.14",

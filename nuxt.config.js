@@ -400,17 +400,33 @@ export default {
         ['@babel/preset-env', {
           // debug: true,
           // useBuiltIns: 'usage',
-          targets: {
-            "browsers": ["> 1%", "ie >= 11", "not ie <= 8"]
-            // "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"]
-          }
+          // targets: {
+          //   "browsers": ["> 1%", "ie >= 11", "not ie <= 8"]
+          //   // "browsers": ["> 1%", "last 2 versions", "ie >= 11", "not ie <= 8"]
+          // }
         }]
       ],
-      plugins: ['@babel/plugin-transform-arrow-functions', '@babel/plugin-transform-optional-chaining', '@babel/plugin-transform-typeof-symbol', '@babel/plugin-transform-runtime'],
+      plugins: [
+        '@babel/plugin-transform-arrow-functions', 
+        '@babel/plugin-transform-optional-chaining', 
+        '@babel/plugin-transform-typeof-symbol', 
+        '@babel/plugin-transform-runtime',
+        '@babel/plugin-transform-class-properties' ,
+        '@babel/plugin-transform-private-methods' ,
+        '@babel/plugin-transform-private-property-in-object',
+        '@babel/plugin-proposal-private-property-in-object',
+        '@babel/plugin-proposal-class-properties',
+        '@babel/plugin-proposal-private-methods',
+      ],
+
     },
     // explicitly transpile these
     transpile: ['cytosis', 'markdownit', 'markdown-it-attrs'],
     // transpile: ['cytosis', 'vuex-cache', 'markdownit'],
+
+    extend(config) {
+      config.resolve.alias['node-fetch-native'] = require.resolve('node-fetch')
+    },
 
     // extend(config, ctx) {
     //   // Run ESLint on save

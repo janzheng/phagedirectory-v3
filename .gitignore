@@ -26,3 +26,8 @@ notes.md
 .output
 /build/
 /public/build
+
+._vercel
+_.vercel
+
+yarn.lock

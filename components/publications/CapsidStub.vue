@@ -57,7 +57,6 @@
             <span class="Capsid-date _right-sm">{{ issue.fields['Data:Date'] | niceDate }}</span>
           </div>
           <h4 class="Capsid-title" v-html="$md.strip($md.render(issue.fields['Data:Title'] || ''))" />
-          baap
           <div v-if="authorsUnique && authorsUnique.length > 0" class="Capsid-author-main _margin-bottom ">
             <div v-for="(item, index) of authorsUnique" :key="index" class="_inline-block _margin-right">
               <span v-if="item" class="_flex-row">

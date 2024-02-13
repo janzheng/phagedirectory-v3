@@ -4,9 +4,6 @@
   "description": "Phage Directory main site",
   "author": "Jan Zheng <jan@phage.directory>",
   "private": true,
-  "engines": {
-    "node": "18.x"
-  },
   "scripts": {
     "commit": "git add . -A ; git commit ; git push origin master ",
     "dirty": "git add . -A ; git commit ; git push origin master ",

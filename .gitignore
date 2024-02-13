@@ -1,6 +1,7 @@
 
 # tmp files for myself
 # coeur_middleman
+.DS_Store
 nuxttmp
 oldgit
 

@@ -77,7 +77,9 @@ console.log('[Config] Environment:', pd_env)
 const site_static = false; // if set to true, the client will never pull data 
 let site_routes; // used for the generate process to save on airtable pulls
 const api_url = process.env.API_URL;
-const utility_url = "https://utility.phage.directory"
+const utility_url = process.env.UTILITY_URL;
+// const utility_url = "https://utility.phage.directory"
+// const utility_url = "http://localhost:2022"
 
 
 // set up caching data

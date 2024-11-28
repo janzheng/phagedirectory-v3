@@ -349,6 +349,8 @@ export default {
         let cite_url = null
         if(process.env.utility_url)
           cite_url = process.env.utility_url + '/api/citation'
+        else
+          cite_url = 'https://utility.phage.directory/api/citation'
 
         // local testing
         // cite_url = 'http://localhost:2022/api/citation'
@@ -361,7 +363,7 @@ export default {
           let citDataSource = citationData(manuscript, authors, app)
           
           if(cite_url && citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
-            console.log('---> getting citation from:', cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
+            // console.log('---> getting citation from:', cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
             // let cite_data = await axios.post(cite_url, citDataSource)
             let cite_data = await axios.post(cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
 

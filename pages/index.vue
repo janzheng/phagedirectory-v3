@@ -254,7 +254,7 @@ export default {
     async getLatestCapsid() {
       try {
         console.log('[[getLatestCapsid]] fetching capsid from coverflow')
-        const response = await fetch('http://coverflow.deno.dev/phage/capsid?max=1')
+        const response = await fetch('https://coverflow.deno.dev/phage/capsid?max=1')
         const data = await response.json()
         const manuscript = {fields: data[0]}
         if (manuscript) {

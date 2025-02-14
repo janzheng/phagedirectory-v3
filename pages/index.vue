@@ -38,9 +38,9 @@
               </div>
             </div>
 
-            <div class="Home-latest _margin-center _padding _margin-top-2 _margin-bottom-2 _card ">
+            <!-- <div class="Home-latest _margin-center _padding _margin-top-2 _margin-bottom-2 _card ">
               <iframe title="Instill Science" src="https://instill.xyz/spaces/instill-science" width="100%" height="100vh" style="height: 100vh; border:0; margin: 0 auto;"></iframe>
-            </div>
+            </div> -->
 
 
             <div class="Home-latest _margin-center _padding _card | _grid-3-1 _grid-gap">
@@ -251,29 +251,44 @@ export default {
 
   methods: {
 
-    // s
-    getLatestCapsid() {
-      const _this = this
-      loadQuery({
-        useDataCache: true,
-        _key: process.env.airtable_api, 
-        _base: process.env.airtable_base, 
-        store: _this.$store, 
-        routeName: 'Index-capsid-latest', 
-        query: 'capsid-latest',
-      }).then((data) => {
-        // Note: these are loaded in ON THE CLIENT 
-        if(data.tables['Manuscripts'] && data.tables['Manuscripts'][0]) {
-          _this.latestCapsid = data.tables['Manuscripts'][0]
-          _this.getAuthorsOfManuscript(data.tables['Manuscripts'][0])
+    async getLatestCapsid() {
+      try {
+        console.log('[[getLatestCapsid]] fetching capsid from coverflow')
+        const response = await fetch('http://coverflow.deno.dev/phage/capsid?max=1')
+        const data = await response.json()
+        const manuscript = {fields: data[0]}
+        if (manuscript) {
+          this.latestCapsid = manuscript
+          this.getAuthorsOfManuscript(manuscript)
+          console.log('[[getLatestCapsid]] capsid fetched:', this.latestCapsid)
         }
-
-        // Trying to offload these on server
-        // _this.getLatestAtoms(_this.numLatest)
-        // _this.getFeaturedAtoms()
-      })
+      } catch (err) {
+        console.error('Error fetching latest capsid:', err)
+      }
       return undefined
     },
+    // getLatestCapsid_old() {
+    //   const _this = this
+    //   loadQuery({
+    //     useDataCache: true,
+    //     _key: process.env.airtable_api, 
+    //     _base: process.env.airtable_base, 
+    //     store: _this.$store, 
+    //     routeName: 'Index-capsid-latest', 
+    //     query: 'capsid-latest',
+    //   }).then((data) => {
+    //     // Note: these are loaded in ON THE CLIENT 
+    //     if(data.tables['Manuscripts'] && data.tables['Manuscripts'][0]) {
+    //       _this.latestCapsid = data.tables['Manuscripts'][0]
+    //       _this.getAuthorsOfManuscript(data.tables['Manuscripts'][0])
+    //     }
+
+    //     // Trying to offload these on server
+    //     // _this.getLatestAtoms(_this.numLatest)
+    //     // _this.getFeaturedAtoms()
+    //   })
+    //   return undefined
+    // },
     getLatestAtoms(numLatest) {
       const _this = this
       this.isLoadingMore = true
@@ -326,27 +341,32 @@ export default {
       let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
       if(manuscript.fields['Data:AuthorSlugs'])
         authorSlugs = [... authorSlugs, ... manuscript.fields['Data:AuthorSlugs']]
-      // this.getAuthorsOfManuscript(this.latestCapsid)
     
-      let cytosis = await loadQuery({
-        // useDataCache: true, // can't data cache this b/c of filter
-        _key: process.env.db_api, 
-        _base: process.env.db_base, 
-        store: this.$store, 
-        routeName: 'Index-people', 
-        query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-        options: {
-          filter: this.$cytosis.filter_or(authorSlugs, "Slug")
-        }
-      })
+      // let cytosis = await loadQuery({
+      //   // useDataCache: true, // can't data cache this b/c of filter
+      //   _key: process.env.db_api, 
+      //   _base: process.env.db_base, 
+      //   store: this.$store, 
+      //   routeName: 'Index-people', 
+      //   query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
+      //   options: {
+      //     filter: this.$cytosis.filter_or(authorSlugs, "Slug")
+      //   }
+      // })
 
-      this['People'] = cytosis.tables['People']
-      this['authors'] = cytosis.tables['People']
+      let people = []
+      try {
+        people = await (await fetch('https://coverflow.deno.dev/phage/people')).json()
+        people = people.map(person => ({fields: person}))
+      } catch (err) {console.error('Error fetching people:', err)}
+
+      this['People'] = people
+      this['authors'] = people
 
 
       let matchingAuthors = [];
       authorSlugs.forEach(slug => {
-        let author = this['authors'].find(author => author.fields.Slug === slug);
+        let author = this['authors'].find(author => author.fields['Slug'] === slug);
         if(author) {
           matchingAuthors.push(author);
         }
@@ -354,7 +374,8 @@ export default {
       this['authors'] = matchingAuthors;
       
       // console.log('[index/getAuthorsOfManuscript] matchingAuthors:', this.authors, authorSlugs, matchingAuthors)
-      return cytosis.tables['People'] // not really used
+      // return cytosis.tables['People'] // not really used
+      return people
     },
   },
 

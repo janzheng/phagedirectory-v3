@@ -113,33 +113,22 @@ export default {
   },
 
   data () {
-
-    // this loads in the latest capsid on client; but do it on server instead
-    // b/c that's better for SEO
-    this.getLatestCapsid()
-
-    // load these in the client so server is faster; can't be cached, so can skip SEO
-    this.getLatestAtoms(_numLatest)
-    // load this one in last b/c they're not that common, and shouldn't be cached
-    // this.getFeaturedAtoms()
-
     return {
       isStaging: process.env.pd_env == 'stage' ? true : false,
-
       promo: this.$cytosis.findField('pf-promo', this.$store.state['Content'], 'Markdown' ),
       promofooter: this.$cytosis.findField('pf-promofooter', this.$store.state['Content'], 'Markdown' ),
-
       mission: this.$cytosis.findField('home-mission', this.$store.state['Content'], 'Markdown' ),
       featured: this.$cytosis.findField('home-featured', this.$store.state['Content'], 'Markdown' ),
-      // more: this.$cytosis.findField('home-more', this.$store.state['Content'], 'Markdown' ),
       form: this.$cytosis.findOne('form-feed', this.$store.state['Content'] ),
       latestCapsid: null,
-      latestAtoms: null, // pulled later
-      featuredAtoms: null, // use this if you want to pull featured atoms manually
+      latestAtoms: null,
+      featuredAtoms: null,
       numLatest: _numLatest,
-      isLoadingMore: false, // loading more atoms
+      isLoadingMore: false,
       People: null,
-      authors: []
+      authors: [],
+      isCapsidLoaded: false, // Flag to check if capsid data is already loaded
+      isAtomsLoaded: false, // Flag to check if atoms data is already loaded
     }
   },
   
@@ -170,68 +159,53 @@ export default {
   },
 
   async asyncData({env, store}) {
-
-    // SUPER slow
-    // Loads in the latest Atoms from the server
-    // this is SEPARATE from the client function
-    // const atomData = await loadQuery({
-    //   // don't cache data here! that defeats the point of refreshing :)
-    //   _key: env.airtable_api, 
-    //   _base: env.airtable_base, 
-    //   store: store, 
-    //   routeName: 'Index-atoms-latest', 
-    //   query: 'atoms-latest',
-    //   options: {
-    //     'view': 'Latest:Published',
-    //     'maxRecords': _numLatest,
-    //   }
-    // })
-
-    // const featureAtomData = await loadQuery({
-    //   useDataCache: true,
-    //   _key: env.airtable_api, 
-    //   _base: env.airtable_base, 
-    //   store: store, 
-    //   routeName: 'Index-atoms-featured', 
-    //   query: 'atoms-featured',
-    // })
-
     // Loads in the latest Capsid from the server
-    // this is SEPARATE from the client function
-    const capsidData = await loadQuery({
-      useDataCache: true,
-      _key: env.airtable_api, 
-      _base: env.airtable_base, 
-      store: store, 
-      // routeName: 'Index-capsid-latest', 
-
-      routeName: 'Index-capsid-latest',
-
-      // query: process.env.pd_env == 'stage' ? ["capsid-previews-prev"] : ["capsid-latest"],
-      query: process.env.pd_env == 'stage' ? "capsid-previews-prev" : "capsid-latest",
-
-    })
-
-    // let latestAtoms, featureAtoms, latestCapsid
-    let latestCapsid
-
-    // if(atomData && atomData.tables.Atoms.length > 0)
-    //   latestAtoms = atomData.tables.Atoms
-
-    // if(featureAtomData && featureAtomData.tables.Atoms.length > 0)
-    //   featureAtoms = featureAtomData.tables.Atoms
-
-    if(capsidData && capsidData.tables.Manuscripts.length > 0)
-      latestCapsid = capsidData.tables.Manuscripts[0]
-
-    return {
-    //   latestAtoms,
-    //   featureAtoms,
-      latestCapsid,
+    let latestCapsid = null
+    let isCapsidLoaded = false
+    try {
+      console.log('[[asyncData]] fetching capsid from coverflow')
+      const response = await fetch('https://coverflow.deno.dev/phage/capsid?max=1')
+      const data = await response.json()
+      const manuscript = {fields: data[0]}
+      if (manuscript) {
+        latestCapsid = manuscript
+        isCapsidLoaded = true
+        console.log('[[asyncData]] capsid fetched:', manuscript)
+      }
+    } catch (err) {
+      console.error('Error fetching latest capsid in asyncData:', err)
     }
 
+    // Loads in the latest Atoms from the server
+    let latestAtoms = null
+    let isAtomsLoaded = false
+    try {
+      console.log('[[asyncData]] fetching atoms from coverflow')
+      const response = await fetch(`https://coverflow.deno.dev/phage/atoms?max=${_numLatest}&sort=Data:PubDate:desc`)
+      const data = await response.json()
+      if (data && data.length > 0) {
+        latestAtoms = data.map(atom => ({fields: atom}))
+        isAtomsLoaded = true
+        console.log('[[asyncData]] atoms fetched:', latestAtoms)
+      }
+    } catch (err) {
+      console.error('Error fetching latest atoms in asyncData:', err)
+    }
+
+    return {
+      latestCapsid,
+      isCapsidLoaded,
+      latestAtoms,
+      isAtomsLoaded,
+    }
   },
   
+  created() {
+    if (this.latestCapsid) {
+      this.getAuthorsOfManuscript(this.latestCapsid)
+    }
+  },
+
   mounted() {
     if(this.$segmentize) {
       this.$segmentize({
@@ -244,14 +218,19 @@ export default {
       })
     }
 
-    if(this.latestCapsid) {
-      this.getAuthorsOfManuscript(this.latestCapsid)
+    if (!this.latestCapsid && !this.isCapsidLoaded) {
+      this.getLatestCapsid()
+    }
+
+    if (!this.latestAtoms && !this.isAtomsLoaded) {
+      this.getLatestAtoms(this.numLatest)
     }
   },
 
   methods: {
-
     async getLatestCapsid() {
+      if (this.isCapsidLoaded) return // Exit if capsid data is already loaded
+
       try {
         console.log('[[getLatestCapsid]] fetching capsid from coverflow')
         const response = await fetch('https://coverflow.deno.dev/phage/capsid?max=1')
@@ -261,99 +240,42 @@ export default {
           this.latestCapsid = manuscript
           this.getAuthorsOfManuscript(manuscript)
           console.log('[[getLatestCapsid]] capsid fetched:', this.latestCapsid)
+          this.isCapsidLoaded = true // Set the flag to true after loading capsid data
         }
       } catch (err) {
         console.error('Error fetching latest capsid:', err)
       }
       return undefined
     },
-    // getLatestCapsid_old() {
-    //   const _this = this
-    //   loadQuery({
-    //     useDataCache: true,
-    //     _key: process.env.airtable_api, 
-    //     _base: process.env.airtable_base, 
-    //     store: _this.$store, 
-    //     routeName: 'Index-capsid-latest', 
-    //     query: 'capsid-latest',
-    //   }).then((data) => {
-    //     // Note: these are loaded in ON THE CLIENT 
-    //     if(data.tables['Manuscripts'] && data.tables['Manuscripts'][0]) {
-    //       _this.latestCapsid = data.tables['Manuscripts'][0]
-    //       _this.getAuthorsOfManuscript(data.tables['Manuscripts'][0])
-    //     }
 
-    //     // Trying to offload these on server
-    //     // _this.getLatestAtoms(_this.numLatest)
-    //     // _this.getFeaturedAtoms()
-    //   })
-    //   return undefined
-    // },
     getLatestAtoms(numLatest) {
       const _this = this
       this.isLoadingMore = true
-      loadQuery({
-        // don't cache data here! that defeats the point of refreshing :)
-        _key: process.env.airtable_api, 
-        _base: process.env.airtable_base, 
-        store: _this.$store, 
-        routeName: 'Index-atoms-latest', 
-        query: 'atoms-latest',
-        options: {
-          'view': 'Latest:Published',
-          'maxRecords': numLatest,
-          'sort': [{field:"Data:PubDate", "direction":"desc"}]
-        }
-      }).then((data) => {
-
-        if(data.tables['Atoms']) {
-          this.isLoadingMore = false
-          // _this.$sys.log('latest atoms:', data)
-          _this.latestAtoms = data.tables.Atoms
-          _this.numLatest = _this.numLatest + 5
-        }
-      })
+      fetch(`https://coverflow.deno.dev/phage/atoms?max=${numLatest}&sort=Data:PubDate:desc`)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            _this.isLoadingMore = false
+            data = data.map(atom => ({fields: atom}))
+            _this.latestAtoms = data
+            _this.numLatest = _this.numLatest + 5
+          }
+        })
+        .catch(err => {
+          console.error('Error fetching latest atoms:', err)
+          _this.isLoadingMore = false
+        })
       return undefined
     },
 
-    // async getAuthor(slug) {
-    //   const _this = this
-    //   const data = await loadQuery({
-    //     // useDataCache: true,
-    //     _key: process.env.db_api, 
-    //     _base: process.env.db_base, 
-    //     store: _this.$store,
-    //     routeName: 'Index-authors', 
-    //     query: 'People-profile',
-    //     keyword: slug,
-    //   })
-
-    //   return data.tables['People'][0]
-    // },
-
     async getAuthorsOfManuscript(manuscript) {
-      // if(!this['People'])
-      //   return undefined
-
       if(!manuscript)
         return undefined
     
       let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
       if(manuscript.fields['Data:AuthorSlugs'])
         authorSlugs = [... authorSlugs, ... manuscript.fields['Data:AuthorSlugs']]
-    
-      // let cytosis = await loadQuery({
-      //   // useDataCache: true, // can't data cache this b/c of filter
-      //   _key: process.env.db_api, 
-      //   _base: process.env.db_base, 
-      //   store: this.$store, 
-      //   routeName: 'Index-people', 
-      //   query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-      //   options: {
-      //     filter: this.$cytosis.filter_or(authorSlugs, "Slug")
-      //   }
-      // })
-
+  
       let people = []
       try {
         people = await (await fetch('https://coverflow.deno.dev/phage/people')).json()
@@ -362,7 +284,6 @@ export default {
 
       this['People'] = people
       this['authors'] = people
-
 
       let matchingAuthors = [];
       authorSlugs.forEach(slug => {
@@ -373,8 +294,6 @@ export default {
       });
       this['authors'] = matchingAuthors;
       
-      // console.log('[index/getAuthorsOfManuscript] matchingAuthors:', this.authors, authorSlugs, matchingAuthors)
-      // return cytosis.tables['People'] // not really used
       return people
     },
   },

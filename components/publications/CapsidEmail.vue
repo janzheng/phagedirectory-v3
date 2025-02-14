@@ -299,7 +299,7 @@ export default {
     this.$head.setDescription(this.issue.fields['Data:Lede'] || "Capsid & Tail is a micro-publication about all things phages")
 
     if(this.authors && this.authors.length > 0 && this.authors[0]) {
-      console.log('autho:',this.authors)
+      console.log('[[authors]]:',this.authors)
       this.$head.setAuthor(this.authors[0].fields['Name'] || "")
       this.$head.setTwitterCreator(this.authors[0].fields['Social:Twitter'] || "")
     }
@@ -510,14 +510,22 @@ export default {
     citationData() {
       // all author data loaded in async, so need to verify data is complete by using array len
       // every article will have one corr. author, plus a variable # of authors
-      const authorCount = this.issue.fields['Data:AuthorSlugs'] ? this.issue.fields['Data:AuthorSlugs'].length : 0
-      if(this.authors && this.authors[0] && this.authors.length == authorCount + 1) {
+      let authorCount = this.issue.fields['Data:AuthorSlugs'] && this.issue.fields['Data:AuthorSlugs'].length || 0
+      if(authorCount < 1) authorCount = this.issue.fields['Data:MainAuthorSlug'] && this.issue.fields['Data:MainAuthorSlug'].length || 0
+
+      console.log('[[citationData]]:', this.authors, authorCount, "????", this.issue.fields['Data:MainAuthorSlug'].length)
+
+      console.log('[[citationData]]:', this.authors, authorCount )
+      if(this.authors && this.authors[0] && this.authors.length >= authorCount) {
         // const date = new Date(this.issue.fields['Data:Date'])
         const date = this.issue.fields['Data:Date'] // using new Date creates localization issues
         const year = this.$dayjs(String(date)).format('YYYY') 
         const month = this.$dayjs(String(date)).format('MMMM') 
         const day = this.$dayjs(String(date)).format('D') 
 
+        console.log('authors:', this.authors)
+
+        
         let authorNames = []
         this.authors.map((item) => authorNames.push(item.fields['Name']))
         // console.log('author names:', authorNames.join(' and '))

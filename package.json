@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "commit": "git add . -A ; git commit ; git push origin master ",
-    "dirty": "git add . -A ; git commit ; git push origin master ",
     "prod": "git add . -A ; git commit ; git push origin deploy ",
     "deploydirty": "git add . -A ; git commit ; git push master deploy --force ",
     "local": "PD_ENV=prod MODE=universal npm run build; npm run start",

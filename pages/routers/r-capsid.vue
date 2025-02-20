@@ -119,6 +119,7 @@ const getAuthors = async function(store, manuscript, app) {
   if (authorSlugs && authorSlugs.length > 0) {
     try {
       const slugsParam = authorSlugs.join(',')
+      console.log('slugsParam:', `https://coverflow.deno.dev/phage/people-profiles?slugs=${slugsParam}&noCache=${process.env.pd_env == 'stage'}`)
       const response = await fetch(`https://coverflow.deno.dev/phage/people-profiles?slugs=${slugsParam}&noCache=${process.env.pd_env == 'stage'}`)
       const people = await response.json()
       authors = people.map(person => person && ({fields: person}))

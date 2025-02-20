@@ -27,7 +27,7 @@
 
     <div v-if="atom.fields['Data:Status'] != 'Expired' && atom.fields['URL']" class="Capsid-cta  _margin-top _margin-bottom ">
       <a v-if="atom.fields['Data:CTA']" :href="atom.fields['Data:CTA']" class="Job-action-apply CTA _button --short --bright _margin-bottom-none-i _margin-right-half" target="_blank">Apply Here</a>
-      <a v-if="atom.fields['Slug']" :href="`/jobs/${atom.fields['Slug']}`" class="Job-action-apply _button --short --outline _margin-bottom-none-i _margin-right-half" >Read more about the job</a>
+      <!-- <a v-if="atom.fields['Slug']" :href="`/jobs/${atom.fields['Slug']}`" class="Job-action-apply _button --short --outline _margin-bottom-none-i _margin-right-half" >Read more about the job</a> -->
       <!-- <a v-if="atom.fields['URL']" :href="atom.fields['URL']" class="Job-action-apply --outline _button --short _margin-bottom-none-i _margin-right-half" target="_blank">More Details</a> -->
       <!-- expiration date -->
       <span v-if="atom.fields['Data:DateEnd']" class="Job-expiry _font-small --nowrap">

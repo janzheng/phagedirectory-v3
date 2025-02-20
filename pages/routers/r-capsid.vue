@@ -107,34 +107,33 @@ import Capsid from '~/components/publications/CapsidFive.vue'
 
 
 // on the server side
-const getAuthors = function(store, manuscript, app) {
-
+const getAuthors = async function(store, manuscript, app) {
   // ensures corr. author is first
-  // REMINDER: Authors always returns as an array; if there are no attached authors
-  // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
   let authorSlugs = manuscript.fields['Data:MainAuthorSlug']
-  let authorPromises
 
-  if (manuscript.fields['Data:AuthorSlugs'])
-    authorSlugs = [... manuscript.fields['Data:MainAuthorSlug'], ... manuscript.fields['Data:AuthorSlugs']]
-
-  if(authorSlugs && authorSlugs.length > 0) {
-    authorPromises = loadQuery({
-      _key: process.env.db_api, 
-      _base: process.env.db_base, 
-      store: store, 
-      routeName: 'Capsid-router-people', 
-      query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-      // keyword: slug,
-      options: {
-        // create a custom filter that looks like
-        // IF(OR({Slug}="jan-zheng", {Slug}="jessica-sacher"), TRUE())
-        filter: app.$cytosis.filter_or(authorSlugs, "Slug")
-      }
-    })
+  if (manuscript.fields['Data:AuthorSlugs']) {
+    authorSlugs = [...manuscript.fields['Data:MainAuthorSlug'], ...manuscript.fields['Data:AuthorSlugs']]
   }
-  return {authorPromises, authorSlugs}
+
+  let authors = []
+  if (authorSlugs && authorSlugs.length > 0) {
+    try {
+      const slugsParam = authorSlugs.join(',')
+      console.log('slugsParam:', `https://coverflow.deno.dev/phage/people-profiles?slugs=${slugsParam}&noCache=${process.env.pd_env == 'stage'}`)
+      const response = await fetch(`https://coverflow.deno.dev/phage/people-profiles?slugs=${slugsParam}&noCache=${process.env.pd_env == 'stage'}`)
+      const people = await response.json()
+      authors = people.map(person => person && ({fields: person}))
+    } catch (err) {
+      console.error('Error fetching authors:', err)
+    }
+  }
+  
+  return {authors, authorSlugs}
 }
+
+
+
+
 
 
 
@@ -237,22 +236,23 @@ export default {
 
 
     const slug = unescape(route.params.slug)
-    // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
-    // console.log('matched node: ', node, ' @ ', slug)
+    // const cytosis = await loadQuery({
+    //   // useDataCache: true, can't cache this since this uses a slug
+    //   noCommit: true,
+    //   env, 
+    //   store, 
+    //   _base: env.airtable_base,
+    //   routeName:'Capsid-router-article', 
+    //   query:'capsid-single', 
+    //   keyword: slug,
+    // })
 
-
-    const cytosis = await loadQuery({
-      // useDataCache: true, can't cache this since this uses a slug
-      noCommit: true,
-      env, 
-      store, 
-      _base: env.airtable_base,
-      routeName:'Capsid-router-article', 
-      query:'capsid-single', 
-      keyword: slug,
-    })
-
-    let manuscript = cytosis.tables['Manuscripts'][0]
+    // let manuscript = cytosis.tables['Manuscripts'][0]
+    const response = await fetch(`https://coverflow.deno.dev/phage/capsid-single?slug=${slug}&noCache=${process.env.pd_env == 'stage'}`)
+    const data = await response.json()
+    let manuscript = data?.[0] ? {fields: data[0]} : undefined
+    
+    
     let atoms, cache, cachedata
 
     // if(!manuscript)
@@ -293,14 +293,24 @@ export default {
       try {
 
         // fetches the relevant atoms into the store
-        atoms = await loadQuery({
-          // useDataCache: true, // data cache doesn't support keywords
-          env, 
-          store, 
-          routeName:'Capsid-router-atoms', 
-          query:'capsid-atoms', 
-          keyword: manuscript.fields['Name']
-        })
+        // atoms = await loadQuery({
+        //   // useDataCache: true, // data cache doesn't support keywords
+        //   env, 
+        //   store, 
+        //   routeName:'Capsid-router-atoms', 
+        //   query:'capsid-atoms', 
+        //   keyword: manuscript.fields['Name']
+        // })
+
+        const response = await fetch(`https://coverflow.deno.dev/phage/atoms-capsid?slug=${manuscript.fields['Slug']}&noCache=${process.env.pd_env == 'stage'}`)
+        const data = await response.json()
+        atoms = {
+          tables: {
+            Atoms: data.map(item => item && ({fields: item, id: item.id}))
+          }
+        }
+
+        // console.log('>>> atoms:', atoms, atoms0)
       } catch(err) {
         // caching strategy failed
         console.error('Capsid atoms failed to load:', err)
@@ -316,18 +326,14 @@ export default {
         // get author list — fairly important for bots to crawl
         if(manuscript.fields['Data:MainAuthorSlug'] || manuscript.fields['Data:AuthorSlugs']) {
           // async; populates this.authors directly when loaded
-          let {authorPromises, authorSlugs} = await getAuthors(store, manuscript, app) 
-
-          // get the cytosis author tale
-          let authorData = app.$cytosis.strip(await authorPromises).tables['People']
-
-          // pushes the authors in order of slugs
-          authorData.map((author) => { authorObj[author.fields['Slug']] = author })
-
+          let {authors: _authors, authorSlugs} = await getAuthors(store, manuscript, app) 
           if(authorSlugs && authorSlugs.length > 0) {
             // add the authors in order
-            authorSlugs.map((_slug) => { authors.push(authorObj[_slug]) })
+            authorSlugs.map((slug) => {
+              authors.push(_authors.find(author => author.fields['Slug'] == slug))
+            })
           }
+
         }
 
       // } catch(err) {
@@ -362,7 +368,8 @@ export default {
         } else {
           let citDataSource = citationData(manuscript, authors, app)
           
-          if(cite_url && citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
+          // if(cite_url && citDataSource && process.env.pd_env == 'stage' && process.env.locality == 'Local') {
+          if(cite_url && citDataSource && process.env.pd_env == 'stage') {
             // console.log('---> getting citation from:', cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
             // let cite_data = await axios.post(cite_url, citDataSource)
             let cite_data = await axios.post(cite_url, {source: citDataSource, isData: true, style: 'mla', output: 'html'})
@@ -403,7 +410,7 @@ export default {
 
 
         return {
-          manuscripts: cytosis.tables['Manuscripts'],
+          // manuscripts: cytosis.tables['Manuscripts'],
           manuscript: manuscript,
           atoms: atoms.tables.Atoms,
           authors: authors,

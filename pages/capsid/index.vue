@@ -43,7 +43,6 @@
     
     <div class="_section-content _margin-center">
       <div class="_margin-left-xs _margin-right-xs">
-        
         <CapsidStub v-for="issue of notLatest" :key="issue.id" :issue="issue" :authors="getAuthorsOfManuscript(issue)" show-lede="true" class="_margin-bottom-2" />
       </div>
 
@@ -60,7 +59,7 @@
 import { mapState } from 'vuex'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import CapsidSignup from '~/components/layout/FooterSignups-capsid.vue'
-import { loadQuery } from '~/other/loaders'
+// import { loadQuery } from '~/other/loaders'
 import _ from '~/other/lodash.custom.min.js'
 
 export default {
@@ -76,41 +75,40 @@ export default {
     tableQueries: process.env.pd_env == 'stage' ? ["_content-copy", "capsid-previews-prev"] : ["_content-copy", "capsid-previews"],
   },
 
+  async asyncData({ store }) {
+    let people = []
+    try {
+      const response = await fetch('https://coverflow.deno.dev/phage/people')
+      people = await response.json()
+      people = people.map(person => ({ fields: person }))
+      console.log(' >>>> people', people)
+    } catch (err) {
+      console.error('Error fetching people:', err)
+    }
+
+    return {
+      People: people,
+    }
+  },
+
   data () {
     // load form in on client; faster load (async) but no SEO
     const _this = this
 
-    // loadQuery({
-    //   useDataCache: true,
-    //   _key: process.env.db_api, 
-    //   _base: process.env.db_base, 
-    //   store: this.$store, 
-    //   routeName: 'capsid-index-people', 
-    //   query: 'People-index'
-    // }).then(data => {
-    //   if(data.tables['People'])
-    //     _this['People'] = data.tables['People']
-    // })
+    // let authorSlugs = this.getAuthorSlugs(this.$store.state['Manuscripts'])
 
-    // should be faster / smaller footprint
+    // console.log('authorSlugs', authorSlugs)
 
-    let authorSlugs = this.getAuthorSlugs(this.$store.state['Manuscripts'])
-
-    loadQuery({
-      // useDataCache: true, // can't data cache this b/c of filter
-      _key: process.env.db_api, 
-      _base: process.env.db_base, 
-      store: this.$store, 
-      routeName: 'Capsid-router', 
-      query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-      options: {
-        filter: this.$cytosis.filter_or(authorSlugs, "Slug")
-      }
-    }).then(data => {
-      // console.log('Index People :::: ', data)
-      if(data.tables['People'])
-        _this['People'] = data.tables['People']
-    })
+    // Fetch people from Coverflow
+    // (async () => {
+    //   try {
+    //     const response = await fetch('https://coverflow.deno.dev/phage/people')
+    //     const peopleData = await response.json()
+    //     _this['People'] = peopleData.map(person => ({ fields: person }))
+    //   } catch (err) {
+    //     console.error('Error fetching people:', err)
+    //   }
+    // })()
 
     return {
       message: this.$cytosis.findField('capsid-intro', this.$store.state['Content'], 'Markdown' ),
@@ -125,9 +123,6 @@ export default {
 
     issues() {
       return this['Manuscripts']
-      
-      // this is taken care of in airtable instead
-      // return this['Manuscripts'].filter(t => t.fields['Status'] == 'Published')
     },
 
     latest() {
@@ -146,22 +141,6 @@ export default {
 
 
   },
-
-  // load authors in on client to speed up paint time
-  // async asyncData({env, store}) {
-  //   const data = await loadQuery({
-  //     useDataCache: true,
-  //     _key: env.db_api, 
-  //     _base: env.db_base, 
-  //     store, 
-  //     routeName: '{people}', 
-  //     query: 'People-index'
-  //   })
-
-  //   return {
-  //     People: data.tables['People'],
-  //   }
-  // },
 
   mounted () {
     if(this.$segmentize) {

@@ -466,6 +466,7 @@ export default {
       // console.log(this.issue.fields['Atoms:Updates'])
       // reverse() is called b/c airtable returns them in reverse order w/r to how they're sorted
       // in a cell
+
       return this.$cytosis.getLinkedRecords(this.issue.fields['Atoms:Updates'], this.atoms, true).reverse()
       // these end up being unsorted
       // return this.atoms.filter(atom => atom.fields['Atom:Type'] == 'Update')

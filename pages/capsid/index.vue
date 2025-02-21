@@ -78,7 +78,7 @@ export default {
   async asyncData({ store }) {
     let people = []
     try {
-      const response = await fetch('https://coverflow.deno.dev/phage/people')
+      const response = await fetch(`https://coverflow.deno.dev/phage/people?noCache=${process.env.pd_env == 'stage'}`)
       people = await response.json()
       people = people.map(person => ({ fields: person }))
       console.log(' >>>> people', people)

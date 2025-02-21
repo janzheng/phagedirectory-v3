@@ -95,7 +95,7 @@
         <div id="whats-new" class="_Capsid-section _Capsid-email-block _Capsid-section-new" style="background: #F2F8FD;">
           <div class="_Capsid-section-header" style="border-left: solid 8px #50CDE0;">
             <div class="_Capsid-section-table" style="background-color: #D6F9FE; ">
-                <h2 class="_Capsid-section-heading" >What’s New</h2>
+                <h2 class="_Capsid-section-heading" >What's New</h2>
             </div>
           </div>
           <div class="_Capsid-section-content" v-if="updates.length > 0" >
@@ -313,61 +313,9 @@ export default {
 
 
   data: function () {
-
-    // if we're grabbing author info from DB:People
-    const _this = this
-    let authors = []
-    let authorPromises = []
-    let authorSlugs = []
-    let authorObj = {} // need to use an obj instead of array, since authors don't return in order from server; need to track order w/ obj
-
-    const getAuthor = function() {
-      // console.log('fetching authors:')
-
-      // ensures corr. author is first
-      // REMINDER: Authors always returns as an array; if there are no attached authors
-      // or if the slug is incorrect, the array will look like "[undefined]" (one item long, w/ undefined) 
-      authorSlugs = _this.issue.fields['Data:MainAuthorSlug']
-
-      if (_this.issue.fields['Data:AuthorSlugs'])
-        authorSlugs = [... _this.issue.fields['Data:MainAuthorSlug'], ... _this.issue.fields['Data:AuthorSlugs']]
-
-      if(authorSlugs && authorSlugs.length > 0) {
-        authorSlugs.map(function(slug) {
-          const item = loadQuery({
-            _key: process.env.db_api, 
-            _base: process.env.db_base, 
-            store: _this.$store, 
-            routeName: 'Capsid-email', 
-            query: process.env.pd_env == 'stage' ? 'People-profile-preview' : 'People-profile',
-            keyword: slug,
-          })
-          authorPromises.push(item)
-        })
-      }
-
-    }
-    
-    if(this.issue.fields['Data:MainAuthorSlug'] || this.issue.fields['Data:AuthorSlugs']) {
-      getAuthor() // async; populates this.authors directly when loaded
-
-      Promise.all(authorPromises).then(function(data) {
-        data.map((cytosis) => {
-          const author = cytosis.tables['People'][0]
-          authorObj[author.fields['Slug']] = author
-        })
-
-
-        // add them in order
-        authorSlugs.map((slug) => {
-          authors.push(authorObj[slug])
-        })
-      })
-    }
-
     return {
       path: this.$route.path,
-      authors: authors,
+      authors: [], // Will be populated by fetchAuthors method
       
       intro: this.$cytosis.findField('Content.capsid-intro', this.$store.state['Content'], 'Markdown' ),
       signup: this.$cytosis.findField('Content.capsid-signup-micro', this.$store.state['Content'], 'Markdown' ),
@@ -377,6 +325,24 @@ export default {
       communityDesc: this.$cytosis.findField('capsid-community-desc', this.$store.state['Content'], 'Markdown' ),
       emptyCommunity: this.$cytosis.findField('capsid-community-empty', this.$store.state['Content'], 'Markdown' ),
       emptyJobs: this.$cytosis.findField('capsid-jobs-empty', this.$store.state['Content'], 'Markdown' ),
+    }
+  },
+
+  async mounted() {
+    if (this.issue.fields['Data:MainAuthorSlug'] || this.issue.fields['Data:AuthorSlugs']) {
+      await this.fetchAuthors()
+    }
+    
+    // Keep existing segment tracking
+    if(this.$segmentize) {
+      this.$segmentize({
+        segment: this.$segment,
+        type: 'page',
+        event: 'Capsid Email',
+        data: {
+          path: this.$route.path,
+        }
+      })
     }
   },
 
@@ -523,7 +489,7 @@ export default {
         const month = this.$dayjs(String(date)).format('MMMM') 
         const day = this.$dayjs(String(date)).format('D') 
 
-        console.log('authors:', this.authors)
+        console.log('[capsidemail] authors:', this.authors)
 
         
         let authorNames = []
@@ -551,7 +517,32 @@ export default {
   },
 
   methods: {
+    async fetchAuthors() {
+      // Get author slugs in correct order
+      let authorSlugs = this.issue.fields['Data:MainAuthorSlug'] || []
+      if (this.issue.fields['Data:AuthorSlugs']) {
+        authorSlugs = [...authorSlugs, ...this.issue.fields['Data:AuthorSlugs']]
+      }
 
+      if (authorSlugs.length > 0) {
+        try {
+          const slugsParam = authorSlugs.join(',')
+          console.log('[[capsidemail] fetchAuthors] slugs:', `https://coverflow.deno.dev/phage/people-profiles?slugs=${slugsParam}&noCache=${process.env.pd_env == 'stage'}`)
+          const response = await fetch(
+            `https://coverflow.deno.dev/phage/people-profiles?slugs=${slugsParam}&noCache=${process.env.pd_env == 'stage'}`
+          )
+          const people = await response.json()
+          
+          // Map authors in the same order as slugs
+          this.authors = authorSlugs.map(slug => {
+            const person = people.find(p => p.Slug === slug)
+            return person ? {fields: person} : null
+          }).filter(author => author !== null)
+        } catch (err) {
+          console.error('Error fetching authors:', err)
+        }
+      }
+    }
   }
 
 }

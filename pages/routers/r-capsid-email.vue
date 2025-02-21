@@ -1,4 +1,3 @@
-
 <!--  
 
   Router for Capsid & Tail issues
@@ -82,33 +81,24 @@ export default {
   // runs on server+generation and page route (but not on first page load)
   async asyncData({env, store, route }) {
     const slug = unescape(route.params.slug)
-    // const node = await loadQuery(env, store, '{capsid router}', 'Node-AbsolutePath', slug)
-    // console.log('matched node: ', node, ' @ ', slug)
 
-    const manuscript = await loadQuery({
-      env, 
-      store, 
-      routeName:'capsid-router-single', 
-      query:'capsid-single', 
-      keyword: slug
-    })
-
-    // let manuscript = undefined
-    // if(!manuscript)
-    //   error({statusCode: 'Cytosis', message: 'The Capsid issue could not be loaded'})
+    // Fetch manuscript from coverflow
+    const response = await fetch(`https://coverflow.deno.dev/phage/capsid-single?slug=${slug}&noCache=${process.env.pd_env == 'stage'}`)
+    const data = await response.json()
+    let manuscript = data?.[0] ? {fields: data[0]} : undefined
 
     if(manuscript) {
-      // fetches the relevant atoms into the store
-      const atoms = await loadQuery({
-        env, 
-        store, 
-        routeName:'capsid-router', 
-        query:'capsid-atoms', 
-        keyword: manuscript.tables.Manuscripts[0].fields['Name']
-      })
+      // Fetch atoms from coverflow
+      const atomsResponse = await fetch(`https://coverflow.deno.dev/phage/atoms-capsid?slug=${manuscript.fields['Slug']}&noCache=${process.env.pd_env == 'stage'}`)
+      const atomsData = await atomsResponse.json()
+      const atoms = {
+        tables: {
+          Atoms: atomsData.map(item => item && ({fields: item, id: item.id}))
+        }
+      }
 
       return {
-        manuscript: manuscript.tables.Manuscripts[0],
+        manuscript: manuscript,
         atoms: atoms.tables.Atoms,
       }
     }

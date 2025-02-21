@@ -45,9 +45,9 @@
                         <span v-for="(item, i) of orgs" :key="item.name" class="People-orgs-name _margin-bottom-half _margin-top-half"><!-- <span v-if="i > 0"><br> </span> --><span v-if="i > 0">, </span><nuxt-link v-if="person.fields['Orgs::Slugs'][i]" :to="`/orgs#${person.fields['Orgs::Slugs'][i]}`"> {{ item.name + '' }}</nuxt-link><span v-else> {{ item.name + '' }}</span><span v-if="item.location">, {{ item.location }}</span>
                         </span>
                         <!-- <span v-if="orgs && person.fields['Orgs:Custom']">, </span> -->
-                        <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
-                          {{ person.fields['Orgs:Custom'] }}
-                        </span>
+                      </span>
+                      <span v-if="person.fields['Orgs:Custom']" class="People-orgs-custom">
+                        {{ person.fields['Orgs:Custom'] }}
                       </span>
                     </div>
                   </div>

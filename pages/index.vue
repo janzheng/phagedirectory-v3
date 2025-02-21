@@ -164,7 +164,7 @@ export default {
     let isCapsidLoaded = false
     try {
       console.log('[[asyncData]] fetching capsid from coverflow')
-      const response = await fetch('https://coverflow.deno.dev/phage/capsid?max=1')
+      const response = await fetch(`https://coverflow.deno.dev/phage/capsid?max=1&noCache=${process.env.pd_env == 'stage'}`)
       const data = await response.json()
       const manuscript = {fields: data[0]}
       if (manuscript) {
@@ -181,7 +181,7 @@ export default {
     let isAtomsLoaded = false
     try {
       console.log('[[asyncData]] fetching atoms from coverflow')
-      const response = await fetch(`https://coverflow.deno.dev/phage/atoms?max=${_numLatest}&sort=Data:PubDate:desc`)
+      const response = await fetch(`https://coverflow.deno.dev/phage/atoms?max=${_numLatest}&sort=Data:PubDate:desc&noCache=${process.env.pd_env == 'stage'}`)
       const data = await response.json()
       if (data && data.length > 0) {
         latestAtoms = data.map(atom => ({fields: atom}))
@@ -233,7 +233,7 @@ export default {
 
       try {
         console.log('[[getLatestCapsid]] fetching capsid from coverflow')
-        const response = await fetch('https://coverflow.deno.dev/phage/capsid?max=1')
+        const response = await fetch(`https://coverflow.deno.dev/phage/capsid?max=1&noCache=${process.env.pd_env == 'stage'}`)
         const data = await response.json()
         const manuscript = {fields: data[0]}
         if (manuscript) {
@@ -251,7 +251,7 @@ export default {
     getLatestAtoms(numLatest) {
       const _this = this
       this.isLoadingMore = true
-      fetch(`https://coverflow.deno.dev/phage/atoms?max=${numLatest}&sort=Data:PubDate:desc`)
+      fetch(`https://coverflow.deno.dev/phage/atoms?max=${numLatest}&sort=Data:PubDate:desc&noCache=${process.env.pd_env == 'stage'}`)
         .then(response => response.json())
         .then(data => {
           if (data && data.length > 0) {
@@ -278,7 +278,7 @@ export default {
   
       let people = []
       try {
-        people = await (await fetch('https://coverflow.deno.dev/phage/people')).json()
+        people = await (await fetch(`https://coverflow.deno.dev/phage/people?slugs=${authorSlugs.join(',')}&noCache=${process.env.pd_env == 'stage'}`)).json()
         people = people.map(person => ({fields: person}))
       } catch (err) {console.error('Error fetching people:', err)}
 

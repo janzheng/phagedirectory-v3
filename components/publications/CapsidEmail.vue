@@ -262,7 +262,6 @@ import CapsidJob from '~/components/publications/CapsidJob'
 import CapsidAlert from '~/components/publications/CapsidAlert'
 import CapsidCommunity from '~/components/publications/CapsidCommunity'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
-import { loadQuery } from '~/other/loaders'
 import AuthorCard from '~/components/dir/PeopleCardEmail.vue'
 // import Alert from '~/components/Alert'
 

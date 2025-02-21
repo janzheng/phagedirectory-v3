@@ -59,7 +59,6 @@
 import { mapState } from 'vuex'
 import CapsidStub from '~/components/publications/CapsidStub.vue'
 import CapsidSignup from '~/components/layout/FooterSignups-capsid.vue'
-// import { loadQuery } from '~/other/loaders'
 import _ from '~/other/lodash.custom.min.js'
 
 export default {
@@ -76,18 +75,30 @@ export default {
   },
 
   async asyncData({ store }) {
+    // Fetch people data
     let people = []
+    let latestManuscript = null
+    let isCapsidLoaded = false
+
     try {
-      const response = await fetch(`https://coverflow.deno.dev/phage/people?noCache=${process.env.pd_env == 'stage'}`)
-      people = await response.json()
+      // Fetch people
+      const peopleResponse = await fetch(`https://coverflow.deno.dev/phage/people?noCache=${process.env.pd_env == 'stage'}`)
+      people = await peopleResponse.json()
       people = people.map(person => ({ fields: person }))
-      console.log(' >>>> people', people)
+
+      // Fetch latest capsid
+      const capsidResponse = await fetch(`https://coverflow.deno.dev/phage/capsid?max=1&noCache=${process.env.pd_env == 'stage'}`)
+      const data = await capsidResponse.json()
+      latestManuscript = { fields: data[0] }
+      isCapsidLoaded = true
     } catch (err) {
-      console.error('Error fetching people:', err)
+      console.error('Error in asyncData:', err)
     }
 
     return {
       People: people,
+      latest: latestManuscript,
+      isCapsidLoaded,
     }
   },
 
@@ -113,6 +124,8 @@ export default {
     return {
       message: this.$cytosis.findField('capsid-intro', this.$store.state['Content'], 'Markdown' ),
       People: null,
+      latest: null,
+      isCapsidLoaded: false,
     }
   },
   
@@ -122,19 +135,11 @@ export default {
       ]),
 
     issues() {
-      return this['Manuscripts']
-    },
-
-    latest() {
-      // NOTE: this always pulls the TOP item from airtable. Make sure it's the right one!
-
-      let arr = [...this.issues]
-      arr.sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
-      return arr[0]
+      return this['Manuscripts'].filter(m => m.id !== (this.latest?.id))
     },
 
     notLatest() {
-      let arr = [...this.issues.slice(1)]
+      let arr = [...this.issues]
       arr.sort((a,b) => new Date(b.fields['Data:Date']) - new Date(a.fields['Data:Date']))
       return arr
     },
@@ -152,6 +157,10 @@ export default {
           path: this.$route.path,
         }
       })
+    }
+
+    if (!this.latest && !this.isCapsidLoaded) {
+      this.getLatestCapsid()
     }
   },
 
@@ -202,6 +211,22 @@ export default {
       }
 
       return authors
+    },
+
+    async getLatestCapsid() {
+      if (this.isCapsidLoaded) return
+
+      try {
+        const response = await fetch(`https://coverflow.deno.dev/phage/capsid?max=1&noCache=${process.env.pd_env == 'stage'}`)
+        const data = await response.json()
+        const manuscript = {fields: data[0]}
+        if (manuscript) {
+          this.latest = manuscript
+          this.isCapsidLoaded = true
+        }
+      } catch (err) {
+        console.error('Error fetching latest capsid:', err)
+      }
     },
   },
 
